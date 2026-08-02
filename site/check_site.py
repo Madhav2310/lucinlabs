@@ -49,12 +49,13 @@ BANNED_COPY = [
 
 BLOCKING_THIRD_PARTY = [
     r'<link[^>]+href="https?://fonts\.googleapis\.com',
-    r'<script(?![^>]*\basync\b)(?![^>]*\bdefer\b)[^>]+src="https?://(?!lucin\.security)',
+    r'<script(?![^>]*\basync\b)(?![^>]*\bdefer\b)[^>]+src="https?://(?!lucin\.pages\.dev)',
 ]
 
 
 def _html_files() -> list[Path]:
-    return sorted(p for p in SITE.rglob("*.html") if ".git" not in p.parts)
+    # 404.html is a special error page: noindex, no canonical/OG/JSON-LD by design.
+    return sorted(p for p in SITE.rglob("*.html") if ".git" not in p.parts and p.name != "404.html")
 
 
 def check_page(path: Path) -> list[str]:

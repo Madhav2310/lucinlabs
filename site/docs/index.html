@@ -4,28 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quickstart — Lucin</title>
-<meta name="description" content="Install Lucin and scan your first AI agent in under a minute. No API key, no signup, no telemetry — the scanner runs entirely on your machine.">
-<link rel="canonical" href="https://lucin.security/docs/">
+<meta name="description" content="Install Lucin and scan your first AI agent in under a minute. No API key, no signup, and your code never leaves your machine. Anonymous usage counts are on by default and disable with one command.">
+<link rel="canonical" href="https://lucin.pages.dev/docs/">
 <link rel="stylesheet" href="/fonts.css">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Lucin">
-<meta property="og:url" content="https://lucin.security/docs/">
+<meta property="og:url" content="https://lucin.pages.dev/docs/">
 <meta property="og:title" content="Quickstart — Lucin">
-<meta property="og:description" content="Install Lucin and scan your first AI agent in under a minute. No API key, no signup, no telemetry — the scanner runs entirely on your machine.">
-<meta property="og:image" content="https://lucin.security/og.png">
+<meta property="og:description" content="Install Lucin and scan your first AI agent in under a minute. No API key, no signup, and your code never leaves your machine. Anonymous usage counts are on by default and disable with one command.">
+<meta property="og:image" content="https://lucin.pages.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Lucin — static analysis for AI agents">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Quickstart — Lucin">
-<meta name="twitter:description" content="Install Lucin and scan your first AI agent in under a minute. No API key, no signup, no telemetry — the scanner runs entirely on your machine.">
-<meta name="twitter:image" content="https://lucin.security/og.png">
+<meta name="twitter:description" content="Install Lucin and scan your first AI agent in under a minute. No API key, no signup, and your code never leaves your machine. Anonymous usage counts are on by default and disable with one command.">
+<meta name="twitter:image" content="https://lucin.pages.dev/og.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"TechArticle",
- "headline":"Quickstart — Lucin","description":"Install Lucin and scan your first AI agent in under a minute. No API key, no signup, no telemetry — the scanner runs entirely on your machine.","url":"https://lucin.security/docs/",
- "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.security/"},
- "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.security/"}}
+ "headline":"Quickstart — Lucin","description":"Install Lucin and scan your first AI agent in under a minute. No API key, no signup, and your code never leaves your machine. Anonymous usage counts are on by default and disable with one command.","url":"https://lucin.pages.dev/docs/",
+ "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
+ "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/"}}
 </script>
 <style>
 :root{
@@ -125,7 +125,7 @@ p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color
 <main><a class="back-home" href="/">← Home</a>
 <div class="eyebrow2">DOCUMENTATION</div>
 <h1 class="page-h1">Quickstart</h1>
-<p class="page-dek">Install Lucin and scan your first AI agent in under a minute. No API key, no signup, no telemetry — the scanner runs entirely on your machine.</p>
+<p class="page-dek">Install Lucin and scan your first AI agent in under a minute. No API key, no signup, and your code never leaves your machine. Anonymous usage counts are on by default and disable with one command.</p>
 <div class="tab-row"><span class="tab-pill active">docs</span><a href="/benchmarks/" class="tab-pill">benchmarks</a><a href="/limits/" class="tab-pill">limits</a><a href="/rules/" class="tab-pill">rules</a><a href="/changelog/" class="tab-pill">changelog</a></div><p>Get from zero to a real finding in under a minute. No API keys, no config file, no signup.</p>
 <h3>Install</h3>
 <p>From PyPI (once published):</p>
@@ -166,6 +166,16 @@ formats, so the output is a clean, parseable document.</p>
 <p>Exit code is non-zero when a finding at or above the <code>--fail-on</code> severity is present, so
 it drops straight into a CI gate. See the repo's <code>examples/ci/</code> for GitHub Actions and
 GitLab CI snippets.</p>
+<h4>Adding Lucin to a repo that already has findings</h4>
+<p>You do not have to fix everything to start. Accept the current state, then hold the line:</p>
+<pre><code class="language-bash">lucin scan . --write-baseline .lucin-baseline.json
+git add .lucin-baseline.json &amp;&amp; git commit -m &quot;Accept current Lucin findings as baseline&quot;
+</code></pre>
+<p>From then on, CI fails only on findings that are <em>new</em>:</p>
+<pre><code class="language-bash">lucin scan . --ci --fail-on high --baseline .lucin-baseline.json
+</code></pre>
+<p>Existing findings still appear in the output, marked as accepted, so the debt stays
+visible. When you fix one, Lucin tells you.</p>
 <h3>Other commands</h3>
 <table>
 <thead>
@@ -200,7 +210,7 @@ GitLab CI snippets.</p>
 <p>Commands marked experimental in the README (<code>redteam</code>, <code>monitor</code>, <code>serve</code>) are usable but
 not part of the validated core — see <a href="/limits/">what SCAN misses</a>.</p>
 <h3>Telemetry</h3>
-<p>On by default: anonymous counts only (version, OS, framework detected, per-rule
+<p>Anonymous usage counts are on by default: version, OS, framework detected, per-rule
 finding counts, timing) — never file paths, code, secrets, or names. Enforced
 server-side by an allowlist, not just a promise. Turn off with
 <code>lucin scan --no-telemetry</code>, <code>LUCIN_TELEMETRY=0</code>, or <code>lucin telemetry disable</code>.

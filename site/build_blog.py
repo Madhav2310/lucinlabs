@@ -39,16 +39,27 @@ BASE = "https://lucin.pages.dev"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build import _CSS, _LOGO_SVG, NAV  # noqa: E402  (reuse the one template's tokens)
 
-# (slug, source markdown, kicker, date, read-time, dek — dek is the design file's
-#  approved one-line teaser, kept verbatim as both the on-page dek and meta description)
-POSTS: list[tuple[str, str, str, str, str, str]] = [
+# (slug, source markdown, kicker, date, read-time, dek, date_modified — dek is the
+#  design file's approved one-line teaser, kept verbatim as both the on-page dek and
+#  meta description. date_modified is None unless the post was substantively
+#  corrected after publication — see dateModified in the JSON-LD.)
+POSTS: list[tuple[str, str, str, str, str, str, str | None]] = [
     ("hugging-face-agent-breach", "plan/content/hf_teardown.md", "TEARDOWN", "29 JUL 2026", "12 min read",
-     "A malicious dataset, a tool that executes code, a credential read, an outbound call. We rebuilt the incident as an information-flow graph — and found the single edge that carries all 17,000 actions."),
+     "A malicious dataset, a tool that executes code, a credential read, an outbound call. We rebuilt the incident as an information-flow graph — and found the single edge that carries all 17,600 actions.",
+     "03 AUG 2026"),  # corrected: action count, timeframe, attacker description, detection framing
     ("lethal-trifecta", "plan/content/blog_lethal_trifecta.md", "METHOD", "29 JUL 2026", "9 min read",
-     "Private data, untrusted content, external reach. Any one is fine; all three wired together is the incident. Here is how to read those edges off your own tool list — and which to cut versus gate."),
+     "Private data, untrusted content, external reach. Any one is fine; all three wired together is the incident. Here is how to read those edges off your own tool list — and which to cut versus gate.",
+     None),
     ("reproducible-benchmark", "plan/content/blog_reproducible_benchmark.md", "PROOF", "29 JUL 2026", "7 min read",
-     "A security tool that will not show you its benchmark harness is asking you to take its word for it. Here is ours, and the exact command that regenerates every number on this site."),
+     "A security tool that will not show you its benchmark harness is asking you to take its word for it. Here is ours, and the exact command that regenerates every number on this site.",
+     None),
 ]
+
+
+def _iso_date(d: str) -> str:
+    """'29 JUL 2026' -> '2026-07-29'."""
+    import datetime
+    return datetime.datetime.strptime(d, "%d %b %Y").strftime("%Y-%m-%d")
 
 _md = MarkdownIt("commonmark", {"html": False}).enable("table")
 
@@ -193,8 +204,13 @@ p.post-sources em{font-style:normal}
 </style>"""
 
 
-def _head(title: str, desc: str, url: str) -> str:
+def _head(title: str, desc: str, url: str, date_published: str = "", date_modified: str = "") -> str:
     t, d = _html.escape(title), _html.escape(desc)
+    dates_ld = ""
+    if date_published:
+        dates_ld += f',\n "datePublished":"{date_published}"'
+    if date_modified:
+        dates_ld += f',\n "dateModified":"{date_modified}"'
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -220,7 +236,7 @@ def _head(title: str, desc: str, url: str) -> str:
 <meta name="twitter:image" content="{BASE}/og.png">
 <script type="application/ld+json">
 {{"@context":"https://schema.org","@type":"TechArticle",
- "headline":"{t}","description":"{d}","url":"{url}",
+ "headline":"{t}","description":"{d}","url":"{url}"{dates_ld},
  "isPartOf":{{"@type":"WebSite","name":"Lucin","url":"{BASE}/"}},
  "publisher":{{"@type":"Organization","name":"Lucin Labs","url":"{BASE}/"}}}}
 </script>
@@ -246,14 +262,18 @@ def _cta_card() -> str:
 </div>"""
 
 
-def build_post(slug: str, src: str, kicker: str, date: str, read: str, dek: str) -> Path:
+def build_post(slug: str, src: str, kicker: str, date: str, read: str, dek: str,
+                date_modified: str | None = None) -> Path:
     title, body_html = _read_post(src)
     url = f"{BASE}/blog/{slug}/"
+    meta_dates = f"<span>{_html.escape(date)}</span>"
+    if date_modified:
+        meta_dates += f'<span title="Corrected">updated {_html.escape(date_modified)}</span>'
     page = (
-        _head(title, dek, url) + _nav()
+        _head(title, dek, url, _iso_date(date), _iso_date(date_modified) if date_modified else "") + _nav()
         + f"""<article style="max-width:760px;margin:0 auto;padding:40px 24px 0">
   <a class="back-link" href="/blog/">← All field notes</a>
-  <div class="post-meta-row"><span class="kicker">{_html.escape(kicker)}</span><span>{_html.escape(date)}</span><span>{_html.escape(read)}</span></div>
+  <div class="post-meta-row"><span class="kicker">{_html.escape(kicker)}</span>{meta_dates}<span>{_html.escape(read)}</span></div>
   <h1 class="post-h1">{_html.escape(title)}</h1>
   <p class="post-dek">{_html.escape(dek)}</p>
   <div class="post-rule"></div>
@@ -274,7 +294,7 @@ def build_post(slug: str, src: str, kicker: str, date: str, read: str, dek: str)
 def build_index() -> Path:
     url = f"{BASE}/blog/"
     rows = ""
-    for slug, _src, kicker, date, read, dek in POSTS:
+    for slug, _src, kicker, date, read, dek, _dm in POSTS:
         title, _ = _read_post(_posts_src(slug))
         rows += f"""<a href="/blog/{slug}/" class="blog-row">
   <div class="blog-row-meta"><div class="k">{_html.escape(kicker)}</div><div>{_html.escape(date)}</div><div>{_html.escape(read)}</div></div>
@@ -332,8 +352,8 @@ def main(argv: list[str]) -> int:
             print(f"  /blog/{slug}/  <-  {src}")
         print("  /blog/  <- index")
         return 0
-    for slug, src, kicker, date, read, dek in POSTS:
-        dest = build_post(slug, src, kicker, date, read, dek)
+    for slug, src, kicker, date, read, dek, date_modified in POSTS:
+        dest = build_post(slug, src, kicker, date, read, dek, date_modified)
         print(f"  [ok] /blog/{slug}/  ({dest.stat().st_size // 1024} KB)")
     dest = build_index()
     print(f"  [ok] /blog/  ({dest.stat().st_size // 1024} KB)")

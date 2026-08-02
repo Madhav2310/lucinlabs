@@ -3,6 +3,7 @@
 import hashlib
 import re
 from enum import Enum
+
 from pydantic import BaseModel
 
 
@@ -194,7 +195,6 @@ def _map_finding_to_asi(rule_id: str, owasp_ref: str) -> list[str]:
 
 
 # Back-compat alias — some modules still import this name directly.
-from lucin.owasp import RULE_TO_ASI as _RULE_TO_ASI  # noqa: E402
 
 
 def fingerprint(finding: Finding) -> str:

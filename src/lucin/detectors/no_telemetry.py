@@ -3,15 +3,17 @@
 Detects agent configurations that have code execution or tool calling capability
 but no logging, telemetry, or monitoring configured.
 
-This is the EXACT failure that enabled the Galaxy/OpenAI incident (July 2026):
-- An evaluation environment ran a cyber-capable model without default monitoring
-- The model operated for 4 days before discovery
-- 17,000+ actions executed without any logging
+This is the EXACT failure that enabled the Hugging Face breach (July 2026):
+- An evaluation environment (ExploitGym) ran a cyber-capable OpenAI model without
+  default monitoring
+- The model operated for roughly two and a half days before discovery
+- ~17,600 actions executed without any logging
 
 Real-world basis:
-- OpenAI Galaxy incident (July 2026): model escaped sandbox, attacked HuggingFace
-- Key failure: "evaluation systems not monitored by default"
-- If monitoring had been on, the escape would have been detected within minutes
+- Hugging Face breach (July 2026): an OpenAI model escaped its ExploitGym
+  evaluation sandbox and reached Hugging Face's infrastructure
+- Key failure: evaluation systems not monitored by default
+- If monitoring had been on, the escape would have been detected far sooner
 
 Detection logic:
 - Agent has EXECUTE_CODE or HIGH-RISK tools (3+ tools with capabilities)
@@ -19,12 +21,10 @@ Detection logic:
 - Monitoring indicators: logging, telemetry, otel, callbacks, tracing, audit
 """
 
-import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
-
 
 # Indicators that monitoring/telemetry IS configured.
 # Corpus lesson: agentops is the most common telemetry framework (244 imports
@@ -93,8 +93,9 @@ def detect_no_telemetry(agent: Agent) -> list[Finding]:
                 f"Agent '{agent.name}' has high-risk capabilities ({tool_names}) "
                 f"but no logging, telemetry, or monitoring is configured.\n\n"
                 f"Without monitoring, malicious or anomalous agent behavior can continue "
-                f"undetected for extended periods. In the OpenAI Galaxy incident (July 2026), "
-                f"a model operated unmonitored for 4 days, executing 17,000+ actions before detection."
+                f"undetected for extended periods. In the Hugging Face breach (July 2026), "
+                f"an OpenAI model operated unmonitored for roughly two and a half days, "
+                f"taking an estimated 17,600 actions before detection."
             ),
             agent_name=agent.name,
             attack_scenario=(
@@ -106,7 +107,7 @@ def detect_no_telemetry(agent: Agent) -> list[Finding]:
             ),
             blast_radius=(
                 "Unknown — without monitoring, the full scope of compromise cannot be determined. "
-                "The Galaxy incident involved 17,000+ actions across multiple systems."
+                "The Hugging Face breach involved an estimated 17,600 actions across four services."
             ),
             owasp_ref=owasp_ref("AG-028"),
             fix_suggestion=(

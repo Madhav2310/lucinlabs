@@ -74,11 +74,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://lucin.pages.dev/rules/AG-005/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://lucin.pages.dev/rules/AG-006/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -175,6 +170,76 @@
   </url>
   <url>
     <loc>https://lucin.pages.dev/rules/AG-COMP/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-005a/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-005b/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-028/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-CORS/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-DESERIALIZE/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-DOCKER-EXEC/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-ENV-FALLBACK/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-FRAMEWORK-PIN/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-MCP-TOKENLEAK/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-NOAUTH/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-PATH-TRAVERSAL/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-RAG-NO-SANITIZE/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-SQL/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lucin.pages.dev/rules/AG-SSRF/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

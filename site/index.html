@@ -279,6 +279,7 @@ footer.site-footer .links{display:flex;gap:14px}
 footer.site-footer a{text-decoration:none;color:var(--muted)}
 footer.site-footer a:hover{color:var(--red)}
 
+.mobile-nav{display:none}
 @media(max-width:900px){
   header.hero{grid-template-columns:1fr;padding-top:56px}
   .hero-grid-bg{display:none}
@@ -287,7 +288,22 @@ footer.site-footer a:hover{color:var(--red)}
   .why-now{grid-template-columns:1fr}
   nav{padding:0 20px}
   .nav-links{display:none}
+  .mobile-nav{display:block;margin-left:auto;position:relative}
+  .mobile-nav summary{list-style:none;cursor:pointer;min-width:44px;min-height:44px;
+    display:flex;align-items:center;justify-content:center;color:#141414}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav-panel{position:absolute;right:0;top:48px;background:#FAF9F7;
+    border:1px solid #E4E1DC;padding:8px 0;min-width:200px;z-index:50;
+    box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .mobile-nav-panel a{display:block;padding:12px 16px;font-size:15px;
+    color:#141414;text-decoration:none}
+  .mobile-nav-panel a:hover{background:#F0EEEA}
+  .mobile-cta{border-top:1px solid #E4E1DC;margin-top:4px;color:#D6321F!important;font-weight:600}
   .section{padding-left:20px;padding-right:20px}
+}
+@media(max-width:480px){
+  .install-pill{width:100%;justify-content:space-between}
+  .copy-btn{flex:0 0 auto}
 }
 </style>
 </head>
@@ -315,6 +331,23 @@ footer.site-footer a:hover{color:var(--red)}
     </a>
     <a class="nav-cta" href="/docs/">Scan your agent</a>
   </div>
+  <details class="mobile-nav">
+    <summary aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+           stroke-width="1.6" aria-hidden="true">
+        <path d="M3 6h14M3 10h14M3 14h14"/>
+      </svg>
+    </summary>
+    <nav class="mobile-nav-panel">
+      <a href="#how" data-jump="how">How it works</a>
+      <a href="#output" data-jump="output">Output</a>
+      <a href="#proof" data-jump="proof">Benchmarks</a>
+      <a href="/blog/">Blog</a>
+      <a href="/docs/">Docs</a>
+      <a href="https://github.com/Madhav2310/lucinlabs" target="_blank" rel="noopener">GitHub</a>
+      <a class="mobile-cta" href="/docs/">Scan your agent</a>
+    </nav>
+  </details>
   <div class="scroll-hairline" id="scrollHairline"></div>
 </nav>
 
@@ -390,13 +423,17 @@ footer.site-footer a:hover{color:var(--red)}
       <p class="section-lede">Severity, the proof-witness path, the exact cut that closes it, and the line of code. Same finding, three surfaces.</p>
     </div>
     <div class="tabs" role="tablist">
-      <button type="button" class="active" data-tab="terminal" role="tab" aria-selected="true">terminal</button>
-      <button type="button" data-tab="report" role="tab" aria-selected="false">html report</button>
-      <button type="button" data-tab="ci" role="tab" aria-selected="false">ci</button>
+      <button type="button" class="active" data-tab="terminal" role="tab"
+              id="tab-terminal" aria-selected="true" aria-controls="panel-terminal" tabindex="0">terminal</button>
+      <button type="button" data-tab="report" role="tab"
+              id="tab-report" aria-selected="false" aria-controls="panel-report" tabindex="-1">html report</button>
+      <button type="button" data-tab="ci" role="tab"
+              id="tab-ci" aria-selected="false" aria-controls="panel-ci" tabindex="-1">ci</button>
     </div>
   </div>
 
-  <div class="out-panel active" data-panel="terminal">
+  <div class="out-panel active" data-panel="terminal" role="tabpanel"
+       id="panel-terminal" aria-labelledby="tab-terminal" tabindex="0">
     <div class="term-window">
       <div class="term-bar">
         <span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span>
@@ -432,7 +469,8 @@ footer.site-footer a:hover{color:var(--red)}
     </div>
   </div>
 
-  <div class="out-panel" data-panel="report">
+  <div class="out-panel" data-panel="report" role="tabpanel"
+       id="panel-report" aria-labelledby="tab-report" tabindex="0">
     <div class="report-window">
       <div class="report-bar"><span>lucin-report.html</span><span>lucin scan . --format html</span></div>
       <div class="report-grid">
@@ -480,7 +518,8 @@ footer.site-footer a:hover{color:var(--red)}
     </div>
   </div>
 
-  <div class="out-panel" data-panel="ci">
+  <div class="out-panel" data-panel="ci" role="tabpanel"
+       id="panel-ci" aria-labelledby="tab-ci" tabindex="0">
     <div class="term-window">
       <div class="term-bar" style="justify-content:space-between">
         <span class="term-title">.github/workflows/security.yml</span>
@@ -516,9 +555,11 @@ Process completed with exit code 1.</span>
     <div class="stat-cell">
       <div>
         <div class="stat-num">0</div>
-        <div class="stat-label">adjudicated false positives</div>
-        <div class="stat-sub">52 real repositories, 2,732 files</div>
-        <div class="stat-caption">20.5–31.5% precision on a broader, unscoped population (95% CI 12.9–42.9%)</div>
+        <div class="stat-label">false positives we could not defend</div>
+        <div class="stat-sub">52 real repositories, 2,732 files, adjudicated per-finding</div>
+        <div class="stat-caption">On a wider unscoped population the same method estimates
+          20.5–31.5% precision (95% CI 12.9–42.9%). Both numbers, and why they differ,
+          are in the <a href="/benchmarks/">methodology</a>.</div>
       </div>
       <div class="stat-cmd">benchmarks/build_benign_corpus.py</div>
     </div>
@@ -534,7 +575,7 @@ Process completed with exit code 1.</span>
       <div>
         <div class="stat-num" id="countDetectors" data-target="27">27</div>
         <div class="stat-label">active detectors</div>
-        <div class="stat-sub">mapped to OWASP &amp; MITRE ATLAS</div>
+        <div class="stat-sub">every rule mapped to OWASP Agentic; 8 also to MITRE ATLAS</div>
       </div>
       <div class="stat-cmd">lucin scan --list-rules</div>
     </div>
@@ -554,8 +595,8 @@ Process completed with exit code 1.</span>
   <div class="dark-card why-now">
     <div>
       <div class="eyebrow">WHY NOW</div>
-      <h2>17,000 actions. One weekend. Nobody watching the flow.</h2>
-      <p>Hugging Face, July 2026. Not a sophisticated exploit — one bad edge, traversed 17,000 times because nothing was watching. Every agent you ship has the same skeleton.</p>
+      <h2>17,600 actions. Two and a half days. Nobody watching the flow.</h2>
+      <p>Hugging Face, July 2026. Not a sophisticated exploit — one bad edge, traversed roughly 17,600 times over four days of logs because nothing was watching. Every agent you ship has the same skeleton.</p>
     </div>
     <a href="/blog/hugging-face-agent-breach/">Read the teardown →</a>
   </div>
@@ -572,7 +613,7 @@ Process completed with exit code 1.</span>
   <div class="fn-grid">
     <a class="fn-card" href="/blog/hugging-face-agent-breach/">
       <div class="fn-top"><span class="kicker">TEARDOWN</span><span>29 JUL 2026</span></div>
-      <div class="fn-title">17,000 actions, one weekend: the Hugging Face agent breach, scanned</div>
+      <div class="fn-title">17,600 actions, 2.5 days: the Hugging Face agent breach, scanned</div>
       <div class="fn-dek">What the incident looked like as an information-flow graph — and which single edge would have stopped it.</div>
     </a>
     <a class="fn-card" href="/blog/lethal-trifecta/">
@@ -631,13 +672,19 @@ Process completed with exit code 1.</span>
   "use strict";
   var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---- scroll progress hairline ---- */
+  /* ---- scroll progress hairline (rAF-batched) ---- */
   var hairline = document.getElementById("scrollHairline");
+  var hairPending = false;
   function onScroll() {
-    var h = document.documentElement;
-    var max = (h.scrollHeight - h.clientHeight) || 1;
-    var pct = Math.min(100, Math.max(0, (h.scrollTop / max) * 100));
-    hairline.style.width = pct + "%";
+    if (hairPending) return;
+    hairPending = true;
+    requestAnimationFrame(function () {
+      var h = document.documentElement;
+      var max = (h.scrollHeight - h.clientHeight) || 1;
+      var pct = Math.min(100, Math.max(0, (h.scrollTop / max) * 100));
+      hairline.style.width = pct + "%";
+      hairPending = false;
+    });
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
@@ -656,10 +703,33 @@ Process completed with exit code 1.</span>
 
   /* ---- copy to clipboard ---- */
   var copyBtn = document.getElementById("copyInstall");
+  var COPY_TEXT = "pip install lucin";
+  copyBtn.setAttribute("aria-live", "polite");
   copyBtn.addEventListener("click", function () {
-    if (navigator.clipboard) navigator.clipboard.writeText("pip install lucin");
-    copyBtn.textContent = "Copied";
-    setTimeout(function () { copyBtn.textContent = "Copy"; }, 1500);
+    function done(label) {
+      copyBtn.textContent = label;
+      setTimeout(function () { copyBtn.textContent = "Copy"; }, 1600);
+    }
+    function fallback() {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = COPY_TEXT;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        done(ok ? "Copied" : "Press ⌘C");
+      } catch (e) { done("Press ⌘C"); }
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(COPY_TEXT)
+        .then(function () { done("Copied"); })
+        .catch(fallback);
+    } else {
+      fallback();
+    }
   });
 
   /* ---- github star count (best-effort) ---- */
@@ -678,14 +748,24 @@ Process completed with exit code 1.</span>
   /* ---- output tabs ---- */
   var tabButtons = document.querySelectorAll(".tabs button");
   var panels = document.querySelectorAll(".out-panel");
-  tabButtons.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var name = btn.getAttribute("data-tab");
-      tabButtons.forEach(function (b) {
-        b.classList.toggle("active", b === btn);
-        b.setAttribute("aria-selected", b === btn ? "true" : "false");
-      });
-      panels.forEach(function (p) { p.classList.toggle("active", p.getAttribute("data-panel") === name); });
+  function selectTab(btn) {
+    var name = btn.getAttribute("data-tab");
+    tabButtons.forEach(function (b) {
+      var on = b === btn;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+      b.setAttribute("tabindex", on ? "0" : "-1");
+    });
+    panels.forEach(function (p) { p.classList.toggle("active", p.getAttribute("data-panel") === name); });
+  }
+  tabButtons.forEach(function (btn, i) {
+    btn.addEventListener("click", function () { selectTab(btn); });
+    btn.addEventListener("keydown", function (e) {
+      var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      var next = tabButtons[(i + d + tabButtons.length) % tabButtons.length];
+      selectTab(next); next.focus();
     });
   });
 
@@ -824,24 +904,61 @@ Process completed with exit code 1.</span>
     cycle();
   }
 
+  /* Gate the loop on visibility so it doesn't burn CPU/battery scrolled out
+     of view or in a backgrounded tab, and actually clear loopTimeouts (the
+     old code pushed to it every cycle and never reset it). */
+  var heroVisible = true, loopRunning = false;
+  function stopAttackLoop() {
+    loopTimeouts.forEach(clearTimeout);
+    loopTimeouts.length = 0;
+    if (typeInterval) clearInterval(typeInterval);
+    loopRunning = false;
+  }
+  function maybeRunLoop() {
+    if (heroVisible && !document.hidden && !loopRunning) {
+      loopRunning = true;
+      runAttackLoop();
+    } else if ((!heroVisible || document.hidden) && loopRunning) {
+      stopAttackLoop();
+    }
+  }
+
   if (reducedMotion) {
     setBeat(4);
     el.witnessText.textContent = WITNESS_FULL;
     el.witnessCursor.style.opacity = "0";
     el.trifectaChip.classList.add("shown");
   } else {
-    runAttackLoop();
-    /* cursor-follow parallax on the hero SVG */
-    var wrap = document.getElementById("heroSvgWrap");
-    wrap.parentElement.addEventListener("mousemove", function (e) {
-      var r = wrap.parentElement.getBoundingClientRect();
-      var x = ((e.clientX - r.left) / r.width - 0.5) * 12;
-      var y = ((e.clientY - r.top) / r.height - 0.5) * 8;
-      wrap.style.transform = "translate(" + x + "px," + y + "px)";
-    });
-    wrap.parentElement.addEventListener("mouseleave", function () {
-      wrap.style.transform = "translate(0,0)";
-    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        heroVisible = entries[0].isIntersecting;
+        maybeRunLoop();
+      }, { threshold: 0.15 }).observe(document.getElementById("heroSvgWrap"));
+    } else {
+      maybeRunLoop();
+    }
+    document.addEventListener("visibilitychange", maybeRunLoop);
+
+    /* cursor-follow parallax on the hero SVG — rAF-batched, and skipped on
+       touch devices, which have no hover and would otherwise pay for a
+       listener that never fires anything useful. */
+    if (window.matchMedia && window.matchMedia("(hover: hover)").matches) {
+      var wrap = document.getElementById("heroSvgWrap");
+      var parallaxPending = null, px = 0, py = 0;
+      wrap.parentElement.addEventListener("mousemove", function (e) {
+        var r = wrap.parentElement.getBoundingClientRect();
+        px = ((e.clientX - r.left) / r.width - 0.5) * 12;
+        py = ((e.clientY - r.top) / r.height - 0.5) * 8;
+        if (parallaxPending) return;
+        parallaxPending = requestAnimationFrame(function () {
+          wrap.style.transform = "translate(" + px + "px," + py + "px)";
+          parallaxPending = null;
+        });
+      }, { passive: true });
+      wrap.parentElement.addEventListener("mouseleave", function () {
+        wrap.style.transform = "translate(0,0)";
+      });
+    }
   }
 
   /* ---- join form ---- */

@@ -1,4 +1,4 @@
-# Contributing to AgentGuard
+# Contributing to Lucin
 
 Thank you for helping secure AI agents. Every rule you contribute protects thousands of deployments.
 
@@ -6,7 +6,7 @@ Thank you for helping secure AI agents. Every rule you contribute protects thous
 
 ### 1. Add Detection Rules (Most Impactful)
 
-Detection rules are the core of AgentGuard. Each rule is a pure Python function:
+Detection rules are the core of Lucin. Each rule is a pure Python function:
 
 ```python
 def detect_something(agent: Agent) -> list[Finding]:
@@ -18,15 +18,21 @@ def detect_something(agent: Agent) -> list[Finding]:
 
 **To add a new rule:**
 
-1. Create a file in `src/agentguard/detectors/your_rule.py`
+1. Create a file in `src/lucin/detectors/your_rule.py`
 2. Follow the existing patterns (see any file in `detectors/`)
-3. Register it in `detectors/__init__.py`
+3. Register it in `PER_AGENT_DETECTORS` or `CROSS_AGENT_DETECTORS` in
+   `src/lucin/detectors/__init__.py` — a detector module existing in `detectors/`
+   does **not** mean it runs; it must be added to one of those two lists, or it
+   silently never fires
 4. Add a test example in `examples/`
 5. Verify: zero false positives on safe agents, catches the vulnerability on vulnerable agents
 
 **Rule quality requirements:**
 - Every rule MUST have a real-world basis (cite the incident or research)
-- Every rule MUST map to OWASP Agentic Top 10
+- Every rule MUST map to the OWASP Top 10 for Agentic Applications via
+  `lucin.owasp.owasp_ref(rule_id)` — never a hardcoded string. Add the rule's
+  ASI code(s) to `RULE_TO_ASI` in `src/lucin/owasp.py`, the single source of
+  truth for that mapping.
 - Every rule MUST include an attack scenario (how it's exploited)
 - Every rule MUST include a fix suggestion (actionable, not generic)
 - Every rule MUST have zero false positives on our example safe agents
@@ -34,7 +40,7 @@ def detect_something(agent: Agent) -> list[Finding]:
 
 ### 2. Add Red Team Attacks
 
-Attack payloads live in `src/agentguard/redteam/attacks.py` and `redteam/targeted.py`.
+Attack payloads live in `src/lucin/redteam/attacks.py` and `redteam/targeted.py`.
 
 Each attack is a structured object:
 ```python
@@ -47,7 +53,7 @@ AttackPayload(
     success_indicators=["patterns", "that", "indicate", "success"],
     safe_response_indicators=["patterns", "indicating", "resistance"],
     severity_if_successful="critical",
-    owasp_ref="A01 - Excessive Agency",
+    owasp_ref="ASI01",
     real_world_example="Reference to real incident",
 )
 ```
@@ -56,7 +62,8 @@ AttackPayload(
 
 Parsers convert framework-specific code into our normalized `Agent` model.
 
-Existing parsers: LangChain, MCP, CrewAI, AutoGen.
+Existing parsers: LangChain, MCP, CrewAI, AutoGen, OpenAI Swarm, PydanticAI, Google ADK,
+LlamaIndex, plus a generic fallback.
 
 **Needed:** OpenAI Assistants, Semantic Kernel, Smolagents, custom frameworks.
 
@@ -76,8 +83,8 @@ def parse_framework(target: Path) -> list[Agent]:
 ## Development Setup
 
 ```bash
-git clone https://github.com/agentguard/agentguard
-cd agentguard
+git clone https://github.com/Madhav2310/lucinlabs
+cd lucinlabs
 pip install -e ".[dev]"
 
 # Run tests
@@ -87,46 +94,37 @@ pytest
 ruff check src/
 
 # Test your changes
-agentguard scan ./examples/vulnerable-agent/
+lucin scan ./examples/vulnerable-agent/
 ```
 
 ## Architecture Overview
 
 ```
-src/agentguard/
+src/lucin/
 ├── cli.py              # CLI entry point (typer)
 ├── models.py           # Core data models (Agent, Tool, Finding)
+├── owasp.py            # OWASP Agentic Top 10 (ASI01-10) mapping — single source of truth
 ├── scanner.py          # Orchestrates parsing + detection
 ├── scoring.py          # Security Score (0-100)
 ├── reporter.py         # Terminal output (rich)
 ├── html_report.py      # HTML report generation
 ├── fix.py              # Code fix generation
 ├── monitor.py          # Behavioral ML monitoring
-├── parsers/            # Framework-specific parsers
-│   ├── langchain_parser.py
-│   ├── mcp_parser.py
-│   ├── crewai_parser.py
-│   └── autogen_parser.py
-├── detectors/          # Detection rules (one file per category)
-│   ├── shell_access.py        # AG-001
-│   ├── data_exfiltration.py   # AG-002
-│   ├── mcp_auth.py            # AG-003, AG-012
-│   ├── overprivilege.py       # AG-005
-│   ├── missing_controls.py    # AG-006, AG-009, AG-010
-│   ├── secrets.py             # AG-007
-│   ├── tool_poisoning.py      # AG-011
-│   ├── memory_poisoning.py    # AG-013
-│   ├── delegation.py          # AG-014
-│   └── supply_chain.py        # AG-015
+├── parsers/            # Framework-specific parsers (LangChain, MCP, CrewAI,
+│                        # AutoGen, Swarm, PydanticAI, Google ADK, LlamaIndex,
+│                        # generic fallback)
+├── detectors/          # Detection rules (one file per category).
+│                        # __init__.py's PER_AGENT_DETECTORS / CROSS_AGENT_DETECTORS
+│                        # lists are the source of truth for what actually runs —
+│                        # not every file in this directory is registered.
 ├── redteam/            # Red team attack engine
 │   ├── attacks.py             # Generic attack payloads
 │   ├── targeted.py            # Tool-aware targeted attacks
 │   ├── indirect_injection.py  # Indirect injection via tool outputs
 │   ├── runner.py              # Attack execution + evaluation
 │   └── cli.py                 # Red team CLI integration
-└── behavioral/         # ML behavioral analysis
-    ├── features.py            # 26-dimension feature extraction
-    └── scoring.py             # Ensemble anomaly scorer
+└── behavioral/         # ML behavioral analysis (multi-model ensemble:
+                         # frequency/temporal/parameter/structural/sequence)
 ```
 
 ## Code Style
@@ -142,20 +140,22 @@ src/agentguard/
 1. Fork the repository
 2. Create a feature branch (`git checkout -b add-rule-ag-025`)
 3. Write the code + tests
-4. Verify: `agentguard scan ./examples/` produces no crashes
+4. Verify: `lucin scan ./examples/` produces no crashes
 5. Submit a PR with description of what the rule detects and why
 
-## Detection Rule ID Allocation
+## Detection Rule IDs
 
-| Range | Category |
-|-------|----------|
-| AG-001 to AG-004 | Execution & Access |
-| AG-005 to AG-008 | Capability & Secrets |
-| AG-009 to AG-012 | Controls & Transport |
-| AG-013 to AG-016 | Memory & Supply Chain |
-| AG-017 to AG-020 | Agent-type Specific |
-| AG-021 to AG-025 | Advanced Patterns |
-| AG-100+ | Community-contributed rules |
+Rule IDs are not allocated by range — they're assigned per detector as it's added.
+The current allocation is always visible directly from the source, not from a table
+that can drift from it:
+
+```bash
+grep -rhoE 'id="AG-[A-Z0-9-]+"' src/lucin/detectors/*.py | sort -u
+lucin scan --list-rules   # active detectors only, with severity + OWASP mapping
+```
+
+New community rules: pick the next unused `AG-NNN` (three digits) or a short
+descriptive slug like `AG-YOUR-RULE`, matching the existing mix.
 
 ## Questions?
 

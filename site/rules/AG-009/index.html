@@ -5,32 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AG-009: Unlimited Sub-Agent Spawning</title>
 <meta name="description" content="AG-009 — Unlimited Sub-Agent Spawning. The agent can create further agents with no cap on depth or fan-out. Each child inherits tool access, so one hijacked instruction can multiply into ma How Lucin detects it and how to fix it.">
-<link rel="canonical" href="https://lucin.security/rules/AG-009/">
+<link rel="canonical" href="https://lucin.pages.dev/rules/AG-009/">
 <link rel="stylesheet" href="/fonts.css">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Lucin">
-<meta property="og:url" content="https://lucin.security/rules/AG-009/">
+<meta property="og:url" content="https://lucin.pages.dev/rules/AG-009/">
 <meta property="og:title" content="AG-009: Unlimited Sub-Agent Spawning">
 <meta property="og:description" content="AG-009 — Unlimited Sub-Agent Spawning. The agent can create further agents with no cap on depth or fan-out. Each child inherits tool access, so one hijacked instruction can multiply into ma How Lucin detects it and how to fix it.">
-<meta property="og:image" content="https://lucin.security/og.png">
+<meta property="og:image" content="https://lucin.pages.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Lucin detection rule AG-009">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AG-009: Unlimited Sub-Agent Spawning">
 <meta name="twitter:description" content="AG-009 — Unlimited Sub-Agent Spawning. The agent can create further agents with no cap on depth or fan-out. Each child inherits tool access, so one hijacked instruction can multiply into ma How Lucin detects it and how to fix it.">
-<meta name="twitter:image" content="https://lucin.security/og.png">
+<meta name="twitter:image" content="https://lucin.pages.dev/og.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
- {"@type":"Article","headline":"AG-009: Unlimited Sub-Agent Spawning","description":"AG-009 — Unlimited Sub-Agent Spawning. The agent can create further agents with no cap on depth or fan-out. Each child inherits tool access, so one hijacked instruction can multiply into ma How Lucin detects it and how to fix it.","url":"https://lucin.security/rules/AG-009/",
-   "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.security/"},
-   "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.security/",
+ {"@type":"Article","headline":"AG-009: Unlimited Sub-Agent Spawning","description":"AG-009 — Unlimited Sub-Agent Spawning. The agent can create further agents with no cap on depth or fan-out. Each child inherits tool access, so one hijacked instruction can multiply into ma How Lucin detects it and how to fix it.","url":"https://lucin.pages.dev/rules/AG-009/",
+   "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
+   "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/",
      "sameAs":["https://github.com/Madhav2310/lucinlabs","https://pypi.org/project/lucin/"]}},
  {"@type":"BreadcrumbList","itemListElement":[
-   {"@type":"ListItem","position":1,"name":"Home","item":"https://lucin.security/"},
-   {"@type":"ListItem","position":2,"name":"Rules","item":"https://lucin.security/rules/"},
-   {"@type":"ListItem","position":3,"name":"AG-009","item":"https://lucin.security/rules/AG-009/"}]}
+   {"@type":"ListItem","position":1,"name":"Home","item":"https://lucin.pages.dev/"},
+   {"@type":"ListItem","position":2,"name":"Rules","item":"https://lucin.pages.dev/rules/"},
+   {"@type":"ListItem","position":3,"name":"AG-009","item":"https://lucin.pages.dev/rules/AG-009/"}]}
 ]}
 </script>
 <style>
@@ -153,7 +153,7 @@ p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color
 <h2>What this rule means</h2>
 <p>The agent can create further agents with no cap on depth or fan-out. Each child inherits tool access, so one hijacked instruction can multiply into many actors that no single approval step ever saw.</p>
 <h2>Why it matters</h2>
-<p>The Hugging Face incident (July 2026) escalated because an autonomous agent kept acting — &gt;17,000 recorded events across a weekend — with no ceiling on how much work it could initiate.</p>
+<p>The Hugging Face breach (July 2026) escalated because an autonomous agent kept acting — an estimated 17,600 recorded events over roughly two and a half days — with no ceiling on how much work it could initiate.</p>
 <h2>How to fix it</h2>
 <p>Cap recursion depth and total spawned agents; make the budget explicit and fail closed when it is exhausted.</p>
 <h2>Detect it</h2>

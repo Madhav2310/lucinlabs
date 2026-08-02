@@ -10,6 +10,8 @@ import math
 
 import pytest
 
+pytest.importorskip("numpy", reason="behavioral extra not installed")
+
 from lucin.behavioral.baselines import (
     RolePriorStore,
     RoleBaselineManager,

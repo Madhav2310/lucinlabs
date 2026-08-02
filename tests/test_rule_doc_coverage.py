@@ -17,24 +17,14 @@ import lucin.rule_docs as rd
 
 
 _SRC = Path(__file__).resolve().parent.parent / "src" / "lucin"
-_ID_RE = re.compile(r'id="(AG-[A-Z0-9-]+)"')
+# AG-005a/AG-005b are dict-literal IDs ("id": "AG-005a") ending in a lowercase
+# suffix, not the id="..." kwarg form most detectors use — both must be matched.
+_ID_RE = re.compile(r'id="(AG-[A-Za-z0-9-]+)"|"id"\s*:\s*"(AG-[A-Za-z0-9-]+)"')
 
-# Rules that emit findings but have no documentation page, as measured 2026-07-30.
+# Rules that emit findings but have no documentation page, as measured 2026-08-03.
 # This is honest debt, not an exemption: shrink it, never grow it.
 KNOWN_UNDOCUMENTED = frozenset({
-    "AG-028",
-    "AG-CORS",
-    "AG-DESERIALIZE",
-    "AG-DOCKER-EXEC",
-    "AG-ENV-FALLBACK",
-    "AG-FRAMEWORK-PIN",
-    "AG-MCP-TOKENLEAK",
-    "AG-NOAUTH",
-    "AG-PATH-TRAVERSAL",
-    "AG-RAG-NO-SANITIZE",
     "AG-RUGPULL",
-    "AG-SQL",
-    "AG-SSRF",
 })
 
 
@@ -42,7 +32,8 @@ def _emitted_rule_ids() -> set[str]:
     """Every rule ID constructed anywhere in the package."""
     ids: set[str] = set()
     for path in _SRC.rglob("*.py"):
-        ids.update(_ID_RE.findall(path.read_text(encoding="utf-8", errors="replace")))
+        for g1, g2 in _ID_RE.findall(path.read_text(encoding="utf-8", errors="replace")):
+            ids.add(g1 or g2)
     return ids
 
 

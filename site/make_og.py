@@ -29,12 +29,13 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "site" / "og.png"
 W, H = 1200, 630
 
-CANVAS, SUNKEN = (10, 10, 11), (7, 7, 8)
-INK, INK_SOFT, INK_MUTED = (236, 237, 238), (161, 165, 171), (110, 115, 121)
-LINE, LINE_STRONG = (35, 38, 41), (51, 55, 60)
-SEV = {"CRITICAL": (240, 68, 56), "HIGH": (247, 144, 9), "MEDIUM": (234, 170, 8),
-       "LOW": (110, 115, 121), "INFO": (110, 115, 121)}
-CLEAN, WARN, HOT = (214, 220, 227), (232, 163, 61), (240, 68, 56)
+# Paper/ink palette — must match the live site's light theme (rebrand, 2026-08).
+CANVAS, SUNKEN = (250, 249, 247), (243, 242, 238)
+INK, INK_SOFT, INK_MUTED = (20, 20, 20), (61, 65, 71), (108, 112, 118)
+LINE, LINE_STRONG = (228, 225, 220), (215, 217, 220)
+SEV = {"CRITICAL": (214, 50, 31), "HIGH": (184, 92, 31), "MEDIUM": (184, 134, 11),
+       "LOW": (108, 112, 118), "INFO": (108, 112, 118)}
+CLEAN, WARN, HOT = (61, 65, 71), (214, 154, 31), (214, 50, 31)
 
 # macOS system faces; fall back to PIL's default rather than crashing on another OS.
 _FONTS = ["/System/Library/Fonts/SFNSDisplay.ttf",
@@ -56,7 +57,7 @@ def _font(paths: list[str], size: int, index: int = 0):
 
 def _scan(target: str) -> list[dict]:
     out = subprocess.run(
-        [str(ROOT / "venv/bin/python"), "-m", "lucin", "scan", target, "--format", "json"],
+        [sys.executable, "-m", "lucin", "scan", target, "--format", "json", "--no-telemetry"],
         capture_output=True, text=True, cwd=ROOT)
     try:
         return json.loads(out.stdout).get("findings", [])

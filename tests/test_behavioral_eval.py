@@ -2,6 +2,8 @@
 
 import pytest
 
+pytest.importorskip("numpy", reason="behavioral extra not installed")
+
 from lucin.behavioral.trace_gen import (
     build_corpus, benign_session, attack_session, ROLE_NAMES, ATTACKS, EVASIVE_ATTACKS,
 )

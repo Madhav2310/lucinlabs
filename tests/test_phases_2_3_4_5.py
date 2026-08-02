@@ -118,6 +118,7 @@ def test_guard_non_egress_always_allowed():
 # Phase 4 — Behavioral Monitor
 # ---------------------------------------------------------------------------
 
+pytest.importorskip("numpy", reason="behavioral extra not installed")
 from lucin.behavioral.monitor import AgentMonitor, replay_trace, FEATURE_DIM
 
 

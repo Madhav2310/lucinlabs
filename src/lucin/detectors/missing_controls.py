@@ -141,7 +141,7 @@ def detect_missing_controls(agent: Agent) -> list[Finding]:
                     "Without rate limits, a compromised or hallucinating agent can: "
                     "execute thousands of commands (DoS), make unlimited API calls (cost explosion), "
                     "or exfiltrate data at maximum throughput. The Hugging Face breach involved "
-                    "17,000+ actions — rate limiting would have triggered detection earlier."
+                    "an estimated 17,600 actions — rate limiting would have triggered detection earlier."
                 ),
                 blast_radius="Unlimited invocations of high-risk tools at machine speed.",
                 owasp_ref=owasp_ref("AG-010"),

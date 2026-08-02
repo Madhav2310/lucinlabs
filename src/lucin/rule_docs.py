@@ -13,8 +13,7 @@ Usage:
     Path("docs/rules.md").write_text(docs)
 """
 
-from lucin.models import _RULE_TO_ASI
-
+from lucin.owasp import RULE_TO_ASI as _RULE_TO_ASI  # re-exported for site/build_rules.py
 
 # Complete rule catalog with documentation
 # ---------------------------------------------------------------------------
@@ -108,12 +107,20 @@ RULE_CATALOG = {
         "owasp_asi": ["ASI03", "ASI04"],
         "fix_summary": "Enable OAuth 2.1 authentication on MCP servers.",
     },
-    "AG-005": {
-        "title": "Dangerous Tool Combinations",
+    "AG-005a": {
+        "title": "Database Access + Code Execution",
         "severity": "HIGH",
-        "description": "Agent has capability combinations that enable attack chains (read+exec, exec+network).",
-        "real_world": "HuggingFace breach: 17,000+ agent actions using combined capabilities.",
-        "owasp_asi": ["ASI01", "ASI02"],
+        "description": "Agent can read data AND execute code — enables data theft via code execution.",
+        "real_world": "Hugging Face breach, July 2026: ~17,600 agent actions using combined capabilities.",
+        "owasp_asi": ["ASI02"],
+        "fix_summary": "Separate into multiple agents with narrower scopes.",
+    },
+    "AG-005b": {
+        "title": "Code Execution + Network Access",
+        "severity": "HIGH",
+        "description": "Agent can execute code AND access network — enables reverse shell or C2.",
+        "real_world": "Hugging Face breach, July 2026: ~17,600 agent actions using combined capabilities.",
+        "owasp_asi": ["ASI02"],
         "fix_summary": "Separate into multiple agents with narrower scopes.",
     },
     "AG-006": {
@@ -193,7 +200,7 @@ RULE_CATALOG = {
         "title": "Unlimited Sub-Agent Spawning",
         "severity": "HIGH",
         "description": "The agent can create further agents with no cap on depth or fan-out. Each child inherits tool access, so one hijacked instruction can multiply into many actors that no single approval step ever saw.",
-        "real_world": "The Hugging Face incident (July 2026) escalated because an autonomous agent kept acting — >17,000 recorded events across a weekend — with no ceiling on how much work it could initiate.",
+        "real_world": "The Hugging Face breach (July 2026) escalated because an autonomous agent kept acting — an estimated 17,600 recorded events over roughly two and a half days — with no ceiling on how much work it could initiate.",
         "owasp_asi": ["ASI08", "ASI05"],
         "fix_summary": "Cap recursion depth and total spawned agents; make the budget explicit and fail closed when it is exhausted.",
     },
@@ -277,6 +284,102 @@ RULE_CATALOG = {
         "owasp_asi": ["ASI05", "ASI08"],
         "fix_summary": "Break the composition, not the tools: split the capability set across agents so no single context holds the whole chain. `lucin scan` reports the minimum set of tools to restrict.",
     },
+    "AG-028": {
+        "title": "Execution Without Telemetry/Monitoring",
+        "severity": "HIGH",
+        "description": "The agent has high-risk capabilities (code execution, file access, network egress) but no logging, telemetry, or monitoring is configured, so anomalous behavior can run unobserved for as long as nobody is looking.",
+        "real_world": "The Hugging Face breach (July 2026): an OpenAI model escaped its ExploitGym evaluation sandbox and operated unmonitored for roughly two and a half days, taking an estimated 17,600 actions before detection.",
+        "owasp_asi": ["ASI10"],
+        "fix_summary": "Add observability: at minimum structured logging per tool call; ideally OpenTelemetry GenAI semantic conventions or a tracing platform (LangSmith, Langfuse).",
+    },
+    "AG-CORS": {
+        "title": "Agent HTTP Server: Wildcard CORS Origin",
+        "severity": "HIGH",
+        "description": "The agent's HTTP server sets `allow_origins=[\"*\"]`. For a regular API this enables data theft; for an agent API it lets any website a logged-in user visits invoke the agent's tools — code execution, file access, data exfiltration — on that user's behalf.",
+        "real_world": "LangServe and AutoGen ship `allow_origins=[\"*\"]` in their official example servers, and developers copy the example into production unchanged.",
+        "owasp_asi": ["ASI03"],
+        "fix_summary": "Replace the wildcard with an explicit origin allowlist, and add authentication — open CORS with no auth means anyone can invoke the agent directly.",
+    },
+    "AG-DESERIALIZE": {
+        "title": "Insecure Deserialization",
+        "severity": "CRITICAL",
+        "description": "A function deserializes tool-controlled data via pickle/marshal/dill/joblib or an equivalent format that executes code or constructs arbitrary objects on load. A poisoned payload is remote code execution.",
+        "real_world": "CVE-2025-68664 (\"LangGrinch\", CVSS 9.3): langchain-core's `dumps()`/`load()` allowed arbitrary object reconstruction; patched in 0.3.81 and 1.2.5.",
+        "owasp_asi": ["ASI05"],
+        "fix_summary": "Never deserialize untrusted data with pickle/marshal/dill/joblib. Use a data-only format (json, yaml.safe_load) or verify an HMAC/signature over the bytes before loading.",
+    },
+    "AG-DOCKER-EXEC": {
+        "title": "Container Escape Vector: docker run",
+        "severity": "CRITICAL",
+        "description": "A function shells out to `docker run` with tool-controlled arguments. An attacker via prompt injection can supply arbitrary docker flags — volume mounts (`-v /:/host`), privileged mode, host networking, or a malicious image.",
+        "real_world": "The pattern is generic to any agent that wraps the docker CLI rather than a constrained sandboxing API — the same class of risk as shelling out to any privileged binary with unvalidated arguments.",
+        "owasp_asi": ["ASI05"],
+        "fix_summary": "Remove docker-exec capability from agent tools, or use a real sandboxing API (gVisor, Firecracker). If docker is required, allowlist the image and strip -v/--privileged/--network/--cap-add.",
+    },
+    "AG-ENV-FALLBACK": {
+        "title": "Hardcoded Secret as os.getenv() Fallback",
+        "severity": "MEDIUM",
+        "description": "An `os.getenv()` call has a hardcoded secret as its default value. If the environment variable is unset — a misconfigured CI job, a fresh developer machine, a container without env injection — the hardcoded credential is used silently, with no error.",
+        "real_world": "A generic but common pattern in agent codebases; the credential is also visible in source, git history, and any artifact packaging the code, independent of whether the fallback ever actually fires.",
+        "owasp_asi": ["ASI03"],
+        "fix_summary": "Remove the fallback entirely: `os.environ['KEY']` raises if missing, which is the correct failure mode for a secret.",
+    },
+    "AG-FRAMEWORK-PIN": {
+        "title": "Unpinned Agent Framework Dependency",
+        "severity": "MEDIUM",
+        "description": "An agent framework package is not pinned to an exact version. An upgrade — manual, or via a CI rebuild — can silently change tool behavior between development and production, or install a compromised release.",
+        "real_world": "The LiteLLM PyPI supply-chain compromise (24 Mar 2026): versions 1.82.7/1.82.8, live for roughly 40 minutes, shipped a `.pth` autorun payload to a package with 95M monthly downloads. An unpinned `litellm` dependency is exactly the pattern this rule exists to catch.",
+        "owasp_asi": ["ASI04"],
+        "fix_summary": "Pin agent framework packages to exact versions, or use a lock file (`pip-compile requirements.in`).",
+    },
+    "AG-MCP-TOKENLEAK": {
+        "title": "LLM API Key Passed to MCP Server",
+        "severity": "HIGH",
+        "description": "An MCP server configuration passes the user's own LLM API key into the server's environment. A compromised or malicious MCP server can then make calls under the user's account — billing, rate limits, and data exposure all happen invisibly, with no user consent step.",
+        "real_world": "NSA guidance (May 2026) warned that 200,000+ MCP server instances are running with weak or absent access controls, of which credential-passing configs are a common variant.",
+        "owasp_asi": ["ASI03"],
+        "fix_summary": "Never pass the user's LLM API key to an MCP server. If the server needs LLM access, issue it its own scoped, rate-limited, audience-bound key (RFC 8707).",
+    },
+    "AG-NOAUTH": {
+        "title": "Agent HTTP Server: No Authentication Configured",
+        "severity": "HIGH",
+        "description": "The agent exposes its tools over HTTP with no authentication middleware detected. Any process that can reach the server — an internal network attacker, or an SSRF vulnerability elsewhere — can invoke agent capabilities directly.",
+        "real_world": "The same class of exposure NSA's May 2026 guidance flagged across 200,000+ MCP instances, generalized to any agent HTTP server, not just MCP specifically.",
+        "owasp_asi": ["ASI03"],
+        "fix_summary": "Add authentication middleware (Bearer token, API key, or OAuth) before deploying an agent HTTP server.",
+    },
+    "AG-PATH-TRAVERSAL": {
+        "title": "Path Traversal",
+        "severity": "HIGH",
+        "description": "A function uses a tool-controlled path in a file read/write/delete sink with no normalization or containment check. `os.path.join` with a `..` segment does not contain the path — a parameter like `../../etc/passwd` or `../../.bashrc` escapes any intended base directory.",
+        "real_world": "CVE-2026-34070 (CVSS 7.5): `langchain-core`'s `load_prompt` allowed path traversal; fixed in 1.2.22. (The function enforces a `.txt`/`.json`/`.yaml` extension allowlist, so claims of `.env` or credential-file exfiltration via this specific CVE are false — the traversal is real, the blast radius is narrower than sometimes reported.)",
+        "owasp_asi": ["ASI02"],
+        "fix_summary": "Resolve the path, then verify it is still inside the intended base directory (`Path.resolve()` + a prefix check) before any file operation.",
+    },
+    "AG-RAG-NO-SANITIZE": {
+        "title": "RAG Injection: Unsanitized Vector Store Content",
+        "severity": "HIGH",
+        "description": "A function retrieves content from a vector store and passes it directly into an LLM call with no sanitization. This is indirect prompt injection: an attacker stores malicious instructions in any document the pipeline might retrieve, and the model cannot distinguish those instructions from legitimate content.",
+        "real_world": "First demonstrated against Bing Chat (2023); the same pattern has since shown up in GPT-4 plugin attacks, ChatGPT exfiltration chains, and agent hijacks generally.",
+        "owasp_asi": ["ASI06"],
+        "fix_summary": "Treat retrieved content as untrusted data, not instructions — wrap it in clear delimiters, and never let it alter tool-use decisions without a human or policy check.",
+    },
+    "AG-SQL": {
+        "title": "SQL Injection via Tool Parameter",
+        "severity": "CRITICAL",
+        "description": "A function passes a tool parameter directly into a SQL execution sink without parameterization. An attacker who can influence that parameter — typically via prompt injection — can send arbitrary SQL.",
+        "real_world": "CVE-2025-67644 (CVSS 7.3): LangGraph's SQLite checkpointer built its `_metadata_predicate()` query via f-string interpolation rather than parameter binding; fixed in 3.0.1.",
+        "owasp_asi": ["ASI05", "ASI02"],
+        "fix_summary": "Use parameterized queries everywhere — never format tool parameters directly into SQL text.",
+    },
+    "AG-SSRF": {
+        "title": "Server-Side Request Forgery",
+        "severity": "HIGH",
+        "description": "A function passes a tool-controlled value into a network fetch where the parameter controls the URL's scheme or host — not just a path or query string — with no allowlist or validation of the destination.",
+        "real_world": "The canonical SSRF target in cloud environments is the instance metadata endpoint (`169.254.169.254`), which hands over IAM credentials to anything that can reach it — the reason this class of bug is treated as credential theft, not just an info leak.",
+        "owasp_asi": ["ASI02"],
+        "fix_summary": "Validate the destination against an explicit allowlist of hosts/schemes before fetching; block link-local and internal address ranges by default.",
+    },
 }
 
 
@@ -286,7 +389,7 @@ def generate_all_rule_docs() -> str:
         "# Lucin Detection Rules Reference",
         "",
         f"**Total rules:** {len(RULE_CATALOG)}",
-        f"**OWASP ASI coverage:** 9/10 risks",
+        "**OWASP ASI coverage:** 9/10 risks",
         "",
         "---",
         "",

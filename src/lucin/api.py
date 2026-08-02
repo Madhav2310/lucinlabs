@@ -30,11 +30,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from lucin import __version__
+from lucin.behavioral.features import AgentAction, extract_features
+from lucin.behavioral.scoring import BehavioralScorer
 from lucin.scanner import scan_target
 from lucin.scoring import calculate_security_score, score_label
-from lucin.behavioral.features import AgentAction, extract_features
-from lucin.behavioral.scoring import BehavioralScorer, RiskScore
-
 
 # === RATE LIMITING ===
 
@@ -271,21 +270,20 @@ async def score_action(request: ScoreRequest):
 
 @app.get("/v1/rules", response_model=list[RuleInfo])
 async def list_rules():
-    """List all available detection rules."""
-    rules = [
-        RuleInfo(id="AG-001", title="Unrestricted Shell/Exec Access", severity="critical", owasp_ref="A02", description="Tools that execute arbitrary code with no sandbox"),
-        RuleInfo(id="AG-002", title="Data Exfiltration Path", severity="critical", owasp_ref="A09", description="Agent can read data AND send it externally"),
-        RuleInfo(id="AG-003", title="Unauthenticated MCP Server", severity="high", owasp_ref="A04", description="MCP servers with no authentication"),
-        RuleInfo(id="AG-005", title="Dangerous Tool Combinations", severity="high", owasp_ref="A02", description="Tool pairs enabling attack chains"),
-        RuleInfo(id="AG-006", title="No Human Approval", severity="high", owasp_ref="A01", description="Destructive actions without HITL"),
-        RuleInfo(id="AG-007", title="Hardcoded Secrets", severity="high", owasp_ref="A04", description="API keys and credentials in code"),
-        RuleInfo(id="AG-009", title="Unlimited Sub-Agent Spawning", severity="medium", owasp_ref="A05", description="No limit on agent delegation"),
-        RuleInfo(id="AG-010", title="No Rate Limiting", severity="medium", owasp_ref="A05", description="High-risk tools without rate limits"),
-        RuleInfo(id="AG-011", title="Tool Description Injection", severity="high", owasp_ref="A02", description="Hidden instructions in tool descriptions"),
-        RuleInfo(id="AG-012", title="Unencrypted MCP Transport", severity="medium", owasp_ref="A04", description="MCP without TLS"),
-        RuleInfo(id="AG-013", title="Memory/RAG Poisoning Risk", severity="high", owasp_ref="A03", description="Unprotected persistent memory"),
-        RuleInfo(id="AG-014", title="Delegation Chain Risks", severity="high", owasp_ref="A06", description="Privilege escalation via delegation"),
-        RuleInfo(id="AG-015", title="Supply Chain Vulnerability", severity="high", owasp_ref="A08", description="Unpinned/unverified MCP servers"),
-        RuleInfo(id="AG-023", title="Self-Modification Capability", severity="high", owasp_ref="A03", description="Agent can modify its own config/tools"),
+    """List all documented detection rules, derived from the single source of
+    truth (lucin.rule_docs.RULE_CATALOG) rather than a hand-maintained copy —
+    a second list here previously drifted stale and cited the wrong OWASP
+    taxonomy (Web Top 10 codes instead of ASI codes)."""
+    from lucin.owasp import owasp_ref as _owasp_ref
+    from lucin.rule_docs import RULE_CATALOG
+
+    return [
+        RuleInfo(
+            id=rid,
+            title=entry.get("title", rid),
+            severity=str(entry.get("severity", "")).lower(),
+            owasp_ref=_owasp_ref(rid),
+            description=entry.get("description", ""),
+        )
+        for rid, entry in sorted(RULE_CATALOG.items())
     ]
-    return rules

@@ -26,8 +26,8 @@ def test_every_shipped_rule_is_mapped():
     ids = set()
     for path in glob.glob("src/lucin/detectors/*.py"):
         text = open(path).read()
-        ids |= set(re.findall(r'id="(AG-[A-Z0-9-]+)"', text))
-        ids |= set(re.findall(r'"id"\s*:\s*"(AG-[A-Z0-9-]+)"', text))
+        ids |= set(re.findall(r'id="(AG-[A-Za-z0-9-]+)"', text))
+        ids |= set(re.findall(r'"id"\s*:\s*"(AG-[A-Za-z0-9-]+)"', text))
     missing = ids - set(RULE_TO_ASI)
     assert not missing, f"rules with no OWASP mapping: {sorted(missing)}"
 

@@ -2,12 +2,9 @@
 
 from rich.console import Console
 from rich.panel import Panel
-from rich.table import Table
-from rich.text import Text
 
 from lucin.models import Finding, ScanResult, Severity
-from lucin.scoring import calculate_security_score, score_label, score_color
-
+from lucin.scoring import calculate_security_score, score_color, score_label
 
 SEVERITY_STYLES = {
     Severity.CRITICAL: ("bold red", "🔴"),
@@ -54,17 +51,9 @@ def print_findings(console: Console, result: ScanResult, ci: bool = False):
     console.print(f" [dim]Scan completed in {result.scan_duration_ms:.0f}ms[/dim]")
     console.print()
 
-    if not result.findings:
-        console.print(Panel(
-            "[green bold]No security findings detected.[/green bold]\n\n"
-            "[dim]This doesn't mean your agents are perfectly secure — "
-            "it means no known dangerous patterns were detected in their configuration.[/dim]",
-            title="✅ Clean Scan",
-            border_style="green",
-        ))
-        return
-
-    # Security Score
+    # Security Score — rendered on both paths, including a clean scan: 100/100 is the
+    # one genuinely shareable moment the product produces, and it used to vanish exactly
+    # when the news was good.
     score = calculate_security_score(result)
     color = score_color(score)
     label = score_label(score)
@@ -75,6 +64,17 @@ def print_findings(console: Console, result: ScanResult, ci: bool = False):
         border_style=color.replace("bold ", ""),
     ))
     console.print()
+
+    if not result.findings:
+        console.print(Panel(
+            "[green bold]No security findings detected.[/green bold]\n\n"
+            "[dim]This doesn't mean your agents are perfectly secure — "
+            "it means no known dangerous patterns were detected in their configuration.[/dim]\n\n"
+            "[dim]Show it: [/dim]lucin badge . --style score[dim]  →  drops an SVG for your README.[/dim]",
+            title="✅ Clean Scan",
+            border_style="green",
+        ))
+        return
 
     # Summary bar
     _print_summary(console, result)
@@ -125,11 +125,11 @@ def _print_finding(console: Console, finding: Finding):
         lines.append(f"Agent: [bold]{finding.agent_name}[/bold]")
     if finding.tool_name:
         lines.append(f"Tool: [bold]{finding.tool_name}[/bold]")
-    lines.append(f"")
+    lines.append("")
     lines.append(finding.description)
 
     if finding.attack_scenario:
-        lines.append(f"")
+        lines.append("")
         lines.append(f"[dim]Attack:[/dim] {finding.attack_scenario}")
 
     if finding.blast_radius:
@@ -139,13 +139,13 @@ def _print_finding(console: Console, finding: Finding):
         lines.append(f"[dim]OWASP Agentic:[/dim] {finding.owasp_ref}")
 
     if finding.witness:
-        lines.append(f"")
-        lines.append(f"[cyan]Proof:[/cyan]")
+        lines.append("")
+        lines.append("[cyan]Proof:[/cyan]")
         for w in finding.witness:
             lines.append(f"  [dim]{w}[/dim]")
 
     if finding.fix_suggestion:
-        lines.append(f"")
+        lines.append("")
         lines.append(f"[green]Fix:[/green] {finding.fix_suggestion}")
 
     if finding.source_file:

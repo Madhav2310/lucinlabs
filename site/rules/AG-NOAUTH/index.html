@@ -3,34 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AG-005: Dangerous Tool Combinations</title>
-<meta name="description" content="AG-005 — Dangerous Tool Combinations. Agent has capability combinations that enable attack chains (read+exec, exec+network). How Lucin detects it and how to fix it.">
-<link rel="canonical" href="https://lucin.security/rules/AG-005/">
+<title>AG-NOAUTH: Agent HTTP Server: No Authentication Configured</title>
+<meta name="description" content="AG-NOAUTH — Agent HTTP Server: No Authentication Configured. The agent exposes its tools over HTTP with no authentication middleware detected. Any process that can reach the server — an internal network attacker How Lucin detects it and how to fix it.">
+<link rel="canonical" href="https://lucin.pages.dev/rules/AG-NOAUTH/">
 <link rel="stylesheet" href="/fonts.css">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Lucin">
-<meta property="og:url" content="https://lucin.security/rules/AG-005/">
-<meta property="og:title" content="AG-005: Dangerous Tool Combinations">
-<meta property="og:description" content="AG-005 — Dangerous Tool Combinations. Agent has capability combinations that enable attack chains (read+exec, exec+network). How Lucin detects it and how to fix it.">
-<meta property="og:image" content="https://lucin.security/og.png">
+<meta property="og:url" content="https://lucin.pages.dev/rules/AG-NOAUTH/">
+<meta property="og:title" content="AG-NOAUTH: Agent HTTP Server: No Authentication Configured">
+<meta property="og:description" content="AG-NOAUTH — Agent HTTP Server: No Authentication Configured. The agent exposes its tools over HTTP with no authentication middleware detected. Any process that can reach the server — an internal network attacker How Lucin detects it and how to fix it.">
+<meta property="og:image" content="https://lucin.pages.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Lucin detection rule AG-005">
+<meta property="og:image:alt" content="Lucin detection rule AG-NOAUTH">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AG-005: Dangerous Tool Combinations">
-<meta name="twitter:description" content="AG-005 — Dangerous Tool Combinations. Agent has capability combinations that enable attack chains (read+exec, exec+network). How Lucin detects it and how to fix it.">
-<meta name="twitter:image" content="https://lucin.security/og.png">
+<meta name="twitter:title" content="AG-NOAUTH: Agent HTTP Server: No Authentication Configured">
+<meta name="twitter:description" content="AG-NOAUTH — Agent HTTP Server: No Authentication Configured. The agent exposes its tools over HTTP with no authentication middleware detected. Any process that can reach the server — an internal network attacker How Lucin detects it and how to fix it.">
+<meta name="twitter:image" content="https://lucin.pages.dev/og.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
- {"@type":"Article","headline":"AG-005: Dangerous Tool Combinations","description":"AG-005 — Dangerous Tool Combinations. Agent has capability combinations that enable attack chains (read+exec, exec+network). How Lucin detects it and how to fix it.","url":"https://lucin.security/rules/AG-005/",
-   "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.security/"},
-   "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.security/",
+ {"@type":"Article","headline":"AG-NOAUTH: Agent HTTP Server: No Authentication Configured","description":"AG-NOAUTH — Agent HTTP Server: No Authentication Configured. The agent exposes its tools over HTTP with no authentication middleware detected. Any process that can reach the server — an internal network attacker How Lucin detects it and how to fix it.","url":"https://lucin.pages.dev/rules/AG-NOAUTH/",
+   "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
+   "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/",
      "sameAs":["https://github.com/Madhav2310/lucinlabs","https://pypi.org/project/lucin/"]}},
  {"@type":"BreadcrumbList","itemListElement":[
-   {"@type":"ListItem","position":1,"name":"Home","item":"https://lucin.security/"},
-   {"@type":"ListItem","position":2,"name":"Rules","item":"https://lucin.security/rules/"},
-   {"@type":"ListItem","position":3,"name":"AG-005","item":"https://lucin.security/rules/AG-005/"}]}
+   {"@type":"ListItem","position":1,"name":"Home","item":"https://lucin.pages.dev/"},
+   {"@type":"ListItem","position":2,"name":"Rules","item":"https://lucin.pages.dev/rules/"},
+   {"@type":"ListItem","position":3,"name":"AG-NOAUTH","item":"https://lucin.pages.dev/rules/AG-NOAUTH/"}]}
 ]}
 </script>
 <style>
@@ -144,22 +144,22 @@ p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color
     <span class="install">$ pip install lucin</span>
   </span>
 </div></nav>
-<main><h1>AG-005: Dangerous Tool Combinations</h1>
+<main><h1>AG-NOAUTH: Agent HTTP Server: No Authentication Configured</h1>
 <div class="rule-meta">
   <span class="chip high">HIGH</span>
-  <span class="chip">AG-005</span>
-  <span class="chip">OWASP ASI01 · ASI02</span>
+  <span class="chip">AG-NOAUTH</span>
+  <span class="chip">OWASP ASI03</span>
 </div>
 <h2>What this rule means</h2>
-<p>Agent has capability combinations that enable attack chains (read+exec, exec+network).</p>
+<p>The agent exposes its tools over HTTP with no authentication middleware detected. Any process that can reach the server — an internal network attacker, or an SSRF vulnerability elsewhere — can invoke agent capabilities directly.</p>
 <h2>Why it matters</h2>
-<p>HuggingFace breach: 17,000+ agent actions using combined capabilities.</p>
+<p>The same class of exposure NSA&#x27;s May 2026 guidance flagged across 200,000+ MCP instances, generalized to any agent HTTP server, not just MCP specifically.</p>
 <h2>How to fix it</h2>
-<p>Separate into multiple agents with narrower scopes.</p>
+<p>Add authentication middleware (Bearer token, API key, or OAuth) before deploying an agent HTTP server.</p>
 <h2>Detect it</h2>
 <pre><code>pip install lucin
 lucin scan .                  # all rules
-lucin explain AG-005          # this rule, in your terminal</code></pre>
+lucin explain AG-NOAUTH          # this rule, in your terminal</code></pre>
 <p>Findings carry a <code>file:line</code> and, where the rule supports it, a witness
 path showing the flow that triggered it. Precision and recall for the whole rule set,
 with the commands that regenerate them, are on the

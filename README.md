@@ -236,7 +236,8 @@ Every number below ships with the command that regenerates it. Numbers on **synt
 corpora are labeled as such; capabilities that genuinely require real users/traces are
 labeled **not-yet-validated (launch-gated)** and are not claimed as done.
 
-Test suite: **517 passing** (12 skipped, 1 xfail) — `python -m pytest tests/ -q`.
+Test suite: **537 passing** (12 skipped, 1 xfail) — `python -m pytest tests/ -q`
+(requires the `dev` extra: `pip install -e ".[dev]"`).
 
 | Capability | Measured result | Regenerate with | Status |
 |-----------|-----------------|-----------------|--------|

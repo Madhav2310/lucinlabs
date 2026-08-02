@@ -7,7 +7,7 @@
 #      custom token with "Cloudflare Pages:Edit" permission on this account.
 #   2. GitHub repo → Settings → Secrets and variables → Actions → New secret:
 #        CLOUDFLARE_API_TOKEN   = the token from step 1
-#        CLOUDFLARE_ACCOUNT_ID  = dc252195f0acca02b4b9f8d48bcb306a
+#        CLOUDFLARE_ACCOUNT_ID  = your account ID (Cloudflare dashboard -> Workers & Pages -> right sidebar)
 
 name: Deploy site to Cloudflare Pages
 

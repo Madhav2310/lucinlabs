@@ -7,12 +7,11 @@ import typer
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from rich.text import Text
 
 from lucin import __version__
-from lucin.scanner import scan_target
-from lucin.reporter import print_findings
 from lucin.html_report import generate_html_report
+from lucin.reporter import print_findings
+from lucin.scanner import scan_target
 
 app = typer.Typer(
     name="lucin",
@@ -40,10 +39,10 @@ def _print_rules_and_exit(value: bool):
     import inspect
     import re
 
-    from lucin.detectors import PER_AGENT_DETECTORS, CROSS_AGENT_DETECTORS
+    from lucin.detectors import CROSS_AGENT_DETECTORS, PER_AGENT_DETECTORS
     from lucin.rule_docs import RULE_CATALOG
 
-    id_pattern = re.compile(r'"id"\s*:\s*"(AG-[A-Z0-9-]+)"|id\s*=\s*f?"(AG-[A-Z0-9-]+)"')
+    id_pattern = re.compile(r'"id"\s*:\s*"(AG-[A-Za-z0-9-]+)"|id\s*=\s*f?"(AG-[A-Za-z0-9-]+)"')
     rows: list[tuple[str, str, str]] = []
     for fn in PER_AGENT_DETECTORS + CROSS_AGENT_DETECTORS:
         module = inspect.getmodule(fn)
@@ -229,7 +228,7 @@ def scan(
     # --pin establishes/updates the trusted baseline; a normal scan checks for
     # dangerous drift ONLY on configs that already have a baseline, so the default
     # scan (and the benign-corpus benchmark) never writes pins or risks a false alarm.
-    from lucin.pinning import save_baseline, has_baseline, detect_rug_pulls
+    from lucin.pinning import detect_rug_pulls, has_baseline, save_baseline
     if pin:
         written = save_baseline(result.agents)
         console.print(
@@ -245,6 +244,7 @@ def scan(
     # fail CI on genuinely new findings. Fingerprint deliberately excludes line
     # numbers (see lucin.models.fingerprint) so unrelated edits don't reset it.
     import json
+
     from lucin.models import fingerprint as _fingerprint
     gating = result.findings
     if write_baseline:
@@ -306,8 +306,9 @@ def scan(
         print_findings(console, result, ci=ci or quiet)
 
     if owasp and output_format not in ("json", "sarif"):
-        from lucin.owasp_report import format_coverage_report
         from rich.panel import Panel as _Panel
+
+        from lucin.owasp_report import format_coverage_report
         console.print()
         console.print(_Panel(
             format_coverage_report(result),
@@ -402,8 +403,8 @@ def fix(
         lucin fix ./my-agent/              # Generate all fixes
         lucin fix ./my-agent/ --id AG-007  # Fix only hardcoded secrets
     """
-    from lucin.fix import generate_fix
     from lucin import telemetry
+    from lucin.fix import generate_fix
     if no_telemetry:
         import os as _os
         _os.environ["LUCIN_TELEMETRY"] = "0"
@@ -474,8 +475,8 @@ def monitor(
         lucin monitor ./traces.jsonl --speed 0.1       # Simulated real-time
         lucin monitor ./traces.jsonl --baseline 30     # Shorter baseline
     """
-    from lucin.monitor import run_monitor_from_file
     from lucin import telemetry
+    from lucin.monitor import run_monitor_from_file
     if no_telemetry:
         import os as _os
         _os.environ["LUCIN_TELEMETRY"] = "0"
@@ -552,8 +553,8 @@ def redteam(
         lucin redteam --api http://localhost:8000/chat  # Test API
         lucin redteam --dry-run ./my-agent/    # Preview attacks
     """
-    from lucin.redteam.cli import run_redteam_command, print_redteam_report
     from lucin import telemetry
+    from lucin.redteam.cli import print_redteam_report, run_redteam_command
     if no_telemetry:
         import os as _os
         _os.environ["LUCIN_TELEMETRY"] = "0"
@@ -585,8 +586,8 @@ def redteam(
 
         # Run multi-turn attacks if requested
         if multi_turn:
+            from lucin.redteam.cli import _create_api_agent, _create_mock_agent
             from lucin.redteam.multiturn_runner import run_multiturn_attacks
-            from lucin.redteam.cli import _create_mock_agent, _create_api_agent
 
             console.print()
             console.print("[bold]Multi-Turn Conversational Attacks:[/bold]")
@@ -621,8 +622,8 @@ def badge(
         lucin badge ./my-agent/                 # Status badge
         lucin badge ./my-agent/ --style score   # Score badge
     """
-    from lucin.badge import generate_badge_svg
     from lucin import telemetry
+    from lucin.badge import generate_badge_svg
     if no_telemetry:
         import os as _os
         _os.environ["LUCIN_TELEMETRY"] = "0"
@@ -703,8 +704,8 @@ def discover(
         lucin discover              # List all MCP configs found
         lucin discover --scan       # Find and scan all configs
     """
-    from lucin.discovery import discover_mcp_configs
     from lucin import telemetry
+    from lucin.discovery import discover_mcp_configs
     if no_telemetry:
         import os as _os
         _os.environ["LUCIN_TELEMETRY"] = "0"
@@ -738,7 +739,7 @@ def discover(
             if result.findings:
                 console.print(f"  [red]{len(result.findings)} findings[/red]")
             else:
-                console.print(f"  [green]Clean[/green]")
+                console.print("  [green]Clean[/green]")
 
 
 @app.command()
@@ -774,7 +775,7 @@ def telemetry(
         console.print()
         console.print("[dim]Never sent: file paths, repo or target names, source code, secret "
                       "values, witness text, tool names, agent names.[/dim]")
-        console.print(f"[dim]Collector source: telemetry-worker/  (allowlist enforced server-side)[/dim]")
+        console.print("[dim]Collector source: telemetry-worker/  (allowlist enforced server-side)[/dim]")
     elif action == "enable":
         tel.enable()
         console.print("[green]Telemetry enabled.[/green]")
@@ -802,8 +803,8 @@ def explain(
         lucin explain AG-TRIFECTA
         lucin explain AG-007
     """
-    from lucin.rule_docs import get_rule_doc
     from lucin import telemetry
+    from lucin.rule_docs import get_rule_doc
     if no_telemetry:
         import os as _os
         _os.environ["LUCIN_TELEMETRY"] = "0"

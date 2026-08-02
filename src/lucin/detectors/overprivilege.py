@@ -3,7 +3,6 @@
 from lucin.models import Agent, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
 
-
 DANGEROUS_COMBOS = [
     {
         "requires": [ToolCapability.READ_DATA, ToolCapability.EXECUTE_CODE],
