@@ -14,16 +14,19 @@ lucin scan --format sarif .  # GitHub code scanning
 lucin discover               # find agent/MCP configs on this machine
 ```
 
-No API key, no signup, no network calls, no telemetry. Exit code is non-zero when
-findings meet `--fail-on <severity>`.
+No API key, no signup, and your code never leaves your machine — the scan itself
+is fully offline. Anonymous usage counts (rule IDs and integers, never code or
+paths) are on by default; disable with `--no-telemetry`, `LUCIN_TELEMETRY=0`, or
+`lucin telemetry disable`. Exit code is non-zero when findings meet
+`--fail-on <severity>`.
 
 ## Links
 
-- [Quickstart](https://lucin.security/docs/) — install and first scan
-- [Detection rules](https://lucin.security/rules/) — every rule ID, what it catches, how to fix it
-- [Benchmarks and methodology](https://lucin.security/benchmarks/) — the numbers and the commands that regenerate them
-- [Limits](https://lucin.security/limits/) — what Lucin does not catch, published deliberately
-- [Threat model](https://lucin.security/docs/threat-model/)
+- [Quickstart](https://lucin.pages.dev/docs/) — install and first scan
+- [Detection rules](https://lucin.pages.dev/rules/) — every rule ID, what it catches, how to fix it
+- [Benchmarks and methodology](https://lucin.pages.dev/benchmarks/) — the numbers and the commands that regenerate them
+- [Limits](https://lucin.pages.dev/limits/) — what Lucin does not catch, published deliberately
+- [Threat model](https://lucin.pages.dev/docs/threat-model/)
 - [Source](https://github.com/Madhav2310/lucinlabs)
 
 ## Notes for an agent reading this

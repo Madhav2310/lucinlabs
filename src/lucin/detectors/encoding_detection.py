@@ -28,6 +28,7 @@ import math
 from collections import Counter
 
 from lucin.models import Agent, Finding, Severity, Tool
+from lucin.owasp import owasp_ref
 
 
 # Minimum length for encoded content to be suspicious
@@ -121,7 +122,7 @@ def _check_text_for_encoding(
                 "Reference: arXiv:2607.05744 (Unicode TAG-Block concealment)"
             ),
             blast_radius="Hidden instructions execute with agent's full permissions.",
-            owasp_ref="A02 - Tool Misuse (via encoding bypass)",
+            owasp_ref=owasp_ref("AG-021"),
             fix_suggestion=(
                 "Strip all zero-width and non-printable characters:\n"
                 "  text = ''.join(c for c in text if c.isprintable())"
@@ -155,7 +156,7 @@ def _check_text_for_encoding(
                             "the hidden instructions execute."
                         ),
                         blast_radius="Depends on decoded content.",
-                        owasp_ref="A02 - Tool Misuse (via encoding bypass)",
+                        owasp_ref=owasp_ref("AG-021"),
                         fix_suggestion="Decode and inspect all base64 content. Block if suspicious.",
                         source_file=source_file,
                         source_line=source_line,
@@ -178,7 +179,7 @@ def _check_text_for_encoding(
             tool_name=tool_name,
             attack_scenario="URL encoding can hide malicious endpoints or parameters from review.",
             blast_radius="Depends on decoded content.",
-            owasp_ref="A02 - Tool Misuse",
+            owasp_ref=owasp_ref("AG-021"),
             fix_suggestion="Decode URL-encoded content and verify it's legitimate.",
             source_file=source_file,
             source_line=source_line,

@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity
+from lucin.owasp import owasp_ref
 
 
 # Patterns for common secret types (regex + description)
@@ -287,7 +288,7 @@ def detect_secrets(agent: Agent) -> list[Finding]:
                         blast_radius=(
                             f"All resources accessible via this {pattern_def['name']}."
                         ),
-                        owasp_ref="A04 - Identity & Access Failures",
+                        owasp_ref=owasp_ref("AG-007"),
                         fix_suggestion=(
                             "Move secrets to environment variables or a secrets manager.\n"
                             "  → Use: os.environ['API_KEY'] instead of hardcoding\n"
@@ -343,7 +344,7 @@ def detect_secrets(agent: Agent) -> list[Finding]:
                             f"Full access to any service this {pattern_def['name']} "
                             f"authenticates with."
                         ),
-                        owasp_ref="A02 - Cryptographic Failures",
+                        owasp_ref=owasp_ref("AG-007"),
                         fix_suggestion=(
                             f"Use an environment variable reference instead of a hardcoded value:\n"
                             f'  "{var_name}": "${{env:{var_name}}}"\n'
@@ -411,7 +412,7 @@ def _detect_base64_encoded_secrets(content: str, filepath: str, agent_name: str)
                             "by anyone with access to the source code."
                         ),
                         blast_radius=f"All resources accessible via this {pattern_def['name']}.",
-                        owasp_ref="A04 - Identity & Access Failures",
+                        owasp_ref=owasp_ref("AG-007"),
                         fix_suggestion=(
                             "Move secrets to environment variables. "
                             "Base64 encoding is NOT encryption — it provides zero security."
@@ -482,7 +483,7 @@ def _detect_high_entropy_secrets(content: str, filepath: str, agent_name: str) -
                         "secret formats should be in environment variables, not source code."
                     ),
                     blast_radius="Unknown — depends on what service this credential accesses.",
-                    owasp_ref="A04 - Identity & Access Failures",
+                    owasp_ref=owasp_ref("AG-007"),
                     fix_suggestion=(
                         "Move to environment variable or secrets manager.\n"
                         "If this is NOT a secret, rename the variable to avoid confusion."

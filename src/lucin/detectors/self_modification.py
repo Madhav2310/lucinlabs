@@ -29,6 +29,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 # Patterns in code that indicate self-modification capability
@@ -164,7 +165,7 @@ def _check_source_write_access(agent: Agent) -> list[Finding]:
                     "Complete agent compromise. Once self-modified, the agent "
                     "operates without its original safety constraints indefinitely."
                 ),
-                owasp_ref="A03 - Privilege Escalation / A01 - Excessive Agency",
+                owasp_ref=owasp_ref("AG-023"),
                 fix_suggestion=(
                     "1. Restrict file write tools to a specific output directory:\n"
                     "   → Never allow writes to the agent's own source/config path\n"
@@ -216,7 +217,7 @@ def _check_state_modification_tools(agent: Agent) -> list[Finding]:
                         "or change its behavior permanently."
                     ),
                     blast_radius="Complete, persistent agent compromise.",
-                    owasp_ref="A03 - Privilege Escalation",
+                    owasp_ref=owasp_ref("AG-023"),
                     fix_suggestion=(
                         "Remove self-modification tools entirely.\n"
                         "Agent configuration should be managed externally "
@@ -273,7 +274,7 @@ def _check_code_patterns(agent: Agent) -> list[Finding]:
                 "a prompt injection could alter the agent's behavior for all future interactions."
             ),
             blast_radius="Potentially persistent behavioral modification.",
-            owasp_ref="A03 - Privilege Escalation",
+            owasp_ref=owasp_ref("AG-023"),
             fix_suggestion=(
                 "1. Set configuration at initialization only (not modifiable after startup)\n"
                 "2. Use immutable data structures for agent config (frozen dataclasses)\n"

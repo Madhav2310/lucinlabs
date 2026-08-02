@@ -29,6 +29,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity, Tool
+from lucin.owasp import owasp_ref
 
 
 # Patterns indicating persistent memory/state
@@ -217,7 +218,7 @@ def detect_memory_poisoning(agent: Agent) -> list[Finding]:
                     f"If memory is shared across users, ALL users are affected. "
                     f"Corruption persists until manually detected and removed."
                 ),
-                owasp_ref="A03 - Memory Poisoning (Agentic AI Top 10)",
+                owasp_ref=owasp_ref("AG-013"),
                 fix_suggestion=(
                     "ARCHITECTURAL DEFENSES (research-verified):\n\n"
                     "1. CORDON Principle (arXiv:2605.26754, 92.4% attack reduction):\n"
@@ -265,7 +266,7 @@ def detect_memory_poisoning(agent: Agent) -> list[Finding]:
                     "- Cross-user contamination if memory is shared"
                 ),
                 blast_radius="All sessions using this memory store.",
-                owasp_ref="A03 - Memory Poisoning (Agentic AI Top 10)",
+                owasp_ref=owasp_ref("AG-013"),
                 fix_suggestion=(
                     "Add input validation before memory writes.\n"
                     "Add periodic integrity checks on stored content.\n"
@@ -294,7 +295,7 @@ def detect_memory_poisoning(agent: Agent) -> list[Finding]:
                     "4. One attacker compromises ALL users simultaneously"
                 ),
                 blast_radius="ALL users and agents sharing this memory store.",
-                owasp_ref="A03 - Memory Poisoning (Agentic AI Top 10)",
+                owasp_ref=owasp_ref("AG-013"),
                 fix_suggestion=(
                     "1. Isolate memory per user (separate namespaces/collections)\n"
                     "2. Use per-user access controls on the memory store\n"
@@ -326,7 +327,7 @@ def detect_memory_poisoning(agent: Agent) -> list[Finding]:
                     "The LLM receives adversarial content as trusted context."
                 ),
                 blast_radius="All queries that retrieve poisoned chunks.",
-                owasp_ref="A03 - Memory Poisoning (Agentic AI Top 10)",
+                owasp_ref=owasp_ref("AG-013"),
                 fix_suggestion=(
                     "Add post-retrieval filtering:\n"
                     "  → Score retrieved chunks for adversarial content before passing to LLM\n"
@@ -360,7 +361,7 @@ def detect_memory_poisoning(agent: Agent) -> list[Finding]:
                     "4. Attack has maximum effectiveness because system > user in priority"
                 ),
                 blast_radius="Maximum — system-prompt-level control over agent behavior.",
-                owasp_ref="A03 - Memory Poisoning (Agentic AI Top 10)",
+                owasp_ref=owasp_ref("AG-013"),
                 fix_suggestion=(
                     "NEVER inject retrieved content into the system prompt.\n"
                     "  → Use HumanMessage or dedicated 'context' role instead\n"

@@ -24,6 +24,7 @@ This is particularly dangerous because:
 """
 
 from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 def detect_delegation_risks(agents: list[Agent]) -> list[Finding]:
@@ -84,7 +85,7 @@ def _check_individual_delegation(agent: Agent) -> list[Finding]:
                 "All actions taken by sub-agents execute with delegated authority. "
                 "The blast radius expands beyond the original agent's intended scope."
             ),
-            owasp_ref="A06 - Cascading Failures (Agentic AI Top 10)",
+            owasp_ref=owasp_ref("AG-014"),
             fix_suggestion=(
                 "1. Require human approval before delegation:\n"
                 "   → LangGraph: interrupt_before on delegation nodes\n"
@@ -153,7 +154,7 @@ def _check_privilege_escalation_via_delegation(agents: list[Agent]) -> list[Find
                         f"All capabilities of '{target.name}': "
                         f"{[c.value for c in target_caps]}"
                     ),
-                    owasp_ref="A03 - Privilege Escalation / A06 - Cascading Failures",
+                    owasp_ref=owasp_ref("AG-014"),
                     fix_suggestion=(
                         f"1. Ensure sub-agents have EQUAL OR FEWER permissions than delegators\n"
                         f"2. Add delegation policy: '{delegator.name}' should only delegate "
@@ -195,7 +196,7 @@ def _check_unrestricted_delegation(agents: list[Agent]) -> list[Finding]:
                 "5. No termination condition exists"
             ),
             blast_radius="Potential infinite resource consumption via delegation loops.",
-            owasp_ref="A05 - Resource Overload / A06 - Cascading Failures",
+            owasp_ref=owasp_ref("AG-014"),
             fix_suggestion=(
                 "1. Set maximum delegation depth (e.g., max 3 hops)\n"
                 "2. Track delegation history and prevent cycles\n"

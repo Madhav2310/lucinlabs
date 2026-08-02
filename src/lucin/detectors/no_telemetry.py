@@ -23,6 +23,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 # Indicators that monitoring/telemetry IS configured.
@@ -107,7 +108,7 @@ def detect_no_telemetry(agent: Agent) -> list[Finding]:
                 "Unknown — without monitoring, the full scope of compromise cannot be determined. "
                 "The Galaxy incident involved 17,000+ actions across multiple systems."
             ),
-            owasp_ref="A01 - Excessive Agency / A05 - Unexpected Code Execution",
+            owasp_ref=owasp_ref("AG-028"),
             fix_suggestion=(
                 "Add observability to your agent:\n"
                 "  → LangChain: Add LangSmith or Langfuse callbacks\n"

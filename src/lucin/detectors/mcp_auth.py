@@ -1,6 +1,7 @@
 """AG-003: Detect unauthenticated MCP servers and MCP auth misconfigurations."""
 
 from lucin.models import Agent, Finding, Severity
+from lucin.owasp import owasp_ref
 
 # API provider tokens that should never be passed through to MCP servers.
 # When these appear in an MCP server's env block, the MCP server can make
@@ -38,7 +39,7 @@ def detect_unauthenticated_mcp(agent: Agent) -> list[Finding]:
                 blast_radius=(
                     f"All {tool_count} tools on server '{server.name}' accessible without credentials."
                 ),
-                owasp_ref="A04 - Identity & Access Failures",
+                owasp_ref=owasp_ref("AG-003"),
                 fix_suggestion=(
                     "Enable OAuth 2.1 authentication on this MCP server.\n"
                     "  See: https://modelcontextprotocol.io/specification/2025-11-25/basic/transports\n"
@@ -63,7 +64,7 @@ def detect_unauthenticated_mcp(agent: Agent) -> list[Finding]:
                     "Network observers can intercept prompts, data, and credentials."
                 ),
                 blast_radius="All data flowing between agent and MCP server is visible to network observers.",
-                owasp_ref="A04 - Identity & Access Failures",
+                owasp_ref=owasp_ref("AG-012"),
                 fix_suggestion="Enable TLS. Use https:// URLs for MCP server connections.",
                 source_file=agent.source_file,
             ))
@@ -103,7 +104,7 @@ def detect_unauthenticated_mcp(agent: Agent) -> list[Finding]:
                     f"Full access to the {', '.join(passed_tokens)} account(s): "
                     f"unlimited API calls, model fine-tuning, data access."
                 ),
-                owasp_ref="A03 - Identity & Privilege Abuse (ASI03)",
+                owasp_ref=owasp_ref("AG-MCP-TOKENLEAK"),
                 fix_suggestion=(
                     "1. Remove the LLM API key from the MCP server env block.\n"
                     "2. The MCP server should use its own credentials for any LLM calls it "

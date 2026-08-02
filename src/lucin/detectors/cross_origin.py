@@ -26,6 +26,7 @@ import re
 from itertools import combinations
 
 from lucin.models import Agent, Finding, Severity, MCPServer, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 def _name_signals(name_lower: str, keywords: list[str]) -> bool:
@@ -112,7 +113,7 @@ def detect_cross_origin(agent: Agent) -> list[Finding]:
                 "via the agent acting as a confused deputy."
             ),
             blast_radius=f"All {len(agent.mcp_servers)} servers' resources are interconnected through the agent.",
-            owasp_ref="A06 - Cascading Failures / MCP Cross-Origin",
+            owasp_ref=owasp_ref("AG-024"),
             fix_suggestion=(
                 "1. Minimize the number of MCP servers per agent (principle of least privilege)\n"
                 "2. Use separate agents for separate concerns (don't connect filesystem + database + network to ONE agent)\n"
@@ -165,7 +166,7 @@ def _analyze_server_pair(server_a: MCPServer, server_b: MCPServer, agent: Agent)
                     f"Resources of both '{server_a.name}' and '{server_b.name}' "
                     f"become interconnected through the agent."
                 ),
-                owasp_ref="A06 - Cascading Failures / MCP Cross-Origin Escalation",
+                owasp_ref=owasp_ref("AG-024"),
                 fix_suggestion=(
                     f"1. Separate into different agents: one for '{server_a.name}', "
                     f"another for '{server_b.name}'\n"
@@ -193,7 +194,7 @@ def _analyze_server_pair(server_a: MCPServer, server_b: MCPServer, agent: Agent)
                 agent_name=agent.name,
                 attack_scenario="Cross-origin trust boundary violation via confused deputy pattern.",
                 blast_radius=f"Resources of both servers exposed.",
-                owasp_ref="A06 - Cascading Failures / MCP Cross-Origin Escalation",
+                owasp_ref=owasp_ref("AG-024"),
                 fix_suggestion="Separate these servers into different agents with distinct scopes.",
                 source_file=agent.source_file,
             ))

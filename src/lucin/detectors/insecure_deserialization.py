@@ -31,6 +31,7 @@ from lucin.detectors._taint import (
     compute_taint, is_tainted, iter_functions, resolve_sig, source_files_for,
 )
 from lucin.parsers.body_inspector import build_import_alias_map
+from lucin.owasp import owasp_ref
 
 
 # Sinks that are ALWAYS unsafe on untrusted input.
@@ -136,7 +137,7 @@ def detect_insecure_deserialization(agent: Agent) -> list[Finding]:
                         "Arbitrary code execution in the agent process — full host takeover, "
                         "credential theft, and lateral movement."
                     ),
-                    owasp_ref="A08 - Software & Data Integrity Failures / ASI01 - Tool Exploitation",
+                    owasp_ref=owasp_ref("AG-DESERIALIZE"),
                     fix_suggestion=(
                         "Never deserialize untrusted data with pickle/marshal/dill/joblib.\n"
                         "  - Use a data-only format: json.loads, or yaml.safe_load / "

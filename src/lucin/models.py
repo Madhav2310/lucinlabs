@@ -1,5 +1,7 @@
 """Core data models for Lucin."""
 
+import hashlib
+import re
 from enum import Enum
 from pydantic import BaseModel
 
@@ -142,79 +144,88 @@ class Finding(BaseModel):
     # not match our findings at all without writing an external rule→CWE adapter.
     cwe: list[str] = []
 
+    # Set by --baseline comparison in the CLI; not part of detection itself.
+    # None = no baseline was used this run. True/False = new vs. previously accepted.
+    is_new: bool | None = None
+
     @property
     def owasp_asi(self) -> list[str]:
-        """Map this finding to OWASP Agentic AI Top 10 (ASI01-ASI10) risks.
+        """Map this finding to OWASP Top 10 for Agentic Applications (ASI01-ASI10) risks.
 
-        OWASP Agentic Security Initiative Top 10 (December 2025):
-        ASI01: Excessive Agency — agent acts beyond intended scope
-        ASI02: Tool Misuse — tools used in unintended/harmful ways
-        ASI03: Privilege Escalation — agent gains unauthorized access
-        ASI04: Supply Chain — malicious tools, packages, MCP servers
-        ASI05: Unexpected Code Execution — arbitrary code execution
-        ASI06: Context Manipulation — poisoning context/memory/RAG
-        ASI07: Memory Poisoning — corrupting persistent state
-        ASI08: Data Exfiltration — unauthorized data extraction
-        ASI09: Human-Agent Trust Exploitation — social engineering via agent
-        ASI10: Resource Overload — DoS via resource consumption
+        See `lucin.owasp` for the authoritative code -> category table (single
+        source of truth, also used to render `owasp_ref` on every Finding).
         """
         return _map_finding_to_asi(self.id, self.owasp_ref)
 
 
-# Mapping from our rule IDs to OWASP ASI risks
-_RULE_TO_ASI = {
-    "AG-001": ["ASI05", "ASI01"],  # Shell = Unexpected Code Exec + Excessive Agency
-    "AG-002": ["ASI08"],            # Data Exfiltration
-    "AG-003": ["ASI03", "ASI04"],   # Unauth MCP = Privilege Escalation + Supply Chain
-    "AG-005": ["ASI01", "ASI02"],   # Dangerous combos = Excessive Agency + Tool Misuse
-    "AG-006": ["ASI01"],            # No HITL = Excessive Agency
-    "AG-007": ["ASI03"],            # Secrets = Privilege Escalation (credential access)
-    "AG-009": ["ASI10", "ASI01"],   # Sub-agent spawning = Resource Overload + Excessive Agency
-    "AG-010": ["ASI10"],            # No rate limit = Resource Overload
-    "AG-011": ["ASI02", "ASI09"],   # Tool poisoning = Tool Misuse + Trust Exploitation
-    "AG-012": ["ASI04"],            # Unencrypted = Supply Chain (MITM)
-    "AG-013": ["ASI07", "ASI06"],   # Memory poisoning + Context Manipulation
-    "AG-014": ["ASI01", "ASI03"],   # Delegation = Excessive Agency + Privilege Escalation
-    "AG-015": ["ASI04"],            # Supply chain
-    "AG-016": ["ASI01", "ASI03"],   # Scope violation = Excessive Agency + Privilege Escalation
-    "AG-017": ["ASI03", "ASI08"],   # Credential access = Privilege Escalation + Exfil
-    "AG-019": ["ASI06", "ASI10"],   # Context overflow = Context Manipulation + Resource
-    "AG-021": ["ASI02", "ASI06"],   # Encoding = Tool Misuse + Context Manipulation
-    "AG-023": ["ASI01", "ASI03"],   # Self-modification = Excessive Agency + Privilege Escalation
-    "AG-024": ["ASI03", "ASI08"],   # Cross-origin = Privilege Escalation + Exfil
-    "AG-025": ["ASI02", "ASI09"],   # Tool shadowing = Tool Misuse + Trust Exploitation
-    "AG-026": ["ASI01", "ASI05"],   # Ambient authority = Excessive Agency + Code Exec
-    "AG-027": ["ASI08", "ASI03"],   # Prompt leakage = Data Exfil + Privilege Escalation
-    "AG-COMP": ["ASI01", "ASI08"],  # Compositional = Excessive Agency + Exfil
-}
-
-
 def _map_finding_to_asi(rule_id: str, owasp_ref: str) -> list[str]:
-    """Map a finding to OWASP ASI risks."""
-    if rule_id in _RULE_TO_ASI:
-        return _RULE_TO_ASI[rule_id]
-    # Fallback: parse from owasp_ref text
+    """Map a finding to OWASP ASI risks, via the shared `lucin.owasp` table."""
+    from lucin.owasp import RULE_TO_ASI
+
+    if rule_id in RULE_TO_ASI:
+        return list(RULE_TO_ASI[rule_id])
+    # AG-005 fires with a sub-id (AG-005a / AG-005b) not tracked on Finding.id.
+    if rule_id == "AG-005":
+        return ["ASI02"]
+    # Fallback: parse from owasp_ref text, in case a rule ID isn't in the table yet.
     mapping = []
     ref_lower = owasp_ref.lower()
-    if "excessive agency" in ref_lower:
+    if "goal hijack" in ref_lower:
         mapping.append("ASI01")
     if "tool misuse" in ref_lower:
         mapping.append("ASI02")
-    if "privilege" in ref_lower:
+    if "identity" in ref_lower or "privilege" in ref_lower:
         mapping.append("ASI03")
     if "supply chain" in ref_lower:
         mapping.append("ASI04")
-    if "code exec" in ref_lower or "unexpected" in ref_lower:
+    if "code execution" in ref_lower:
         mapping.append("ASI05")
-    if "context" in ref_lower or "manipulation" in ref_lower:
+    if "memory" in ref_lower or "context" in ref_lower:
         mapping.append("ASI06")
-    if "memory" in ref_lower:
+    if "inter-agent" in ref_lower:
         mapping.append("ASI07")
-    if "exfiltration" in ref_lower or "cascading" in ref_lower:
+    if "cascading" in ref_lower:
         mapping.append("ASI08")
-    if "resource" in ref_lower or "overload" in ref_lower:
+    if "trust exploitation" in ref_lower:
+        mapping.append("ASI09")
+    if "rogue" in ref_lower:
         mapping.append("ASI10")
     return mapping or ["ASI02"]  # Default to Tool Misuse if no mapping
+
+
+# Back-compat alias — some modules still import this name directly.
+from lucin.owasp import RULE_TO_ASI as _RULE_TO_ASI  # noqa: E402
+
+
+def fingerprint(finding: Finding) -> str:
+    """Stable identity for a finding across unrelated edits, for --baseline mode.
+
+    Deliberately excludes line numbers — any edit above a finding would otherwise
+    invalidate it. That includes line numbers embedded IN the witness text itself
+    (e.g. "...body inspection (agent.py:10)", "...(line 18)") — several detectors
+    write the line number into the witness string, not just into source_line, so
+    those are stripped too before hashing.
+
+    Includes title: several detectors (e.g. AG-007, AG-015, AG-024) emit multiple
+    distinct findings for the same (id, file, tool, agent) with an empty witness —
+    without the title those would collide onto one fingerprint, and a genuinely
+    new one of them could be silently waved through as "accepted." Also includes
+    the (line-stripped) witness so a genuinely different data-flow path in the
+    same function still counts as new.
+    """
+    witness = " ".join(finding.witness)
+    witness = re.sub(r":\d+", "", witness)              # "file.py:10" -> "file.py"
+    witness = re.sub(r"\bline\s+\d+\b", "line", witness, flags=re.IGNORECASE)
+    witness = " ".join(witness.split())                  # collapse whitespace
+    parts = [
+        finding.id,
+        finding.source_file or "",
+        finding.tool_name or "",
+        finding.agent_name or "",
+        finding.title,
+        witness,
+    ]
+    return hashlib.sha256("\x00".join(parts).encode()).hexdigest()[:16]
 
 
 class ScanMetadata(BaseModel):

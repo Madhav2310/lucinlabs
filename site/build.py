@@ -30,13 +30,13 @@ from markdown_it import MarkdownIt
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
-BASE = "https://lucin.security"
+BASE = "https://lucin.pages.dev"
 
 # (output path, source markdown, <title>, meta description, schema type, nav-section)
 PAGES: list[tuple[str, str, str, str, str, str]] = [
     ("docs", "docs/quickstart.md",
      "Quickstart — Lucin",
-     "Install Lucin and scan your first AI agent in under a minute. No API key, no signup, no telemetry — the scanner runs entirely on your machine.",
+     "Install Lucin and scan your first AI agent in under a minute. No API key, no signup, and your code never leaves your machine. Anonymous usage counts are on by default and disable with one command.",
      "TechArticle", "Docs"),
     ("benchmarks", "docs/methodology.md",
      "Benchmarks & methodology — Lucin",

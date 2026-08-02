@@ -1,6 +1,7 @@
 """AG-005: Detect dangerous tool combinations."""
 
 from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 DANGEROUS_COMBOS = [
@@ -10,7 +11,7 @@ DANGEROUS_COMBOS = [
         "title": "Database Access + Code Execution",
         "severity": Severity.HIGH,
         "description": "Agent can read data AND execute code — enables data theft via code execution.",
-        "owasp": "A02 - Tool Misuse",
+        "owasp": owasp_ref("AG-005a"),
     },
     {
         "requires": [ToolCapability.EXECUTE_CODE, ToolCapability.NETWORK_ACCESS],
@@ -18,7 +19,7 @@ DANGEROUS_COMBOS = [
         "title": "Code Execution + Network Access",
         "severity": Severity.HIGH,
         "description": "Agent can execute code AND access network — enables reverse shell or C2.",
-        "owasp": "A02 - Tool Misuse",
+        "owasp": owasp_ref("AG-005b"),
     },
     # NOTE (H4): the former AG-005c (WRITE_DATA + MODIFY_AGENT) was removed as a
     # proven no-op — no capability classifier ever emits ToolCapability.MODIFY_AGENT,

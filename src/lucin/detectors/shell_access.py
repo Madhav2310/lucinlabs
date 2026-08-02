@@ -1,6 +1,7 @@
 """AG-001: Detect unrestricted shell/exec access."""
 
 from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 def detect_unrestricted_shell(agent: Agent) -> list[Finding]:
@@ -68,11 +69,13 @@ def detect_unrestricted_shell(agent: Agent) -> list[Finding]:
                         f"Full system access as the agent's process user. "
                         f"All files, network access, and credentials accessible to that user."
                     ),
-                    owasp_ref="A02 - Tool Misuse",
+                    owasp_ref=owasp_ref("AG-001"),
                     fix_suggestion=(
                         "Add argument allowlist, sandbox execution in a container, "
                         "or require human approval for shell commands.\n"
-                        "  → lucin fix AG-001 --tool {tool_name}".format(tool_name=tool.name)
+                        "  → lucin fix {target} --id AG-001".format(
+                            target=tool.source_file or "."
+                        )
                     ),
                     source_file=tool.source_file,
                     source_line=tool.source_line,

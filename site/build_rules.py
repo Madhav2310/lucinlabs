@@ -33,7 +33,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 SITE = ROOT / "site"
-BASE = "https://lucin.security"
+BASE = "https://lucin.pages.dev"
 
 import lucin.rule_docs as rd  # noqa: E402
 from build import _CSS, _chrome, _footer, tab_header  # reuse the one template  # noqa: E402

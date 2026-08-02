@@ -25,6 +25,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity
+from lucin.owasp import owasp_ref
 
 
 # Tight, single-list fallback used only when the file is not parseable Python.
@@ -172,7 +173,7 @@ def _scan_server_file(filepath: str, agent_name: str) -> list[Finding]:
                 "or code execution, this is equivalent to remote code execution on the "
                 "victim's machine."
             ),
-            owasp_ref="A05 - Security Misconfiguration / ASI03 - Privilege Abuse",
+            owasp_ref=owasp_ref("AG-CORS"),
             fix_suggestion=(
                 "Replace wildcard with explicit origins:\n\n"
                 '  allow_origins=["https://your-app.example.com"]  # explicit allowlist\n\n'
@@ -204,7 +205,7 @@ def _scan_server_file(filepath: str, agent_name: str) -> list[Finding]:
                 "agent API → invoke tools without credentials."
             ),
             blast_radius="All agent tools accessible without authentication.",
-            owasp_ref="A07 - Identification and Authentication Failures",
+            owasp_ref=owasp_ref("AG-NOAUTH"),
             fix_suggestion=(
                 "Add authentication middleware before deploying:\n"
                 "  from fastapi.security import HTTPBearer\n"

@@ -9,39 +9,16 @@ Blueprint §4.4: "the detection catalog mapped to OWASP ASI."
 
 from __future__ import annotations
 
-from lucin.models import ScanResult, _RULE_TO_ASI
+from lucin.models import ScanResult
+from lucin.owasp import ASI, RULE_TO_ASI
 
-# Full OWASP ASI taxonomy (OWASP Agentic Security Initiative, Dec 2025)
-ASI_DESCRIPTIONS = {
-    "ASI01": "Excessive Agency — agent acts beyond intended scope",
-    "ASI02": "Tool Misuse — tools used in unintended/harmful ways",
-    "ASI03": "Identity & Privilege Abuse — unauthorized access or escalation",
-    "ASI04": "Agentic Supply Chain — malicious tools, packages, MCP servers",
-    "ASI05": "Unexpected Code Execution — arbitrary code execution",
-    "ASI06": "Context Manipulation — poisoning context/memory/RAG",
-    "ASI07": "Memory Poisoning — corrupting persistent agent state",
-    "ASI08": "Data Exfiltration — unauthorized data extraction",
-    "ASI09": "Human-Agent Trust Exploitation — social engineering via agent",
-    "ASI10": "Resource Overload — DoS via resource consumption",
+# Full OWASP ASI taxonomy — single source of truth in lucin.owasp.
+ASI_DESCRIPTIONS = ASI
+
+# Which ASI items each detector covers (static — regardless of what fires).
+DETECTOR_COVERAGE: dict[str, list[str]] = {
+    rule_id: list(asi_codes) for rule_id, asi_codes in RULE_TO_ASI.items()
 }
-
-# Which ASI items each detector covers (static — regardless of what fires)
-DETECTOR_COVERAGE: dict[str, list[str]] = {}
-for rule_id, asi_list in _RULE_TO_ASI.items():
-    DETECTOR_COVERAGE[rule_id] = asi_list
-
-# Add new detectors not yet in models.py mapping
-DETECTOR_COVERAGE.update({
-    "AG-TRIFECTA":         ["ASI01", "ASI08"],
-    "AG-MCP-TOKENLEAK":    ["ASI03", "ASI04"],
-    "AG-SQL":              ["ASI02", "ASI05"],  # tool parameter injection → SQL exec
-    "AG-CORS":             ["ASI03"],           # missing origin restriction on agent API
-    "AG-ENV-FALLBACK":     ["ASI03", "ASI04"],  # hardcoded secret fallback → credential exposure
-    "AG-FRAMEWORK-PIN":    ["ASI04"],           # unpinned dependency → supply chain rug-pull
-    "AG-DOCKER-EXEC":      ["ASI01", "ASI05"],  # container escape → code exec + excessive agency
-    "AG-RAG-NO-SANITIZE":  ["ASI06", "ASI07"],  # indirect prompt injection via RAG → context/memory
-    "AG-NOAUTH":           ["ASI03"],           # no auth on agent HTTP endpoint
-})
 
 
 def coverage_report(result: ScanResult) -> dict:

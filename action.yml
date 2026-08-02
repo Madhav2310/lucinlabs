@@ -1,7 +1,7 @@
 # Lucin GitHub Action
 #
 # Usage in your workflow:
-#   - uses: lucin/lucin@v1
+#   - uses: Madhav2310/lucinlabs@v1
 #     with:
 #       scan-path: './src/agents'
 #       fail-on: 'high'
@@ -33,6 +33,14 @@ inputs:
     description: 'Python version to use'
     required: false
     default: '3.12'
+  version:
+    description: 'Lucin version to install (pin this in production)'
+    required: false
+    default: '0.1.2'
+  baseline:
+    description: 'Path to a Lucin findings-baseline file. Only new findings fail the build.'
+    required: false
+    default: ''
 
 outputs:
   score:
@@ -58,27 +66,50 @@ runs:
 
     - name: Install Lucin
       shell: bash
-      run: pip install lucin
+      run: pip install "lucin==${{ inputs.version }}"
 
     - name: Run scan
       id: scan
       shell: bash
       run: |
-        # Run scan and capture JSON output
-        lucin scan ${{ inputs.scan-path }} --format json --output /tmp/lucin-results.json || true
-
-        # Extract metrics from JSON
-        if [ -f /tmp/lucin-results.json ]; then
-          FINDINGS=$(python3 -c "import json; d=json.load(open('/tmp/lucin-results.json')); print(len(d.get('findings', [])))")
-          CRITICAL=$(python3 -c "import json; d=json.load(open('/tmp/lucin-results.json')); print(sum(1 for f in d.get('findings', []) if f['severity']=='critical'))")
-          HIGH=$(python3 -c "import json; d=json.load(open('/tmp/lucin-results.json')); print(sum(1 for f in d.get('findings', []) if f['severity']=='high'))")
-          echo "findings=$FINDINGS" >> $GITHUB_OUTPUT
-          echo "critical=$CRITICAL" >> $GITHUB_OUTPUT
-          echo "high=$HIGH" >> $GITHUB_OUTPUT
+        # Run scan once and capture JSON output; a failed install/crash fails the job.
+        BASELINE_ARG=""
+        if [ -n "${{ inputs.baseline }}" ]; then
+          BASELINE_ARG="--baseline ${{ inputs.baseline }}"
         fi
+        lucin scan ${{ inputs.scan-path }} --ci --format json --output /tmp/lucin-results.json $BASELINE_ARG
 
-        # Run with fail-on threshold
-        lucin scan ${{ inputs.scan-path }} --ci --fail-on ${{ inputs.fail-on }}
+        FINDINGS=$(python3 -c "import json; d=json.load(open('/tmp/lucin-results.json')); print(len(d.get('findings', [])))")
+        CRITICAL=$(python3 -c "import json; d=json.load(open('/tmp/lucin-results.json')); print(sum(1 for f in d.get('findings', []) if f['severity']=='critical'))")
+        HIGH=$(python3 -c "import json; d=json.load(open('/tmp/lucin-results.json')); print(sum(1 for f in d.get('findings', []) if f['severity']=='high'))")
+        echo "findings=$FINDINGS" >> $GITHUB_OUTPUT
+        echo "critical=$CRITICAL" >> $GITHUB_OUTPUT
+        echo "high=$HIGH" >> $GITHUB_OUTPUT
+
+        # Decide pass/fail from the JSON we already have — no second scan.
+        python3 - <<'PY'
+        import json, os, sys
+        order = ["info", "low", "medium", "high", "critical"]
+        threshold = os.environ["FAIL_ON"].lower()
+        try:
+            findings = json.load(open("/tmp/lucin-results.json")).get("findings", [])
+        except FileNotFoundError:
+            print("::error::Lucin produced no report — the scan failed.")
+            sys.exit(1)
+        bar = order.index(threshold)
+        # A baseline marks pre-existing findings is_new=False — only new ones can fail the build.
+        blocking = [f for f in findings
+                    if order.index(f["severity"]) >= bar and f.get("is_new") is not False]
+        for f in blocking:
+            print(f"::error file={f.get('source_file','')},line={f.get('source_line', 1) or 1}::"
+                  f"[{f['id']}] {f['title']}")
+        if blocking:
+            print(f"::error::{len(blocking)} finding(s) at or above '{threshold}'.")
+            sys.exit(1)
+        print(f"Lucin: no findings at or above '{threshold}'.")
+        PY
+      env:
+        FAIL_ON: ${{ inputs.fail-on }}
 
     - name: Display results
       if: always()

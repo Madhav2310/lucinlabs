@@ -34,6 +34,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity, MCPServer
+from lucin.owasp import owasp_ref
 
 
 # Patterns indicating unpinned/unverified MCP server installation
@@ -221,7 +222,7 @@ def _analyze_server_supply_chain(server: MCPServer, agent: Agent) -> list[Findin
                 "4. All data flowing through the tool is accessible to the attacker"
             ),
             blast_radius=f"All operations through server '{server.name}'.",
-            owasp_ref="A08 - Supply Chain Attacks (Typosquatting)",
+            owasp_ref=owasp_ref("AG-015"),
             fix_suggestion=(
                 f"Verify you intended to use '{server.name}' and not '{closest}'.\n"
                 f"Check the package on npm/pypi for: publish date, maintainer, download count.\n"
@@ -308,7 +309,7 @@ def _analyze_server_supply_chain(server: MCPServer, agent: Agent) -> list[Findin
                 f"If the server has filesystem/network/database tools, the attacker "
                 f"gains equivalent access. In the Postmark case: every corporate email."
             ),
-            owasp_ref="A08 - Supply Chain Attacks (Agentic AI Top 10)",
+            owasp_ref=owasp_ref("AG-015"),
             fix_suggestion=(
                 "1. Pin to exact version:\n"
                 "   \"args\": [\"-y\", \"@modelcontextprotocol/server-filesystem@1.2.3\"]\n"
@@ -354,7 +355,7 @@ def _analyze_server_supply_chain(server: MCPServer, agent: Agent) -> list[Findin
                 "4. All tool calls now go through the attacker"
             ),
             blast_radius=f"All operations through server '{server.name}'.",
-            owasp_ref="A08 - Supply Chain Attacks (Agentic AI Top 10)",
+            owasp_ref=owasp_ref("AG-015"),
             fix_suggestion=(
                 "Use HTTPS for all MCP server connections.\n"
                 "Verify server TLS certificates.\n"
@@ -412,7 +413,7 @@ def _analyze_config_file(agent: Agent) -> list[Finding]:
                 "(Jan 2026) compromised 1,200+ packages simultaneously."
             ),
             blast_radius=f"All {server_count} MCP servers are potential attack vectors.",
-            owasp_ref="A08 - Supply Chain Attacks (Agentic AI Top 10)",
+            owasp_ref=owasp_ref("AG-015"),
             fix_suggestion=(
                 "Create an MCP server lockfile that pins versions and checksums:\n"
                 "1. Document all MCP servers with exact versions\n"

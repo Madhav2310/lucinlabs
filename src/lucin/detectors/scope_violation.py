@@ -29,6 +29,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 # File paths that indicate scope violation for coding agents
@@ -177,7 +178,7 @@ def _check_coding_agent_scope(agent: Agent) -> list[Finding]:
                         "This is the exact pattern from the Cursor credential exfiltration (Jul 2025)."
                     ),
                     blast_radius="All files accessible to the user running the coding agent.",
-                    owasp_ref="A01 - Excessive Agency",
+                    owasp_ref=owasp_ref("AG-016"),
                     fix_suggestion=(
                         "Restrict file tools to the project directory:\n"
                         "  → Set working directory: cwd='/path/to/project'\n"
@@ -228,7 +229,7 @@ def _check_browser_credential_access(agent: Agent) -> list[Finding]:
                     "and includes it in responses."
                 ),
                 blast_radius="ALL saved credentials in the browser profile.",
-                owasp_ref="A04 - Identity & Access Failures",
+                owasp_ref=owasp_ref("AG-017"),
                 fix_suggestion=(
                     "1. Browser agents should NEVER have access to credential stores\n"
                     "2. Use isolated browser profiles with no saved credentials\n"
@@ -273,7 +274,7 @@ def _check_sensitive_path_access(agent: Agent) -> list[Finding]:
                         tool_name=tool.name,
                         attack_scenario=f"Agent can read {description} at {path}.",
                         blast_radius=f"Contents of {path} ({description}).",
-                        owasp_ref="A04 - Identity & Access Failures",
+                        owasp_ref=owasp_ref("AG-016"),
                         fix_suggestion=f"Block access to {path}. Use path allowlisting.",
                         source_file=agent.source_file,
                         source_line=tool.source_line,
@@ -382,7 +383,7 @@ def _check_mcp_filesystem_paths(agent: Agent) -> list[Finding]:
                         "5. Any database files, env files, or config with secrets"
                     ),
                     blast_radius="ENTIRE filesystem. All data on the machine.",
-                    owasp_ref="A01 - Excessive Agency / A04 - Identity & Access Failures",
+                    owasp_ref=owasp_ref("AG-016"),
                     fix_suggestion=(
                         "Restrict to specific project directories:\n"
                         "  \"args\": [\"-y\", \"@modelcontextprotocol/server-filesystem\", "
@@ -412,7 +413,7 @@ def _check_mcp_filesystem_paths(agent: Agent) -> list[Finding]:
                             f"'{arg}', exposing {description} to the attacker."
                         ),
                         blast_radius=f"All {description} accessible at {arg}.",
-                        owasp_ref="A04 - Identity & Access Failures",
+                        owasp_ref=owasp_ref("AG-016"),
                         fix_suggestion=(
                             f"Remove '{arg}' from filesystem server access.\n"
                             f"Only grant access to project-specific directories."

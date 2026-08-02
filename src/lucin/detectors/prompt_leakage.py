@@ -22,6 +22,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity
+from lucin.owasp import owasp_ref
 
 
 # Patterns that indicate sensitive content in prompts/instructions
@@ -92,7 +93,7 @@ def detect_prompt_leakage(agent: Agent) -> list[Finding]:
                     "details for further attacks"
                 ),
                 blast_radius=f"Disclosure of {description.lower()} from system prompt.",
-                owasp_ref="A04 - Identity & Access Failures / Information Disclosure",
+                owasp_ref=owasp_ref("AG-027"),
                 fix_suggestion=(
                     "1. NEVER put credentials, internal URLs, or secrets in system prompts\n"
                     "2. Load sensitive config from environment variables at runtime\n"

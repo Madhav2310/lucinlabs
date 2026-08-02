@@ -20,6 +20,7 @@ The key insight: the WHOLE is more dangerous than the sum of its parts.
 from itertools import combinations
 
 from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 # Dangerous N-way compositions — genuinely novel combinations not covered by AG-002/AG-005.
@@ -132,7 +133,7 @@ def detect_compositional_risk(agent: Agent) -> list[Finding]:
                 "Emergent attack surface from tool composition. "
                 "Individual tools may pass review; the COMBINATION creates the vulnerability."
             ),
-            owasp_ref="A06 - Cascading Failures (Compositional)",
+            owasp_ref=owasp_ref("AG-COMP"),
             fix_suggestion=(
                 "1. Apply principle of least privilege: does this agent NEED all these capabilities?\n"
                 "2. Separate into multiple agents with narrower scopes\n"

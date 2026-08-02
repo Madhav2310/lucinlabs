@@ -153,7 +153,7 @@ def check_sitemap() -> list[str]:
     locs = [e.text.strip() for e in root.findall(".//s:loc", ns)] or \
            [e.text.strip() for e in root.iter() if e.tag.endswith("loc") and e.text]
     for loc in locs:
-        path = loc.split("lucin.security", 1)[-1].strip("/")
+        path = loc.split("lucin.pages.dev", 1)[-1].strip("/")
         candidates = [SITE / "index.html"] if not path else [
             SITE / path / "index.html", SITE / f"{path}.html", SITE / path]
         if not any(c.exists() for c in candidates):

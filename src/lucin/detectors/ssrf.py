@@ -33,6 +33,7 @@ from lucin.detectors._taint import (
     source_files_for,
 )
 from lucin.parsers.body_inspector import build_import_alias_map, _resolve_call_name
+from lucin.owasp import owasp_ref
 
 
 # Network fetch sinks. url is positional-0 or the `url=` keyword for all of these.
@@ -239,7 +240,7 @@ def detect_ssrf(agent: Agent) -> list[Finding]:
                         "internal port scanning, and firewall bypass from the server's "
                         "network position."
                     ),
-                    owasp_ref="A10 - SSRF / ASI02 - Tool Misuse",
+                    owasp_ref=owasp_ref("AG-SSRF"),
                     fix_suggestion=(
                         "Validate the destination before fetching:\n"
                         "  - Parse the URL and enforce an ALLOWLIST of scheme + host.\n"

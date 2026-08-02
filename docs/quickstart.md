@@ -67,6 +67,24 @@ Exit code is non-zero when a finding at or above the `--fail-on` severity is pre
 it drops straight into a CI gate. See the repo's `examples/ci/` for GitHub Actions and
 GitLab CI snippets.
 
+### Adding Lucin to a repo that already has findings
+
+You do not have to fix everything to start. Accept the current state, then hold the line:
+
+```bash
+lucin scan . --write-baseline .lucin-baseline.json
+git add .lucin-baseline.json && git commit -m "Accept current Lucin findings as baseline"
+```
+
+From then on, CI fails only on findings that are *new*:
+
+```bash
+lucin scan . --ci --fail-on high --baseline .lucin-baseline.json
+```
+
+Existing findings still appear in the output, marked as accepted, so the debt stays
+visible. When you fix one, Lucin tells you.
+
 ## Other commands
 
 | Command | What it does |
@@ -82,7 +100,7 @@ not part of the validated core — see [what SCAN misses](/limits/).
 
 ## Telemetry
 
-On by default: anonymous counts only (version, OS, framework detected, per-rule
+Anonymous usage counts are on by default: version, OS, framework detected, per-rule
 finding counts, timing) — never file paths, code, secrets, or names. Enforced
 server-side by an allowlist, not just a promise. Turn off with
 `lucin scan --no-telemetry`, `LUCIN_TELEMETRY=0`, or `lucin telemetry disable`.

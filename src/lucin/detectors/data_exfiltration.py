@@ -8,6 +8,7 @@ Enhanced with body-inspection intelligence:
 """
 
 from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 def detect_data_exfiltration(agent: Agent) -> list[Finding]:
@@ -124,7 +125,7 @@ def detect_data_exfiltration(agent: Agent) -> list[Finding]:
                 f"All data accessible via: {read_names}. "
                 f"Could include PII, credentials, financial data, or proprietary information."
             ),
-            owasp_ref="A06 - Cascading Hallucination Failures",
+            owasp_ref=owasp_ref("AG-002"),
             fix_suggestion=(
                 "Options:\n"
                 "  1. Remove network access tool from this agent (separation of concerns)\n"

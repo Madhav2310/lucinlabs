@@ -38,6 +38,7 @@ from lucin.detectors._taint import (
     source_files_for,
 )
 from lucin.parsers.body_inspector import build_import_alias_map
+from lucin.owasp import owasp_ref
 
 
 # Function-style file sinks (path is a positional arg).
@@ -211,7 +212,7 @@ def detect_path_traversal(agent: Agent) -> list[Finding]:
                         "Arbitrary file read (credential/secret disclosure) or arbitrary file "
                         "write/delete (config tampering, code overwrite → RCE) on the host."
                     ),
-                    owasp_ref="A01 - Broken Access Control / ASI02 - Tool Misuse",
+                    owasp_ref=owasp_ref("AG-PATH-TRAVERSAL"),
                     fix_suggestion=(
                         "Normalize AND contain the path before use:\n"
                         "  base = Path(BASE_DIR).resolve()\n"

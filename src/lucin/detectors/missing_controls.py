@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.owasp import owasp_ref
 
 # Framework-level HITL patterns recognized from the corpus.
 # These exist at the orchestration layer (not per-tool), but they ARE genuine
@@ -81,7 +82,7 @@ def detect_missing_controls(agent: Agent) -> list[Finding]:
                 f"All resources accessible to: {tool_names}. "
                 f"Actions are irreversible once executed."
             ),
-            owasp_ref="A01 - Excessive Agency",
+            owasp_ref=owasp_ref("AG-006"),
             fix_suggestion=(
                 "Add human-in-the-loop for high-risk actions:\n"
                 "  → LangGraph: use interrupt_before on destructive nodes\n"
@@ -108,7 +109,7 @@ def detect_missing_controls(agent: Agent) -> list[Finding]:
                 "additional agents to amplify its access scope."
             ),
             blast_radius="Potential infinite resource consumption; cascading compromise across sub-agents.",
-            owasp_ref="A05 - Resource Overload",
+            owasp_ref=owasp_ref("AG-009"),
             fix_suggestion=(
                 "Set explicit limits on:\n"
                 "  → Maximum recursion depth for agent delegation\n"
@@ -143,7 +144,7 @@ def detect_missing_controls(agent: Agent) -> list[Finding]:
                     "17,000+ actions — rate limiting would have triggered detection earlier."
                 ),
                 blast_radius="Unlimited invocations of high-risk tools at machine speed.",
-                owasp_ref="A05 - Resource Overload",
+                owasp_ref=owasp_ref("AG-010"),
                 fix_suggestion=(
                     "Add rate limiting:\n"
                     "  → Max N tool calls per minute per tool type\n"
@@ -205,7 +206,7 @@ def _detect_ambient_authority(agent: Agent) -> list[Finding]:
                     "4. Attacker has shell access as the user running the agent"
                 ),
                 blast_radius="Full host system access. All files, credentials, network.",
-                owasp_ref="A01 - Excessive Agency / A03 - Privilege Escalation",
+                owasp_ref=owasp_ref("AG-026"),
                 fix_suggestion=(
                     "Set `use_docker: True` to isolate code execution in containers.\n"
                     "Or use a restricted sandbox (firejail, nsjail, gVisor).\n"
@@ -232,7 +233,7 @@ def _detect_ambient_authority(agent: Agent) -> list[Finding]:
                 "and escape to the host trivially."
             ),
             blast_radius="Full host access despite being 'containerized'.",
-            owasp_ref="A03 - Privilege Escalation",
+            owasp_ref=owasp_ref("AG-026"),
             fix_suggestion="Remove --privileged. Use specific --cap-add for needed capabilities only.",
             source_file=agent.source_file,
         ))
@@ -260,7 +261,7 @@ def _detect_ambient_authority(agent: Agent) -> list[Finding]:
                         "no human checkpoint to catch malicious behavior."
                     ),
                     blast_radius="All actions the code executor can perform.",
-                    owasp_ref="A01 - Excessive Agency",
+                    owasp_ref=owasp_ref("AG-026"),
                     fix_suggestion=(
                         "Set human_input_mode='ALWAYS' or 'TERMINATE' for destructive ops.\n"
                         "Or add a code review step before execution."

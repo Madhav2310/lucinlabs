@@ -1,14 +1,14 @@
 """Red team CLI command — wire attacks into the lucin CLI.
 
 Usage:
-    # Test a Python function directly
-    lucin redteam --target "my_agent:chat" ./agent.py
+    # Targeted attacks, informed by a static scan of the agent's tools (default)
+    lucin redteam ./my-agent/
 
-    # Test an HTTP API endpoint
+    # Test an HTTP API endpoint instead of a local agent
     lucin redteam --api http://localhost:8000/chat
 
-    # Test with targeted attacks (informed by static scan)
-    lucin redteam --targeted ./my-agent/
+    # Generic attacks instead of tool-informed ones
+    lucin redteam ./my-agent/ --generic
 
     # Dry run: show what attacks WOULD be sent without executing
     lucin redteam --dry-run ./my-agent/

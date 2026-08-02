@@ -5,28 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lucin — Your agent can be talked into anything</title>
 <meta name="description" content="Other scanners read tool names and guess. Lucin reads the code inside every tool your AI agent can call and traces the exact path from a poisoned prompt to your data leaving the building. Free, open source, no API key.">
-<link rel="canonical" href="https://lucin.security/">
+<link rel="canonical" href="https://lucin.pages.dev/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Lucin">
-<meta property="og:url" content="https://lucin.security/">
+<meta property="og:url" content="https://lucin.pages.dev/">
 <meta property="og:title" content="Lucin — Your agent can be talked into anything">
 <meta property="og:description" content="Lucin traces the exact path from a poisoned prompt to your data leaving the building — then hands you the cut that closes it. Free, open source, reproducible false-positive rate.">
-<meta property="og:image" content="https://lucin.security/og.png">
+<meta property="og:image" content="https://lucin.pages.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Lucin scan output showing an agent information-flow graph with an exfiltration path highlighted">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Lucin — Your agent can be talked into anything">
 <meta name="twitter:description" content="Open-source AI-agent security scanner with a published, reproducible false-positive rate.">
-<meta name="twitter:image" content="https://lucin.security/og.png">
+<meta name="twitter:image" content="https://lucin.pages.dev/og.png">
 
 <!-- Structured data. SoftwareApplication is the type that actually matters for a
      dev tool; Organization anchors the brand entity for search + AI answer engines.
-     codeRepository/license are machine-readable attribution, not a UI link — the
-     visible GitHub nav/footer link was deliberately dropped from this redesign,
-     but that is a chrome decision, not a "hide the license" decision. -->
+     codeRepository/license are machine-readable attribution — the nav and footer
+     also carry a visible, clickable GitHub link (see .nav-gh / footer). -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"SoftwareApplication",
@@ -36,7 +35,7 @@
   "operatingSystem":"macOS, Linux, Windows",
   "programmingLanguage":"Python",
   "description":"Static analyzer for AI agents. Maps information flow through an agent's tools to find paths where untrusted input can reach a dangerous action, and publishes a reproducible false-positive rate.",
-  "url":"https://lucin.security/",
+  "url":"https://lucin.pages.dev/",
   "downloadUrl":"https://pypi.org/project/lucin/",
   "codeRepository":"https://github.com/Madhav2310/lucinlabs",
   "license":"https://github.com/Madhav2310/lucinlabs/blob/main/LICENSE",
@@ -44,7 +43,7 @@
             "description":"Open-source scanner, free forever"}},
  {"@type":"Organization",
   "name":"Lucin Labs",
-  "url":"https://lucin.security/",
+  "url":"https://lucin.pages.dev/",
   "description":"Security tooling for AI agents, with published and reproducible detection metrics."}
 ]}
 </script>
@@ -92,6 +91,11 @@ nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-con
 .nav-cta{background:var(--ink);color:var(--paper) !important;padding:10px 18px;border-radius:2px;
   text-decoration:none;transition:background .15s;border-bottom:0 !important}
 .nav-cta:hover{background:var(--red);color:#fff !important}
+.nav-gh{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;
+  font-size:14px;color:#141414;text-decoration:none}
+.nav-gh:hover{color:#D6321F}
+.gh-stars{font-family:"IBM Plex Mono",monospace;font-size:12px;color:#6C7076}
+.gh-stars:empty{display:none}
 .scroll-hairline{position:absolute;left:0;bottom:-2px;height:2px;background:var(--red);width:0;transition:width .08s linear}
 
 /* ---- hero ---- */
@@ -261,6 +265,11 @@ pre.term-body{margin:0;padding:26px 28px 30px;font-family:var(--mono);font-size:
 .join-submit:hover{background:#F0392A;transform:translateY(-1px)}
 .join-sent{margin-top:28px;font-size:15px;color:#7FE0A8;font-family:var(--mono)}
 .hidden{display:none !important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.join-form input,.join-form select{font-size:16px}
+.join-error{color:#F0917F;font-size:13px;margin-top:8px;width:100%;text-align:center}
+.join-submit[aria-busy="true"]{opacity:.6;pointer-events:none}
 
 footer.site-footer{max-width:1360px;margin:0 auto;padding:26px 48px 40px;display:flex;
   justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);
@@ -296,7 +305,15 @@ footer.site-footer a:hover{color:var(--red)}
     <a href="#proof" data-jump="proof">Benchmarks</a>
     <a href="/blog/">Blog</a>
     <a href="/docs/">Docs</a>
-    <a class="nav-cta" href="#join" data-jump="join">Scan your agent</a>
+    <a class="nav-gh" href="https://github.com/Madhav2310/lucinlabs"
+       target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.42 7.42 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A7.995 7.995 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+      </svg>
+      <span>GitHub</span>
+      <span class="gh-stars" id="ghStars" aria-label="GitHub stars"></span>
+    </a>
+    <a class="nav-cta" href="/docs/">Scan your agent</a>
   </div>
   <div class="scroll-hairline" id="scrollHairline"></div>
 </nav>
@@ -469,7 +486,7 @@ footer.site-footer a:hover{color:var(--red)}
         <span class="term-title">.github/workflows/security.yml</span>
         <span class="term-title warn">exit 1 — blocked</span>
       </div>
-      <pre class="term-body"><span style="color:#8A8F98">- uses:</span> lucin/scan-action<span style="color:#8A8F98">@v1</span>
+      <pre class="term-body"><span style="color:#8A8F98">- uses:</span> Madhav2310/lucinlabs<span style="color:#8A8F98">@v1</span>
   <span style="color:#8A8F98">with:</span>
     fail-on: critical
     format: sarif
@@ -507,7 +524,7 @@ Process completed with exit code 1.</span>
     </div>
     <div class="stat-cell">
       <div>
-        <div class="stat-num"><span id="countRecall">0</span>%</div>
+        <div class="stat-num"><span id="countRecall" data-target="76">76</span>%</div>
         <div class="stat-label">recall on labelled vulns</div>
         <div class="stat-sub">50 held-out cases, 10 classes</div>
       </div>
@@ -515,7 +532,7 @@ Process completed with exit code 1.</span>
     </div>
     <div class="stat-cell">
       <div>
-        <div class="stat-num" id="countDetectors">0</div>
+        <div class="stat-num" id="countDetectors" data-target="27">27</div>
         <div class="stat-label">active detectors</div>
         <div class="stat-sub">mapped to OWASP &amp; MITRE ATLAS</div>
       </div>
@@ -523,7 +540,7 @@ Process completed with exit code 1.</span>
     </div>
     <div class="stat-cell">
       <div>
-        <div class="stat-num" id="countFrameworks">0</div>
+        <div class="stat-num" id="countFrameworks" data-target="8">8</div>
         <div class="stat-label">frameworks supported</div>
         <div class="stat-sub">LangChain, CrewAI, AutoGen, MCP…</div>
       </div>
@@ -576,17 +593,24 @@ Process completed with exit code 1.</span>
     <h2>Get GUARD before everyone else.</h2>
     <p>We're taking a small number of design partners. Tell us what you're running; we reply within a day.</p>
     <div class="join-sent hidden" id="joinSent">Got it. We'll be in touch within a day.</div>
-    <form class="join-form" id="joinForm">
-      <input type="text" placeholder="Name" id="joinName" required>
-      <input type="email" placeholder="Work email" id="joinEmail" required>
-      <select id="joinRole">
+    <form class="join-form" id="joinForm" method="post"
+          action="https://lucin-leads.candura-telemetry.workers.dev/" novalidate>
+      <label class="sr-only" for="joinName">Name</label>
+      <input type="text" name="name" id="joinName" placeholder="Name"
+             autocomplete="name" required>
+      <label class="sr-only" for="joinEmail">Work email</label>
+      <input type="email" name="email" id="joinEmail" placeholder="Work email"
+             autocomplete="email" inputmode="email" required>
+      <label class="sr-only" for="joinRole">What are you running?</label>
+      <select name="stack" id="joinRole">
         <option value="">What are you running?</option>
         <option value="langchain">LangChain / LangGraph</option>
         <option value="crewai">CrewAI</option>
         <option value="mcp">MCP servers</option>
         <option value="other">Something else</option>
       </select>
-      <button type="submit" class="join-submit">Request access</button>
+      <button type="submit" class="join-submit" id="joinSubmit">Request access</button>
+      <p class="join-error hidden" id="joinError" role="alert"></p>
     </form>
   </div>
 </section>
@@ -598,6 +622,7 @@ Process completed with exit code 1.</span>
     <a href="/docs/">Docs</a>
     <a href="/rules/">Rules</a>
     <a href="/limits/">Limits</a>
+    <a href="https://github.com/Madhav2310/lucinlabs" target="_blank" rel="noopener">GitHub</a>
   </span>
 </footer>
 
@@ -636,6 +661,19 @@ Process completed with exit code 1.</span>
     copyBtn.textContent = "Copied";
     setTimeout(function () { copyBtn.textContent = "Copy"; }, 1500);
   });
+
+  /* ---- github star count (best-effort) ---- */
+  var ghStars = document.getElementById("ghStars");
+  if (ghStars) {
+    fetch("https://api.github.com/repos/Madhav2310/lucinlabs")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (d && typeof d.stargazers_count === "number" && d.stargazers_count > 0) {
+          ghStars.textContent = "★ " + d.stargazers_count;
+        }
+      })
+      .catch(function () {});
+  }
 
   /* ---- output tabs ---- */
   var tabButtons = document.querySelectorAll(".tabs button");
@@ -682,23 +720,22 @@ Process completed with exit code 1.</span>
   function startCounts() {
     if (countsStarted) return;
     countsStarted = true;
-    var targets = { countRecall: 76, countDetectors: 27, countFrameworks: 8 };
-    var els = {
-      countRecall: document.getElementById("countRecall"),
-      countDetectors: document.getElementById("countDetectors"),
-      countFrameworks: document.getElementById("countFrameworks"),
-    };
-    if (reducedMotion) {
-      Object.keys(targets).forEach(function (k) { els[k].textContent = targets[k]; });
-      return;
-    }
+    if (reducedMotion) return;   // real values are already in the HTML
+    var els = {}, targets = {};
+    ["countRecall", "countDetectors", "countFrameworks"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      els[id] = el;
+      targets[id] = parseInt(el.getAttribute("data-target"), 10) || 0;
+      el.textContent = "0";
+    });
     var steps = 26, step = 0;
     var interval = setInterval(function () {
       step += 1;
       var p = Math.min(1, step / steps);
       var eased = 1 - Math.pow(1 - p, 3);
       Object.keys(targets).forEach(function (k) {
-        els[k].textContent = Math.round(targets[k] * eased);
+        els[k].textContent = p >= 1 ? targets[k] : Math.round(targets[k] * eased);
       });
       if (p >= 1) clearInterval(interval);
     }, 34);
@@ -807,17 +844,50 @@ Process completed with exit code 1.</span>
     });
   }
 
-  /* ---- join form (client-side only; wire to a real endpoint when one exists) ---- */
+  /* ---- join form ---- */
   var joinForm = document.getElementById("joinForm");
   var joinSent = document.getElementById("joinSent");
+  var joinError = document.getElementById("joinError");
+  var joinSubmit = document.getElementById("joinSubmit");
+
   joinForm.addEventListener("submit", function (e) {
     e.preventDefault();
     var name = document.getElementById("joinName").value.trim();
     var email = document.getElementById("joinEmail").value.trim();
-    if (!name || !email) return;
-    joinForm.classList.add("hidden");
-    joinSent.classList.remove("hidden");
+    var stack = document.getElementById("joinRole").value;
+
+    joinError.classList.add("hidden");
+    if (!name) { return showJoinError("Name is required."); }
+    if (!/^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(email)) { return showJoinError("Enter a valid email address."); }
+
+    joinSubmit.setAttribute("aria-busy", "true");
+    joinSubmit.textContent = "Sending…";
+
+    fetch(joinForm.getAttribute("action"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name, email: email, stack: stack }),
+    })
+      .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
+      .then(function (d) {
+        if (!d.ok) throw new Error(d.error || "failed");
+        joinForm.classList.add("hidden");
+        joinSent.classList.remove("hidden");
+        joinSent.focus && joinSent.focus();
+      })
+      .catch(function () {
+        showJoinError("That didn't send. Email madhav@lucinlabs.com and I'll reply personally.");
+      })
+      .finally(function () {
+        joinSubmit.removeAttribute("aria-busy");
+        joinSubmit.textContent = "Request access";
+      });
   });
+
+  function showJoinError(msg) {
+    joinError.textContent = msg;
+    joinError.classList.remove("hidden");
+  }
 })();
 </script>
 </body>

@@ -1,0 +1,22 @@
+# Dogfoods the packaged GitHub Action (action.yml) on Lucin's own PRs — proof
+# that `uses: Madhav2310/lucinlabs@v1` works, not just the raw CLI.
+# (.github/workflows/lucin.yml separately dogfoods the CLI + SARIF upload path.)
+
+name: Self-scan (Action)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  action-self-scan:
+    name: Run Lucin Action on this repo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./
+        with:
+          scan-path: 'src/lucin'
+          fail-on: 'critical'

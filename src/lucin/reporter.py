@@ -95,14 +95,19 @@ def print_findings(console: Console, result: ScanResult, ci: bool = False):
 def _print_summary(console: Console, result: ScanResult):
     """Print the findings summary box."""
     parts = []
-    if result.critical_count:
-        parts.append(f"[bold red]CRITICAL  {'█' * min(result.critical_count * 3, 12)}  {result.critical_count}[/bold red]")
-    if result.high_count:
-        parts.append(f"[bold yellow]HIGH      {'█' * min(result.high_count * 3, 12)}  {result.high_count}[/bold yellow]")
-    if result.medium_count:
-        parts.append(f"[yellow]MEDIUM    {'█' * min(result.medium_count * 2, 12)}  {result.medium_count}[/yellow]")
-    if result.low_count:
-        parts.append(f"[dim]LOW       {'█' * min(result.low_count * 2, 12)}  {result.low_count}[/dim]")
+    _BAR_MAX = 24  # characters at the largest count
+    _counts = {
+        "CRITICAL": (result.critical_count, "bold red"),
+        "HIGH":     (result.high_count,     "bold yellow"),
+        "MEDIUM":   (result.medium_count,   "yellow"),
+        "LOW":      (result.low_count,      "dim"),
+    }
+    _peak = max((n for n, _ in _counts.values()), default=0) or 1
+    for _label, (_n, _style) in _counts.items():
+        if not _n:
+            continue
+        _width = max(1, round(_n / _peak * _BAR_MAX))
+        parts.append(f"[{_style}]{_label:<9} {'█' * _width}  {_n}[/{_style}]")
 
     console.print(Panel(
         "\n".join(parts),
@@ -149,11 +154,18 @@ def _print_finding(console: Console, finding: Finding):
             loc += f":{finding.source_line}"
         lines.append(f"[dim]Location:[/dim] {loc}")
 
-    title = f"{icon} {finding.severity.value.upper()}: {finding.title} [{finding.id}]"
+    border_style = style.replace("bold ", "")
+    if finding.is_new is True:
+        title = f"{icon} NEW {finding.severity.value.upper()}: {finding.title} [{finding.id}]"
+    elif finding.is_new is False:
+        title = f"{icon} accepted {finding.severity.value.upper()}: {finding.title} [{finding.id}]"
+        border_style = "dim"
+    else:
+        title = f"{icon} {finding.severity.value.upper()}: {finding.title} [{finding.id}]"
     console.print(Panel(
         "\n".join(lines),
         title=title,
-        border_style=style.replace("bold ", ""),
+        border_style=border_style,
     ))
 
 
@@ -167,8 +179,13 @@ def _print_ci_output(console: Console, result: ScanResult):
             if finding.source_line:
                 loc += f":{finding.source_line}"
             loc += ")"
+        tag = ""
+        if finding.is_new is True:
+            tag = "NEW "
+        elif finding.is_new is False:
+            tag = "accepted "
         console.print(
-            f"{icon} [{finding.severity.value.upper()}] {finding.id}: "
+            f"{icon} {tag}[{finding.severity.value.upper()}] {finding.id}: "
             f"{finding.title} - {finding.agent_name}{loc}"
         )
 

@@ -20,6 +20,7 @@ Real-world basis:
 """
 
 from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.owasp import owasp_ref
 
 
 # Tools that can potentially return very large amounts of data
@@ -99,7 +100,7 @@ def detect_context_overflow(agent: Agent) -> list[Finding]:
                 "Context window filled with adversarial content → "
                 "safety instructions ineffective → agent follows injected instructions."
             ),
-            owasp_ref="A05 - Resource Overload / A01 - Excessive Agency",
+            owasp_ref=owasp_ref("AG-019"),
             fix_suggestion=(
                 "Add output size limits to all data-returning tools:\n"
                 "  → SQL tools: add LIMIT clause (max 100 rows)\n"

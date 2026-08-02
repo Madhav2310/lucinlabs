@@ -18,6 +18,9 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+
+BASE = "https://lucin.pages.dev"
+DOMAIN_LABEL = BASE.split("://", 1)[1]          # -> "lucin.pages.dev"
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -124,7 +127,7 @@ def build(target: str) -> Path:
     d.text((64, H - 46),
            "Open source · pip install lucin · every number regenerates from a command",
            font=f_tiny, fill=INK_MUTED)
-    d.text((W - 168, H - 76), "◆ lucin.security", font=f_small, fill=INK)
+    d.text((W - 168, H - 76), f"◆ {DOMAIN_LABEL}", font=f_small, fill=INK)
 
     img.save(OUT, "PNG", optimize=True)
     return OUT

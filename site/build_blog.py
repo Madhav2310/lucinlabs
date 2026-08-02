@@ -34,7 +34,7 @@ from markdown_it import MarkdownIt
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
-BASE = "https://lucin.security"
+BASE = "https://lucin.pages.dev"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build import _CSS, _LOGO_SVG, NAV  # noqa: E402  (reuse the one template's tokens)

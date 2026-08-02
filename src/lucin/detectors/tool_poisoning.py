@@ -11,6 +11,7 @@ Reference: Invariant Labs MCP Tool Poisoning research (2025-2026)
 import re
 
 from lucin.models import Agent, Finding, Severity, Tool
+from lucin.owasp import owasp_ref
 
 
 # Patterns that suggest hidden/manipulative instructions in tool descriptions
@@ -228,7 +229,7 @@ def detect_tool_poisoning(agent: Agent) -> list[Finding]:
                     "The injected instructions execute with the agent's full permissions. "
                     "The attack is invisible to the user since tool descriptions are not shown."
                 ),
-                owasp_ref="A02 - Tool Misuse / Tool Poisoning",
+                owasp_ref=owasp_ref("AG-011"),
                 fix_suggestion=(
                     "1. Pin MCP server versions and verify checksums before connecting\n"
                     "2. Review all tool descriptions manually for hidden instructions\n"
@@ -265,7 +266,7 @@ def detect_tool_poisoning(agent: Agent) -> list[Finding]:
                     "understands all languages equally, so the injection still works."
                 ),
                 blast_radius="Same as English injection — full agent behavior override.",
-                owasp_ref="A02 - Tool Misuse / Tool Poisoning (Multi-Language)",
+                owasp_ref=owasp_ref("AG-011"),
                 fix_suggestion=(
                     "1. Use language-agnostic injection detection (not just English regex)\n"
                     "2. Restrict tool descriptions to a single language\n"
@@ -300,7 +301,7 @@ def detect_tool_poisoning(agent: Agent) -> list[Finding]:
                     "The ClawHavoc campaign used this pattern across 1,200+ malicious skills."
                 ),
                 blast_radius="Complete agent behavior override — all safety guardrails bypassed.",
-                owasp_ref="A01 - Excessive Agency / A02 - Tool Misuse",
+                owasp_ref=owasp_ref("AG-011"),
                 fix_suggestion=(
                     "1. Reject tool descriptions containing identity override patterns\n"
                     "2. Implement immutable system prompt (cannot be overridden by tool context)\n"
@@ -335,7 +336,7 @@ def detect_tool_poisoning(agent: Agent) -> list[Finding]:
                     "Prompt extraction is step 1 of most multi-stage agent attacks."
                 ),
                 blast_radius="System prompt disclosure enables targeted follow-up attacks.",
-                owasp_ref="A02 - Tool Misuse / Information Disclosure",
+                owasp_ref=owasp_ref("AG-011"),
                 fix_suggestion=(
                     "1. Never include the full system prompt in tool descriptions\n"
                     "2. Detect and reject extraction patterns in tool inputs\n"
@@ -364,7 +365,7 @@ def detect_tool_poisoning(agent: Agent) -> list[Finding]:
                         "visible to the LLM processing the description."
                     ),
                     blast_radius="Depends on what instructions are hidden.",
-                    owasp_ref="A02 - Tool Misuse / Tool Poisoning",
+                    owasp_ref=owasp_ref("AG-011"),
                     fix_suggestion="Strip all non-printable and zero-width characters from tool descriptions.",
                     source_file=tool.source_file,
                     source_line=tool.source_line,
@@ -385,7 +386,7 @@ def detect_tool_poisoning(agent: Agent) -> list[Finding]:
                 tool_name=tool.name,
                 attack_scenario="Long descriptions can hide injected content that's not visible during casual review.",
                 blast_radius="Unknown without manual review.",
-                owasp_ref="A02 - Tool Misuse / Tool Poisoning",
+                owasp_ref=owasp_ref("AG-011"),
                 fix_suggestion="Review and shorten tool descriptions to essential information only.",
                 source_file=tool.source_file,
                 source_line=tool.source_line,

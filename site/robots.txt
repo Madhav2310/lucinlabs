@@ -40,4 +40,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://lucin.security/sitemap.xml
+Sitemap: https://lucin.pages.dev/sitemap.xml

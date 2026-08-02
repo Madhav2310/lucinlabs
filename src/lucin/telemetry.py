@@ -117,6 +117,21 @@ def build_scan_event(result, output_format: str, ci: bool) -> dict:
     }
 
 
+def build_command_event(command: str) -> dict:
+    """A minimal event for commands other than `scan` — just proves the command ran.
+
+    No arguments, paths, or discovered content are ever included here; that's the
+    whole reason `discover` (which enumerates MCP configs across every IDE on the
+    machine) is safe to instrument the same way as everything else.
+    """
+    return {
+        "event_type": f"cmd_{command}",
+        "lucin_version": _lucin_version(),
+        "python_version": f"{sys.version_info.major}.{sys.version_info.minor}",
+        "os": platform.system().lower(),
+    }
+
+
 def build_error_event(exc: BaseException) -> dict:
     return {
         "event_type": "error",
@@ -132,13 +147,22 @@ def _lucin_version() -> str:
     return __version__
 
 
+def last_event() -> dict | None:
+    """The exact payload built for the most recent command — what `lucin telemetry
+    status` shows. Recorded locally even when telemetry is disabled or the send
+    fails, so a user can always inspect what *would* be sent."""
+    return _load_config().get("last_event")
+
+
 def send_event(event: dict) -> None:
     """Fire-and-forget. Never raises, never blocks the CLI beyond TIMEOUT_SECONDS."""
-    if not is_enabled():
-        return
     cfg = _load_config()
     event = dict(event)
     event["anon_id"] = _anon_id(cfg)
+    cfg["last_event"] = event
+    _save_config(cfg)
+    if not is_enabled():
+        return
     try:
         body = json.dumps(event).encode("utf-8")
         req = _urlrequest.Request(

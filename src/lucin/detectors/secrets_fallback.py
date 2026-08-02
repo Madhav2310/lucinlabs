@@ -23,6 +23,7 @@ from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity
 from lucin.detectors.secrets import SECRET_PATTERNS, _is_false_positive, _mask_secret
+from lucin.owasp import owasp_ref
 
 
 def _scan_file_for_env_fallbacks(filepath: str, agent_name: str) -> list[Finding]:
@@ -100,7 +101,7 @@ def _scan_file_for_env_fallbacks(filepath: str, agent_name: str) -> list[Finding
                 "Full access to whatever service the credential authenticates with. "
                 "Exacerbated because failure is silent — no error, just wrong credential."
             ),
-            owasp_ref="A02 - Cryptographic Failures",
+            owasp_ref=owasp_ref("AG-ENV-FALLBACK"),
             fix_suggestion=(
                 "Remove the fallback entirely — fail loudly if the secret is missing:\n\n"
                 "  # BAD:  api_key = os.getenv('OPENAI_API_KEY', 'sk-hardcoded-...')\n"

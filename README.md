@@ -2,7 +2,7 @@
 
 **Find what your AI agents can do that they shouldn't — before attackers do.**
 
-Lucin is an open-source static security scanner for AI agents. It reads the actual code inside your agent's tools — not just tool names or descriptions — and finds dangerous capability configurations before they reach production, mapped to the [OWASP Top 10 for Agentic Applications](https://owasp.org/www-project-agentic-ai-threats/).
+Lucin is an open-source static security scanner for AI agents. It reads the actual code inside your agent's tools — not just tool names or descriptions — and finds dangerous capability configurations before they reach production, mapped to the [OWASP Top 10 for Agentic Applications](https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/).
 
 ## Quick Start
 
@@ -288,13 +288,28 @@ Applies fraud-detection-grade anomaly scoring to agent actions:
 
 **GitHub Actions:**
 ```yaml
-- uses: lucin/lucin@v1
+- uses: Madhav2310/lucinlabs@v1
   with:
     scan-path: './src/agents'
     fail-on: 'high'
 ```
 
 **GitLab CI:** See `examples/ci/gitlab-ci.yml`
+
+### Adding Lucin to a repo that already has findings
+
+You do not have to fix everything to start. Accept the current state, then hold the line:
+
+    lucin scan . --write-baseline .lucin-baseline.json
+    git add .lucin-baseline.json && git commit -m "Accept current Lucin findings as baseline"
+
+From then on, CI fails only on findings that are *new*:
+
+    lucin scan . --ci --fail-on high --baseline .lucin-baseline.json
+
+Existing findings still appear in the output, marked as accepted, so the debt stays
+visible. When you fix one, Lucin tells you. In the GitHub Action, pass `baseline:
+.lucin-baseline.json` as an input.
 
 ## Configuration
 
@@ -333,8 +348,8 @@ so it's true even if a future version of this client tried to send more.
 (environment), or `lucin telemetry disable` (permanent, persisted locally).
 `lucin telemetry status` shows the current state and exactly what's sent.
 
-We expect to flip the default to opt-in once we have enough signal from early
-users to not be flying blind — this isn't meant to be the permanent posture.
+We will flip the default to opt-in at 1,000 installs or 90 days after launch,
+whichever comes first — this isn't meant to be the permanent posture.
 
 ## Why Lucin?
 

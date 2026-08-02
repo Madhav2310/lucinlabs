@@ -23,6 +23,7 @@ progressively subsume AG-002. Until then they are complementary.
 
 from lucin.models import Agent, Finding, Severity
 from lucin.aifg import build_aifg, query_trifecta, min_tool_cut, TrifectaFinding
+from lucin.owasp import owasp_ref
 
 
 def detect_trifecta(agent: Agent) -> list[Finding]:
@@ -87,7 +88,7 @@ def _make_finding(agent: Agent, tf: TrifectaFinding, cut_str: str) -> Finding:
             f"All data accessible via '{tf.data_source}' can be exfiltrated "
             f"through '{tf.egress_sink}' without user awareness."
         ),
-        owasp_ref="A01 - Agent Goal Hijack / A02 - Tool Misuse (Agentic)",
+        owasp_ref=owasp_ref("AG-TRIFECTA"),
         fix_suggestion=(
             f"{cut_str}\n\n"
             f"Architectural remediation (Blueprint §6.1 — CaMeL/Fides pattern):\n"

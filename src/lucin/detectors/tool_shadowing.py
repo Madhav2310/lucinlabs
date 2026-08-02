@@ -17,6 +17,7 @@ Example:
 """
 
 from lucin.models import Agent, Finding, Severity, Tool
+from lucin.owasp import owasp_ref
 
 
 def detect_tool_shadowing(agent: Agent) -> list[Finding]:
@@ -71,7 +72,7 @@ def detect_tool_shadowing(agent: Agent) -> list[Finding]:
                         f"If '{name_a}' and '{name_b}' have different permission scopes, "
                         f"the agent may inadvertently use the less restricted one."
                     ),
-                    owasp_ref="A02 - Tool Misuse / Tool Shadowing",
+                    owasp_ref=owasp_ref("AG-025"),
                     fix_suggestion=(
                         "1. Ensure all tool names are clearly distinct (no near-duplicates)\n"
                         "2. If both tools are legitimate, rename one for clarity\n"

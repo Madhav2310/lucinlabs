@@ -26,6 +26,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity
+from lucin.owasp import owasp_ref
 
 # Major agent frameworks whose version should be pinned in production
 AGENT_FRAMEWORK_PACKAGES = {
@@ -156,7 +157,7 @@ def detect_framework_pin(agent: Agent) -> list[Finding]:
                 "Silent behavioral change on every re-install or CI rebuild. "
                 "Supply-chain compromise via framework package update."
             ),
-            owasp_ref="A04 - Agentic Supply Chain (ASI04)",
+            owasp_ref=owasp_ref("AG-FRAMEWORK-PIN"),
             fix_suggestion=(
                 f"Pin to exact versions in {req_path.name}:\n"
                 + "".join(f"  {p}=={s.lstrip('>=~^') or 'X.Y.Z'}\n"

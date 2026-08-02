@@ -25,6 +25,7 @@ import ast
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity
+from lucin.owasp import owasp_ref
 
 
 # subprocess-family calls that could invoke docker
@@ -287,7 +288,7 @@ def detect_docker_exec(agent: Agent) -> list[Finding]:
                     "Full host filesystem access (via -v mount), network bypass, "
                     "potential kernel exploit via --privileged. Effectively root on the host."
                 ),
-                owasp_ref="A01 - Code Execution / ASI01 - Tool Exploitation",
+                owasp_ref=owasp_ref("AG-DOCKER-EXEC"),
                 fix_suggestion=(
                     "Options (in order of preference):\n"
                     "  1. Remove docker exec capability from agent tools entirely\n"

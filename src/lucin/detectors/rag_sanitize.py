@@ -34,6 +34,7 @@ import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity
+from lucin.owasp import owasp_ref
 
 
 # Names that suggest retrieved/fetched content from a vector store or retriever
@@ -226,7 +227,7 @@ def detect_rag_no_sanitize(agent: Agent) -> list[Finding]:
                     "retrieves the poisoned document. With enough documents poisoned, "
                     "most agent interactions become attacker-controlled."
                 ),
-                owasp_ref="A04 - Memory Poisoning / ASI04 - Indirect Prompt Injection",
+                owasp_ref=owasp_ref("AG-RAG-NO-SANITIZE"),
                 fix_suggestion=(
                     "Options:\n"
                     "  1. Structural separation: wrap retrieved content in XML tags so the\n"

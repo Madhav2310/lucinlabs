@@ -20,12 +20,75 @@ app = typer.Typer(
     no_args_is_help=True,
 )
 console = Console()
+err_console = Console(stderr=True)
 
 
 def version_callback(value: bool):
     if value:
         console.print(f"[bold]lucin[/bold] v{__version__}")
         raise typer.Exit()
+
+
+def _print_rules_and_exit(value: bool):
+    """--list-rules: print every registered detector's rule IDs with severity and OWASP mapping.
+
+    IDs and metadata are derived from the running source (detector registry + RULE_CATALOG),
+    not a hand-maintained list, so this can't drift from what actually runs.
+    """
+    if not value:
+        return
+    import inspect
+    import re
+
+    from lucin.detectors import PER_AGENT_DETECTORS, CROSS_AGENT_DETECTORS
+    from lucin.rule_docs import RULE_CATALOG
+
+    id_pattern = re.compile(r'"id"\s*:\s*"(AG-[A-Z0-9-]+)"|id\s*=\s*f?"(AG-[A-Z0-9-]+)"')
+    rows: list[tuple[str, str, str]] = []
+    for fn in PER_AGENT_DETECTORS + CROSS_AGENT_DETECTORS:
+        module = inspect.getmodule(fn)
+        try:
+            src = inspect.getsource(module) if module else ""
+        except OSError:
+            src = ""
+        found_ids = sorted({g1 or g2 for g1, g2 in id_pattern.findall(src)})
+        module_name = module.__name__.rsplit(".", 1)[-1] if module else fn.__name__
+        for rid in found_ids or [module_name]:
+            rows.append((rid, module_name, fn.__name__))
+
+    console.print(
+        f"[bold]{len(PER_AGENT_DETECTORS) + len(CROSS_AGENT_DETECTORS)} active detectors[/bold] "
+        f"({len(PER_AGENT_DETECTORS)} per-agent, {len(CROSS_AGENT_DETECTORS)} cross-agent)\n"
+    )
+    table = Table(box=None, pad_edge=False)
+    table.add_column("RULE", style="bold")
+    table.add_column("SEVERITY")
+    table.add_column("OWASP AGENTIC")
+    table.add_column("TITLE")
+    for rid, module_name, _fn_name in sorted(rows):
+        meta = RULE_CATALOG.get(rid, {})
+        severity = meta.get("severity", "-")
+        owasp = ", ".join(meta.get("owasp_asi", [])) or "-"
+        title = meta.get("title", module_name)
+        table.add_row(rid, severity, owasp, title)
+    console.print(table)
+    raise typer.Exit(0)
+
+
+def _print_adapters_and_exit(value: bool):
+    """--list-adapters: print every framework parser actually wired into the scan path."""
+    if not value:
+        return
+    from lucin.parsers import _AUTO_PARSERS
+
+    names = sorted({
+        fn.__name__.replace("parse_", "").replace("_config", "")
+        for fn in _AUTO_PARSERS if fn.__name__ != "parse_generic"
+    })
+    console.print(f"[bold]{len(names)} framework adapters[/bold] (plus a generic fallback for unmatched code)\n")
+    for name in names:
+        console.print(f"  {name}")
+    raise typer.Exit(0)
 
 
 @app.callback()
@@ -38,7 +101,11 @@ def main(
     pass
 
 
-@app.command()
+@app.command(epilog=(
+    "Anonymous usage counts (rule IDs and integers, never code or paths) are sent "
+    "by default. Disable with --no-telemetry, LUCIN_TELEMETRY=0, or "
+    "'lucin telemetry disable'. See exactly what's sent: 'lucin telemetry status'."
+))
 def scan(
     target: str = typer.Argument(
         None, help="Path to agent code, MCP config, or project directory. "
@@ -59,7 +126,23 @@ def scan(
     ci: bool = typer.Option(False, "--ci", help="CI mode: minimal output, exit codes for findings."),
     owasp: bool = typer.Option(False, "--owasp", help="Show OWASP ASI coverage report after findings."),
     pin: bool = typer.Option(False, "--pin", help="Establish/update the trusted tool baseline for rug-pull (AG-RUGPULL) detection. Opt-in and stateful; drift is checked automatically on later scans of a pinned config."),
+    baseline: Path = typer.Option(
+        None, "--baseline",
+        help="Compare against a findings baseline file; only findings absent from it can fail the run.",
+    ),
+    write_baseline: Path = typer.Option(
+        None, "--write-baseline",
+        help="Write the current findings to a baseline file and exit 0.",
+    ),
     no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run (see --help or LUCIN_TELEMETRY=0 to disable permanently)."),
+    list_rules: bool = typer.Option(
+        False, "--list-rules", callback=_print_rules_and_exit, is_eager=True,
+        help="List all active detectors with rule IDs, severities and OWASP mappings, then exit."
+    ),
+    list_adapters: bool = typer.Option(
+        False, "--list-adapters", callback=_print_adapters_and_exit, is_eager=True,
+        help="List all framework adapters wired into the scan path, then exit."
+    ),
 ):
     """Scan agent code for security vulnerabilities."""
     from lucin import telemetry
@@ -78,7 +161,7 @@ def scan(
             )
         )
         console.print()
-        telemetry.maybe_print_first_run_notice(console)
+        telemetry.maybe_print_first_run_notice(err_console)
 
     # BARE `lucin scan` → discover this machine's agent/MCP/skill configuration.
     # One word, and the user learns something true about their own setup. This is the
@@ -158,6 +241,39 @@ def scan(
             if has_baseline(agent):
                 result.findings.extend(detect_rug_pulls(agent))
 
+    # Findings baseline (P0-12): accept the current state of a repo, then only
+    # fail CI on genuinely new findings. Fingerprint deliberately excludes line
+    # numbers (see lucin.models.fingerprint) so unrelated edits don't reset it.
+    import json
+    from lucin.models import fingerprint as _fingerprint
+    gating = result.findings
+    if write_baseline:
+        from datetime import datetime, timezone
+        payload = {
+            "version": 1,
+            "lucin_version": __version__,
+            "created": datetime.now(timezone.utc).isoformat(),
+            "target": str(target_path),
+            "fingerprints": sorted(_fingerprint(f) for f in result.findings),
+        }
+        write_baseline.write_text(json.dumps(payload, indent=2) + "\n")
+        console.print(f"Baseline written: {write_baseline} ({len(result.findings)} findings accepted)")
+        raise typer.Exit(0)
+
+    if baseline and baseline.exists():
+        known = set(json.loads(baseline.read_text()).get("fingerprints", []))
+        for f in result.findings:
+            f.is_new = _fingerprint(f) not in known
+        new = [f for f in result.findings if f.is_new]
+        accepted_present = len(result.findings) - len(new)
+        fixed = len(known) - accepted_present
+        # Status line, not payload — stderr, so it never corrupts piped/--format json output.
+        err_console.print(
+            f"Baseline: {len(known)} accepted · {len(new)} new"
+            + (f" · {fixed} previously-reported finding(s) no longer present" if fixed > 0 else "")
+        )
+        gating = new
+
     # Output
     if output_format == "json":
         import json
@@ -214,11 +330,11 @@ def scan(
         for finding in critical_high[:5]:  # Max 5 alerts per scan
             notifier.notify_finding(finding, target=str(target_path))
 
-    # Exit code for CI
+    # Exit code for CI — only findings absent from the baseline (if any) can fail the run.
     if fail_on:
         severity_order = ["critical", "high", "medium", "low"]
         threshold = severity_order.index(fail_on.lower())
-        for finding in result.findings:
+        for finding in gating:
             if severity_order.index(finding.severity.value) <= threshold:
                 raise typer.Exit(code=1)
 
@@ -226,14 +342,21 @@ def scan(
 @app.command()
 def info(
     target: str = typer.Argument(..., help="Path to agent code or project directory."),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
 ):
     """Show agent inventory without running detections."""
+    from lucin import telemetry
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
+
     target_path = Path(target)
     if not target_path.exists():
         console.print(f"[red]Error:[/red] Target not found: {target}")
         raise typer.Exit(code=1)
 
     result = scan_target(target_path, detections=False)
+    telemetry.send_event(telemetry.build_command_event("info"))
 
     console.print()
     console.print(f"[bold]Target:[/bold] {target}")
@@ -268,6 +391,7 @@ def fix(
     finding_id: str = typer.Option(
         None, "--id", help="Generate fix for a specific finding ID (e.g., AG-001). If not set, generates all."
     ),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
 ):
     """Generate code fixes for detected vulnerabilities.
 
@@ -279,6 +403,11 @@ def fix(
         lucin fix ./my-agent/ --id AG-007  # Fix only hardcoded secrets
     """
     from lucin.fix import generate_fix
+    from lucin import telemetry
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
+    telemetry.send_event(telemetry.build_command_event("fix"))
 
     target_path = Path(target)
     if not target_path.exists():
@@ -332,6 +461,7 @@ def monitor(
     speed: float = typer.Option(
         0.0, "--speed", "-s", help="Delay between actions in seconds (0 = instant, 0.1 = real-time feel)."
     ),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
 ):
     """Monitor agent behavior and detect anomalies using ML.
 
@@ -345,6 +475,11 @@ def monitor(
         lucin monitor ./traces.jsonl --baseline 30     # Shorter baseline
     """
     from lucin.monitor import run_monitor_from_file
+    from lucin import telemetry
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
+    telemetry.send_event(telemetry.build_command_event("monitor"))
 
     console.print()
     console.print(
@@ -404,6 +539,7 @@ def redteam(
     multi_turn: bool = typer.Option(
         False, "--multi-turn", help="Include multi-turn conversational attacks (3-5 turn sequences)."
     ),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
 ):
     """Red team your agent — prove it can resist real attacks.
 
@@ -417,6 +553,11 @@ def redteam(
         lucin redteam --dry-run ./my-agent/    # Preview attacks
     """
     from lucin.redteam.cli import run_redteam_command, print_redteam_report
+    from lucin import telemetry
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
+    telemetry.send_event(telemetry.build_command_event("redteam"))
 
     console.print()
     console.print(
@@ -470,6 +611,7 @@ def badge(
     target: str = typer.Argument(..., help="Path to agent code to scan."),
     output: str = typer.Option("lucin-badge.svg", "-o", help="Output SVG file path."),
     style: str = typer.Option("flat", "--style", help="Badge style: flat or score."),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
 ):
     """Generate a security badge SVG for your repo's README.
 
@@ -480,6 +622,11 @@ def badge(
         lucin badge ./my-agent/ --style score   # Score badge
     """
     from lucin.badge import generate_badge_svg
+    from lucin import telemetry
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
+    telemetry.send_event(telemetry.build_command_event("badge"))
 
     target_path = Path(target)
     if not target_path.exists():
@@ -497,6 +644,7 @@ def serve(
     host: str = typer.Option("0.0.0.0", "--host", help="Host to bind to."),
     port: int = typer.Option(8080, "--port", "-p", help="Port to listen on."),
     reload: bool = typer.Option(False, "--reload", help="Enable hot reload for development."),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
 ):
     """Start the Lucin API server.
 
@@ -508,6 +656,12 @@ def serve(
         lucin serve --port 9000        # Custom port
         lucin serve --reload           # Dev mode with hot reload
     """
+    from lucin import telemetry
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
+    telemetry.send_event(telemetry.build_command_event("serve"))
+
     try:
         import uvicorn
     except ImportError:
@@ -538,6 +692,7 @@ def serve(
 @app.command()
 def discover(
     scan: bool = typer.Option(False, "--scan", "-s", help="Automatically scan all discovered configs."),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
 ):
     """Discover MCP configurations across IDEs on this system.
 
@@ -549,6 +704,12 @@ def discover(
         lucin discover --scan       # Find and scan all configs
     """
     from lucin.discovery import discover_mcp_configs
+    from lucin import telemetry
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
+    # Only a bare "discover ran" count — never which platforms or paths were found.
+    telemetry.send_event(telemetry.build_command_event("discover"))
 
     configs = discover_mcp_configs()
 
@@ -600,10 +761,20 @@ def telemetry(
     from lucin import telemetry as tel
 
     if action == "status":
-        state = "enabled" if tel.is_enabled() else "disabled"
-        console.print(f"Telemetry: [bold]{state}[/bold]")
-        console.print("[dim]Sent: version, OS, rule-ID finding counts, timing. "
-                      "Never sent: file paths, code, secrets, tool/agent names.[/dim]")
+        import json as _json
+        state = "ENABLED (default)" if tel.is_enabled() else "DISABLED"
+        console.print(f"Telemetry: [bold]{state}[/bold]. Disable: [dim]lucin telemetry disable[/dim]")
+        console.print()
+        last = tel.last_event()
+        if last:
+            console.print("[bold]Exactly what the last command would have sent:[/bold]")
+            console.print(_json.dumps(last, indent=2))
+        else:
+            console.print("[dim]No command has run yet in this session — nothing recorded.[/dim]")
+        console.print()
+        console.print("[dim]Never sent: file paths, repo or target names, source code, secret "
+                      "values, witness text, tool names, agent names.[/dim]")
+        console.print(f"[dim]Collector source: telemetry-worker/  (allowlist enforced server-side)[/dim]")
     elif action == "enable":
         tel.enable()
         console.print("[green]Telemetry enabled.[/green]")
@@ -619,6 +790,7 @@ def telemetry(
 @app.command()
 def explain(
     finding_id: str = typer.Argument(..., help="Finding ID (e.g. AG-001, AG-TRIFECTA)."),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
 ):
     """Explain a finding in depth — what it means, why it matters, and exactly how to fix it.
 
@@ -631,6 +803,11 @@ def explain(
         lucin explain AG-007
     """
     from lucin.rule_docs import get_rule_doc
+    from lucin import telemetry
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
+    telemetry.send_event(telemetry.build_command_event("explain"))
 
     fid = finding_id.upper()
     doc = get_rule_doc(fid)

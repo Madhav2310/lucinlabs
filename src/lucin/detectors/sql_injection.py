@@ -26,6 +26,7 @@ ORM query builders (session.query, Model.filter_by).
 import ast
 from lucin.models import Agent, Finding, Severity, ToolCapability
 from lucin.parsers.body_inspector import _resolve_call_name
+from lucin.owasp import owasp_ref
 
 
 # SQL execution sinks that accept raw strings (dangerous)
@@ -345,7 +346,7 @@ def detect_sql_injection(agent: Agent) -> list[Finding]:
                     "Full read/write access to the database as the connection user. "
                     "Possible: table deletion, credential extraction, lateral movement."
                 ),
-                owasp_ref="A03 - Injection / ASI02 - Tool Misuse",
+                owasp_ref=owasp_ref("AG-SQL"),
                 fix_suggestion=(
                     "Use parameterized queries — NEVER pass tool parameters directly to SQL:\n"
                     "  # UNSAFE: con.execute(text(query))\n"
