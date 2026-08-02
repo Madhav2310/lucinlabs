@@ -1,18 +1,44 @@
 """Terminal output formatting — the screenshot moment."""
 
+import os
+
 from rich.console import Console
 from rich.panel import Panel
+from rich.text import Text
 
 from lucin.models import Finding, ScanResult, Severity
 from lucin.scoring import calculate_security_score, score_color, score_label
 
-SEVERITY_STYLES = {
-    Severity.CRITICAL: ("bold red", "🔴"),
-    Severity.HIGH: ("bold yellow", "🟠"),
-    Severity.MEDIUM: ("yellow", "🟡"),
-    Severity.LOW: ("dim", "⚪"),
-    Severity.INFO: ("dim", "ℹ️"),
-}
+
+def _print_hanging(console: Console, text: Text, indent: int) -> None:
+    """Print a Rich Text with a hanging indent on wrapped continuation lines,
+    at narrow widths, instead of Rich's default (which wraps to column 0)."""
+    width = console.width
+    pad = Text(" " * indent)
+    for i, line in enumerate(text.wrap(console, width)):
+        console.print(pad + line if i > 0 else line)
+
+
+# Emoji render at inconsistent cell widths across terminals, which misaligns
+# Panel borders — and under NO_COLOR (a request for plain, portable output,
+# not just "no ANSI color") they're visual noise on top of that. Fall back to
+# fixed-width ASCII markers in that case.
+if os.environ.get("NO_COLOR"):
+    SEVERITY_STYLES = {
+        Severity.CRITICAL: ("bold red", "[CRIT]"),
+        Severity.HIGH: ("bold yellow", "[HIGH]"),
+        Severity.MEDIUM: ("yellow", "[MED] "),
+        Severity.LOW: ("dim", "[LOW] "),
+        Severity.INFO: ("dim", "[INFO]"),
+    }
+else:
+    SEVERITY_STYLES = {
+        Severity.CRITICAL: ("bold red", "🔴"),
+        Severity.HIGH: ("bold yellow", "🟠"),
+        Severity.MEDIUM: ("yellow", "🟡"),
+        Severity.LOW: ("dim", "⚪"),
+        Severity.INFO: ("dim", "ℹ️"),
+    }
 
 
 def print_findings(console: Console, result: ScanResult, ci: bool = False):
@@ -32,12 +58,13 @@ def print_findings(console: Console, result: ScanResult, ci: bool = False):
     # repos in a third-party benchmark. The findings can still be real; the label was
     # not. Call it what we actually analysed.
     unit = "agent" if result.has_evidence_backed_agent else "candidate file"
-    console.print(
+    target_text = Text.from_markup(
         f" [bold]Target:[/bold] {result.target} "
         f"({agent_count} {unit}{'s' if agent_count != 1 else ''}, "
         f"{tool_count} tool{'s' if tool_count != 1 else ''}, "
         f"{mcp_count} MCP server{'s' if mcp_count != 1 else ''})"
     )
+    _print_hanging(console, target_text, indent=9)  # aligns under "Target: "
     if result.agents and not result.has_evidence_backed_agent:
         console.print(
             " [yellow]No AI agent detected here[/yellow] [dim]— no tool decorator, "
@@ -152,7 +179,11 @@ def _print_finding(console: Console, finding: Finding):
         loc = finding.source_file
         if finding.source_line:
             loc += f":{finding.source_line}"
-        lines.append(f"[dim]Location:[/dim] {loc}")
+        # Skip if the same file:line already appears in the proof witness above —
+        # two lines to say the same thing costs 66 lines across a 33-finding scan.
+        already_shown = any(loc in w for w in finding.witness)
+        if not already_shown:
+            lines.append(f"[dim]Location:[/dim] {loc}")
 
     border_style = style.replace("bold ", "")
     if finding.is_new is True:

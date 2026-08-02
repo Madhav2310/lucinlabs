@@ -82,6 +82,8 @@ button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit
 nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
   padding:0 48px;height:68px;border-bottom:2px solid var(--ink);
   background:rgba(250,250,248,.92);backdrop-filter:blur(10px)}
+.skip{position:absolute;left:-9999px;top:0}
+.skip:focus{left:16px;top:16px;z-index:100;background:#141414;color:#FAF9F7;padding:10px 14px}
 .nav-mark{display:flex;align-items:center;gap:10px;font-family:var(--ff-heading);font-weight:700;
   font-size:19px;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
 .nav-links{display:flex;align-items:center;gap:28px;font-size:13.5px;font-weight:500}
@@ -121,7 +123,7 @@ h1.hero-h1 span.red{color:var(--red);animation-delay:.12s}
   padding:0 6px 0 20px;background:var(--ink);color:#fff;border-radius:2px;
   font-family:var(--mono);font-size:14px;line-height:1;white-space:nowrap}
 .install-pill .prompt{color:var(--prompt)}
-.copy-btn{display:inline-flex;align-items:center;height:38px;padding:0 14px;background:var(--chip);
+.copy-btn{display:inline-flex;align-items:center;height:38px;min-height:44px;padding:0 14px;background:var(--chip);
   border-radius:2px;font-family:var(--ff);font-size:12px;font-weight:500;cursor:pointer;
   color:#fff;transition:background .15s,transform .2s var(--ease)}
 .copy-btn:hover{background:#3D3D3D;transform:translateY(-1px)}
@@ -167,7 +169,7 @@ h1.hero-h1 span.red{color:var(--red);animation-delay:.12s}
 .output-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px}
 .tabs{display:flex;border:1.5px solid var(--ink);border-radius:2px;overflow:hidden}
 .tabs button{padding:10px 18px;font-family:var(--mono);font-size:12.5px;cursor:pointer;
-  border-right:1px solid var(--ink);transition:background .18s,color .18s;color:var(--ink)}
+  min-height:44px;border-right:1px solid var(--ink);transition:background .18s,color .18s;color:var(--ink)}
 .tabs button:last-child{border-right:0}
 .tabs button.active{background:var(--ink);color:var(--paper)}
 .out-panel{display:none;margin-top:28px}
@@ -193,7 +195,7 @@ pre.term-body{margin:0;padding:26px 28px 30px;font-family:var(--mono);font-size:
 .report-stats div:last-child{border-right:0}
 .report-stats .n{font-family:var(--ff-heading);font-size:22px;font-weight:700}
 .report-stats .l{font-size:11px;color:var(--muted)}
-.report-meta{margin-top:20px;font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.7}
+.report-meta{margin-top:20px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
 .finding-row{padding:16px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
 .finding-row.crit{padding:18px 24px;border-left:3px solid var(--red);background:#FDF6F4;display:block}
 .badge{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:2px}
@@ -212,6 +214,7 @@ pre.term-body{margin:0;padding:26px 28px 30px;font-family:var(--mono);font-size:
 /* ---- benchmarks ---- */
 .proof-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px}
 .method-link{font-size:14px;font-weight:600;text-decoration:none;color:var(--ink);
+  display:inline-flex;align-items:center;min-height:44px;
   border-bottom:2px solid var(--red);padding-bottom:2px}
 .method-link:hover{color:var(--red)}
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);
@@ -224,8 +227,8 @@ pre.term-body{margin:0;padding:26px 28px 30px;font-family:var(--mono);font-size:
   line-height:1;font-variant-numeric:tabular-nums}
 .stat-label{font-size:14px;font-weight:600;margin-top:10px;line-height:1.4}
 .stat-sub{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
-.stat-caption{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5}
-.stat-cmd{font-family:var(--mono);font-size:11px;color:var(--muted2);margin-top:18px;white-space:nowrap}
+.stat-caption{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+.stat-cmd{font-family:var(--mono);font-size:12px;color:#5F6369;margin-top:18px;white-space:nowrap}
 .proof-note{margin-top:20px;font-size:13.5px;color:var(--muted);max-width:76ch}
 .proof-note a{font-weight:600}
 
@@ -276,7 +279,8 @@ footer.site-footer{max-width:1360px;margin:0 auto;padding:26px 48px 40px;display
   border-top:1px solid var(--line)}
 footer.site-footer .mark{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
 footer.site-footer .links{display:flex;gap:14px}
-footer.site-footer a{text-decoration:none;color:var(--muted)}
+footer.site-footer a{text-decoration:none;color:var(--muted);display:inline-flex;align-items:center;
+  min-height:44px;padding:12px 8px}
 footer.site-footer a:hover{color:var(--red)}
 
 .mobile-nav{display:none}
@@ -308,6 +312,7 @@ footer.site-footer a:hover{color:var(--red)}
 </style>
 </head>
 <body>
+<a class="skip" href="#top">Skip to content</a>
 <noscript><style>.section{opacity:1!important;transform:none!important}</style></noscript>
 
 <nav>
@@ -351,7 +356,7 @@ footer.site-footer a:hover{color:var(--red)}
   <div class="scroll-hairline" id="scrollHairline"></div>
 </nav>
 
-<header class="hero" id="top">
+<header class="hero" id="top" tabindex="-1">
   <div class="hero-grid-bg" aria-hidden="true"></div>
   <div class="hero-left">
     <div class="eyebrow">SECURITY FOR AI AGENTS</div>
@@ -372,7 +377,12 @@ footer.site-footer a:hover{color:var(--red)}
 
   <div class="hero-right">
     <div class="hero-svg-wrap" id="heroSvgWrap">
-      <svg width="100%" height="340" viewBox="0 0 400 340" style="overflow:visible" id="attackSvg">
+      <svg width="100%" height="340" viewBox="0 0 400 340" style="overflow:visible" id="attackSvg"
+           role="img" aria-labelledby="heroSvgTitle heroSvgDesc">
+        <title id="heroSvgTitle">Agent information-flow graph</title>
+        <desc id="heroSvgDesc">read_email and query_customers both flow into the language model,
+          which reaches post_webhook — an external sink. Lucin flags this path as AG-TRIFECTA,
+          severity critical.</desc>
         <line id="topLine" x1="70" y1="90" x2="200" y2="180" stroke="#141414" stroke-width="1.5" stroke-dasharray="158" style="stroke-dashoffset:158;transition:stroke-dashoffset .7s ease"></line>
         <line id="bottomLine" x1="70" y1="270" x2="200" y2="180" stroke="#141414" stroke-width="1.5" stroke-dasharray="158" style="stroke-dashoffset:158;transition:stroke-dashoffset .7s ease"></line>
         <line id="redLine" x1="200" y1="180" x2="335" y2="180" stroke="#D6321F" stroke-width="2.5" stroke-dasharray="135" style="stroke-dashoffset:135;transition:stroke-dashoffset 1s ease"></line>
@@ -663,6 +673,9 @@ Process completed with exit code 1.</span>
     <a href="/docs/">Docs</a>
     <a href="/rules/">Rules</a>
     <a href="/limits/">Limits</a>
+    <a href="/compare/">Compare</a>
+    <a href="/runtime/">Runtime</a>
+    <a href="/changelog/">Changelog</a>
     <a href="https://github.com/Madhav2310/lucinlabs" target="_blank" rel="noopener">GitHub</a>
   </span>
 </footer>
@@ -895,11 +908,11 @@ Process completed with exit code 1.</span>
       setBeat(0);
       el.witnessText.textContent = "";
       el.trifectaChip.classList.remove("shown");
-      schedule(function () { setBeat(1); }, 900);
-      schedule(function () { setBeat(2); }, 1900);
-      schedule(function () { setBeat(3); typeWitness(); }, 2900);
-      schedule(function () { setBeat(4); }, 5000);
-      schedule(cycle, 8400);
+      schedule(function () { setBeat(1); }, 500);
+      schedule(function () { setBeat(2); }, 1050);
+      schedule(function () { setBeat(3); typeWitness(); }, 1600);
+      schedule(function () { setBeat(4); }, 2600);
+      schedule(cycle, 5000);
     }
     cycle();
   }
