@@ -1,0 +1,72 @@
+# Lucin CI — Scan agent code for security vulnerabilities on every PR
+#
+# Add this file to your repo at .github/workflows/lucin.yml
+# No configuration needed. No API keys. No account signup.
+#
+# What it does:
+# 1. Installs Lucin
+# 2. Scans your agent code for security issues
+# 3. Uploads results as SARIF → findings appear in GitHub Security tab
+#    and inline on PRs (GitHub Code Scanning)
+# 4. Fails the check if CRITICAL or HIGH findings exist (configurable)
+#
+# Customize:
+# - Change `scan-path` to your agent code directory  (default: .)
+# - Change `fail-on` severity threshold              (default: high)
+# - Remove the upload-sarif step if you don't want GitHub Code Scanning
+
+name: Lucin Security Scan
+
+on:
+  pull_request:
+    paths:
+      - '**/*.py'
+      - '**/mcp.json'
+      - '**/mcp.yaml'
+      - '**/claude_desktop_config.json'
+      - '**/agents.yaml'
+      - '**/tasks.yaml'
+  push:
+    branches: [main, master]
+
+jobs:
+  agent-security-scan:
+    name: Agent Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write   # required for uploading SARIF to GitHub Code Scanning
+      pull-requests: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Lucin
+        run: pip install lucin
+
+      - name: Run Lucin scan → SARIF
+        run: |
+          lucin scan . --format sarif --output lucin.sarif
+        # Always produce the SARIF file even if findings exist, so GitHub
+        # Code Scanning can display them. Exit code is handled below.
+
+      - name: Upload SARIF to GitHub Code Scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: lucin.sarif
+          category: lucin
+        # Findings now appear in the GitHub Security tab and inline on PRs.
+        # Requires GitHub Advanced Security (free for public repos).
+
+      - name: Fail on high/critical findings
+        run: |
+          lucin scan . --ci --fail-on high
+        # Separate step so SARIF upload always happens even on failure.
+        # Change --fail-on to 'critical' to only fail on CRITICAL findings.

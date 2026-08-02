@@ -1,0 +1,55 @@
+# Example Custom Rules for Lucin
+# Place in .lucin/rules/ directory
+# These demonstrate how to write org-specific security policies
+
+rules:
+  # Block production database references in agent configs
+  - id: ORG-001
+    title: "Production database reference in agent config"
+    severity: critical
+    pattern:
+      type: content
+      regex: "prod[-_.](?:db|database|mysql|postgres|mongo)"
+    message: "Production database URL found in agent configuration. Use staging/dev databases for agent testing."
+    fix: "Replace production DB reference with staging environment. Use env vars: os.environ['DATABASE_URL']"
+
+  # Require human approval for any tool that sends emails
+  - id: ORG-002
+    title: "Email tool without human approval"
+    severity: high
+    pattern:
+      type: tool_name
+      regex: "send_email|send_message|email|notify_user|slack_post"
+    condition: "no_human_approval"
+    message: "Email/messaging tools must have human-in-the-loop approval per company policy."
+    fix: "Add human approval gate before email sending. Use interrupt_before or HumanApprovalCallbackHandler."
+
+  # Block any tool connecting to external APIs without allowlist
+  - id: ORG-003
+    title: "External API connection without allowlist"
+    severity: medium
+    pattern:
+      type: content
+      regex: "https?://(?!(?:api\\.company\\.com|internal\\.))"
+    message: "Agent connects to external API not on the approved allowlist."
+    fix: "Add URL to the approved API allowlist or route through the API gateway."
+
+  # Detect tools that access customer PII tables
+  - id: ORG-004
+    title: "Direct access to PII tables"
+    severity: high
+    pattern:
+      type: tool_description
+      regex: "customer|user_data|pii|personal_info|credit_card|ssn"
+    message: "Tool may access PII data. Requires data classification review."
+    fix: "Route PII access through the data access layer with audit logging enabled."
+
+  # Block MCP servers from untrusted registries
+  - id: ORG-005
+    title: "MCP server from non-approved registry"
+    severity: high
+    pattern:
+      type: mcp_server
+      regex: "^(?!@modelcontextprotocol/|@anthropic/|@company/)"
+    message: "MCP server not from approved registry. Only @modelcontextprotocol, @anthropic, and @company packages are allowed."
+    fix: "Use an MCP server from the approved registry list, or submit for security review."

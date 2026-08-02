@@ -1,0 +1,17 @@
+# Lucin platform (SaaS) runtime deps — SCAFFOLD.
+# The shared repo venv already has: pydantic>=2, uvicorn, and the lucin engine.
+# These are the additional deps the platform code is written against but which
+# are NOT installed in the scaffold venv (do NOT force-install into the shared venv):
+
+fastapi>=0.111.0          # API framework (50_ §2.1); already an [api] extra in pyproject.toml
+uvicorn[standard]>=0.30.0 # ASGI server (present in venv)
+sqlalchemy>=2.0           # ORM for the findings/telemetry data model (50_ §2.1)
+pydantic>=2.0             # request/response contracts (present in venv)
+
+# Deferred (needed as the stages land, not for import):
+# alembic>=1.13           # migrations incl. the RLS policy statements (base.py) — Stage 1
+# psycopg[binary]>=3.1    # Postgres driver — Stage 1
+# asyncpg>=0.29           # async Postgres driver (if using async SQLAlchemy) — Stage 1
+# python-jose[cryptography]  # JWT verify (deps.py get_principal) — Stage 1
+# argon2-cffi             # API-key / password hashing (50_ §2.4) — Stage 1
+# TimescaleDB is a Postgres EXTENSION (server-side), not a pip dep (50_ §2.1).

@@ -1,0 +1,317 @@
+{
+  "unit": "static-suite detection (NOT ASR)",
+  "benchmark": "AgentDojo v1 (arXiv 2406.13352)",
+  "representation": "each suite = one LangChain @tool agent (all tools exposed); tool bodies/docstrings verbatim; best-case-for-Lucin",
+  "precision_definition": "adjudicated TP/(TP+FP) over HIGH/CRITICAL findings",
+  "recall_definition": "AgentDojo-labeled injection sinks correctly flagged / total sinks",
+  "overall": {
+    "tp": 4,
+    "fp": 2,
+    "precision_high_crit": 0.6666666666666666,
+    "sinks_total": 23,
+    "sinks_flagged": 1,
+    "recall_sinks": 0.043478260869565216
+  },
+  "per_suite": {
+    "workspace": {
+      "n_tools": 24,
+      "n_injection_tasks": 6,
+      "sinks": [
+        "create_calendar_event",
+        "delete_email",
+        "delete_file",
+        "search_emails",
+        "send_email"
+      ],
+      "n_findings_all": 9,
+      "n_findings_high_crit": 4,
+      "tp": 3,
+      "fp": 1,
+      "precision_high_crit": 0.75,
+      "flagged_sinks": [
+        "send_email"
+      ],
+      "recall_sinks": 0.2,
+      "adjudicated": [
+        {
+          "id": "AG-011",
+          "title": "Tool Description Injection Risk",
+          "severity": "high",
+          "tool_name": "create_calendar_event",
+          "line": 152,
+          "witness": [],
+          "description": "Tool 'create_calendar_event' has a description containing patterns consistent with prompt injection. The description may contain hidden instructions that manipulate the agent's behavior.",
+          "verdict": "FP",
+          "reason": "AgentDojo tool docstring is benign author documentation, not injected; pattern fires on legitimate wording (e.g. 'always included')"
+        },
+        {
+          "id": "AG-006",
+          "title": "No Human Approval for Destructive Actions",
+          "severity": "high",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' has 2 tool(s) capable of destructive actions (create_file, delete_file) but no human-in-the-loop approval configured.\nThe agent can autonomously execute, write, or delete without confirmation.",
+          "verdict": "TP",
+          "reason": "suite exposes destructive/egress tools without a tool-level approval gate (sinks incl. ['delete_email', 'delete_file', 'send_email'])"
+        },
+        {
+          "id": "AG-028",
+          "title": "Execution Without Telemetry/Monitoring",
+          "severity": "high",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' has high-risk capabilities (send_email, delete_email, get_unread_emails, get_sent_emails, get_received_emails) but no logging, telemetry, or monitoring is configured.\n\nWithout monitoring, malicious or anomalous agent behavior can continue undetected for extended periods. In the OpenAI Galaxy incident (July 2026), a model operated unmonitored for 4 days, executing 17,000+ actions before detection.",
+          "verdict": "TP",
+          "reason": "no telemetry/monitoring configured (architectural, low-value)"
+        },
+        {
+          "id": "AG-TRIFECTA",
+          "title": "Information-Flow Exfiltration Path \u2192 'send_email'",
+          "severity": "critical",
+          "tool_name": "",
+          "line": 0,
+          "witness": [
+            "control: get_unread_emails \u2192 __llm__ \u2192 send_email",
+            "data:    create_file \u2192 __llm__ \u2192 send_email"
+          ],
+          "description": "Lethal trifecta detected: untrusted input can control the egress tool 'send_email' while internal/sensitive data flows to it, creating a provable exfiltration path.\n\nControl path (attacker steers the sink):\n  get_unread_emails \u2192 __llm__ \u2192 send_email\n\nData path (sensitive data reaches the payload):\n  create_file \u2192 __llm__ \u2192 send_email\n\nSubsumes (same read\u2192egress root cause, linked for context): AG-002 (Data Exfiltration Path); AG-COMP (Compositional Risk: Lateral Movement: Network + Multiple Data Sources); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'add_calendar_event_participants'); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'cancel_calendar_event'); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'create_file'); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'delete_file'); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'reschedule_calendar_event')",
+          "verdict": "TP",
+          "reason": "exfil path to AgentDojo-labeled sink 'send_email'"
+        }
+      ],
+      "all_findings": [
+        {
+          "id": "AG-011",
+          "title": "Unusually Long Tool Description",
+          "severity": "low",
+          "tool_name": "send_email",
+          "line": 6,
+          "witness": [],
+          "description": "Tool 'send_email' has a description of 1008 characters. Excessively long descriptions may hide injected instructions."
+        },
+        {
+          "id": "AG-011",
+          "title": "Tool Description Injection Risk",
+          "severity": "high",
+          "tool_name": "create_calendar_event",
+          "line": 152,
+          "witness": [],
+          "description": "Tool 'create_calendar_event' has a description containing patterns consistent with prompt injection. The description may contain hidden instructions that manipulate the agent's behavior."
+        },
+        {
+          "id": "AG-011",
+          "title": "Unusually Long Tool Description",
+          "severity": "low",
+          "tool_name": "create_calendar_event",
+          "line": 152,
+          "witness": [],
+          "description": "Tool 'create_calendar_event' has a description of 631 characters. Excessively long descriptions may hide injected instructions."
+        },
+        {
+          "id": "AG-011",
+          "title": "Unusually Long Tool Description",
+          "severity": "low",
+          "tool_name": "reschedule_calendar_event",
+          "line": 200,
+          "witness": [],
+          "description": "Tool 'reschedule_calendar_event' has a description of 501 characters. Excessively long descriptions may hide injected instructions."
+        },
+        {
+          "id": "AG-006",
+          "title": "No Human Approval for Destructive Actions",
+          "severity": "high",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' has 2 tool(s) capable of destructive actions (create_file, delete_file) but no human-in-the-loop approval configured.\nThe agent can autonomously execute, write, or delete without confirmation."
+        },
+        {
+          "id": "AG-010",
+          "title": "No Rate Limiting on High-Risk Tools",
+          "severity": "medium",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' has 4 high-risk tool(s) with no rate limiting configured. A runaway agent could invoke these tools thousands of times per second."
+        },
+        {
+          "id": "AG-019",
+          "title": "Context Overflow: Multiple Unbounded Data Tools",
+          "severity": "medium",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' has 2 tool(s) that can return potentially unbounded data: search_emails, search_calendar_events.\n\nWithout output size limits, these tools can overflow the LLM's context window, causing: loss of system prompt adherence, token cost explosion, or injection of adversarial content that dominates the context."
+        },
+        {
+          "id": "AG-028",
+          "title": "Execution Without Telemetry/Monitoring",
+          "severity": "high",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' has high-risk capabilities (send_email, delete_email, get_unread_emails, get_sent_emails, get_received_emails) but no logging, telemetry, or monitoring is configured.\n\nWithout monitoring, malicious or anomalous agent behavior can continue undetected for extended periods. In the OpenAI Galaxy incident (July 2026), a model operated unmonitored for 4 days, executing 17,000+ actions before detection."
+        },
+        {
+          "id": "AG-TRIFECTA",
+          "title": "Information-Flow Exfiltration Path \u2192 'send_email'",
+          "severity": "critical",
+          "tool_name": "",
+          "line": 0,
+          "witness": [
+            "control: get_unread_emails \u2192 __llm__ \u2192 send_email",
+            "data:    create_file \u2192 __llm__ \u2192 send_email"
+          ],
+          "description": "Lethal trifecta detected: untrusted input can control the egress tool 'send_email' while internal/sensitive data flows to it, creating a provable exfiltration path.\n\nControl path (attacker steers the sink):\n  get_unread_emails \u2192 __llm__ \u2192 send_email\n\nData path (sensitive data reaches the payload):\n  create_file \u2192 __llm__ \u2192 send_email\n\nSubsumes (same read\u2192egress root cause, linked for context): AG-002 (Data Exfiltration Path); AG-COMP (Compositional Risk: Lateral Movement: Network + Multiple Data Sources); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'add_calendar_event_participants'); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'cancel_calendar_event'); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'create_file'); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'delete_file'); AG-TRIFECTA (Information-Flow Exfiltration Path \u2192 'reschedule_calendar_event')"
+        }
+      ]
+    },
+    "travel": {
+      "n_tools": 28,
+      "n_injection_tasks": 7,
+      "sinks": [
+        "create_calendar_event",
+        "get_all_hotels_in_city",
+        "get_hotels_prices",
+        "get_user_information",
+        "reserve_hotel",
+        "send_email"
+      ],
+      "n_findings_all": 5,
+      "n_findings_high_crit": 1,
+      "tp": 0,
+      "fp": 1,
+      "precision_high_crit": 0.0,
+      "flagged_sinks": [],
+      "recall_sinks": 0.0,
+      "adjudicated": [
+        {
+          "id": "AG-011",
+          "title": "Tool Description Injection Risk",
+          "severity": "high",
+          "tool_name": "create_calendar_event",
+          "line": 232,
+          "witness": [],
+          "description": "Tool 'create_calendar_event' has a description containing patterns consistent with prompt injection. The description may contain hidden instructions that manipulate the agent's behavior.",
+          "verdict": "FP",
+          "reason": "AgentDojo tool docstring is benign author documentation, not injected; pattern fires on legitimate wording (e.g. 'always included')"
+        }
+      ],
+      "all_findings": [
+        {
+          "id": "AG-002",
+          "title": "Data Exfiltration Path",
+          "severity": "medium",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' can read data (via: search_calendar_events) and send externally (via: cancel_calendar_event, send_email) with no data-flow boundary.\n\nExfiltration paths: search_calendar_events \u2192 cancel_calendar_event; search_calendar_events \u2192 send_email\n\nThis creates a direct path from sensitive data sources to external networks."
+        },
+        {
+          "id": "AG-011",
+          "title": "Tool Description Injection Risk",
+          "severity": "high",
+          "tool_name": "create_calendar_event",
+          "line": 232,
+          "witness": [],
+          "description": "Tool 'create_calendar_event' has a description containing patterns consistent with prompt injection. The description may contain hidden instructions that manipulate the agent's behavior."
+        },
+        {
+          "id": "AG-011",
+          "title": "Unusually Long Tool Description",
+          "severity": "low",
+          "tool_name": "create_calendar_event",
+          "line": 232,
+          "witness": [],
+          "description": "Tool 'create_calendar_event' has a description of 631 characters. Excessively long descriptions may hide injected instructions."
+        },
+        {
+          "id": "AG-011",
+          "title": "Unusually Long Tool Description",
+          "severity": "low",
+          "tool_name": "send_email",
+          "line": 390,
+          "witness": [],
+          "description": "Tool 'send_email' has a description of 1008 characters. Excessively long descriptions may hide injected instructions."
+        },
+        {
+          "id": "AG-010",
+          "title": "No Rate Limiting on High-Risk Tools",
+          "severity": "medium",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' has 2 high-risk tool(s) with no rate limiting configured. A runaway agent could invoke these tools thousands of times per second."
+        }
+      ]
+    },
+    "banking": {
+      "n_tools": 11,
+      "n_injection_tasks": 9,
+      "sinks": [
+        "get_scheduled_transactions",
+        "send_money",
+        "update_password",
+        "update_scheduled_transaction"
+      ],
+      "n_findings_all": 1,
+      "n_findings_high_crit": 1,
+      "tp": 1,
+      "fp": 0,
+      "precision_high_crit": 1.0,
+      "flagged_sinks": [],
+      "recall_sinks": 0.0,
+      "adjudicated": [
+        {
+          "id": "AG-006",
+          "title": "No Human Approval for Destructive Actions",
+          "severity": "high",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' has 3 tool(s) capable of destructive actions (update_scheduled_transaction, update_password, update_user_info) but no human-in-the-loop approval configured.\nThe agent can autonomously execute, write, or delete without confirmation.",
+          "verdict": "TP",
+          "reason": "suite exposes destructive/egress tools without a tool-level approval gate (sinks incl. ['send_money', 'update_password', 'update_scheduled_transaction'])"
+        }
+      ],
+      "all_findings": [
+        {
+          "id": "AG-006",
+          "title": "No Human Approval for Destructive Actions",
+          "severity": "high",
+          "tool_name": "",
+          "line": 0,
+          "witness": [],
+          "description": "Agent 'agent' has 3 tool(s) capable of destructive actions (update_scheduled_transaction, update_password, update_user_info) but no human-in-the-loop approval configured.\nThe agent can autonomously execute, write, or delete without confirmation."
+        }
+      ]
+    },
+    "slack": {
+      "n_tools": 11,
+      "n_injection_tasks": 5,
+      "sinks": [
+        "add_user_to_channel",
+        "get_channels",
+        "get_webpage",
+        "invite_user_to_slack",
+        "post_webpage",
+        "read_channel_messages",
+        "remove_user_from_slack",
+        "send_direct_message"
+      ],
+      "n_findings_all": 0,
+      "n_findings_high_crit": 0,
+      "tp": 0,
+      "fp": 0,
+      "precision_high_crit": null,
+      "flagged_sinks": [],
+      "recall_sinks": 0.0,
+      "adjudicated": [],
+      "all_findings": []
+    }
+  },
+  "rerun": "venv/bin/python benchmarks/agentdojo_precision.py",
+  "agentflow_baseline_note": "AgentFlow 73% precision (arXiv 2607.01640) is on AgentFlow's own corpus, not AgentDojo; NOT a like-for-like comparison."
+}

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmarks &amp; methodology — Lucin</title>
+<meta name="description" content="Exactly how Lucin&#x27;s precision and recall are measured, on which corpora, and the commands that regenerate every published number. Includes what the numbers do not cover.">
+<link rel="canonical" href="https://lucin.security/benchmarks/">
+<link rel="stylesheet" href="/fonts.css">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Lucin">
+<meta property="og:url" content="https://lucin.security/benchmarks/">
+<meta property="og:title" content="Benchmarks &amp; methodology — Lucin">
+<meta property="og:description" content="Exactly how Lucin&#x27;s precision and recall are measured, on which corpora, and the commands that regenerate every published number. Includes what the numbers do not cover.">
+<meta property="og:image" content="https://lucin.security/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lucin — static analysis for AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Benchmarks &amp; methodology — Lucin">
+<meta name="twitter:description" content="Exactly how Lucin&#x27;s precision and recall are measured, on which corpora, and the commands that regenerate every published number. Includes what the numbers do not cover.">
+<meta name="twitter:image" content="https://lucin.security/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle",
+ "headline":"Benchmarks &amp; methodology — Lucin","description":"Exactly how Lucin&#x27;s precision and recall are measured, on which corpora, and the commands that regenerate every published number. Includes what the numbers do not cover.","url":"https://lucin.security/benchmarks/",
+ "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.security/"},
+ "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.security/"}}
+</script>
+<style>
+:root{
+  --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#6C7076;
+  --line:#D7D9DC; --line-strong:#141414;
+  --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
+  --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ff-heading:'Space Grotesk',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --radius:4px; --radius-chip:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--canvas)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+  background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
+  gap:26px;height:58px;font-size:14px}
+.nav-in .mark{display:inline-flex;align-items:center;gap:9px;font-family:var(--ff-heading);
+  font-weight:700;font-size:16px;letter-spacing:-.01em}
+.nav-in a{color:var(--ink-soft);text-decoration:none;font-weight:500}
+.nav-in a:hover{color:var(--sev-crit)}
+.nav-in .right{margin-left:auto;display:flex;gap:16px;align-items:center}
+.install{font-family:var(--mono);font-size:13px;background:var(--sunken);
+  border:1px solid var(--sunken);border-radius:var(--radius);padding:7px 12px;
+  color:#C7CAD1}
+main{max-width:760px;margin:0 auto;padding:56px 24px 96px}
+h1{font-family:var(--ff-heading);font-size:clamp(30px,4.5vw,42px);line-height:1.12;
+  letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+h2{font-family:var(--ff-heading);font-size:24px;line-height:1.25;letter-spacing:-.02em;
+  font-weight:700;margin:44px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-family:var(--ff-heading);font-size:18px;font-weight:600;margin:28px 0 10px}
+p,ul,ol,blockquote,table{margin:0 0 16px}
+ul,ol{padding-left:22px}
+li{margin:5px 0}
+strong{color:var(--ink);font-weight:600}
+p,li{color:var(--ink-soft)}
+a[href]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);
+  text-underline-offset:3px}
+a[href]:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+blockquote{border-left:3px solid var(--sev-crit);padding:2px 0 2px 16px;
+  color:var(--ink-muted)}
+/* code: inline is a light chip with a border; blocks are the one deliberate dark
+   inversion (matches the report/hero convention) — pre code resets the chip so
+   nested code is not double-boxed. */
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em;
+  font-variant-ligatures:none}
+pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--sunken);
+  color:#C7CAD1;border-radius:var(--radius);padding:14px 16px;
+  margin:0 0 18px;overflow:auto;-webkit-font-smoothing:auto}
+pre code{background:0 0;border:0;padding:0;font-size:1em;color:inherit}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface);color:var(--ink);font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 24px 56px;
+  color:var(--ink-muted);font-size:13px}
+footer .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+footer .mark-sm{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
+footer a{text-decoration:none;color:var(--ink-muted)}
+footer a:hover{color:var(--sev-crit)}
+
+@media(max-width:640px){.nav-in .links,.install{display:none}main{padding-top:36px}}
+
+/* ---- docs/benchmarks/limits/rules/changelog "tab family" header ----
+   Each is its own real page/route (not a client-side view switch) — the tabs
+   are plain links, and the current page's tab gets the active fill. */
+.back-home{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-home:hover{color:var(--sev-crit)}
+.eyebrow2{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);
+  font-weight:600;margin-top:30px}
+h1.page-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(34px,3.8vw,46px);
+  letter-spacing:-.025em;line-height:1.06;margin:16px 0 0}
+p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color:var(--ink-soft)}
+.tab-row{display:flex;gap:0;margin-top:34px;border:1.5px solid var(--ink);border-radius:2px;
+  width:fit-content;overflow:hidden}
+.tab-pill{padding:10px 18px;font-family:var(--mono);font-size:12.5px;text-decoration:none;
+  color:var(--ink);border-right:1px solid var(--ink);transition:background .18s,color .18s}
+.tab-pill:last-child{border-right:0}
+.tab-pill:hover{background:var(--surface);color:var(--ink)}
+.tab-pill.active{background:var(--ink);color:var(--canvas)}
+.tab-pill.active:hover{background:var(--ink);color:var(--canvas)}
+</style>
+</head><body>
+<nav><div class="nav-in">
+  <a class="mark" href="/" aria-label="Lucin home"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>LUCIN</a>
+  <span class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></span>
+  <span class="right">
+    <span class="install">$ pip install lucin</span>
+  </span>
+</div></nav>
+<main><a class="back-home" href="/">← Home</a>
+<div class="eyebrow2">BENCHMARKS</div>
+<h1 class="page-h1">Benchmarks &amp; methodology</h1>
+<p class="page-dek">Exactly how Lucin&#x27;s precision and recall are measured, on which corpora, and the commands that regenerate every published number. Includes what the numbers do not cover.</p>
+<div class="tab-row"><a href="/docs/" class="tab-pill">docs</a><span class="tab-pill active">benchmarks</span><a href="/limits/" class="tab-pill">limits</a><a href="/rules/" class="tab-pill">rules</a><a href="/changelog/" class="tab-pill">changelog</a></div><p>Every headline number in this project ships with the command that regenerates it. This
+page tells you what the corpora are, how precision and recall are computed, and the exact
+commands to reproduce them offline. All numbers below were regenerated on 2026-07-29.</p>
+<blockquote>
+<p>Principle: <strong>external truth over internal polish.</strong> Author-written unit tests do <em>not</em>
+count as validation of a detection claim. Precision is measured on real third-party
+repositories; recall is measured on a held-out corpus whose provenance is published.</p>
+</blockquote>
+<hr />
+<h3>1. Precision — 0 adjudicated false positives (documented allowlist)</h3>
+<p><strong>Result:</strong> <strong>0 adjudicated false positives</strong> across <strong>52 real repos / 2,732 files</strong> — 52/52
+repos clean. False positives are counted as distinct <strong>(file, detector-id) pairs</strong>, outside
+a documented per-repo known-capability allowlist (<code>known_tp</code>, annotated inline in the
+script); this yields a <strong>0.0% per-file FP</strong> rate. It is a documented, reviewable
+methodology — <strong>not</strong> a per-file zero-FP proof.</p>
+<p><strong>Reproduce:</strong></p>
+<pre><code class="language-bash">python benchmarks/build_benign_corpus.py
+</code></pre>
+<p><strong>What the corpus is.</strong> A set of 52 real, third-party AI-agent / LLM-framework
+repositories (LangChain-adjacent frameworks, MCP SDKs, CrewAI, AutoGen/Swarm, LlamaIndex
+tool specs, browser agents, RAG stacks, etc.). These are legitimate projects that are
+<em>not</em> meant to contain the incident-class misconfigurations Lucin flags. Each repo is
+scanned (capped per repo for runtime); a &quot;false positive&quot; is any CRITICAL/HIGH finding on
+this benign code.</p>
+<p><strong>File selection (load-bearing — read this).</strong> The FP denominator is <em>production
+agent-code files</em>, capped at ~100 per repo for runtime. Author-written <strong>test fixtures and
+example/demo scripts are excluded</strong> from the denominator: they are not the production agent
+surface a user ships. Be clear-eyed about what this means — like every static analyzer, a
+raw full-repo <code>lucin scan .</code> <strong>will</strong> surface findings inside test/example files (an
+<code>exec()</code> in a test, a hardcoded key in a doc snippet). Those are expected and are <em>not</em>
+counted against precision. The published number is therefore <strong>adjudicated</strong>: production
+agent-code files, tests/examples excluded, and legitimate true-positives listed per repo
+(<code>known_tp</code>). We publish the method precisely so it is reviewable — it is <strong>not</strong>, and is
+never claimed to be, a raw per-file zero across an entire tree.</p>
+<p><strong>How the number is computed.</strong> <code>FP findings = CRITICAL/HIGH findings on benign code</code>;
+<code>clean repos = repos with zero such findings</code>. The report prints per-repo status and a
+summary block:</p>
+<pre><code>Repos scanned:    52
+Files scanned:    2732
+Clean repos:      52/52  (100%)
+FP findings:      0  (distinct file×detector pairs, CRITICAL/HIGH, on benign code)
+FP rate:          0.0%  (distinct FP (file,id) pairs / files scanned)
+</code></pre>
+<p>Confirmed true positives that legitimately exist in a benign repo are excluded via the
+per-repo known-capability allowlist (<code>known_tp</code>) documented inline in the script (they are
+real issues, not false alarms; no admitted FP is hidden in that list) — the reported
+count is <strong>0 adjudicated false positives</strong> outside that documented allowlist.</p>
+<p><strong>Why precision comes first.</strong> In a security tool a false positive is worse than a miss
+for adoption: noisy tools get uninstalled and burn word-of-mouth. Several detectors are
+deliberately conservative (see AG-SSRF) or held unregistered (see AG-PATH-TRAVERSAL in
+<a href="/limits/">what SCAN misses</a>) specifically to protect this precision result.</p>
+<hr />
+<h3>1b. Precision on a BROAD population — <strong>WITHDRAWN, being re-measured</strong></h3>
+<p>The number in §1 is measured on a corpus <strong>selected to be benign</strong>, with
+production-agent-code file selection. That answers <em>&quot;how noisy are we on code we
+believe is clean?&quot;</em> It is <strong>not</strong> the number a user gets from <code>lucin scan .</code> on an
+arbitrary repository. So we measure that too, and publish it even though it is
+unflattering — an unpublished bad number is just marketing.</p>
+<p><strong>Corpus:</strong> 81 hand-picked real GitHub agent repos (autonomous/coding/browser/RAG
+agents, multi-agent frameworks, MCP), <strong>zero overlap</strong> with the §1 corpus
+(enforced by an <code>_assert_no_overlap()</code> guard), <strong>5,868 Python files</strong>. It is a
+<strong>curated-broad population, NOT a uniform random sample</strong> — and unlike §1 it does
+<em>not</em> skip framework-core or utility files, which is exactly where noise lives.</p>
+<p><strong>Reproduce:</strong></p>
+<pre><code class="language-bash">python benchmarks/agentzoo_precision.py            # download + scan + report
+python benchmarks/agentzoo_precision.py --scan-only  # regenerate the sample only
+</code></pre>
+<p><strong>Method</strong> (mirrors AgentFlow, arXiv 2607.01640, which published 73% precision by
+manually inspecting 100 of its findings): collect every HIGH/CRITICAL finding,
+draw a fixed-seed 100-finding sample, and have a human read the actual code
+behind each one, recording TP / FP / <strong>UNKNOWN</strong>. UNKNOWN is excluded from
+precision and reported separately — we do not guess in order to inflate it.</p>
+<p><strong>Baseline (2026-07-30).</strong> On the 100-finding sample the scanner started at
+<strong>8 TP / 52 FP / 40 UNKNOWN = 13.3%</strong>. Total HIGH/CRIT on the population then fell
+<strong>429 → 87</strong>, the §1 corpus stayed at 0 adjudicated FP, and recall held at 76%.</p>
+<p><strong>WITHDRAWN: the post-fix precision figure (2026-07-30).</strong> We previously published
+<strong>58%</strong> — &quot;the survivors of that same hand-adjudicated sample: 7 TP / 5 FP&quot;. Re-running
+<code>benchmarks/agentzoo_precision.py</code> today prints <strong>85.7% (12 TP / 2 FP)</strong>. Both numbers are
+invalid, for the same reason, and the drift is the symptom rather than the disease:</p>
+<ul>
+<li>The 100 verdicts in <code>ADJUDICATIONS</code> were the labels <strong>used to design the precision
+filters</strong>. The five fixes below were built to remove the FP classes those labels named.</li>
+<li><code>phase_b()</code> computes precision only over sampled findings that still match a verdict key
+(<code>ADJUDICATIONS.get(f[&quot;key&quot;])</code>; unmatched findings are silently skipped).</li>
+<li>So the surviving matched set is <strong>enriched for TP by construction</strong>: 12 of 30 TP-labelled
+findings survive as HIGH/CRIT, but only <strong>2 of 70 FP-labelled</strong> ones do — because removing
+them was the goal.</li>
+</ul>
+<p>That is train-on-test. It measures how well the filters hit the labels they were built from,
+not precision on unseen code. Neither 58% nor 85.7% may be published.</p>
+<p><strong>Replacement measurement: a clean holdout.</strong> Of the current 87 HIGH/CRIT findings, <strong>73 had
+no prior verdict</strong>, so no label among them influenced any detector or filter. All 73 were
+adjudicated against criteria fixed in advance (<code>benchmarks/ADJUDICATION_RUBRIC.md</code>), reading
+the real cloned code rather than the snippet. The contaminated table is retained, renamed
+<code>TUNING_ADJUDICATIONS</code>, and excluded from the calculation; <code>phase_b()</code> now refuses to print a
+number if the holdout is empty, so the mistake cannot silently recur.</p>
+<h4>Result on the clean holdout (2026-07-30)</h4>
+<p><strong>Precision = 20.5%–31.5% (n=73, 0 UNKNOWN).</strong> Two bounds, both published:</p>
+<ul>
+<li><strong>Lower: 15/73 = 20.5%</strong>, Wilson 95% CI [12.9%, 31.2%] — counts a finding whose named file
+does not contain the weakness as an FP.</li>
+<li><strong>Upper: 23/73 = 31.5%</strong>, Wilson 95% CI [22.0%, 42.9%] — credits the weakness the witness
+correctly identifies.</li>
+</ul>
+<p>The gap is a single judgement call about AG-CORS attribution, and it is worth ~11 points, so
+collapsing it into one figure would repeat the sin that produced the 58%. <strong>The detector is
+right and this harness was wrong</strong>: <code>agent_server.py:186</code> sets <code>Finding.source_file</code> to the
+actual server file, and <code>agentzoo_precision.py</code> recorded only the file it fed to <code>scan_target</code>
+(now fixed — it records <code>finding_file</code> too). Three adjudicators independently split on this
+case.</p>
+<pre><code class="language-bash">python benchmarks/agentzoo_precision.py --report-only
+</code></pre>
+<p>Even the upper bound is <strong>roughly half</strong> of what we previously published, and this is the
+figure that counts, because it is the only one measured on findings no filter was tuned
+against. Per-rule (lower bound):</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th style="text-align:right">TP</th>
+<th style="text-align:right">FP</th>
+<th style="text-align:right">Precision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AG-001 (exec)</td>
+<td style="text-align:right">10</td>
+<td style="text-align:right">21</td>
+<td style="text-align:right">32%</td>
+</tr>
+<tr>
+<td>AG-CORS</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">11</td>
+<td style="text-align:right">15%</td>
+</tr>
+<tr>
+<td>AG-SQL</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">6</td>
+<td style="text-align:right">14%</td>
+</tr>
+<tr>
+<td><strong>AG-TRIFECTA</strong></td>
+<td style="text-align:right"><strong>0</strong></td>
+<td style="text-align:right"><strong>6</strong></td>
+<td style="text-align:right"><strong>0%</strong></td>
+</tr>
+<tr>
+<td>AG-DOCKER-EXEC</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">25%</td>
+</tr>
+<tr>
+<td>AG-011 / AG-023 / AG-SSRF / AG-DESERIALIZE / AG-007</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">11</td>
+<td style="text-align:right">0%</td>
+</tr>
+<tr>
+<td>AG-RAG-NO-SANITIZE</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">100%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Three findings that matter more than the headline:</strong></p>
+<ol>
+<li><strong>AG-TRIFECTA has zero true positives on the clean holdout (0/6).</strong> The flagship detector,
+the one the whole information-flow story rests on, did not produce a single confirmed
+finding here. Every case failed on a misidentified leg — an &quot;egress&quot; that was a local write
+or a fetch, or a &quot;sensitive read&quot; that was a deletion or developer config.</li>
+<li><strong>AG-CORS is a repo-level finding with a misattributed anchor.</strong> 13 findings correspond to
+<strong>5 distinct weaknesses</strong>; <strong>11 of 13 name a file that contains no CORS configuration</strong>,
+while the witness names the real one. A user opening the flagged file finds nothing. Under
+the pre-committed rubric these are FPs, and the underlying defect is fan-out plus
+mislocation, not detection.</li>
+<li><strong>This harness does not measure what a user experiences.</strong> It runs ~5,868 <strong>single-file</strong>
+scans; a user runs <code>lucin scan .</code> on a directory. Those differ: a directory scan now
+collapses 7 identical AG-CORS rows to 1 (<code>_dedupe_identical_location</code>, added 2026-07-30
+with 7 regression tests), while the per-file harness cannot dedupe across separate calls.
+A <strong>directory-mode re-measurement is the honest next step</strong> and would raise the figure.</li>
+<li><strong>Zero UNKNOWNs across 73 findings.</strong> The rubric explicitly invites UNKNOWN and none was
+used. Treat that as a caveat on the adjudication, not a strength: it suggests adjudicators
+resolved ambiguity rather than recording it.</li>
+</ol>
+<p><strong>Caveat on who adjudicated.</strong> These verdicts were produced by LLM adjudicators reading the
+real code with evidence citations (file:line) recorded for each, not by an independent human
+panel. Inter-rater agreement was not measured. Three adjudicators independently hit the
+AG-CORS localisation case and split on it, which is direct evidence that verdicts are
+sensitive to interpretation; the split was resolved mechanically by applying the rubric as
+written (see <code>benchmarks/_merge_verdicts.py</code>). An independent human re-adjudication is the
+next honest step, and until it exists this number should be read as provisional.</p>
+<p><strong>Why the old 58% was withdrawn, and the caveats that still apply:</strong></p>
+<ul>
+<li>
+<p><strong>The interval is wide.</strong> n = 12 adjudicated survivors → Wilson 95% CI
+<strong>[32%, 81%]</strong>. The point estimate is not a fact; a fresh 100-finding
+adjudication of the current 93 findings is the honest next measurement.</p>
+</li>
+<li>
+<p><strong>The metric is HIGH/CRIT-scoped, so a DEMOTION could masquerade as a fix.</strong> The
+harness now records every severity so this is answerable rather than assumed.
+Measured fate of the original 429 HIGH/CRIT findings:</p>
+<table>
+<thead>
+<tr>
+<th>Fate</th>
+<th style="text-align:right">Count</th>
+<th style="text-align:right">Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deleted entirely</td>
+<td style="text-align:right">180</td>
+<td style="text-align:right">42%</td>
+</tr>
+<tr>
+<td>Demoted to MEDIUM (still shown)</td>
+<td style="text-align:right">160</td>
+<td style="text-align:right">37%</td>
+</tr>
+<tr>
+<td>Still HIGH/CRIT</td>
+<td style="text-align:right">89</td>
+<td style="text-align:right">21%</td>
+</tr>
+</tbody>
+</table>
+<p>So &quot;429 → 93&quot; is <strong>42% removal and 37% re-prioritisation</strong>, not 78% removal. The
+scanner still emits <strong>647 findings at all severities</strong> on this corpus — it did not
+go quiet, it re-ranked. What a user triages first went from 429 items to 93.</p>
+</li>
+<li>
+<p><strong>Zero confirmed true positives were deleted.</strong> Of the 8 hand-confirmed TPs in the
+sample: <strong>7 remain HIGH/CRIT, 1 was demoted to MEDIUM, 0 were deleted.</strong> Of the 52
+confirmed FPs, 26 were deleted and 21 demoted. That is the load-bearing safety
+check on the reduction, and it passed.</p>
+</li>
+<li>
+<p><strong>Residual uncertainty is 17 findings.</strong> 17 of the 40 UNKNOWN (unadjudicable) items
+were deleted. We cannot claim those were noise — they were all witness-less
+findings on files carrying no agent evidence, the weakest class, but &quot;weakest
+class&quot; is an argument, not evidence.</p>
+</li>
+<li>
+<p><strong>One true positive was demoted.</strong> SuperAGI's <code>delete_file.py</code> (destructive tool,
+no human-approval gate) is a genuine finding with no line and no witness, so the
+evidence cap moved it to MEDIUM. It is still reported; it is no longer CRITICAL.</p>
+</li>
+<li>
+<p><strong>The §1 benign number gets easier.</strong> That corpus counts CRITICAL/HIGH only, so
+capping unverifiable findings mechanically helps it. Its 0-FP result should be
+read with that in mind.</p>
+</li>
+<li>
+<p><strong>Ground truth is soft.</strong> Two independent adjudications of the same sample gave
+13.3% and 30% — label noise comparable to the effects being measured. Treat all
+of this as a directional instrument, not a scoreboard.</p>
+</li>
+</ul>
+<p><strong>What that gap taught us (all five verified and fixed):</strong></p>
+<ol>
+<li>
+<p><strong>Fetch was classified as egress.</strong> Any network-touching tool defaulted to
+&quot;egress sink&quot;, so <code>download_object</code>, <code>scrape_page</code>, <code>web_fetch_tool</code> became
+fake exfiltration sinks (AG-TRIFECTA 11 → 7). This is the <em>same error class</em> as
+deciding a sink by category rather than behaviour. Fixed by verb-intent
+resolution in <code>is_egress_by_name</code>.</p>
+</li>
+<li>
+<p><strong>Parameterized ORM was flagged as SQL injection.</strong> <code>select(T).where(T.id == arg)</code> passed to <code>.execute()</code> looked like a raw-SQL sink; 0 of 7 sampled AG-SQL
+findings were real (AG-SQL 18 → 8). Fixed by <code>_is_orm_parameterized</code> — <code>text()</code>,
+f-strings and concatenation remain dangerous.</p>
+</li>
+<li>
+<p><strong>Name-inferred capabilities claimed CRITICAL.</strong> <code>capabilities = name ∪ body</code>
+meant reading the body could never withdraw a name guess, so
+<code>printable_shell_command</code> (body: <code>oslex.join</code> — shell <em>escaping</em>) was CRITICAL.
+AG-001 severity is now <strong>graded by evidence</strong>: body-confirmed → CRITICAL,
+name-only → MEDIUM with a witness that says which evidence we had (AG-001
+HIGH/CRIT 92 → 43). The finding still reports, so recall is unchanged.</p>
+</li>
+<li>
+<p><strong>Witness-less findings on files that are not agents.</strong> The generic parser is
+deliberately aggressive (a function merely NAMED <code>execute</code>/<code>query</code> makes a file
+an &quot;agent&quot;), so build scripts, benchmark harnesses, pydantic-schema modules,
+prompt-string files and <code>fake_tools/</code> were scanned as agents; the
+capability-composition detectors then fired there with no line and no witness.
+Those findings scored <strong>3 TP / 28 FP (9.7%)</strong> with <strong>38 of 100 unadjudicable</strong>.
+A finding on such a file must now carry either agent evidence (<code>@tool</code>, a Tool
+base class, an LLM client, a tool registry, MCP config, an agent constructor,
+an HTTP server) or its own witness — see
+<code>_require_evidence_on_unproven_agents</code>. This single change removed <strong>220</strong> of
+the population's findings.</p>
+</li>
+<li>
+<p><strong>Unverifiable findings claimed HIGH/CRITICAL.</strong> The posture family (AG-006,
+AG-028, AG-COMP, AG-002, AG-005a/b, AG-NOAUTH) asserts something about an
+agent's capability <em>set</em> — no line, no path, nothing to open. On the adjudicated
+sample, findings with neither a witness nor a line ran <strong>1 TP / 8 FP (11%)</strong> and
+held <strong>21 of the 23</strong> findings that could not be adjudicated at all. Severity is
+now <strong>bounded by evidence</strong> (<code>_bound_severity_by_evidence</code>): no evidence path ⇒
+capped at MEDIUM. They are still reported, so recall is unchanged. A sixth fix
+also landed: <strong>AG-DOCKER-EXEC no longer reports a hardened sandbox as an escape</strong>
+(it flagged <code>--runtime=runsc</code> gVisor runners and <code>docker --version</code> probes —
+0 TP / 3 FP).</p>
+</li>
+</ol>
+<p><strong>Honest caveats.</strong> Two independent adjudications of the same sample produced
+13.3% and 30%, differing almost entirely on witness-less findings — if two careful
+readers cannot agree whether one of our findings is real, a user cannot either;
+that disagreement is what motivated fix 4. We remain <strong>below AgentFlow's published
+73%</strong> on this population; their corpus and ours differ, so neither number strictly
+dominates, and we do not claim to beat it. The 34.8% is measured on the <em>same</em>
+hand-adjudicated subset (survivors of the original 100-finding sample), not a
+fresh sample — a fresh 100-finding adjudication of the current 209 findings is the
+honest next measurement.</p>
+<hr />
+<h3>2. Recall — 38/50 = 76%</h3>
+<p><strong>Result:</strong> <strong>38/50 = 76%</strong> recall (24% false-negative rate) across <strong>10 vuln classes</strong>;
+<strong>19/22 = 86%</strong> on the real third-party cases alone.</p>
+<p><strong>Reproduce:</strong></p>
+<pre><code class="language-bash">python benchmarks/recall_corpus.py
+</code></pre>
+<p><strong>What the corpus is.</strong> 50 distinct vulnerable agents across 10 vulnerability classes:</p>
+<ul>
+<li><strong>22 real third-party cases</strong> — drawn from actual projects/CVE-class patterns.</li>
+<li><strong>28 clearly-labeled constructed cases</strong> — hand-built, minimal reproductions, each
+labeled <code>constructed__</code> in its path so the split is never hidden.</li>
+</ul>
+<p>Provenance for every case (source, CVE/reference where applicable, real-vs-constructed)
+is recorded in <code>benchmarks/recall_corpus/manifest.json</code>. The benchmark runs offline and
+parallelized; a case counts as detected only if the scanner emits the <em>expected rule ID</em>
+for that class.</p>
+<p><strong>Per-class recall (regenerated 2026-07-29):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Recall</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>command_injection</td>
+<td>5/5 = 100%</td>
+<td></td>
+</tr>
+<tr>
+<td>sql_injection</td>
+<td>6/6 = 100%</td>
+<td></td>
+</tr>
+<tr>
+<td>cql_injection</td>
+<td>2/2 = 100%</td>
+<td>Cassandra CQL, via AG-SQL</td>
+</tr>
+<tr>
+<td>rce_eval_exec</td>
+<td>5/5 = 100%</td>
+<td></td>
+</tr>
+<tr>
+<td>cors_unauth_server</td>
+<td>5/5 = 100%</td>
+<td>AG-CORS / AG-NOAUTH</td>
+</tr>
+<tr>
+<td>secret_exfil_trifecta</td>
+<td>4/4 = 100%</td>
+<td>AG-TRIFECTA (incl. 1 real case from verbatim third-party tool bodies)</td>
+</tr>
+<tr>
+<td>insecure_deserialization</td>
+<td>6/6 = 100%</td>
+<td>AG-DESERIALIZE + cross-function taint</td>
+</tr>
+<tr>
+<td>container_escape</td>
+<td>4/5 = 80%</td>
+<td>AG-DOCKER-EXEC (1 miss: docker built via variable/SDK)</td>
+</tr>
+<tr>
+<td>ssrf</td>
+<td>1/6 = 17%</td>
+<td>AG-SSRF is deliberately conservative (URL-host taint only)</td>
+</tr>
+<tr>
+<td>path_traversal</td>
+<td>0/6 = 0%</td>
+<td>AG-PATH-TRAVERSAL built + sound but <strong>unregistered</strong> (precision)</td>
+</tr>
+<tr>
+<td><strong>OVERALL</strong></td>
+<td><strong>38/50 = 76%</strong></td>
+<td>19/22 = 86% on real-only</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The honest false-negative list.</strong> The benchmark prints every miss, with the rule IDs it
+<em>did</em> emit vs. what was expected — e.g. the SSRF and path-traversal misses (no registered
+detector fires) and one container-escape case where the docker command is assembled
+through a variable. We publish the misses rather than hide them.</p>
+<p><strong>Why some classes are low on purpose.</strong> SSRF and path traversal are the FP-prone classes:
+the benign corpus contains byte-identical legitimate shapes (<code>open(param)</code>,
+<code>os.path.join(base, name)</code>, tools that fetch a URL). Registering an aggressive detector for
+these would break the precision result (0 confirmed FP outside the documented per-repo
+known-capability allowlist). The project chooses <strong>precision over recall</strong> here —
+see <a href="/limits/">what SCAN misses</a>.</p>
+<hr />
+<h3>3. Cross-function taint (what makes deserialization 100%)</h3>
+<p><code>insecure_deserialization</code> reaches 100% partly because of a limited cross-function /
+intra-class taint analyzer (<code>src/lucin/analysis/cross_function_taint.py</code>, wired via
+<code>src/lucin/detectors/_taint.py</code>). It resolves same-file method-to-method flows — e.g.
+a value stored in <code>__init__</code> and later reaching a <code>pickle.load</code> sink. It is <strong>not</strong> a
+whole-program call graph (PyCG is blocked on the build mirror) and does not cross files or
+resolve dynamic dispatch. See <a href="/limits/">what SCAN misses</a> for the interprocedural boundary.</p>
+<hr />
+<h3>4. Test suite</h3>
+<p><strong>Result:</strong> <strong>517 passing</strong> (12 skipped, 1 xfail).</p>
+<p><strong>Reproduce:</strong></p>
+<pre><code class="language-bash">python -m pytest tests/ -q
+</code></pre>
+<p>Unit tests verify detector logic on author-written input. Per the project's validation
+ladder, unit tests are <strong>necessary but not sufficient</strong> — they do not count as validation
+of a precision or recall claim. Those come from the real/held-out corpora above.</p>
+<hr />
+<h3>Reproducibility summary</h3>
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 adjudicated FP (documented per-repo allowlist) / 52 repos / 2,732 files</td>
+<td><code>python benchmarks/build_benign_corpus.py</code></td>
+</tr>
+<tr>
+<td>Broad-population precision</td>
+<td><strong>WITHDRAWN</strong> — contaminated measurement; clean holdout re-adjudication in progress (§1b)</td>
+</tr>
+<tr>
+<td>38/50 = 76% recall / 10 classes / 86% real</td>
+<td><code>python benchmarks/recall_corpus.py</code></td>
+</tr>
+<tr>
+<td>517 tests passing</td>
+<td><code>python -m pytest tests/ -q</code></td>
+</tr>
+</tbody>
+</table>
+<p>Other capability numbers (GUARD live-LLM block, content-taint, behavioral, multi-agent)
+each have their own regenerating command — see the &quot;Validated Capabilities&quot; table in the
+<a href="https://github.com/Madhav2310/lucinlabs#readme">README</a>.</p>
+</main>
+<footer><div class="in">
+  <span class="mark-sm">LUCIN</span>
+  <span>Every claim reproducible from a committed command.</span>
+  <span style="display:flex;gap:14px;margin-left:auto">
+    <a href="/benchmarks/">Methodology</a>
+    <a href="/limits/">What it misses</a>
+    <a href="/docs/threat-model/">Threat model</a>
+  </span>
+</div></footer>
+</body>
+</html>

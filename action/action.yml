@@ -1,0 +1,113 @@
+# Lucin GitHub Action
+#
+# Usage in your workflow:
+#   - uses: lucin/lucin@v1
+#     with:
+#       scan-path: './src/agents'
+#       fail-on: 'high'
+#
+# This scans your agent code and fails if findings exceed the threshold.
+
+name: 'Lucin'
+description: 'Scan AI agent code for security vulnerabilities'
+author: 'Lucin'
+
+branding:
+  icon: 'shield'
+  color: 'blue'
+
+inputs:
+  scan-path:
+    description: 'Path to scan (default: entire repo)'
+    required: false
+    default: '.'
+  fail-on:
+    description: 'Minimum severity to fail on: critical, high, medium, low (default: high)'
+    required: false
+    default: 'high'
+  format:
+    description: 'Output format: rich, json, html (default: rich for logs)'
+    required: false
+    default: 'rich'
+  python-version:
+    description: 'Python version to use'
+    required: false
+    default: '3.12'
+
+outputs:
+  score:
+    description: 'Security score (0-100)'
+    value: ${{ steps.scan.outputs.score }}
+  findings-count:
+    description: 'Total number of findings'
+    value: ${{ steps.scan.outputs.findings }}
+  critical-count:
+    description: 'Number of critical findings'
+    value: ${{ steps.scan.outputs.critical }}
+  high-count:
+    description: 'Number of high findings'
+    value: ${{ steps.scan.outputs.high }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install Lucin
+      shell: bash
+      run: pip install lucin
+
+    - name: Run scan
+      id: scan
+      shell: bash
+      run: |
+        # Run scan and capture JSON output
+        lucin scan ${{ inputs.scan-path }} --format json --output /tmp/lucin-results.json || true
+
+        # Extract metrics from JSON
+        if [ -f /tmp/lucin-results.json ]; then
+          FINDINGS=$(python3 -c "import json; d=json.load(open('/tmp/lucin-results.json')); print(len(d.get('findings', [])))")
+          CRITICAL=$(python3 -c "import json; d=json.load(open('/tmp/lucin-results.json')); print(sum(1 for f in d.get('findings', []) if f['severity']=='critical'))")
+          HIGH=$(python3 -c "import json; d=json.load(open('/tmp/lucin-results.json')); print(sum(1 for f in d.get('findings', []) if f['severity']=='high'))")
+          echo "findings=$FINDINGS" >> $GITHUB_OUTPUT
+          echo "critical=$CRITICAL" >> $GITHUB_OUTPUT
+          echo "high=$HIGH" >> $GITHUB_OUTPUT
+        fi
+
+        # Run with fail-on threshold
+        lucin scan ${{ inputs.scan-path }} --ci --fail-on ${{ inputs.fail-on }}
+
+    - name: Display results
+      if: always()
+      shell: bash
+      run: |
+        echo "## Lucin Security Scan Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f /tmp/lucin-results.json ]; then
+          python3 -c "
+        import json
+        d = json.load(open('/tmp/lucin-results.json'))
+        findings = d.get('findings', [])
+        critical = sum(1 for f in findings if f['severity'] == 'critical')
+        high = sum(1 for f in findings if f['severity'] == 'high')
+        medium = sum(1 for f in findings if f['severity'] == 'medium')
+        low = sum(1 for f in findings if f['severity'] == 'low')
+        print(f'| Severity | Count |')
+        print(f'|----------|-------|')
+        print(f'| Critical | {critical} |')
+        print(f'| High | {high} |')
+        print(f'| Medium | {medium} |')
+        print(f'| Low | {low} |')
+        print()
+        print(f'**Total findings: {len(findings)}**')
+        if critical + high > 0:
+            print()
+            print('### Critical/High Findings:')
+            for f in findings:
+                if f['severity'] in ('critical', 'high'):
+                    print(f\"- **{f['severity'].upper()}** [{f['id']}] {f['title']} ({f.get('agent_name', 'N/A')})\")
+        " >> $GITHUB_STEP_SUMMARY
+        fi

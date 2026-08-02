@@ -1,0 +1,520 @@
+{
+  "population_label": "curated-broad real agent repos (hand-picked, NOT a uniform random sample)",
+  "n_repos_downloaded": 81,
+  "n_files_scanned": 5868,
+  "total_high_crit_findings": 87,
+  "sample_size": 87,
+  "adjudicated": 73,
+  "unadjudicated_keys": [],
+  "tp": 15,
+  "fp": 58,
+  "unknown": 0,
+  "precision": 0.2055,
+  "precision_pct": 20.5,
+  "wilson95": [
+    0.1287,
+    0.3117
+  ],
+  "precision_measured": true,
+  "precision_upper_pct": 31.5,
+  "bounds_note": "LOWER counts a row naming a file without the weakness as FP; UPPER credits the witness-correct weakness (the detector's source_file is right, this per-file harness dropped it). Directory-mode re-measurement is the honest next step.",
+  "contaminated_excluded": 14,
+  "contamination_note": "Precision is computed ONLY over findings with no verdict in TUNING_ADJUDICATIONS. Those tuning labels were used to design the precision filters, so any number derived from them is train-on-test. The previously published 58% and the later 85.7% are both withdrawn.",
+  "per_detector": {
+    "AG-001": {
+      "TP": 10,
+      "FP": 21,
+      "UNKNOWN": 0
+    },
+    "AG-CORS": {
+      "TP": 2,
+      "FP": 11,
+      "UNKNOWN": 0
+    },
+    "AG-SQL": {
+      "TP": 1,
+      "FP": 6,
+      "UNKNOWN": 0
+    },
+    "AG-TRIFECTA": {
+      "TP": 0,
+      "FP": 6,
+      "UNKNOWN": 0
+    },
+    "AG-DOCKER-EXEC": {
+      "TP": 1,
+      "FP": 3,
+      "UNKNOWN": 0
+    },
+    "AG-011": {
+      "TP": 0,
+      "FP": 4,
+      "UNKNOWN": 0
+    },
+    "AG-023": {
+      "TP": 0,
+      "FP": 2,
+      "UNKNOWN": 0
+    },
+    "AG-SSRF": {
+      "TP": 0,
+      "FP": 2,
+      "UNKNOWN": 0
+    },
+    "AG-DESERIALIZE": {
+      "TP": 0,
+      "FP": 2,
+      "UNKNOWN": 0
+    },
+    "AG-007": {
+      "TP": 0,
+      "FP": 1,
+      "UNKNOWN": 0
+    },
+    "AG-RAG-NO-SANITIZE": {
+      "TP": 1,
+      "FP": 0,
+      "UNKNOWN": 0
+    }
+  },
+  "verdicts": [
+    {
+      "key": "AgentEra/Agently::examples/agent_task/agently_architecture_diagram_task.py::L160::AG-007",
+      "id": "AG-007",
+      "verdict": "FP",
+      "reason": "L160 is Agently.create_agent(...) \u2014 no key literal anywhere in the file; key comes from os.getenv('DEEPSEEK_API_KEY') (_business_example_common.py:35). No secret, and an examples/ script."
+    },
+    {
+      "key": "Josh-XT/AGiXT::agixt/cli.py::L1270::AG-SQL",
+      "id": "AG-SQL",
+      "verdict": "FP",
+      "reason": "The 'SQL sink' is session.execute(command,...) at cli.py:1295 -> subprocess.Popen(['/bin/bash','-c',command]) cli.py:949/982. No SQL or DB code in the path; misidentified sink."
+    },
+    {
+      "key": "Josh-XT/AGiXT::agixt/cli.py::L2583::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "cli.py:2583 run_shell_command has ZERO callers repo-wide (grep -rn run_shell_command = only the def); cli.py is an argparse server-management CLI (cli.py:1-40, __main__ at 4985). Dead human-only code."
+    },
+    {
+      "key": "Josh-XT/AGiXT::agixt/cli.py::L3424::AG-DOCKER-EXEC",
+      "id": "AG-DOCKER-EXEC",
+      "verdict": "FP",
+      "reason": "cli.py:3455-3474 docker run args all literals (redis:alpine, -p, -v data dir), no escape flags; container runs redis-server, not agent code. Human argparse CLI (cli.py:3915)."
+    },
+    {
+      "key": "OpenBMB/ChatDev::functions/function_calling/code_executor.py::L1::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "code_executor.py:35-47 writes the LLM-supplied `code` param to a temp .py and runs sys.executable on it, no sandbox/allowlist. utils/function_catalog.py:37 turns functions/function_calling/*.py into LLM tool schemas."
+    },
+    {
+      "key": "OpenBMB/XAgent::XAgent/toolserver_interface.py::L0::AG-TRIFECTA",
+      "id": "AG-TRIFECTA",
+      "verdict": "FP",
+      "reason": "Egress leg misidentified: unwrap_tool_response (toolserver_interface.py:29-56) only writes base64 to a local file; download_all_files (:157-173) POSTs to the configured toolserver. No exfil sink."
+    },
+    {
+      "key": "OpenInterpreter/open-interpreter::codex-cli/scripts/build_npm_package.py::L327::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "Human-run build script (argparse main at build_npm_package.py:91/450); run_command's only callers pass literal argv ['pnpm',...] at :335-336. No agent surface."
+    },
+    {
+      "key": "OpenInterpreter/open-interpreter::scripts/stage_npm_packages.py::L469::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "Human release CLI (argparse L87, __main__ L603); run_command:471 is subprocess.run(list, no shell) with cmd built from literals/paths L540-573. Build tooling, not agent-exposed."
+    },
+    {
+      "key": "ShishirPatil/gorilla::berkeley-function-call-leaderboard/bfcl_eval/eval_checker/multi_turn_eval/multi_turn_utils.py::L13::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "eval(func_call) at multi_turn_utils.py:83 runs decoded_model_responses passed in at base_handler.py:296/588; denylist L75-81 tests only the outer name, so __import__ bypasses it."
+    },
+    {
+      "key": "ShishirPatil/gorilla::berkeley-function-call-leaderboard/bfcl_eval/model_handler/local_inference/arch.py::L157::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "arch.py:171 eval(item) on raw model output: api_response text (158) -> extract_tool_calls (198-208) leaves non-JSON matches as str -> eval. LLM-controlled code exec in shipped bfcl_eval pkg."
+    },
+    {
+      "key": "ShishirPatil/gorilla::berkeley-function-call-leaderboard/bfcl_eval/model_handler/local_inference/granite_4.py::L27::AG-011",
+      "id": "AG-011",
+      "verdict": "FP",
+      "reason": "granite_4.py:28-147 is a copied Jinja chat template inside _format_prompt's docstring in a BFCL eval model handler. No tool description, no filesystem access, no jailbreak text."
+    },
+    {
+      "key": "ShishirPatil/gorilla::berkeley-function-call-leaderboard/bfcl_eval/model_handler/local_inference/granite_4.py::L320::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "granite_4.py:322 raises if any item is not a dict, so the `type(item)==str` branch guarding eval() at :327 is unreachable dead code. Also an offline leaderboard eval decoder (base_handler.py:262), not an agent tool."
+    },
+    {
+      "key": "ShishirPatil/gorilla::berkeley-function-call-leaderboard/bfcl_eval/model_handler/local_inference/nanbeige_fc.py::L35::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "eval() at nanbeige_fc.py:42 is unreachable: :37 raises unless every item is a dict, so type(item)==str is never true. Only exec-like sink in the file; also a BFCL benchmark eval harness."
+    },
+    {
+      "key": "ShishirPatil/gorilla::goex/docker/docker/python_executor.py::L6::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "Runs only inside the container (dockerfile COPY; docker_sandbox.py:78-90 containers.run cmd 'python_executor.py code_execute'); no --privileged/docker.sock/host-net. Exec is the sandbox by design."
+    },
+    {
+      "key": "ShishirPatil/gorilla::goex/docker/sqllite_docker/python_executor.py::L6::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "In-container sandbox entrypoint: dockerfile bakes it into an isolated image; host runs it via containers.run with no privileged/host flags (exec_engine/docker_sandbox.py:80-90). Exec IS the sandbox."
+    },
+    {
+      "key": "Skyvern-AI/skyvern::skyvern/forge/sdk/copilot/tools/__init__.py::L0::AG-TRIFECTA",
+      "id": "AG-TRIFECTA",
+      "verdict": "FP",
+      "reason": "Sink update_workflow_tool (tools/__init__.py:278) only validates+persists workflow YAML locally, no egress; 'data' leg delete_block_tool (L450) is a block deletion, not a sensitive read."
+    },
+    {
+      "key": "THUDM/AgentBench::src/server/tasks/dbbench/result_processor.py::L158::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "eval(result) at result_processor.py:163 is fed the agent's own commit_final_answer argument: task.py:172 answer=arguments -> 204 -> 209 compare_results -> 24 _clean_answer -> 205. LLM-controlled RCE."
+    },
+    {
+      "key": "TransformerOptimus/SuperAGI::superagi/agent/tool_builder.py::L50::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "build_tool only importlib.import_module's a path from DB Tool rows (tool_builder.py:60-80) picked by integer IDs (agent_iteration_step_handler.py:162-165). Loader plumbing, no agent-controlled arg."
+    },
+    {
+      "key": "VRSEN/agency-swarm::src/agency_swarm/agent/tools.py::L26::AG-023",
+      "id": "AG-023",
+      "verdict": "FP",
+      "reason": "add_tool(agent, tool) is a developer-facing Python registration API; every caller is framework code (agency/setup.py:403, agent/subagents.py:122, tools.py:95/101/153). No LLM-callable surface, so no HITL gate is owed."
+    },
+    {
+      "key": "VRSEN/agency-swarm::src/agency_swarm/cli/migrate_agent.py::L59::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "Human-invoked CLI: only caller is src/agency_swarm/cli/main.py:87 with argparse args; cmd is a fixed list ['npx', runner, ts_script, settings_arg] (migrate_agent.py:102). No agent surface."
+    },
+    {
+      "key": "VRSEN/agency-swarm::src/agency_swarm/integrations/fastapi.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "TP",
+      "reason": "fastapi.py:161-162 defaults cors_origins to ['*'] on the agency/tool-serving app, and :138-141 disables auth entirely when app_token env is unset, so any origin can drive agent endpoints."
+    },
+    {
+      "key": "VRSEN/agency-swarm::src/agency_swarm/integrations/realtime_config.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "MISLOCATED: witness names fastapi.py, but the flagged file (src/agency_swarm/integrations/realtime_config.py) contains no CORS config \u2014 not actionable at the named location (rubric: weakness must exist in this code)"
+    },
+    {
+      "key": "VRSEN/agency-swarm::src/agency_swarm/tools/utils.py::L0::AG-TRIFECTA",
+      "id": "AG-TRIFECTA",
+      "verdict": "FP",
+      "reason": "'Egress' tool_output_file_from_url (utils.py:237) is a fetch, SSRF-guarded at L66/254; 'data' leg from_openapi_schema (L290) takes developer-supplied schema config, not untrusted input."
+    },
+    {
+      "key": "VRSEN/agency-swarm::src/agency_swarm/tools/utils.py::L177::AG-011",
+      "id": "AG-011",
+      "verdict": "FP",
+      "reason": "utils.py:177 is a developer helper (path arg from caller code), not a registered tool, and has no description/docstring ingestion so the claimed 'description injection' mechanism is absent here."
+    },
+    {
+      "key": "VRSEN/agency-swarm::src/agency_swarm/tools/utils.py::L198::AG-011",
+      "id": "AG-011",
+      "verdict": "FP",
+      "reason": "utils.py:198-211 just returns ToolOutputImage(file_id=...): no filesystem access, benign docstring, no tool decorator. Exported library helper (tools/__init__.py:46), not agent-callable."
+    },
+    {
+      "key": "agiresearch/AIOS::aios/llm_core/adapter.py::L0::AG-TRIFECTA",
+      "id": "AG-TRIFECTA",
+      "verdict": "FP",
+      "reason": "Legs misidentified: 'untrusted input' is a GET to the developer-configured ollama host (adapter.py:120-123, 296) returning model names; 'egress' execute_llm_syscall:743 is the framework's own LLM completion. No sensitive-read leg "
+    },
+    {
+      "key": "agiresearch/AIOS::aios/tool/virtual_env/providers/virtualbox/manager.py::L254::AG-SSRF",
+      "id": "AG-SSRF",
+      "verdict": "FP",
+      "reason": "URL authority is the local VM IP parsed from 'VBoxManage guestproperty get' output (manager.py:231-235), inside _install_vm provisioning (:47); no request/tool-controlled input reaches it."
+    },
+    {
+      "key": "agiresearch/AIOS::aios/tool/virtual_env/providers/virtualbox/provider.py::L18::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "subprocess.run(list) with no shell; every caller (provider.py:73,86,104,110,112,119) passes fixed ['VBoxManage',...] argv. VM-lifecycle plumbing, not an agent-callable exec tool."
+    },
+    {
+      "key": "agiresearch/AIOS::aios/tool/virtual_env/providers/vmware/manager.py::L247::AG-SSRF",
+      "id": "AG-SSRF",
+      "verdict": "FP",
+      "reason": "download_screenshot is a nested helper inside _install_vm (manager.py:121); ip is the output of `vmrun getGuestIPAddress` (L222-238) passed only at L258. No agent/user-controlled URL authority."
+    },
+    {
+      "key": "agiresearch/AIOS::aios/tool/virtual_env/providers/vmware/provider.py::L32::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "provider.py:32 receives argv lists of fixed binary 'vmrun' + literal subcommands (L63,78,91,97,103), no shell, no injectable command; agent MCP exec is a different fn (mcp_server.py:29)."
+    },
+    {
+      "key": "agiresearch/AIOS::aios/tool/virtual_env/server/main.py::L75::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "main.py:73-103 unauthenticated Flask /execute runs subprocess.run(command, shell=shell) ('without any safety checks', l.89); reached from MCP tools via mcp_server.py:16,33 -> python.py:112-124."
+    },
+    {
+      "key": "agiresearch/AIOS::runtime/launch.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "TP",
+      "reason": "launch.py:47-53 allow_origins=['*'] + allow_credentials=True on a kernel server with no auth dependency that exposes POST /agents/submit (line 600) and POST /query (line 727)."
+    },
+    {
+      "key": "bytedance/deer-flow::backend/packages/harness/deerflow/agents/memory/backends/deermem/deermem/core/retrieval.py::L172::AG-SQL",
+      "id": "AG-SQL",
+      "verdict": "FP",
+      "reason": "index_fact uses fully parameterised SQL: retrieval.py:188 `DELETE ... WHERE doc_id = ?` and :189-209 `INSERT ... VALUES (?,?,?,?,?,?,?,?,?,?)` with the row tuple bound. No string interpolation of any param."
+    },
+    {
+      "key": "bytedance/deer-flow::backend/packages/harness/deerflow/sandbox/local/local_sandbox.py::L0::AG-TRIFECTA",
+      "id": "AG-TRIFECTA",
+      "verdict": "FP",
+      "reason": "No egress leg: write_file (local_sandbox.py:737-751) writes a local sandbox file; download_file (:715-732) reads a local file restricted to VIRTUAL_PATH_PREFIX. Both legs are local FS ops."
+    },
+    {
+      "key": "bytedance/deer-flow::backend/packages/harness/deerflow/sandbox/local/local_sandbox.py::L466::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "Agent bash_tool refuses host shell unless opt-in: tools.py:1802-1803 gate on is_host_bash_allowed (security.py:45 default False, config.example.yaml:1199) plus path allowlist tools.py:1205-1246."
+    },
+    {
+      "key": "bytedance/deer-flow::backend/packages/harness/deerflow/tools/builtins/task_tool.py::L231::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "No subprocess/exec/eval anywhere in task_tool.py (grep clean); body only builds subagent Command objects, and the 'bash' subagent is gated by is_host_bash_allowed() (L300-308)."
+    },
+    {
+      "key": "entropy-research/Devon::devon_agent/environments/swebenchenv.py::L165::AG-DOCKER-EXEC",
+      "id": "AG-DOCKER-EXEC",
+      "verdict": "FP",
+      "reason": "docker run at L168-180 has no escape flags (no --privileged/docker.sock/host-net) and is unreachable: DockerEnvironment/SWEEnvEnvironment never instantiated (server.py:253-6, config_utils.py:16)."
+    },
+    {
+      "key": "entropy-research/Devon::devon_swe_bench_experimental/environment/environment.py::L69::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "session.py:412-416 passes any unrecognised LLM-emitted command verbatim to communicate() -> environment.py:69-73 subprocess.run(shell=True). Unrestricted agent shell, no allowlist/approval."
+    },
+    {
+      "key": "frdel/agent-zero::.github/scripts/docker_release_plan.py::L44::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "CI-only Actions helper: run_command uses subprocess.run(args) list form, no shell, fixed git/docker binaries, reached only via main() at line 823-841. Build script, not agent-exposed."
+    },
+    {
+      "key": "google-deepmind/concordia::concordia/document/interactive_document_tools.py::L473::AG-011",
+      "id": "AG-011",
+      "verdict": "FP",
+      "reason": "yes_no_question (interactive_document_tools.py:473-483) only delegates to multiple_choice_question; no filesystem or other capability. Tool descriptions come from developer-passed Tool objects (:107, :122-148). Witness list empty."
+    },
+    {
+      "key": "h2oai/h2ogpt::openai_server/agent_prompting.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "MISLOCATED: witness names server.py, but the flagged file (openai_server/agent_prompting.py) contains no CORS config \u2014 not actionable at the named location (rubric: weakness must exist in this code)"
+    },
+    {
+      "key": "h2oai/h2ogpt::openai_server/agent_utils.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "MISLOCATED: witness names server.py, but the flagged file (openai_server/agent_utils.py) contains no CORS config \u2014 not actionable at the named location (rubric: weakness must exist in this code)"
+    },
+    {
+      "key": "h2oai/h2ogpt::openai_server/backend_utils.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "MISLOCATED: witness names server.py, but the flagged file (openai_server/backend_utils.py) contains no CORS config \u2014 not actionable at the named location (rubric: weakness must exist in this code)"
+    },
+    {
+      "key": "h2oai/h2ogpt::src/create_data.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "MISLOCATED: witness names function_server.py, but the flagged file (src/create_data.py) contains no CORS config \u2014 not actionable at the named location (rubric: weakness must exist in this code)"
+    },
+    {
+      "key": "h2oai/h2ogpt::src/create_data.py::L514::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "create_data.py:513-519 is a pytest test; os.system arg is a literal from ALL_OIG_DATASETS (create_data.py:443+, a constant list) plus a fixed HF URL. Human-run, no injectable input."
+    },
+    {
+      "key": "h2oai/h2ogpt::src/db_utils.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "MISLOCATED: witness names function_server.py, but the flagged file (src/db_utils.py) contains no CORS config \u2014 not actionable at the named location (rubric: weakness must exist in this code)"
+    },
+    {
+      "key": "h2oai/h2ogpt::src/function_client.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "src/function_client.py defines no HTTP server and no CORS: it is a requests client (function_client.py:8-25). The wildcard CORS is in src/function_server.py:43-49, a different file; claim is misattributed to this code."
+    },
+    {
+      "key": "h2oai/h2ogpt::src/gpt_langchain.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "Witnessed CORS is src/function_server.py:45, an internal RPC server whose one endpoint dispatches a fixed 2-function allowlist (path_to_docs/process_file_list, :131-134); no agent/LLM surface."
+    },
+    {
+      "key": "h2oai/h2ogpt::src/gpt_langchain.py::L8250::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "Live path in get_chain() (gpt_langchain.py:8021): when AUTOGPT agent is selected, PythonREPL repl_tool (:8246-8254) plus ShellTool (:8213) are handed to the agent tool list (:8296+), unsandboxed."
+    },
+    {
+      "key": "h2oai/h2ogpt::src/utils.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "MISLOCATED: witness names function_server.py, but the flagged file (src/utils.py) contains no CORS config \u2014 not actionable at the named location (rubric: weakness must exist in this code)"
+    },
+    {
+      "key": "h2oai/h2ogpt::src/utils.py::L0::AG-TRIFECTA",
+      "id": "AG-TRIFECTA",
+      "verdict": "FP",
+      "reason": "Both cited legs are download() at src/utils.py:770, a requests.get helper not registered as an LLM tool (agent tools live in openai_server/agent_tools/); no sensitive-data-read leg exists."
+    },
+    {
+      "key": "h2oai/h2ogpt::src/utils.py::L1827::AG-DESERIALIZE",
+      "id": "AG-DESERIALIZE",
+      "verdict": "FP",
+      "reason": "utils.py:1819-1829 is a deepcopy idiom: pickle.loads consumes only the bytes just produced by pickle.dumps of an in-process object; no external/attacker-supplied payload can enter."
+    },
+    {
+      "key": "h2oai/h2ogpt::src/utils.py::L2058::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "utils.py:2086 Popen(cmd) runs the LLM-written code file; used as exec_func by autogen executor (autogen_utils.py:355-366), factory default run_code_in_docker=False, restrictions=0 (1055-1063)."
+    },
+    {
+      "key": "h2oai/h2ogpt::src/utils_procs.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "src/utils_procs.py is a psutil rlimit helper module (no FastAPI, no CORS, no HTTP at all). The allow_origins=['*'] lives in src/function_server.py:43-49; the finding is attributed to unrelated code."
+    },
+    {
+      "key": "infiniflow/ragflow::agent/sandbox/providers/local.py::L107::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "LLM tool 'execute_code' script param (agent/tools/code_exec.py:243,300,341) reaches LocalProvider.execute_code -> subprocess.Popen on host (local.py:121-139); code states it is not a sandbox (:58)."
+    },
+    {
+      "key": "julep-ai/julep::julep/app_deploy.py::L1089::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "Fixed-binary helm call: subprocess.run(list), no shell; runner used only by HelmLaneReconciler (app_deploy.py:620) with hardcoded 'helm upgrade/test' argv (:645-700,:757-767). Not agent-exposed."
+    },
+    {
+      "key": "julep-ai/julep::julep/app_deploy.py::L1096::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "_run_command_output:1096 is subprocess.run(list) with no shell; sole caller L806 passes a fixed kubectl argv with a validated namespace inside HelmLaneReconciler deploy plumbing. Not an agent tool."
+    },
+    {
+      "key": "langchain-ai/langchain::libs/langchain_v1/langchain/agents/middleware/file_search.py::L210::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "grep_search's only exec is subprocess.run(['rg','--json',...,'--',pattern,root]) at file_search.py:305-320: fixed binary, no shell, '--' flag guard, path forced under root (L297)."
+    },
+    {
+      "key": "lavague-ai/LaVague::lavague-core/lavague/core/base_driver.py::L214::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "base_driver.py:213-216 is @abstractmethod execute_script with body 'pass' - no exec sink exists at this location, contradicting the witness 'confirmed by body inspection'."
+    },
+    {
+      "key": "lavague-ai/LaVague::lavague-qa/lavague/qa/generator.py::L100::AG-RAG-NO-SANITIZE",
+      "id": "AG-RAG-NO-SANITIZE",
+      "verdict": "TP",
+      "reason": "generator.py:102-103 retrieves chunks from live page HTML (get_html(), line 159) and injects them unsanitized into the prompt at 188-192; LLM output written as runnable pytest (258-263)."
+    },
+    {
+      "key": "onyx-dot-app/onyx::backend/onyx/db/document.py::L1471::AG-SQL",
+      "id": "AG-SQL",
+      "verdict": "FP",
+      "reason": "get_cc_pairs_for_document (document.py:1471-1488) builds a SQLAlchemy ORM select()/join()/where() expression; document_id is bound as a parameter. No string interpolation, no raw SQL."
+    },
+    {
+      "key": "pathwaycom/llm-app::templates/unstructured_to_sql_on_the_fly/app.py::L250::AG-SQL",
+      "id": "AG-SQL",
+      "verdict": "TP",
+      "reason": "Unauthenticated REST query (app.py:221-227) -> LLM-generated SQL string executed verbatim via cursor.execute + conn.commit (app.py:251-254); only guard is a prompt instruction (:168)."
+    },
+    {
+      "key": "potpie-ai/potpie::legacy/app/modules/intelligence/agents/hatchet_local_bootstrap.py::L109::AG-DOCKER-EXEC",
+      "id": "AG-DOCKER-EXEC",
+      "verdict": "FP",
+      "reason": "Dev bootstrap run by scripts/setup_hatchet_local.sh (docstring :8-9); fixed argv 'docker compose run --no-deps ... hatchet-admin token create', literal tenant id, no escape flags, no LLM input."
+    },
+    {
+      "key": "potpie-ai/potpie::legacy/app/modules/utils/gvisor_runner.py::L184::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "Unused legacy utility: no import of gvisor_runner anywhere in the repo (grep); the function IS the gVisor sandbox wrapper (L184-265). Not agent-reachable, and the title inverts the mitigation."
+    },
+    {
+      "key": "potpie-ai/potpie::legacy/app/modules/utils/gvisor_runner.py::L603::AG-001",
+      "id": "AG-001",
+      "verdict": "FP",
+      "reason": "_run_command_regular is a private fallback of run_command_isolated (gvisor_runner.py:184), which has zero callers repo-wide (only its own docstring); unwired legacy/ utility, no agent path."
+    },
+    {
+      "key": "simonw/llm::llm/models.py::L297::AG-023",
+      "id": "AG-023",
+      "verdict": "FP",
+      "reason": "add_tool is explicitly in Toolbox._blocked (models.py:231-238) and both tool-exposure loops skip _blocked names (models.py:273, 288), so it is never exposed to the model."
+    },
+    {
+      "key": "sweepai/sweep::sweepai/handlers/on_check_suite.py::L103::AG-DOCKER-EXEC",
+      "id": "AG-DOCKER-EXEC",
+      "verdict": "TP",
+      "reason": "on_check_suite.py:137-156 shell=True docker build/run of cloned PR repo's Dockerfile, --env-file secrets, no --read-only/--network none/user-ns; reached via /backend/validate_pull (api.py:1085)."
+    },
+    {
+      "key": "unclecode/crawl4ai::crawl4ai/legacy/llmtxt.py::L219::AG-DESERIALIZE",
+      "id": "AG-DESERIALIZE",
+      "verdict": "FP",
+      "reason": "Input is a self-written local cache: llmtxt.py:48 bm25_index_file = docs_dir/'bm25_index.pkl', docs_dir = Path.home()/'.crawl4ai'/'docs' (legacy/docs_manager.py:10), dumped at :293/:369. Reached only via legacy human CLI, whose `f"
+    },
+    {
+      "key": "xtekky/gpt4free::g4f/api/tool_loop_detection.py::L0::AG-CORS",
+      "id": "AG-CORS",
+      "verdict": "FP",
+      "reason": "MISLOCATED: witness names __init__.py, but the flagged file (g4f/api/tool_loop_detection.py) contains no CORS config \u2014 not actionable at the named location (rubric: weakness must exist in this code)"
+    },
+    {
+      "key": "yoheinakajima/babyagi::babyagi/functionz/core/execution.py::L55::AG-001",
+      "id": "AG-001",
+      "verdict": "TP",
+      "reason": "exec(DB code) at execution.py:120 with secrets injected; code settable by agent tool add_new_function (default_functions.py:35) and unauth PUT /api/function, POST /api/execute (api/__init__.py:42,57)."
+    },
+    {
+      "key": "zylon-ai/private-gpt::private_gpt/components/database/function_inspector.py::L34::AG-SQL",
+      "id": "AG-SQL",
+      "verdict": "FP",
+      "reason": "f-string interpolation is real (L37 into query L47) but the function is dead code: its only call site is commented out at function_inspector.py:26-28 ('Postgres support is not complete')."
+    },
+    {
+      "key": "zylon-ai/private-gpt::private_gpt/components/database/function_inspector.py::L123::AG-SQL",
+      "id": "AG-SQL",
+      "verdict": "FP",
+      "reason": "The interpolated 'schema' (L124) comes only from inspect(engine).get_schema_names() filtered by config (database_query_generator.py:981-995) - real DB schema names, never an agent/tool param."
+    },
+    {
+      "key": "zylon-ai/private-gpt::private_gpt/components/database/function_inspector.py::L210::AG-SQL",
+      "id": "AG-SQL",
+      "verdict": "FP",
+      "reason": "'query' is a local built at function_inspector.py:223, not a param; schema comes from database_query_generator.py:985-993 filtering live get_schema_names() against config - not LLM/user input."
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Field notes on agent security — Lucin</title>
+<meta name="description" content="Teardowns of real incidents, the graph theory behind the detectors, and the benchmark numbers with the commands that produce them.">
+<link rel="canonical" href="https://lucin.security/blog/">
+<link rel="stylesheet" href="/fonts.css">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Lucin">
+<meta property="og:url" content="https://lucin.security/blog/">
+<meta property="og:title" content="Field notes on agent security">
+<meta property="og:description" content="Teardowns of real incidents, the graph theory behind the detectors, and the benchmark numbers with the commands that produce them.">
+<meta property="og:image" content="https://lucin.security/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lucin — static analysis for AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Field notes on agent security">
+<meta name="twitter:description" content="Teardowns of real incidents, the graph theory behind the detectors, and the benchmark numbers with the commands that produce them.">
+<meta name="twitter:image" content="https://lucin.security/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle",
+ "headline":"Field notes on agent security","description":"Teardowns of real incidents, the graph theory behind the detectors, and the benchmark numbers with the commands that produce them.","url":"https://lucin.security/blog/",
+ "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.security/"},
+ "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.security/"}}
+</script>
+<style>
+:root{
+  --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#6C7076;
+  --line:#D7D9DC; --line-strong:#141414;
+  --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
+  --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ff-heading:'Space Grotesk',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --radius:4px; --radius-chip:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--canvas)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+  background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
+  gap:26px;height:58px;font-size:14px}
+.nav-in .mark{display:inline-flex;align-items:center;gap:9px;font-family:var(--ff-heading);
+  font-weight:700;font-size:16px;letter-spacing:-.01em}
+.nav-in a{color:var(--ink-soft);text-decoration:none;font-weight:500}
+.nav-in a:hover{color:var(--sev-crit)}
+.nav-in .right{margin-left:auto;display:flex;gap:16px;align-items:center}
+.install{font-family:var(--mono);font-size:13px;background:var(--sunken);
+  border:1px solid var(--sunken);border-radius:var(--radius);padding:7px 12px;
+  color:#C7CAD1}
+main{max-width:760px;margin:0 auto;padding:56px 24px 96px}
+h1{font-family:var(--ff-heading);font-size:clamp(30px,4.5vw,42px);line-height:1.12;
+  letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+h2{font-family:var(--ff-heading);font-size:24px;line-height:1.25;letter-spacing:-.02em;
+  font-weight:700;margin:44px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-family:var(--ff-heading);font-size:18px;font-weight:600;margin:28px 0 10px}
+p,ul,ol,blockquote,table{margin:0 0 16px}
+ul,ol{padding-left:22px}
+li{margin:5px 0}
+strong{color:var(--ink);font-weight:600}
+p,li{color:var(--ink-soft)}
+a[href]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);
+  text-underline-offset:3px}
+a[href]:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+blockquote{border-left:3px solid var(--sev-crit);padding:2px 0 2px 16px;
+  color:var(--ink-muted)}
+/* code: inline is a light chip with a border; blocks are the one deliberate dark
+   inversion (matches the report/hero convention) — pre code resets the chip so
+   nested code is not double-boxed. */
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em;
+  font-variant-ligatures:none}
+pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--sunken);
+  color:#C7CAD1;border-radius:var(--radius);padding:14px 16px;
+  margin:0 0 18px;overflow:auto;-webkit-font-smoothing:auto}
+pre code{background:0 0;border:0;padding:0;font-size:1em;color:inherit}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface);color:var(--ink);font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 24px 56px;
+  color:var(--ink-muted);font-size:13px}
+footer .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+footer .mark-sm{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
+footer a{text-decoration:none;color:var(--ink-muted)}
+footer a:hover{color:var(--sev-crit)}
+
+@media(max-width:640px){.nav-in .links,.install{display:none}main{padding-top:36px}}
+
+/* ---- docs/benchmarks/limits/rules/changelog "tab family" header ----
+   Each is its own real page/route (not a client-side view switch) — the tabs
+   are plain links, and the current page's tab gets the active fill. */
+.back-home{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-home:hover{color:var(--sev-crit)}
+.eyebrow2{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);
+  font-weight:600;margin-top:30px}
+h1.page-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(34px,3.8vw,46px);
+  letter-spacing:-.025em;line-height:1.06;margin:16px 0 0}
+p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color:var(--ink-soft)}
+.tab-row{display:flex;gap:0;margin-top:34px;border:1.5px solid var(--ink);border-radius:2px;
+  width:fit-content;overflow:hidden}
+.tab-pill{padding:10px 18px;font-family:var(--mono);font-size:12.5px;text-decoration:none;
+  color:var(--ink);border-right:1px solid var(--ink);transition:background .18s,color .18s}
+.tab-pill:last-child{border-right:0}
+.tab-pill:hover{background:var(--surface);color:var(--ink)}
+.tab-pill.active{background:var(--ink);color:var(--canvas)}
+.tab-pill.active:hover{background:var(--ink);color:var(--canvas)}
+</style>
+<style>
+.post-meta-row{display:flex;gap:16px;margin-top:32px;font-family:var(--mono);font-size:11.5px;color:var(--ink-muted)}
+.post-meta-row .kicker{color:var(--sev-crit);font-weight:600}
+.post-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(32px,3.6vw,44px);
+  letter-spacing:-.025em;line-height:1.1;margin:16px 0 0}
+.post-dek{margin-top:20px;font-size:19px;line-height:1.55;color:var(--ink-soft)}
+.post-rule{height:2px;background:var(--ink);margin:36px 0 0}
+.post-body{margin-top:32px;font-size:17px;line-height:1.7;color:#242628}
+.post-body>*{margin-bottom:22px}
+h2.post-h{font-family:var(--ff-heading);font-weight:700;font-size:22px;letter-spacing:-.015em;margin:38px 0 -6px}
+h3.post-h{font-family:var(--ff-heading);font-weight:700;font-size:18px;letter-spacing:-.01em;margin:30px 0 -6px}
+p.post-p{margin:0}
+p.post-p code{font-family:var(--mono);font-size:.88em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em}
+p.post-p a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:2px}
+p.post-p a:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+ul.post-list,ol.post-list{padding-left:22px;color:#242628}
+ul.post-list li,ol.post-list li{margin:8px 0}
+ul.post-list code,ol.post-list code{font-family:var(--mono);font-size:.88em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em}
+pre.post-code{margin:0;background:var(--sunken);color:#C7CAD1;padding:18px 20px;border-radius:6px;
+  font-family:var(--mono);font-size:13px;line-height:1.7;overflow-x:auto}
+pre.post-code code{background:0 0;border:0;padding:0;color:inherit}
+.post-table-wrap{overflow-x:auto}
+.post-table-wrap table{width:100%;border-collapse:collapse;font-size:14.5px}
+.post-table-wrap th,.post-table-wrap td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.post-table-wrap th{background:var(--surface);font-weight:600;font-family:var(--ff-heading)}
+p.post-sources{margin:0;padding:16px 20px;background:var(--surface-muted);border-left:3px solid var(--sev-crit);
+  font-size:13.5px;line-height:1.6;color:var(--ink-muted)}
+p.post-sources em{font-style:normal}
+.post-cta{margin:44px 0 96px;background:var(--sunken);color:#FAFAF8;border-radius:6px;padding:36px 40px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.post-cta .t{font-family:var(--ff-heading);font-weight:700;font-size:20px}
+.post-cta .s{color:#B7BAC0;font-size:13.5px;margin-top:6px}
+.post-cta .pill{display:inline-flex;align-items:center;gap:14px;height:48px;padding:0 6px 0 20px;
+  background:#08090A;border:1px solid #2B2B2B;border-radius:2px;font-family:var(--mono);font-size:13.5px;
+  white-space:nowrap;color:#fff}
+.post-cta .pill .prompt{color:#F0917F}
+.back-link{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-link:hover{color:var(--sev-crit)}
+</style>
+</head><style>
+.blog-hero{max-width:1000px;margin:0 auto;padding:56px 24px 0}
+.blog-hero h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(36px,4vw,52px);
+  letter-spacing:-.025em;line-height:1.05;margin:18px 0 0}
+.blog-hero p{max-width:60ch;margin-top:18px;font-size:17px;line-height:1.6;color:var(--ink-soft)}
+.blog-list{max-width:1000px;margin:0 auto;padding:40px 24px 0;border-top:2px solid var(--ink)}
+.blog-row{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:32px 0;border-bottom:1px solid var(--line);
+  text-decoration:none;color:var(--ink);transition:padding-left .3s var(--ease,ease),background .2s}
+.blog-row:hover{padding-left:12px;background:var(--surface)}
+.blog-row-meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-muted);line-height:1.8}
+.blog-row-meta .k{color:var(--sev-crit);font-weight:600}
+.blog-row-title{font-family:var(--ff-heading);font-weight:700;font-size:25px;letter-spacing:-.02em;line-height:1.2}
+.blog-row-dek{margin-top:12px;font-size:15px;line-height:1.6;color:var(--ink-soft);max-width:64ch}
+.blog-row-cta{margin-top:14px;font-size:13.5px;font-weight:600;color:var(--sev-crit)}
+.blog-foot-note{max-width:1000px;margin:28px auto 0;padding:0 24px;font-size:13.5px;color:var(--ink-muted)}
+</style><body>
+<nav><div class="nav-in">
+  <a class="mark" href="/" aria-label="Lucin home"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>LUCIN</a>
+  <span class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></span>
+  <span class="right"><span class="install">$ pip install lucin</span></span>
+</div></nav><div class="blog-hero">
+  <div class="eyebrow" style="font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);font-weight:600">THE LUCIN BLOG</div>
+  <h1>Field notes on agent security.</h1>
+  <p>Teardowns of real incidents, the graph theory behind the detectors, and the benchmark numbers with the commands that produce them.</p>
+</div>
+<div class="blog-list">
+<a href="/blog/hugging-face-agent-breach/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">TEARDOWN</div><div>29 JUL 2026</div><div>12 min read</div></div>
+  <div>
+    <div class="blog-row-title">17,000 actions, one weekend, nobody watching: anatomy of the Hugging Face agent breach</div>
+    <p class="blog-row-dek">A malicious dataset, a tool that executes code, a credential read, an outbound call. We rebuilt the incident as an information-flow graph — and found the single edge that carries all 17,000 actions.</p>
+    <div class="blog-row-cta">Read the teardown →</div>
+  </div>
+</a><a href="/blog/lethal-trifecta/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">METHOD</div><div>29 JUL 2026</div><div>9 min read</div></div>
+  <div>
+    <div class="blog-row-title">The lethal trifecta for AI agents, and how to actually cut it</div>
+    <p class="blog-row-dek">Private data, untrusted content, external reach. Any one is fine; all three wired together is the incident. Here is how to read those edges off your own tool list — and which to cut versus gate.</p>
+    <div class="blog-row-cta">Read the explainer →</div>
+  </div>
+</a><a href="/blog/reproducible-benchmark/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">PROOF</div><div>29 JUL 2026</div><div>7 min read</div></div>
+  <div>
+    <div class="blog-row-title">We published our false-positive rate and the command that regenerates it. Here&#x27;s why nobody else does.</div>
+    <p class="blog-row-dek">A security tool that will not show you its benchmark harness is asking you to take its word for it. Here is ours, and the exact command that regenerates every number on this site.</p>
+    <div class="blog-row-cta">Read the write-up →</div>
+  </div>
+</a>
+</div>
+<p class="blog-foot-note">More posts as we publish them. Every claim links to the command that reproduces it.</p>
+<div style="max-width:1000px;margin:44px auto 0;padding:0 24px 96px"><div class="post-cta">
+  <div><div class="t">Check your own agent for this shape.</div><div class="s">Free, MIT, 30 seconds.</div></div>
+  <div class="pill"><span><span class="prompt">$</span> pip install lucin</span></div>
+</div></div>
+</body>
+</html>

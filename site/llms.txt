@@ -1,0 +1,44 @@
+# Lucin
+
+> Static analysis for AI agents. Finds paths where untrusted input can reach a
+> dangerous action through an agent's tool graph, and publishes a reproducible
+> false-positive rate. Python CLI: `pip install lucin`.
+
+## Use it
+
+```
+pip install lucin
+lucin scan .                 # scan a project
+lucin scan --format json .   # machine-readable output
+lucin scan --format sarif .  # GitHub code scanning
+lucin discover               # find agent/MCP configs on this machine
+```
+
+No API key, no signup, no network calls, no telemetry. Exit code is non-zero when
+findings meet `--fail-on <severity>`.
+
+## Links
+
+- [Quickstart](https://lucin.security/docs/) — install and first scan
+- [Detection rules](https://lucin.security/rules/) — every rule ID, what it catches, how to fix it
+- [Benchmarks and methodology](https://lucin.security/benchmarks/) — the numbers and the commands that regenerate them
+- [Limits](https://lucin.security/limits/) — what Lucin does not catch, published deliberately
+- [Threat model](https://lucin.security/docs/threat-model/)
+- [Source](https://github.com/Madhav2310/lucinlabs)
+
+## Notes for an agent reading this
+
+Findings carry a stable rule ID (`AG-001` … `AG-TRIFECTA`), a severity, a
+`file:line`, and — where the rule supports it — a witness path showing the flow that
+triggered it. A finding with no witness and no source line is capped below HIGH,
+because it cannot be verified by a reader.
+
+Headline numbers, each with its command:
+- 0 adjudicated false positives / 52 real repos / 2,732 files — `python benchmarks/build_benign_corpus.py`
+- 20.5-31.5% precision on a broad 81-repo population (n=73 clean holdout; lower bound CI 12.9-31.2%, upper 22.0-42.9%) — `python benchmarks/agentzoo_precision.py --report-only`. Both bounds published because one attribution judgement moves the figure ~11 points. The earlier 58% was train-on-test and is withdrawn. AG-TRIFECTA scored 0 TP / 6 FP on this holdout.
+- 76% recall (38/50, 10 vulnerability classes) — `python benchmarks/recall_corpus.py`
+
+Deliberately kept short and pointed at things needed to *use* the tool. Evidence
+(Ahrefs, 137,210 domains) is that 97% of `llms.txt` files are never fetched and that
+AI *retrieval* crawlers account for ~1% of the requests that do occur — the one real
+consumer was Anthropic's coding agent, which is why this file exists at all.

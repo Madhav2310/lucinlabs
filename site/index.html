@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucin — Your agent can be talked into anything</title>
+<meta name="description" content="Other scanners read tool names and guess. Lucin reads the code inside every tool your AI agent can call and traces the exact path from a poisoned prompt to your data leaving the building. Free, open source, no API key.">
+<link rel="canonical" href="https://lucin.security/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lucin">
+<meta property="og:url" content="https://lucin.security/">
+<meta property="og:title" content="Lucin — Your agent can be talked into anything">
+<meta property="og:description" content="Lucin traces the exact path from a poisoned prompt to your data leaving the building — then hands you the cut that closes it. Free, open source, reproducible false-positive rate.">
+<meta property="og:image" content="https://lucin.security/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lucin scan output showing an agent information-flow graph with an exfiltration path highlighted">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lucin — Your agent can be talked into anything">
+<meta name="twitter:description" content="Open-source AI-agent security scanner with a published, reproducible false-positive rate.">
+<meta name="twitter:image" content="https://lucin.security/og.png">
+
+<!-- Structured data. SoftwareApplication is the type that actually matters for a
+     dev tool; Organization anchors the brand entity for search + AI answer engines.
+     codeRepository/license are machine-readable attribution, not a UI link — the
+     visible GitHub nav/footer link was deliberately dropped from this redesign,
+     but that is a chrome decision, not a "hide the license" decision. -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"SoftwareApplication",
+  "name":"Lucin",
+  "applicationCategory":"DeveloperApplication",
+  "applicationSubCategory":"Security scanner",
+  "operatingSystem":"macOS, Linux, Windows",
+  "programmingLanguage":"Python",
+  "description":"Static analyzer for AI agents. Maps information flow through an agent's tools to find paths where untrusted input can reach a dangerous action, and publishes a reproducible false-positive rate.",
+  "url":"https://lucin.security/",
+  "downloadUrl":"https://pypi.org/project/lucin/",
+  "codeRepository":"https://github.com/Madhav2310/lucinlabs",
+  "license":"https://github.com/Madhav2310/lucinlabs/blob/main/LICENSE",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD",
+            "description":"Open-source scanner, free forever"}},
+ {"@type":"Organization",
+  "name":"Lucin Labs",
+  "url":"https://lucin.security/",
+  "description":"Security tooling for AI agents, with published and reproducible detection metrics."}
+]}
+</script>
+
+<link rel="stylesheet" href="/fonts.css">
+<style>
+:root{
+  --paper:#FAFAF8; --ink:#141414; --red:#D6321F; --red-dark:#A82415;
+  --body:#3D4147; --muted:#6C7076; --muted2:#8A8E94;
+  --line:#D7D9DC; --hover:#F3F2EE; --hover2:#F1F0EC;
+  --amber:#E8A33D; --amber-dark:#D69A1F;
+  --plate:#141414; --chip:#2B2B2B; --dim:#8A8F98; --mono-body:#C7CAD1; --prompt:#F0917F; --bright-red:#FF6B57;
+  --sev-high:#B85C1F; --sev-med:#B8860B;
+  --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ff-heading:'Space Grotesk',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ff);
+  min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--red)}
+a:hover{color:var(--red-dark)}
+::selection{background:var(--ink);color:var(--paper)}
+button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseRing{0%,100%{opacity:.35;stroke-width:1.5}50%{opacity:.9;stroke-width:2.5}}
+@keyframes blinkCursor{0%,45%{opacity:1}50%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+
+/* ---- nav ---- */
+nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:68px;border-bottom:2px solid var(--ink);
+  background:rgba(250,250,248,.92);backdrop-filter:blur(10px)}
+.nav-mark{display:flex;align-items:center;gap:10px;font-family:var(--ff-heading);font-weight:700;
+  font-size:19px;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.nav-links{display:flex;align-items:center;gap:28px;font-size:13.5px;font-weight:500}
+.nav-links a{color:var(--ink);text-decoration:none;border-bottom:2px solid transparent;
+  padding-bottom:3px;transition:border-color .18s,color .18s}
+.nav-links a:hover{border-color:var(--red);color:var(--ink)}
+.nav-cta{background:var(--ink);color:var(--paper) !important;padding:10px 18px;border-radius:2px;
+  text-decoration:none;transition:background .15s;border-bottom:0 !important}
+.nav-cta:hover{background:var(--red);color:#fff !important}
+.scroll-hairline{position:absolute;left:0;bottom:-2px;height:2px;background:var(--red);width:0;transition:width .08s linear}
+
+/* ---- hero ---- */
+header.hero{position:relative;padding:104px 48px 0;display:grid;grid-template-columns:1.05fr .95fr;
+  gap:48px;align-items:center;max-width:1360px;margin:0 auto;overflow:hidden}
+.hero-grid-bg{position:absolute;top:0;right:0;bottom:0;left:48%;pointer-events:none;
+  background-image:repeating-linear-gradient(to right,rgba(20,20,20,.035) 0,rgba(20,20,20,.035) 1px,transparent 1px,transparent 80px),
+                    repeating-linear-gradient(to bottom,rgba(20,20,20,.035) 0,rgba(20,20,20,.035) 1px,transparent 1px,transparent 80px);
+  -webkit-mask-image:linear-gradient(to bottom,black 0%,black 55%,transparent 92%);
+  mask-image:linear-gradient(to bottom,black 0%,black 55%,transparent 92%)}
+.hero-left{position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--red);font-weight:600;
+  animation:fadeUp .6s ease both}
+h1.hero-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(40px,4.4vw,60px);
+  line-height:1.06;letter-spacing:-.025em;margin:20px 0 0;text-wrap:balance}
+h1.hero-h1 span{display:block;animation:fadeUp .8s var(--ease) both}
+h1.hero-h1 span.red{color:var(--red);animation-delay:.12s}
+.hero-sub{max-width:50ch;margin-top:22px;font-size:17.5px;line-height:1.6;color:var(--body);
+  animation:fadeUp .8s var(--ease) .34s both}
+.hero-cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;margin-top:36px;
+  animation:fadeUp .8s var(--ease) .42s both}
+.install-pill{flex:0 0 auto;display:inline-flex;align-items:center;gap:14px;height:52px;
+  padding:0 6px 0 20px;background:var(--ink);color:#fff;border-radius:2px;
+  font-family:var(--mono);font-size:14px;line-height:1;white-space:nowrap}
+.install-pill .prompt{color:var(--prompt)}
+.copy-btn{display:inline-flex;align-items:center;height:38px;padding:0 14px;background:var(--chip);
+  border-radius:2px;font-family:var(--ff);font-size:12px;font-weight:500;cursor:pointer;
+  color:#fff;transition:background .15s,transform .2s var(--ease)}
+.copy-btn:hover{background:#3D3D3D;transform:translateY(-1px)}
+.see-output{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;height:52px;
+  font-size:14.5px;font-weight:600;text-decoration:none;color:var(--ink);border-bottom:2px solid var(--red);
+  line-height:1;white-space:nowrap}
+.see-output:hover{color:var(--red)}
+.hero-meta{margin-top:18px;font-size:12.5px;color:var(--muted);font-family:var(--mono);
+  animation:fadeUp .8s ease .5s both}
+
+.hero-right{position:relative;z-index:1}
+.hero-svg-wrap{animation:fadeUp .9s var(--ease) .2s both;transition:transform .35s var(--ease)}
+.beat-caption{margin-top:2px;font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  letter-spacing:.06em;height:18px}
+.witness-line{margin-top:6px;font-family:var(--mono);font-size:13px;color:var(--ink);min-height:20px}
+.witness-line .cursor{animation:blinkCursor 1s step-end infinite}
+.trifecta-chip{margin-top:8px;display:inline-flex;align-items:center;height:26px;padding:0 10px;
+  background:var(--red);color:#fff;font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.04em;border-radius:2px;opacity:0;transform:translateY(6px);
+  transition:opacity .35s ease,transform .35s var(--ease)}
+.trifecta-chip.shown{opacity:1;transform:translateY(0)}
+
+/* ---- shared section chrome ---- */
+.section{max-width:1360px;margin:0 auto;padding:104px 48px 0;
+  opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s var(--ease)}
+.section.revealed{opacity:1;transform:translateY(0)}
+.section-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--red);font-weight:600}
+.section-h2{font-family:var(--ff-heading);font-weight:700;font-size:34px;margin:14px 0 0;letter-spacing:-.02em}
+.section-lede{margin-top:12px;font-size:15.5px;color:var(--body);line-height:1.6;max-width:660px}
+
+/* ---- how it works ---- */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink);margin-top:36px}
+.how-col{padding:28px;border-right:1px solid var(--line);transition:transform .3s var(--ease)}
+.how-col:first-child{padding-left:0}
+.how-col:last-child{border-right:0;padding-right:0}
+.how-col:hover{transform:translateY(-5px)}
+.how-col .kicker{font-family:var(--mono);font-weight:600;font-size:13.5px}
+.how-col .kicker span{color:var(--muted);font-weight:400}
+.how-col p{font-size:14.5px;color:var(--body);margin-top:10px;line-height:1.6}
+.how-col code{font-family:var(--mono);font-size:13px}
+
+/* ---- output ---- */
+.output-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px}
+.tabs{display:flex;border:1.5px solid var(--ink);border-radius:2px;overflow:hidden}
+.tabs button{padding:10px 18px;font-family:var(--mono);font-size:12.5px;cursor:pointer;
+  border-right:1px solid var(--ink);transition:background .18s,color .18s;color:var(--ink)}
+.tabs button:last-child{border-right:0}
+.tabs button.active{background:var(--ink);color:var(--paper)}
+.out-panel{display:none;margin-top:28px}
+.out-panel.active{display:block}
+.term-window{background:var(--plate);border-radius:6px;border:2px solid var(--plate);overflow:hidden}
+.term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid #2B2B2B}
+.term-dot{width:9px;height:9px;border-radius:50%;background:#3D3D3D}
+.term-title{margin-left:8px;font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.term-title.warn{color:var(--bright-red)}
+pre.term-body{margin:0;padding:26px 28px 30px;font-family:var(--mono);font-size:12.5px;
+  line-height:1.75;color:var(--mono-body);overflow-x:auto;white-space:pre-wrap}
+.report-window{border:2px solid var(--ink);border-radius:6px;background:#fff;overflow:hidden}
+.report-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;
+  border-bottom:1.5px solid var(--ink);font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.report-grid{display:grid;grid-template-columns:.9fr 1.1fr}
+.report-left{padding:28px;border-right:1px solid var(--line)}
+.report-score{font-family:var(--ff-heading);font-size:64px;font-weight:700;letter-spacing:-.03em;
+  color:var(--sev-high);font-variant-numeric:tabular-nums;line-height:1}
+.report-score small{font-size:26px;color:var(--muted);font-weight:400}
+.report-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1.5px solid var(--ink);
+  border-bottom:1.5px solid var(--ink);margin-top:22px}
+.report-stats div{padding:14px 8px;border-right:1px solid var(--line)}
+.report-stats div:last-child{border-right:0}
+.report-stats .n{font-family:var(--ff-heading);font-size:22px;font-weight:700}
+.report-stats .l{font-size:11px;color:var(--muted)}
+.report-meta{margin-top:20px;font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.7}
+.finding-row{padding:16px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.finding-row.crit{padding:18px 24px;border-left:3px solid var(--red);background:#FDF6F4;display:block}
+.badge{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:3px 8px;border-radius:2px}
+.badge.crit{background:var(--red);color:#fff}
+.badge.high{background:var(--ink);color:#fff}
+.finding-title{font-weight:600;font-size:14.5px;flex:1}
+.finding-id{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.witness-chips{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:12px;font-family:var(--mono);font-size:11.5px}
+.witness-chips span.node{background:var(--ink);color:var(--paper);padding:3px 8px;border-radius:2px}
+.witness-chips span.arrow{color:var(--red)}
+.fix-line{margin-top:12px;font-size:13.5px;color:var(--body);line-height:1.6}
+.fix-line code{font-family:var(--mono)}
+.loc-line{margin-top:8px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.finding-more{padding:16px 24px;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13.5px;font-family:var(--mono)}
+
+/* ---- benchmarks ---- */
+.proof-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px}
+.method-link{font-size:14px;font-weight:600;text-decoration:none;color:var(--ink);
+  border-bottom:2px solid var(--red);padding-bottom:2px}
+.method-link:hover{color:var(--red)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);
+  border-bottom:2px solid var(--ink);margin-top:30px}
+.stat-cell{display:flex;flex-direction:column;justify-content:space-between;min-height:206px;
+  padding:26px;border-right:1px solid var(--line)}
+.stat-cell:first-child{padding-left:0}
+.stat-cell:last-child{border-right:0;padding-right:0}
+.stat-num{font-family:var(--ff-heading);font-size:52px;font-weight:700;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums}
+.stat-label{font-size:14px;font-weight:600;margin-top:10px;line-height:1.4}
+.stat-sub{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
+.stat-caption{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+.stat-cmd{font-family:var(--mono);font-size:11px;color:var(--muted2);margin-top:18px;white-space:nowrap}
+.proof-note{margin-top:20px;font-size:13.5px;color:var(--muted);max-width:76ch}
+.proof-note a{font-weight:600}
+
+/* ---- dark cards ---- */
+.dark-card{background:var(--ink);color:var(--paper);border-radius:6px}
+.why-now{padding:64px 56px;display:grid;grid-template-columns:1.3fr .7fr;gap:32px;align-items:center}
+.why-now .eyebrow{color:var(--prompt)}
+.why-now h2{font-family:var(--ff-heading);font-weight:700;font-size:clamp(28px,2.6vw,38px);
+  margin:14px 0 0;line-height:1.18;letter-spacing:-.02em}
+.why-now p{color:#B7BAC0;margin-top:16px;font-size:15px;line-height:1.6;max-width:60ch}
+.why-now a{justify-self:start;display:inline-flex;align-items:center;gap:8px;color:var(--paper);
+  font-weight:600;font-size:14px;text-decoration:none;border-bottom:2px solid var(--red);padding-bottom:2px}
+.why-now a:hover{color:var(--red)}
+
+/* ---- field notes ---- */
+.fn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px}
+.fn-card{text-decoration:none;color:var(--ink);border:1.5px solid var(--ink);padding:24px;border-radius:4px;
+  transition:box-shadow .25s var(--ease),transform .25s var(--ease);display:block}
+.fn-card:hover{box-shadow:6px 6px 0 var(--ink);transform:translate(-2px,-2px)}
+.fn-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.fn-top .kicker{color:var(--red);font-weight:600}
+.fn-title{margin-top:14px;font-weight:600;font-size:16px;line-height:1.35;text-wrap:pretty;color:var(--ink)}
+.fn-dek{margin-top:10px;font-size:13.5px;color:var(--body);line-height:1.55}
+
+/* ---- join ---- */
+#join .dark-card{padding:60px;text-align:center}
+#join h2{font-family:var(--ff-heading);font-weight:700;font-size:30px;margin:0;letter-spacing:-.02em}
+#join p{color:#B7BAC0;margin-top:10px;font-size:14.5px}
+.join-form{display:flex;justify-content:center;gap:10px;margin-top:26px;flex-wrap:wrap}
+.join-form input,.join-form select{width:180px;height:46px;padding:0 14px;border:1px solid #43474D;
+  border-radius:2px;background:#08090A;color:var(--paper);font-size:13.5px;font-family:inherit}
+.join-form input::placeholder{color:#6E7379}
+.join-form select{width:186px}
+.join-submit{height:46px;padding:0 26px;background:var(--red);border-radius:2px;display:flex;
+  align-items:center;justify-content:center;font-weight:600;font-size:13.5px;cursor:pointer;color:#fff;
+  transition:background .18s,transform .2s var(--ease)}
+.join-submit:hover{background:#F0392A;transform:translateY(-1px)}
+.join-sent{margin-top:28px;font-size:15px;color:#7FE0A8;font-family:var(--mono)}
+.hidden{display:none !important}
+
+footer.site-footer{max-width:1360px;margin:0 auto;padding:26px 48px 40px;display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);
+  border-top:1px solid var(--line)}
+footer.site-footer .mark{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
+footer.site-footer .links{display:flex;gap:14px}
+footer.site-footer a{text-decoration:none;color:var(--muted)}
+footer.site-footer a:hover{color:var(--red)}
+
+@media(max-width:900px){
+  header.hero{grid-template-columns:1fr;padding-top:56px}
+  .hero-grid-bg{display:none}
+  .how-grid,.stat-grid,.fn-grid,.report-grid{grid-template-columns:1fr}
+  .how-col,.stat-cell{border-right:0;border-bottom:1px solid var(--line);padding-left:0;padding-right:0}
+  .why-now{grid-template-columns:1fr}
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .section{padding-left:20px;padding-right:20px}
+}
+</style>
+</head>
+<body>
+<noscript><style>.section{opacity:1!important;transform:none!important}</style></noscript>
+
+<nav>
+  <a class="nav-mark" href="/" aria-label="Lucin home">
+    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>
+    LUCIN
+  </a>
+  <div class="nav-links">
+    <a href="#how" data-jump="how">How it works</a>
+    <a href="#output" data-jump="output">Output</a>
+    <a href="#proof" data-jump="proof">Benchmarks</a>
+    <a href="/blog/">Blog</a>
+    <a href="/docs/">Docs</a>
+    <a class="nav-cta" href="#join" data-jump="join">Scan your agent</a>
+  </div>
+  <div class="scroll-hairline" id="scrollHairline"></div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="hero-left">
+    <div class="eyebrow">SECURITY FOR AI AGENTS</div>
+    <h1 class="hero-h1">
+      <span>Your agent can be talked into anything.</span>
+      <span class="red">Lucin shows you what that costs.</span>
+    </h1>
+    <p class="hero-sub">Other scanners read tool names and guess. Lucin reads the code inside every tool your agent can call and traces the exact path from a poisoned prompt to your data leaving the building — then hands you the cut that closes it.</p>
+    <div class="hero-cta-row">
+      <div class="install-pill">
+        <span><span class="prompt">$</span> pip install lucin</span>
+        <button class="copy-btn" id="copyInstall" type="button" aria-label="Copy install command">Copy</button>
+      </div>
+      <a class="see-output" href="#output" data-jump="output">See what it prints →</a>
+    </div>
+    <div class="hero-meta">MIT · Python 3.10+ · no API key · your code never leaves your machine</div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-svg-wrap" id="heroSvgWrap">
+      <svg width="100%" height="340" viewBox="0 0 400 340" style="overflow:visible" id="attackSvg">
+        <line id="topLine" x1="70" y1="90" x2="200" y2="180" stroke="#141414" stroke-width="1.5" stroke-dasharray="158" style="stroke-dashoffset:158;transition:stroke-dashoffset .7s ease"></line>
+        <line id="bottomLine" x1="70" y1="270" x2="200" y2="180" stroke="#141414" stroke-width="1.5" stroke-dasharray="158" style="stroke-dashoffset:158;transition:stroke-dashoffset .7s ease"></line>
+        <line id="redLine" x1="200" y1="180" x2="335" y2="180" stroke="#D6321F" stroke-width="2.5" stroke-dasharray="135" style="stroke-dashoffset:135;transition:stroke-dashoffset 1s ease"></line>
+        <circle id="promptCircle" cx="70" cy="90" r="10" fill="none" style="stroke:#141414;stroke-width:2;transition:stroke .3s ease"></circle>
+        <circle id="dbCircle" cx="70" cy="270" r="10" fill="none" style="stroke:#141414;stroke-width:2;transition:stroke .3s ease"></circle>
+        <rect id="agentRect" x="182" y="162" width="36" height="36" style="fill:#141414;transition:fill .3s ease"></rect>
+        <rect id="webhookRect" x="317" y="162" width="36" height="36" style="fill:#141414;transition:fill .4s ease"></rect>
+        <circle id="pulseRing" cx="335" cy="180" r="24" fill="none" stroke="#D6321F" stroke-width="1.5" style="opacity:0"></circle>
+        <circle id="topDot" cx="70" cy="90" r="4.5" fill="#D69A1F" style="opacity:0;transition:transform .8s cubic-bezier(.4,0,.2,1),opacity .2s ease;transform-box:fill-box;transform-origin:center"></circle>
+        <circle id="bottomDot" cx="70" cy="270" r="4.5" fill="#D69A1F" style="opacity:0;transition:transform .8s cubic-bezier(.4,0,.2,1),opacity .2s ease;transform-box:fill-box;transform-origin:center"></circle>
+        <text x="70" y="70" fill="#6C7076" font-size="11" text-anchor="middle" font-family="IBM Plex Mono, monospace">read_email</text>
+        <text x="70" y="304" fill="#6C7076" font-size="11" text-anchor="middle" font-family="IBM Plex Mono, monospace">query_customers</text>
+        <text x="200" y="234" fill="#6C7076" font-size="11" text-anchor="middle" font-family="IBM Plex Mono, monospace">__llm__</text>
+        <text id="webhookLabel" x="335" y="234" fill="#6C7076" font-size="11" text-anchor="middle" font-family="IBM Plex Mono, monospace">post_webhook</text>
+      </svg>
+      <div class="beat-caption" id="beatCaption">SCANNING TOOL BODIES…</div>
+      <div class="witness-line" id="witnessLine"><span id="witnessText"></span><span class="cursor" id="witnessCursor">|</span></div>
+      <div class="trifecta-chip" id="trifectaChip">AG-TRIFECTA · CRITICAL</div>
+    </div>
+  </div>
+</header>
+
+<section id="how" class="section">
+  <div class="section-eyebrow">ONE MODEL, THREE WAYS TO USE IT</div>
+  <h2 class="section-h2">Most scanners guess. Lucin proves.</h2>
+  <p class="section-lede">One model of the agent — the information-flow graph — used three ways.</p>
+  <div class="how-grid">
+    <div class="how-col">
+      <div class="kicker">SCAN <span>· free, MIT</span></div>
+      <p>Reads the real code inside your tools. Maps every path from untrusted input to a dangerous action, with <code>file:line</code>. One command, no signup. For most teams this is the whole product, and it's free forever.</p>
+    </div>
+    <div class="how-col">
+      <div class="kicker">GUARD <span>· preview</span></div>
+      <p>The path SCAN flagged, enforced live. A deterministic gate on the flow — not the prompt — so the model can be fully compromised and still not exfiltrate.</p>
+    </div>
+    <div class="how-col">
+      <div class="kicker">PROVE <span>· experimental</span></div>
+      <p>Attacks generated against your own tools, so a finding ships with proof it's real — and proof it's fixed.</p>
+    </div>
+  </div>
+</section>
+
+<section id="output" class="section">
+  <div class="output-head">
+    <div>
+      <div class="section-eyebrow">WHAT YOU ACTUALLY GET</div>
+      <h2 class="section-h2">A finding you can act on in one read.</h2>
+      <p class="section-lede">Severity, the proof-witness path, the exact cut that closes it, and the line of code. Same finding, three surfaces.</p>
+    </div>
+    <div class="tabs" role="tablist">
+      <button type="button" class="active" data-tab="terminal" role="tab" aria-selected="true">terminal</button>
+      <button type="button" data-tab="report" role="tab" aria-selected="false">html report</button>
+      <button type="button" data-tab="ci" role="tab" aria-selected="false">ci</button>
+    </div>
+  </div>
+
+  <div class="out-panel active" data-panel="terminal">
+    <div class="term-window">
+      <div class="term-bar">
+        <span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span>
+        <span class="term-title">lucin scan ./support-agent/</span>
+      </div>
+      <pre class="term-body"><span style="color:#F0917F">$</span> lucin scan ./support-agent/
+
+ <span style="color:#F4F5F6">Target:</span> ./support-agent/ (2 agents, 14 tools, 1 MCP server)
+ <span style="color:#8A8F98">Scan completed in 842ms</span>
+
+ <span style="color:#8A8F98">── SECURITY SCORE ─────────────────────────────</span>
+ <span style="color:#E8A33D">████████████░░░░░░░░  62/100 — Needs attention</span>
+
+ <span style="color:#8A8F98">── RISK SUMMARY ───────────────────────────────</span>
+ <span style="color:#FF6B57">CRITICAL  ███       1</span>
+ <span style="color:#E8A33D">HIGH      ██████    2</span>
+ <span style="color:#C7B37A">MEDIUM    ██████    3</span>
+
+ <span style="color:#FF6B57">── CRITICAL · AG-TRIFECTA ─────────────────────</span>
+ <span style="color:#F4F5F6">Untrusted input reaches an external sink</span>
+ Agent: <span style="color:#F4F5F6">support_agent</span>   Tool: <span style="color:#F4F5F6">post_webhook</span>
+
+ <span style="color:#7FD1C1">Proof:</span>
+   control: read_email <span style="color:#FF6B57">→</span> __llm__ <span style="color:#FF6B57">→</span> post_webhook
+   data:    query_customers <span style="color:#FF6B57">→</span> __llm__ <span style="color:#FF6B57">→</span> post_webhook
+
+ <span style="color:#7FD1C1">Min-cut fix:</span> restrict 1 tool to break every exfil path
+   <span style="color:#F4F5F6">post_webhook</span>  <span style="color:#8A8F98">(allow-list hosts, or require approval)</span>
+
+ <span style="color:#8A8F98">OWASP: LLM06 Excessive Agency · ATLAS: AML.T0051</span>
+ <span style="color:#8A8F98">Location: agents/support.py:88</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="out-panel" data-panel="report">
+    <div class="report-window">
+      <div class="report-bar"><span>lucin-report.html</span><span>lucin scan . --format html</span></div>
+      <div class="report-grid">
+        <div class="report-left">
+          <div class="report-score">62<small>/100</small></div>
+          <div style="font-size:14px;color:#3D4147;margin-top:4px">Needs attention</div>
+          <div class="report-stats">
+            <div><div class="n" style="color:#D6321F">1</div><div class="l">Critical</div></div>
+            <div><div class="n" style="color:#B85C1F">2</div><div class="l">High</div></div>
+            <div><div class="n" style="color:#B8860B">3</div><div class="l">Medium</div></div>
+            <div><div class="n" style="color:#6C7076">4</div><div class="l">Low</div></div>
+          </div>
+          <div class="report-meta">2 agents · 14 tools<br>1 MCP server · 842ms</div>
+        </div>
+        <div>
+          <div class="finding-row crit">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="badge crit">CRITICAL</span>
+              <span class="finding-title">Untrusted input reaches an external sink</span>
+              <span class="finding-id">AG-TRIFECTA</span>
+            </div>
+            <div class="witness-chips">
+              <span class="node">read_email</span><span class="arrow">→</span>
+              <span class="node">__llm__</span><span class="arrow">→</span>
+              <span class="node">post_webhook</span>
+            </div>
+            <div class="fix-line">Min-cut fix: restrict <code>post_webhook</code> to an allow-listed host, or require approval before it fires.</div>
+            <div class="loc-line">agents/support.py:88</div>
+          </div>
+          <div class="finding-row">
+            <span class="badge high">HIGH</span>
+            <span class="finding-title">Tool executes shell input without a boundary</span>
+            <span class="finding-id">AG-011</span>
+          </div>
+          <div class="finding-row">
+            <span class="badge high">HIGH</span>
+            <span class="finding-title">Secret-bearing env read reachable from retrieval</span>
+            <span class="finding-id">AG-002</span>
+          </div>
+          <div class="finding-more">
+            <span>+ 7 more</span><span style="flex:1"></span><span>interactive flow graph below the fold</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="out-panel" data-panel="ci">
+    <div class="term-window">
+      <div class="term-bar" style="justify-content:space-between">
+        <span class="term-title">.github/workflows/security.yml</span>
+        <span class="term-title warn">exit 1 — blocked</span>
+      </div>
+      <pre class="term-body"><span style="color:#8A8F98">- uses:</span> lucin/scan-action<span style="color:#8A8F98">@v1</span>
+  <span style="color:#8A8F98">with:</span>
+    fail-on: critical
+    format: sarif
+
+<span style="color:#8A8F98">──────────────────────────────────────────────
+</span><span style="color:#FF6B57">Error</span>: AG-TRIFECTA · agents/support.py:88
+  Untrusted input reaches an external sink
+  read_email <span style="color:#FF6B57">→</span> __llm__ <span style="color:#FF6B57">→</span> post_webhook
+
+<span style="color:#8A8F98">1 critical, 2 high — SARIF uploaded to code scanning
+Process completed with exit code 1.</span>
+</pre>
+    </div>
+  </div>
+</section>
+
+<section id="proof" class="section">
+  <div class="proof-head">
+    <div>
+      <div class="section-eyebrow">BENCHMARKS</div>
+      <h2 class="section-h2">We publish the receipts.</h2>
+    </div>
+    <a class="method-link" href="/benchmarks/">Methodology →</a>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-cell">
+      <div>
+        <div class="stat-num">0</div>
+        <div class="stat-label">adjudicated false positives</div>
+        <div class="stat-sub">52 real repositories, 2,732 files</div>
+        <div class="stat-caption">20.5–31.5% precision on a broader, unscoped population (95% CI 12.9–42.9%)</div>
+      </div>
+      <div class="stat-cmd">benchmarks/build_benign_corpus.py</div>
+    </div>
+    <div class="stat-cell">
+      <div>
+        <div class="stat-num"><span id="countRecall">0</span>%</div>
+        <div class="stat-label">recall on labelled vulns</div>
+        <div class="stat-sub">50 held-out cases, 10 classes</div>
+      </div>
+      <div class="stat-cmd">benchmarks/recall_corpus.py</div>
+    </div>
+    <div class="stat-cell">
+      <div>
+        <div class="stat-num" id="countDetectors">0</div>
+        <div class="stat-label">active detectors</div>
+        <div class="stat-sub">mapped to OWASP &amp; MITRE ATLAS</div>
+      </div>
+      <div class="stat-cmd">lucin scan --list-rules</div>
+    </div>
+    <div class="stat-cell">
+      <div>
+        <div class="stat-num" id="countFrameworks">0</div>
+        <div class="stat-label">frameworks supported</div>
+        <div class="stat-sub">LangChain, CrewAI, AutoGen, MCP…</div>
+      </div>
+      <div class="stat-cmd">lucin scan --list-adapters</div>
+    </div>
+  </div>
+  <p class="proof-note">Every number above regenerates from a committed command. Run them yourself — we'd rather you reproduce the numbers than trust our marketing. <a href="/limits/">What it misses →</a></p>
+</section>
+
+<section class="section">
+  <div class="dark-card why-now">
+    <div>
+      <div class="eyebrow">WHY NOW</div>
+      <h2>17,000 actions. One weekend. Nobody watching the flow.</h2>
+      <p>Hugging Face, July 2026. Not a sophisticated exploit — one bad edge, traversed 17,000 times because nothing was watching. Every agent you ship has the same skeleton.</p>
+    </div>
+    <a href="/blog/hugging-face-agent-breach/">Read the teardown →</a>
+  </div>
+</section>
+
+<section id="blog" class="section">
+  <div class="output-head">
+    <div>
+      <div class="section-eyebrow">FIELD NOTES</div>
+      <h2 class="section-h2">Writing on agent security.</h2>
+    </div>
+    <a class="method-link" href="/blog/">All posts →</a>
+  </div>
+  <div class="fn-grid">
+    <a class="fn-card" href="/blog/hugging-face-agent-breach/">
+      <div class="fn-top"><span class="kicker">TEARDOWN</span><span>29 JUL 2026</span></div>
+      <div class="fn-title">17,000 actions, one weekend: the Hugging Face agent breach, scanned</div>
+      <div class="fn-dek">What the incident looked like as an information-flow graph — and which single edge would have stopped it.</div>
+    </a>
+    <a class="fn-card" href="/blog/lethal-trifecta/">
+      <div class="fn-top"><span class="kicker">METHOD</span><span>29 JUL 2026</span></div>
+      <div class="fn-title">The lethal trifecta, as a graph problem</div>
+      <div class="fn-dek">Three capabilities are fine alone. Wired together they are an incident. Here is how to read the edges off your own tools.</div>
+    </a>
+    <a class="fn-card" href="/blog/reproducible-benchmark/">
+      <div class="fn-top"><span class="kicker">PROOF</span><span>29 JUL 2026</span></div>
+      <div class="fn-title">We published our false-positive rate. Here is the command</div>
+      <div class="fn-dek">Why a security tool that won't show you its benchmark harness is asking you to take its word for it.</div>
+    </a>
+  </div>
+</section>
+
+<section id="join" class="section" style="padding-bottom:96px">
+  <div class="dark-card">
+    <h2>Get GUARD before everyone else.</h2>
+    <p>We're taking a small number of design partners. Tell us what you're running; we reply within a day.</p>
+    <div class="join-sent hidden" id="joinSent">Got it. We'll be in touch within a day.</div>
+    <form class="join-form" id="joinForm">
+      <input type="text" placeholder="Name" id="joinName" required>
+      <input type="email" placeholder="Work email" id="joinEmail" required>
+      <select id="joinRole">
+        <option value="">What are you running?</option>
+        <option value="langchain">LangChain / LangGraph</option>
+        <option value="crewai">CrewAI</option>
+        <option value="mcp">MCP servers</option>
+        <option value="other">Something else</option>
+      </select>
+      <button type="submit" class="join-submit">Request access</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <span class="mark">LUCIN</span>
+  <span>Every claim reproducible from a committed command.</span>
+  <span class="links">
+    <a href="/docs/">Docs</a>
+    <a href="/rules/">Rules</a>
+    <a href="/limits/">Limits</a>
+  </span>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- scroll progress hairline ---- */
+  var hairline = document.getElementById("scrollHairline");
+  function onScroll() {
+    var h = document.documentElement;
+    var max = (h.scrollHeight - h.clientHeight) || 1;
+    var pct = Math.min(100, Math.max(0, (h.scrollTop / max) * 100));
+    hairline.style.width = pct + "%";
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---- section jump links (work from anywhere on this page) ---- */
+  document.querySelectorAll("[data-jump]").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      var id = el.getAttribute("data-jump");
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      var top = window.scrollY + target.getBoundingClientRect().top - 84;
+      window.scrollTo({ top: Math.max(0, top), behavior: reducedMotion ? "auto" : "smooth" });
+    });
+  });
+
+  /* ---- copy to clipboard ---- */
+  var copyBtn = document.getElementById("copyInstall");
+  copyBtn.addEventListener("click", function () {
+    if (navigator.clipboard) navigator.clipboard.writeText("pip install lucin");
+    copyBtn.textContent = "Copied";
+    setTimeout(function () { copyBtn.textContent = "Copy"; }, 1500);
+  });
+
+  /* ---- output tabs ---- */
+  var tabButtons = document.querySelectorAll(".tabs button");
+  var panels = document.querySelectorAll(".out-panel");
+  tabButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var name = btn.getAttribute("data-tab");
+      tabButtons.forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+        b.setAttribute("aria-selected", b === btn ? "true" : "false");
+      });
+      panels.forEach(function (p) { p.classList.toggle("active", p.getAttribute("data-panel") === name); });
+    });
+  });
+
+  /* ---- scroll reveal (IntersectionObserver + 900ms fallback, belt-and-suspenders) ---- */
+  var sections = document.querySelectorAll(".section");
+  var countsStarted = false;
+  var fallbackTimer = setTimeout(revealAll, 900);
+
+  function revealAll() {
+    clearTimeout(fallbackTimer);
+    sections.forEach(function (s) { s.classList.add("revealed"); });
+    startCounts();
+  }
+
+  if (reducedMotion) {
+    revealAll();
+  } else if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("revealed");
+        if (entry.target.id === "proof") startCounts();
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.1 });
+    sections.forEach(function (s) { io.observe(s); });
+  } else {
+    revealAll();
+  }
+
+  /* ---- benchmark count-up ---- */
+  function startCounts() {
+    if (countsStarted) return;
+    countsStarted = true;
+    var targets = { countRecall: 76, countDetectors: 27, countFrameworks: 8 };
+    var els = {
+      countRecall: document.getElementById("countRecall"),
+      countDetectors: document.getElementById("countDetectors"),
+      countFrameworks: document.getElementById("countFrameworks"),
+    };
+    if (reducedMotion) {
+      Object.keys(targets).forEach(function (k) { els[k].textContent = targets[k]; });
+      return;
+    }
+    var steps = 26, step = 0;
+    var interval = setInterval(function () {
+      step += 1;
+      var p = Math.min(1, step / steps);
+      var eased = 1 - Math.pow(1 - p, 3);
+      Object.keys(targets).forEach(function (k) {
+        els[k].textContent = Math.round(targets[k] * eased);
+      });
+      if (p >= 1) clearInterval(interval);
+    }, 34);
+  }
+
+  /* ---- hero attack-path animation: 5-beat loop ---- */
+  var WITNESS_FULL = "read_email → __llm__ → post_webhook";
+  var CAPTIONS = [
+    "SCANNING TOOL BODIES…",
+    "1 · UNTRUSTED INPUT IDENTIFIED",
+    "2 · SENSITIVE DATA IN SCOPE",
+    "3 · PATH REACHES AN EXTERNAL SINK",
+    "3 · PATH REACHES AN EXTERNAL SINK",
+  ];
+  var el = {
+    topLine: document.getElementById("topLine"),
+    bottomLine: document.getElementById("bottomLine"),
+    redLine: document.getElementById("redLine"),
+    promptCircle: document.getElementById("promptCircle"),
+    dbCircle: document.getElementById("dbCircle"),
+    agentRect: document.getElementById("agentRect"),
+    webhookRect: document.getElementById("webhookRect"),
+    webhookLabel: document.getElementById("webhookLabel"),
+    pulseRing: document.getElementById("pulseRing"),
+    topDot: document.getElementById("topDot"),
+    bottomDot: document.getElementById("bottomDot"),
+    beatCaption: document.getElementById("beatCaption"),
+    witnessText: document.getElementById("witnessText"),
+    witnessCursor: document.getElementById("witnessCursor"),
+    trifectaChip: document.getElementById("trifectaChip"),
+  };
+
+  function setBeat(beat) {
+    el.topLine.style.strokeDashoffset = beat === 0 ? "158" : "0";
+    el.bottomLine.style.strokeDashoffset = beat <= 1 ? "158" : "0";
+    el.redLine.style.strokeDashoffset = beat >= 3 ? "0" : "135";
+    el.promptCircle.style.stroke = beat === 1 ? "#D69A1F" : "#141414";
+    el.dbCircle.style.stroke = beat === 2 ? "#D69A1F" : "#141414";
+    el.agentRect.style.fill = (beat >= 1 && beat <= 2) ? "#2B2B2B" : "#141414";
+    el.webhookRect.style.fill = beat >= 3 ? "#D6321F" : "#141414";
+    el.webhookLabel.setAttribute("fill", beat >= 3 ? "#D6321F" : "#6C7076");
+    if (beat >= 3) {
+      el.pulseRing.style.opacity = "1";
+      el.pulseRing.style.animation = "pulseRing 2.2s ease-in-out infinite";
+    } else {
+      el.pulseRing.style.opacity = "0";
+      el.pulseRing.style.animation = "none";
+    }
+    el.topDot.style.opacity = beat === 1 ? "1" : "0";
+    el.topDot.style.transform = beat >= 1 ? "translate(130px,90px)" : "translate(0,0)";
+    el.bottomDot.style.opacity = beat === 2 ? "1" : "0";
+    el.bottomDot.style.transform = beat >= 2 ? "translate(130px,-90px)" : "translate(0,0)";
+    el.beatCaption.textContent = CAPTIONS[beat] || CAPTIONS[0];
+  }
+
+  var typeInterval;
+  function typeWitness() {
+    if (typeInterval) clearInterval(typeInterval);
+    var i = 0;
+    el.witnessCursor.style.opacity = "1";
+    el.trifectaChip.classList.remove("shown");
+    typeInterval = setInterval(function () {
+      i += 1;
+      el.witnessText.textContent = WITNESS_FULL.slice(0, i);
+      if (i >= WITNESS_FULL.length) {
+        clearInterval(typeInterval);
+        el.witnessCursor.style.opacity = "0";
+        el.trifectaChip.classList.add("shown");
+      }
+    }, 40);
+  }
+
+  var loopTimeouts = [];
+  function runAttackLoop() {
+    function schedule(fn, ms) { loopTimeouts.push(setTimeout(fn, ms)); }
+    function cycle() {
+      setBeat(0);
+      el.witnessText.textContent = "";
+      el.trifectaChip.classList.remove("shown");
+      schedule(function () { setBeat(1); }, 900);
+      schedule(function () { setBeat(2); }, 1900);
+      schedule(function () { setBeat(3); typeWitness(); }, 2900);
+      schedule(function () { setBeat(4); }, 5000);
+      schedule(cycle, 8400);
+    }
+    cycle();
+  }
+
+  if (reducedMotion) {
+    setBeat(4);
+    el.witnessText.textContent = WITNESS_FULL;
+    el.witnessCursor.style.opacity = "0";
+    el.trifectaChip.classList.add("shown");
+  } else {
+    runAttackLoop();
+    /* cursor-follow parallax on the hero SVG */
+    var wrap = document.getElementById("heroSvgWrap");
+    wrap.parentElement.addEventListener("mousemove", function (e) {
+      var r = wrap.parentElement.getBoundingClientRect();
+      var x = ((e.clientX - r.left) / r.width - 0.5) * 12;
+      var y = ((e.clientY - r.top) / r.height - 0.5) * 8;
+      wrap.style.transform = "translate(" + x + "px," + y + "px)";
+    });
+    wrap.parentElement.addEventListener("mouseleave", function () {
+      wrap.style.transform = "translate(0,0)";
+    });
+  }
+
+  /* ---- join form (client-side only; wire to a real endpoint when one exists) ---- */
+  var joinForm = document.getElementById("joinForm");
+  var joinSent = document.getElementById("joinSent");
+  joinForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("joinName").value.trim();
+    var email = document.getElementById("joinEmail").value.trim();
+    if (!name || !email) return;
+    joinForm.classList.add("hidden");
+    joinSent.classList.remove("hidden");
+  });
+})();
+</script>
+</body>
+</html>

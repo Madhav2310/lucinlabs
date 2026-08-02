@@ -1,0 +1,62 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_a8Bk3mNpQr7sT2uVwXyZ1cDeFgHiJkLm4n5o"
+      }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "postgresql://admin:secretpass123@prod-db.company.com:5432/production"
+      }
+    },
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": {
+        "SLACK_BOT_TOKEN": "xoxb-7928461035-4891276350128-aBcDeFgHiJkLmNoPqRsTuVwX",
+        "SLACK_APP_TOKEN": "xapp-1-A04KR8TN2BM-4891276350128-a9b8c7d6e5f4g3h2i1j0"
+      }
+    },
+    "browser": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-server-puppeteer"]
+    },
+    "shell": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-shell"]
+    },
+    "custom-internal": {
+      "command": "node",
+      "args": ["./internal-tools/server.js"],
+      "env": {
+        "API_KEY": "sk-internal-a7b2c9d4e1f8g3h6i5j0k",
+        "ADMIN_SECRET": "sUp3r_s3cr3t_Adm1n_K3y_N0t_F0r_Sh4r1ng"
+      }
+    },
+    "kubernetes": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-kubernetes"],
+      "env": {
+        "KUBECONFIG": "/Users/dev/.kube/config"
+      }
+    },
+    "aws": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-aws"],
+      "env": {
+        "AWS_ACCESS_KEY_ID": "AKIAY3RJXF7KN2QG4B5W",
+        "AWS_SECRET_ACCESS_KEY": "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",
+        "AWS_DEFAULT_REGION": "us-east-1"
+      }
+    }
+  }
+}

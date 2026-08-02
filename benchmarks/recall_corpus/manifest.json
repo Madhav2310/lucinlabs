@@ -1,0 +1,564 @@
+{
+  "description": "Lucin held-out RECALL corpus. Each case is one distinct vulnerable agent. 'real' = verbatim third-party code we did NOT write (see provenance); 'constructed' = author-written, clearly labeled, modeling a documented vuln class/CVE. Recall = cases where scan_target emits a finding id in 'expected'. Classes with class_has_detector=false have NO Lucin detector yet \u2014 those misses are the coverage gaps this corpus exists to quantify.",
+  "cases": [
+    {
+      "id": "command_injection/constructed__os_system",
+      "path": "command_injection/constructed__os_system",
+      "vuln_class": "command_injection",
+      "origin": "constructed",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-78, run_command(cmd)->os.system(cmd)"
+    },
+    {
+      "id": "command_injection/constructed__subprocess_shell",
+      "path": "command_injection/constructed__subprocess_shell",
+      "vuln_class": "command_injection",
+      "origin": "constructed",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-78, subprocess.run(command, shell=True)"
+    },
+    {
+      "id": "command_injection/real__agno_coding",
+      "path": "command_injection/real__agno_coding",
+      "vuln_class": "command_injection",
+      "origin": "real",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "agno-agi/agno libs/agno/agno/tools/coding.py \u2014 run_shell(command): subprocess.run(command, shell=True) (https://github.com/agno-agi/agno)"
+    },
+    {
+      "id": "command_injection/real__camel_terminal_toolkit",
+      "path": "command_injection/real__camel_terminal_toolkit",
+      "vuln_class": "command_injection",
+      "origin": "real",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "camel-ai/camel camel/toolkits/terminal_toolkit/terminal_toolkit.py \u2014 shell exec tool (https://github.com/camel-ai/camel)"
+    },
+    {
+      "id": "command_injection/real__camel_terminal_utils",
+      "path": "command_injection/real__camel_terminal_utils",
+      "vuln_class": "command_injection",
+      "origin": "real",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "camel-ai/camel camel/toolkits/terminal_toolkit/utils.py \u2014 subprocess shell exec (https://github.com/camel-ai/camel)"
+    },
+    {
+      "id": "container_escape/constructed__docker_fstring_popen",
+      "path": "container_escape/constructed__docker_fstring_popen",
+      "vuln_class": "container_escape",
+      "origin": "constructed",
+      "expected": [
+        "AG-DOCKER-EXEC"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-269; f-string docker run via subprocess.Popen"
+    },
+    {
+      "id": "container_escape/constructed__docker_privileged_shell",
+      "path": "container_escape/constructed__docker_privileged_shell",
+      "vuln_class": "container_escape",
+      "origin": "constructed",
+      "expected": [
+        "AG-DOCKER-EXEC"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-269; docker run --privileged built as shell string via variable"
+    },
+    {
+      "id": "container_escape/constructed__docker_volume_mount",
+      "path": "container_escape/constructed__docker_volume_mount",
+      "vuln_class": "container_escape",
+      "origin": "constructed",
+      "expected": [
+        "AG-DOCKER-EXEC"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-269; docker run -v /:/host (host fs mount)"
+    },
+    {
+      "id": "container_escape/real__camel_docker_interpreter",
+      "path": "container_escape/real__camel_docker_interpreter",
+      "vuln_class": "container_escape",
+      "origin": "real",
+      "expected": [
+        "AG-DOCKER-EXEC"
+      ],
+      "class_has_detector": true,
+      "provenance": "camel-ai/camel camel/interpreters/docker_interpreter.py \u2014 docker run container exec (https://github.com/camel-ai/camel)"
+    },
+    {
+      "id": "container_escape/real__openai_agents_dapr",
+      "path": "container_escape/real__openai_agents_dapr",
+      "vuln_class": "container_escape",
+      "origin": "real",
+      "expected": [
+        "AG-DOCKER-EXEC"
+      ],
+      "class_has_detector": true,
+      "provenance": "openai/openai-agents-python examples/memory/dapr_session_example.py \u2014 subprocess docker run (https://github.com/openai/openai-agents-python)"
+    },
+    {
+      "id": "cors_unauth_server/constructed__cors_wildcard_fastapi",
+      "path": "cors_unauth_server/constructed__cors_wildcard_fastapi",
+      "vuln_class": "cors_unauth_server",
+      "origin": "constructed",
+      "expected": [
+        "AG-CORS",
+        "AG-NOAUTH"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-942; FastAPI CORSMiddleware allow_origins=[\"*\"]"
+    },
+    {
+      "id": "cors_unauth_server/constructed__flask_noauth",
+      "path": "cors_unauth_server/constructed__flask_noauth",
+      "vuln_class": "cors_unauth_server",
+      "origin": "constructed",
+      "expected": [
+        "AG-CORS",
+        "AG-NOAUTH"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-306; Flask agent endpoint, no access control"
+    },
+    {
+      "id": "cors_unauth_server/constructed__noauth_fastapi",
+      "path": "cors_unauth_server/constructed__noauth_fastapi",
+      "vuln_class": "cors_unauth_server",
+      "origin": "constructed",
+      "expected": [
+        "AG-CORS",
+        "AG-NOAUTH"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-306; FastAPI agent endpoint, no access control"
+    },
+    {
+      "id": "cors_unauth_server/real__autogen_app_agent",
+      "path": "cors_unauth_server/real__autogen_app_agent",
+      "vuln_class": "cors_unauth_server",
+      "origin": "real",
+      "expected": [
+        "AG-CORS",
+        "AG-NOAUTH"
+      ],
+      "class_has_detector": true,
+      "provenance": "microsoft/autogen samples/agentchat_fastapi/app_agent.py \u2014 allow_origins=[\"*\"] (https://github.com/microsoft/autogen)"
+    },
+    {
+      "id": "cors_unauth_server/real__autogen_app_team",
+      "path": "cors_unauth_server/real__autogen_app_team",
+      "vuln_class": "cors_unauth_server",
+      "origin": "real",
+      "expected": [
+        "AG-CORS",
+        "AG-NOAUTH"
+      ],
+      "class_has_detector": true,
+      "provenance": "microsoft/autogen samples/agentchat_fastapi/app_team.py \u2014 allow_origins=[\"*\"] (https://github.com/microsoft/autogen)"
+    },
+    {
+      "id": "cql_injection/real__camel_nebula_graph",
+      "path": "cql_injection/real__camel_nebula_graph",
+      "vuln_class": "cql_injection",
+      "origin": "real",
+      "expected": [
+        "AG-SQL"
+      ],
+      "class_has_detector": true,
+      "provenance": "camel-ai/camel camel/storages/graph_storages/nebula_graph.py \u2014 f-string nGQL into session.execute (https://github.com/camel-ai/camel)"
+    },
+    {
+      "id": "cql_injection/real__llamaindex_cassandra",
+      "path": "cql_injection/real__llamaindex_cassandra",
+      "vuln_class": "cql_injection",
+      "origin": "real",
+      "expected": [
+        "AG-SQL"
+      ],
+      "class_has_detector": true,
+      "provenance": "run-llama/llama_index llama-index-tools-cassandra .../cassandra_database_wrapper.py \u2014 run(query)->_session.execute; CQL injection (https://github.com/run-llama/llama_index)"
+    },
+    {
+      "id": "insecure_deserialization/constructed__base64_pickle",
+      "path": "insecure_deserialization/constructed__base64_pickle",
+      "vuln_class": "insecure_deserialization",
+      "origin": "constructed",
+      "expected": [
+        "AG-DESERIALIZE"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-502; base64 then pickle.loads"
+    },
+    {
+      "id": "insecure_deserialization/constructed__joblib_load",
+      "path": "insecure_deserialization/constructed__joblib_load",
+      "vuln_class": "insecure_deserialization",
+      "origin": "constructed",
+      "expected": [
+        "AG-DESERIALIZE"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-502; joblib.load (pickle) of model artifact"
+    },
+    {
+      "id": "insecure_deserialization/constructed__marshal_loads",
+      "path": "insecure_deserialization/constructed__marshal_loads",
+      "vuln_class": "insecure_deserialization",
+      "origin": "constructed",
+      "expected": [
+        "AG-DESERIALIZE"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-502; marshal.loads of untrusted bytes"
+    },
+    {
+      "id": "insecure_deserialization/constructed__pickle_loads",
+      "path": "insecure_deserialization/constructed__pickle_loads",
+      "vuln_class": "insecure_deserialization",
+      "origin": "constructed",
+      "expected": [
+        "AG-DESERIALIZE"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-502; load_session(blob)->pickle.loads"
+    },
+    {
+      "id": "insecure_deserialization/constructed__yaml_load",
+      "path": "insecure_deserialization/constructed__yaml_load",
+      "vuln_class": "insecure_deserialization",
+      "origin": "constructed",
+      "expected": [
+        "AG-DESERIALIZE"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-502; yaml.load(text, Loader=yaml.Loader)"
+    },
+    {
+      "id": "insecure_deserialization/real__gptcache_data_manager",
+      "path": "insecure_deserialization/real__gptcache_data_manager",
+      "vuln_class": "insecure_deserialization",
+      "origin": "real",
+      "expected": [
+        "AG-DESERIALIZE"
+      ],
+      "class_has_detector": false,
+      "provenance": "zilliztech/GPTCache gptcache/manager/data_manager.py \u2014 pickle.load of cache file; CWE-502 (https://github.com/zilliztech/GPTCache)"
+    },
+    {
+      "id": "path_traversal/constructed__delete_file",
+      "path": "path_traversal/constructed__delete_file",
+      "vuln_class": "path_traversal",
+      "origin": "constructed",
+      "expected": [
+        "AG-PATH-TRAVERSAL"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-22; delete_file(path)->os.remove"
+    },
+    {
+      "id": "path_traversal/constructed__load_template",
+      "path": "path_traversal/constructed__load_template",
+      "vuln_class": "path_traversal",
+      "origin": "constructed",
+      "expected": [
+        "AG-PATH-TRAVERSAL"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-22; Path(f'templates/{name}').read_text()"
+    },
+    {
+      "id": "path_traversal/constructed__read_document",
+      "path": "path_traversal/constructed__read_document",
+      "vuln_class": "path_traversal",
+      "origin": "constructed",
+      "expected": [
+        "AG-PATH-TRAVERSAL"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-22; read_document(path)->open(path)"
+    },
+    {
+      "id": "path_traversal/constructed__serve_static_file",
+      "path": "path_traversal/constructed__serve_static_file",
+      "vuln_class": "path_traversal",
+      "origin": "constructed",
+      "expected": [
+        "AG-PATH-TRAVERSAL"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-22; os.path.join prefix + open"
+    },
+    {
+      "id": "path_traversal/constructed__write_report",
+      "path": "path_traversal/constructed__write_report",
+      "vuln_class": "path_traversal",
+      "origin": "constructed",
+      "expected": [
+        "AG-PATH-TRAVERSAL"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-22; write_report(filename)->open(filename,'w')"
+    },
+    {
+      "id": "path_traversal/real__agno_python_tools",
+      "path": "path_traversal/real__agno_python_tools",
+      "vuln_class": "path_traversal",
+      "origin": "real",
+      "expected": [
+        "AG-PATH-TRAVERSAL"
+      ],
+      "class_has_detector": false,
+      "provenance": "agno-agi/agno libs/agno/agno/tools/python.py \u2014 read_file(file_name)->open(file_name); CWE-22 (https://github.com/agno-agi/agno)"
+    },
+    {
+      "id": "rce_eval_exec/constructed__eval_calculator",
+      "path": "rce_eval_exec/constructed__eval_calculator",
+      "vuln_class": "rce_eval_exec",
+      "origin": "constructed",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-95; models LangChain LLMMathChain eval RCE CVE-2023-29374 (https://nvd.nist.gov/vuln/detail/CVE-2023-29374)"
+    },
+    {
+      "id": "rce_eval_exec/real__camel_code_execution",
+      "path": "rce_eval_exec/real__camel_code_execution",
+      "vuln_class": "rce_eval_exec",
+      "origin": "real",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "camel-ai/camel camel/toolkits/code_execution.py \u2014 execute_code(code) via eval/interpreters (https://github.com/camel-ai/camel)"
+    },
+    {
+      "id": "rce_eval_exec/real__camel_internal_python",
+      "path": "rce_eval_exec/real__camel_internal_python",
+      "vuln_class": "rce_eval_exec",
+      "origin": "real",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "camel-ai/camel camel/interpreters/internal_python_interpreter.py \u2014 exec()/eval() of action code (https://github.com/camel-ai/camel)"
+    },
+    {
+      "id": "rce_eval_exec/real__camel_subprocess_interp",
+      "path": "rce_eval_exec/real__camel_subprocess_interp",
+      "vuln_class": "rce_eval_exec",
+      "origin": "real",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "camel-ai/camel camel/interpreters/subprocess_interpreter.py \u2014 runs generated code (https://github.com/camel-ai/camel)"
+    },
+    {
+      "id": "rce_eval_exec/real__promptflow_python_repl",
+      "path": "rce_eval_exec/real__promptflow_python_repl",
+      "vuln_class": "rce_eval_exec",
+      "origin": "real",
+      "expected": [
+        "AG-001"
+      ],
+      "class_has_detector": true,
+      "provenance": "microsoft/promptflow examples/.../python_repl.py \u2014 exec(command) REPL tool (https://github.com/microsoft/promptflow)"
+    },
+    {
+      "id": "secret_exfil_trifecta/constructed__file_secret_upload",
+      "path": "secret_exfil_trifecta/constructed__file_secret_upload",
+      "vuln_class": "secret_exfil_trifecta",
+      "origin": "constructed",
+      "expected": [
+        "AG-TRIFECTA",
+        "AG-002"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 lethal trifecta; read user file(untrusted)+read ssh key+upload"
+    },
+    {
+      "id": "secret_exfil_trifecta/constructed__rag_db_http",
+      "path": "secret_exfil_trifecta/constructed__rag_db_http",
+      "vuln_class": "secret_exfil_trifecta",
+      "origin": "constructed",
+      "expected": [
+        "AG-TRIFECTA",
+        "AG-002"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 lethal trifecta; RAG(untrusted)+read customer file+post_to_webhook"
+    },
+    {
+      "id": "secret_exfil_trifecta/constructed__web_read_email",
+      "path": "secret_exfil_trifecta/constructed__web_read_email",
+      "vuln_class": "secret_exfil_trifecta",
+      "origin": "constructed",
+      "expected": [
+        "AG-TRIFECTA",
+        "AG-002"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 lethal trifecta; web(untrusted)+read secret file+send_email; models EchoLeak CVE-2025-32711"
+    },
+    {
+      "id": "secret_exfil_trifecta/real__camel_web_read_post",
+      "path": "secret_exfil_trifecta/real__camel_web_read_post",
+      "vuln_class": "secret_exfil_trifecta",
+      "origin": "real",
+      "expected": [
+        "AG-TRIFECTA",
+        "AG-002"
+      ],
+      "class_has_detector": true,
+      "provenance": "REAL (assembly of VERBATIM third-party tool bodies from camel-ai/camel, Apache-2.0, https://github.com/camel-ai/camel): httpx web-fetch (web_fetch_toolkit.py) = UNTRUSTED input, open()/read (file_toolkit.py) = SENSITIVE read, requests.post (search_toolkit.py) = EGRESS. The dangerous-call code is third-party (we did not write it); the composition into one agent is ours (disclosed) because real toolkits are single-purpose by design \u2014 the lethal trifecta is EMERGENT from wiring real tools into one agent, which is precisely what Lucin scans. Trifecta shape = EchoLeak CVE-2025-32711."
+    },
+    {
+      "id": "sql_injection/constructed__fstring_sqlite",
+      "path": "sql_injection/constructed__fstring_sqlite",
+      "vuln_class": "sql_injection",
+      "origin": "constructed",
+      "expected": [
+        "AG-SQL"
+      ],
+      "class_has_detector": true,
+      "provenance": "CONSTRUCTED \u2014 CWE-89, models smolagents/CAMEL shape (f-string into cursor.execute)"
+    },
+    {
+      "id": "sql_injection/real__camel_sql_toolkit",
+      "path": "sql_injection/real__camel_sql_toolkit",
+      "vuln_class": "sql_injection",
+      "origin": "real",
+      "expected": [
+        "AG-SQL"
+      ],
+      "class_has_detector": true,
+      "provenance": "camel-ai/camel camel/toolkits/sql_toolkit.py \u2014 SQLToolkit.execute_query(query) raw LLM SQL (https://github.com/camel-ai/camel)"
+    },
+    {
+      "id": "sql_injection/real__mem0_oracledb",
+      "path": "sql_injection/real__mem0_oracledb",
+      "vuln_class": "sql_injection",
+      "origin": "real",
+      "expected": [
+        "AG-SQL"
+      ],
+      "class_has_detector": true,
+      "provenance": "mem0ai/mem0 mem0/vector_stores/oracledb.py \u2014 f-string SQL into cursor.execute (https://github.com/mem0ai/mem0)"
+    },
+    {
+      "id": "sql_injection/real__smolagents_text_to_sql",
+      "path": "sql_injection/real__smolagents_text_to_sql",
+      "vuln_class": "sql_injection",
+      "origin": "real",
+      "expected": [
+        "AG-SQL"
+      ],
+      "class_has_detector": true,
+      "provenance": "huggingface/smolagents examples/text_to_sql.py \u2014 @tool sql_engine: con.execute(text(query)); documented SQL injection (https://github.com/huggingface/smolagents)"
+    },
+    {
+      "id": "sql_injection/real__swarms_smart_database",
+      "path": "sql_injection/real__swarms_smart_database",
+      "vuln_class": "sql_injection",
+      "origin": "real",
+      "expected": [
+        "AG-SQL"
+      ],
+      "class_has_detector": true,
+      "provenance": "kyegomez/swarms examples/.../smart_database_swarm.py \u2014 cursor.execute(f\"...{table_name}...\") (https://github.com/kyegomez/swarms)"
+    },
+    {
+      "id": "sql_injection/real__txtai_database_client",
+      "path": "sql_injection/real__txtai_database_client",
+      "vuln_class": "sql_injection",
+      "origin": "real",
+      "expected": [
+        "AG-SQL"
+      ],
+      "class_has_detector": true,
+      "provenance": "neuml/txtai src/python/txtai/database/client.py \u2014 dynamic SQL execute (https://github.com/neuml/txtai)"
+    },
+    {
+      "id": "ssrf/constructed__healthcheck_scanner",
+      "path": "ssrf/constructed__healthcheck_scanner",
+      "vuln_class": "ssrf",
+      "origin": "constructed",
+      "expected": [
+        "AG-SSRF"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-918; check_service_health(host,port)->requests.get (internal port scan)"
+    },
+    {
+      "id": "ssrf/constructed__image_downloader",
+      "path": "ssrf/constructed__image_downloader",
+      "vuln_class": "ssrf",
+      "origin": "constructed",
+      "expected": [
+        "AG-SSRF"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-918; download_image(image_url)->httpx.get"
+    },
+    {
+      "id": "ssrf/constructed__url_fetcher",
+      "path": "ssrf/constructed__url_fetcher",
+      "vuln_class": "ssrf",
+      "origin": "constructed",
+      "expected": [
+        "AG-SSRF"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-918; fetch_url(target_url)->requests.get"
+    },
+    {
+      "id": "ssrf/constructed__urllib_proxy",
+      "path": "ssrf/constructed__urllib_proxy",
+      "vuln_class": "ssrf",
+      "origin": "constructed",
+      "expected": [
+        "AG-SSRF"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-918; proxy_request(url)->urllib.urlopen"
+    },
+    {
+      "id": "ssrf/constructed__webhook_poster",
+      "path": "ssrf/constructed__webhook_poster",
+      "vuln_class": "ssrf",
+      "origin": "constructed",
+      "expected": [
+        "AG-SSRF"
+      ],
+      "class_has_detector": false,
+      "provenance": "CONSTRUCTED \u2014 CWE-918; call_webhook(url)->requests.post"
+    },
+    {
+      "id": "ssrf/real__llamaindex_openapi_tool",
+      "path": "ssrf/real__llamaindex_openapi_tool",
+      "vuln_class": "ssrf",
+      "origin": "real",
+      "expected": [
+        "AG-SSRF"
+      ],
+      "class_has_detector": false,
+      "provenance": "run-llama/llama_index llama-index-tools-openapi .../base.py \u2014 requests.get(url) on tool-supplied URL; SSRF (https://github.com/run-llama/llama_index)"
+    }
+  ]
+}

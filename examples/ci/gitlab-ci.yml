@@ -1,0 +1,36 @@
+# Lucin GitLab CI — Scan agent code on every MR
+#
+# Add to your .gitlab-ci.yml or include as a template.
+# No API keys needed. No account signup.
+#
+# Usage:
+#   include:
+#     - remote: 'https://raw.githubusercontent.com/lucin/lucin/main/examples/ci/gitlab-ci.yml'
+
+lucin:scan:
+  stage: test
+  image: python:3.12-slim
+  variables:
+    SCAN_PATH: "."
+    FAIL_ON: "high"  # critical, high, medium, or low
+  before_script:
+    - pip install --quiet lucin
+  script:
+    - lucin scan ${SCAN_PATH} --ci --fail-on ${FAIL_ON}
+  artifacts:
+    when: always
+    paths:
+      - lucin-report.html
+    reports:
+      codequality: lucin-results.json
+  after_script:
+    - lucin scan ${SCAN_PATH} --format html -o lucin-report.html || true
+    - lucin scan ${SCAN_PATH} --format json -o lucin-results.json || true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - "**/*.py"
+        - "**/mcp.json"
+        - "**/agents.yaml"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  allow_failure: false

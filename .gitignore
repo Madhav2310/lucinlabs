@@ -1,0 +1,71 @@
+# ── Python ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# ── Virtual environments (kept locally, never committed) ────────────────
+venv/
+.venv/
+env/
+
+# ── Node (mockup/site tooling, if any) ──────────────────────────────────
+node_modules/
+
+# ── Benchmark corpus & caches — regenerable, HUGE (3.5 GB of vendored repos)
+# The 52-repo benign corpus is re-fetched with: python benchmarks/fetch_corpus.py
+benchmarks/corpus/
+benchmarks/corpus_cache/
+benchmarks/behavioral_scores_cache.json
+benchmarks/corpus_results.json
+
+# ── Generated outputs / samples ─────────────────────────────────────────
+examples/report.html
+*-ocsf.ndjson
+
+# ── Transfer bundle (repo packed into one file for migration) ───────────
+lucin_bundle.txt
+
+# ── OS / editor cruft ───────────────────────────────────────────────────
+.DS_Store
+*.log
+*.output
+.idea/
+.vscode/
+
+# RealVuln benchmark corpus (236 MB, refetched by benchmarks/realvuln_eval.py)
+benchmarks/realvuln_corpus/
+benchmarks/agentzoo_corpus/
+
+# Local tooling / generated artifacts — not part of the product
+.claude/
+graphify-out/
+_transfer_artifacts/
+.agents/
+skills-lock.json
+.wrangler/
+lucin-badge.svg
+
+# Internal planning and strategy — never public
+docs/archive/
+docs/design/
+plan/
+research/
+LEARN.md
+CORPUS_LEARNINGS.md
+PROGRESS.md
+HANDOFF.md
+TRANSFER.md
+DEFINITION_OF_DONE.md
+CAPABILITIES.md
+docs/FEDERATED_LEARNING_DESIGN.md
+docs/TRANSFER_LEARNING_DESIGN.md
+docs/PYSAD_EVALUATION.md
+launchplan.txt
