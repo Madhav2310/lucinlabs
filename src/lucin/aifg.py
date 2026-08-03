@@ -29,14 +29,12 @@ stdlib only — no external deps required.
 from __future__ import annotations
 
 import ast
-import math
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import IntEnum
 from pathlib import Path
 
 from lucin.models import Agent, Tool, ToolCapability
-
 
 # ---------------------------------------------------------------------------
 # 1. The IFC label lattice (Blueprint §3.2)
@@ -674,8 +672,10 @@ def _real_direct_edges(agent: Agent,
     returned edge can only shorten a witness path, never create a new finding.
     """
     from lucin.parsers.body_inspector import (
-        intraproc_taint, DANGEROUS_EXEC_CALLS, DANGEROUS_NETWORK_CALLS,
-        DANGEROUS_FILE_WRITE_CALLS, _resolve_call_name,
+        DANGEROUS_EXEC_CALLS,
+        DANGEROUS_FILE_WRITE_CALLS,
+        DANGEROUS_NETWORK_CALLS,
+        _resolve_call_name,
     )
 
     tool_names = {t.name for t in agent.tools}

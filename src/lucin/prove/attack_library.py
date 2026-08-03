@@ -40,7 +40,6 @@ from lucin.prove.payload_generator import (
     _homoglyph_encode,
 )
 
-
 # ---------------------------------------------------------------------------
 # Shared helper — recover the implicated tool/function name from the witness
 # ---------------------------------------------------------------------------

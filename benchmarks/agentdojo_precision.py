@@ -228,7 +228,7 @@ def adjudicate(suite: str, finding: dict, sinks: list[str]) -> tuple[str, str]:
       - anything else HIGH/CRIT: default TP unless clearly spurious.
     """
     fid = finding["id"]
-    sev = finding["severity"]
+    finding["severity"]
     sink_set = set(sinks)
 
     if fid == "AG-TRIFECTA":

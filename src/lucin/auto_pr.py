@@ -15,11 +15,11 @@ The infrastructure works without gh — it creates the branch and commits.
 """
 
 import subprocess
-from pathlib import Path
 from dataclasses import dataclass
+from pathlib import Path
 
-from lucin.models import Finding, ScanResult
-from lucin.fix import generate_patch, generate_fix
+from lucin.fix import generate_patch
+from lucin.models import ScanResult
 
 
 @dataclass

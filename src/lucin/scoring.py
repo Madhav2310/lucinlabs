@@ -1,6 +1,6 @@
 """Agent Security Score — a single number (0-100) summarizing agent security posture."""
 
-from lucin.models import Finding, ScanResult, Severity
+from lucin.models import ScanResult, Severity
 
 # Weight of each severity level in the score calculation
 SEVERITY_WEIGHTS = {

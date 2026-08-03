@@ -28,7 +28,7 @@ import httpx
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
-from lucin.guard.admission import RuleBasedInjectionClassifier, AdmissionGate
+from lucin.guard.admission import AdmissionGate
 
 DATASET = "deepset/prompt-injections"
 _ROWS_URL = "https://datasets-server.huggingface.co/rows"

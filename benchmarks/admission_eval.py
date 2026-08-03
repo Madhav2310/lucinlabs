@@ -23,8 +23,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
-from lucin.guard.admission import RuleBasedInjectionClassifier, AdmissionGate
-
+from lucin.guard.admission import AdmissionGate, RuleBasedInjectionClassifier
 
 INJECTIONS = [
     # direct override

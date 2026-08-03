@@ -81,7 +81,7 @@ def detect_unauthenticated_mcp(agent: Agent) -> list[Finding]:
         if passed_tokens:
             findings.append(Finding(
                 id="AG-MCP-TOKENLEAK",
-                title=f"MCP Token Passthrough: LLM API Key in Server Env",
+                title="MCP Token Passthrough: LLM API Key in Server Env",
                 severity=Severity.CRITICAL,
                 description=(
                     f"MCP server '{server.name}' receives LLM provider API "

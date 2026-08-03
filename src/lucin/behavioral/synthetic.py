@@ -17,7 +17,6 @@ import random
 from datetime import datetime, timedelta
 from pathlib import Path
 
-
 # Realistic agent activity patterns
 AGENT_PROFILES = {
     "support_agent": {

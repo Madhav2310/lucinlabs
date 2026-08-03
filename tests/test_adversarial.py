@@ -10,13 +10,15 @@ ensure Lucin can't be silently weakened by code changes.
 Run: pytest tests/test_adversarial.py -v
 """
 
-import pytest
 from pathlib import Path
-from lucin.scanner import scan_target
-from lucin.models import Agent, Tool
-from lucin.detectors.tool_poisoning import detect_tool_poisoning, _deobfuscate
-from lucin.detectors.secrets import detect_secrets, _luhn_check
+
+import pytest
+
+from lucin.detectors.secrets import _luhn_check, detect_secrets
 from lucin.detectors.supply_chain import detect_typosquatting
+from lucin.detectors.tool_poisoning import _deobfuscate, detect_tool_poisoning
+from lucin.models import Agent, Tool
+from lucin.scanner import scan_target
 
 
 class TestShellEvasionResistance:
@@ -119,7 +121,6 @@ class TestInjectionEvasionResistance:
     def test_benign_technical_digits_not_mangled(self):
         """Precision guard: de-obfuscation must NOT corrupt benign technical text.
         Regression test for the leetspeak-mangling false-positive removed in Phase 0."""
-        from lucin.detectors.tool_poisoning import _deobfuscate
         benign = "Fetch from port 8080, verify sha256, encode utf-8, parse log4j v2"
         out = _deobfuscate(benign)
         for token in ("8080", "sha256", "utf-8", "log4j"):

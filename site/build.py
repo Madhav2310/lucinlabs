@@ -214,7 +214,7 @@ p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color
 
 def _chrome(active: str) -> str:
     links = "".join(
-        f'<a href="{href}"{" aria-current=\"page\"" if label == active else ""}>{label}</a>'
+        f'<a href="{href}"' + (' aria-current="page"' if label == active else "") + f'>{label}</a>'
         for label, href in NAV)
     return f"""<body>
 <nav><div class="nav-in">
@@ -228,7 +228,7 @@ def _chrome(active: str) -> str:
 
 
 def _footer() -> str:
-    return f"""</main>
+    return """</main>
 <footer><div class="in">
   <span class="mark-sm">LUCIN</span>
   <span>Every claim reproducible from a committed command.</span>

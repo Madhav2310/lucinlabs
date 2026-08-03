@@ -17,9 +17,8 @@ from typing import Callable
 
 from rich.console import Console
 
-from lucin.redteam.multiturn import MultiTurnAttack, ConversationTurn, ALL_MULTITURN_ATTACKS
+from lucin.redteam.multiturn import ALL_MULTITURN_ATTACKS, MultiTurnAttack
 from lucin.redteam.runner import TestResult
-
 
 console = Console()
 

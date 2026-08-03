@@ -37,13 +37,16 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from lucin.guard.ifc_runtime import (
-    EXTERNAL_EGRESS_TOOLS, _call_is_egress, UNTRUSTED_SECRET,
+    EXTERNAL_EGRESS_TOOLS,
+    UNTRUSTED_SECRET,
+    IFCPolicy,
+    _call_is_egress,
 )
 from lucin.guard.interceptor import (
-    GuardSession, guard_tool, GuardBlockError,
+    GuardBlockError,
+    GuardSession,
+    guard_tool,
 )
-from lucin.guard.ifc_runtime import IFCPolicy
-
 
 # ---------------------------------------------------------------------------
 # PART A — Egress divergence audit
@@ -97,7 +100,7 @@ def run_egress_divergence() -> dict:
     print(f"    shared rule DROPS egress: {len(dropped)}   (list had, rule misses)")
     for n in sorted(dropped):
         print(f"        - {n}   [shared-rule gap — belongs fixed in aifg, not re-forked in GUARD]")
-    print(f"  GUARD now uses aifg.is_egress_by_name (SCAN's rule) for every decision.")
+    print("  GUARD now uses aifg.is_egress_by_name (SCAN's rule) for every decision.")
     print()
     return {"universe": len(_UNIVERSE),
             "divergences": len(added) + len(dropped),
@@ -199,7 +202,7 @@ def run_wrapping_completeness() -> dict:
     for c in _CASES:
         try:
             did_block = _blocks_verbatim_egress(c.make())
-        except Exception as e:                       # e.g. generator consumed
+        except Exception:                       # e.g. generator consumed
             did_block = False
         status = "BLOCKED " if did_block else "PASSED-THRU"
         tag = "" if c.carries_secret else "  (str() cannot surface secret — n/a)"

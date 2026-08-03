@@ -12,9 +12,9 @@ could not agree whether they were real. Requiring either agent evidence or a
 witness removed 71% of false positives (37/52) while losing 0 of 8 true
 positives; total HIGH/CRIT on the population fell 429 -> 209.
 """
+from lucin.detectors import _require_evidence_on_unproven_agents as gate
 from lucin.detectors import run_all_detectors
 from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
-from lucin.detectors import _require_evidence_on_unproven_agents as gate
 
 
 def _f(agent: str, fid: str, witness: list[str] | None = None) -> Finding:

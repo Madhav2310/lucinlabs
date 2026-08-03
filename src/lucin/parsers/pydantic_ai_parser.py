@@ -101,7 +101,7 @@ def _parse_pydantic_ai_agents(content: str, filepath: str) -> list[Agent]:
     # Build Agent objects
     for var_name, call_node in agent_vars.items():
         # Extract agent metadata
-        model = _get_positional_str(call_node, 0) or "unknown"
+        _get_positional_str(call_node, 0) or "unknown"
         instructions = _get_keyword_str(call_node, "instructions") or ""
         agent_name = var_name
 
@@ -206,7 +206,6 @@ def _has_memory_deps(content: str, call_node: ast.Call) -> bool:
     # Look for deps_type keyword
     for kw in call_node.keywords:
         if kw.arg == "deps_type" and isinstance(kw.value, ast.Name):
-            deps_class = kw.value.id
             # Check if the deps class contains DB/session/memory patterns
             memory_indicators = [
                 "conn", "connection", "db", "database", "session",

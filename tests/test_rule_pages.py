@@ -1,8 +1,8 @@
 """Every rule that fires must have documented copy, and vice versa."""
-import re
 import glob
+import re
 
-from lucin.rule_docs import RULE_CATALOG, _EXPLAIN_DOCS
+from lucin.rule_docs import _EXPLAIN_DOCS, RULE_CATALOG
 
 DOCUMENTED = set(RULE_CATALOG) | set(_EXPLAIN_DOCS)
 

@@ -28,9 +28,8 @@ import ast
 import re
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.models import Agent, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
-
 
 # Patterns in code that indicate self-modification capability
 SELF_MODIFICATION_PATTERNS = [

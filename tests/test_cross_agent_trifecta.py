@@ -8,7 +8,10 @@ honest-scope docstring on AgentGraph.to_aifg.
 
 from lucin.aifg import TrifectaFinding
 from lucin.multiagent.cascade import (
-    AgentGraph, CascadeDetector, CrossAgentTrifecta, query_cross_agent_trifecta,
+    AgentGraph,
+    CascadeDetector,
+    CrossAgentTrifecta,
+    query_cross_agent_trifecta,
 )
 
 

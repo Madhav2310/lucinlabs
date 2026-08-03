@@ -17,7 +17,6 @@ What this does NOT cover (needs a live LLM — separate, tiny, budgeted run):
 from __future__ import annotations
 
 import sys
-import statistics
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -38,7 +37,9 @@ def validate_hst_vs_river() -> dict:
     correlation and top-k overlap. Divergence = the hand-rolled one is suspect.
     """
     import random
+
     from river import anomaly as river_anomaly
+
     from lucin.behavioral.streaming import HalfSpaceTrees
 
     rng = random.Random(42)
@@ -126,7 +127,9 @@ def validate_monitor_pr_auc() -> dict:
     performance. It IS a reproducible, falsifiable number.
     """
     import random
+
     from sklearn.metrics import average_precision_score
+
     from lucin.behavioral.monitor import AgentMonitor
 
     rng = random.Random(7)
@@ -207,10 +210,13 @@ def validate_guard_langchain() -> dict:
     runtime does when the model selects it.
     """
     from langchain_core.tools import tool as lc_tool
+
+    from lucin.guard.ifc_runtime import UNTRUSTED_PUBLIC, UNTRUSTED_SECRET, IFCPolicy
     from lucin.guard.interceptor import (
-        GuardSession, guard_tool, GuardBlockError,
+        GuardBlockError,
+        GuardSession,
+        guard_tool,
     )
-    from lucin.guard.ifc_runtime import IFCPolicy, UNTRUSTED_SECRET, UNTRUSTED_PUBLIC
 
     findings = {}
 
@@ -283,15 +289,15 @@ def validate_role_baseline() -> dict:
     Honest: if the delta is small, we report it as small.
     """
     import random
-    from lucin.behavioral.monitor import AgentMonitor
+
     from lucin.behavioral.baselines import RoleBaselineManager
+    from lucin.behavioral.monitor import AgentMonitor
 
     rng = random.Random(11)
     # Role normal: mostly internal calls, occasional internal API — low egress.
     normal = [("read_file", {"path": "n"}), ("summarize", {}),
               ("query_db", {"url": "http://svc.internal/q"})]
     # Drift: many EXTERNAL posts (unusual volume), but NO secret read first.
-    drift = [("http_post", {"url": "https://api.external.io/x"})] * 6
 
     def run(warm: bool):
         mgr = RoleBaselineManager() if warm else None
@@ -344,8 +350,8 @@ def validate_content_taint() -> dict:
     it as a plain string, and an egress tool receives it. Content taint should
     re-detect the bytes and block. Also confirms benign traffic is not blocked.
     """
-    from lucin.guard.interceptor import GuardSession, guard_tool, GuardBlockError
-    from lucin.guard.ifc_runtime import IFCPolicy, UNTRUSTED_SECRET, UNTRUSTED_PUBLIC
+    from lucin.guard.ifc_runtime import UNTRUSTED_PUBLIC, UNTRUSTED_SECRET, IFCPolicy
+    from lucin.guard.interceptor import GuardBlockError, GuardSession, guard_tool
 
     # attack
     s = GuardSession(policy=IFCPolicy("t"))

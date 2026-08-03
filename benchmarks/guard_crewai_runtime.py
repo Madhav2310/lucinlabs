@@ -23,10 +23,9 @@ from __future__ import annotations
 
 from crewai.tools import BaseTool, tool
 
-from lucin.guard.interceptor import GuardSession, GuardBlockError
 from lucin.guard.adapters import guard_crewai_tool
-from lucin.guard.ifc_runtime import IFCPolicy, UNTRUSTED_SECRET
-
+from lucin.guard.ifc_runtime import UNTRUSTED_SECRET, IFCPolicy
+from lucin.guard.interceptor import GuardBlockError, GuardSession
 
 SECRET = "sk-live-CUSTOMER-AKIA9Z7Q1XVN4407PII"  # sensitive, structured, unique
 

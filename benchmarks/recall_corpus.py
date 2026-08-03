@@ -37,8 +37,8 @@ from __future__ import annotations
 import json
 import sys
 from collections import defaultdict
-from pathlib import Path
 from multiprocessing import Pool, cpu_count
+from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))

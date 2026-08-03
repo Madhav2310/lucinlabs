@@ -1,11 +1,10 @@
 """Realistic LangChain agent pattern — based on common tutorial/production code.
 This represents what you'd ACTUALLY find in the wild, not a contrived example.
 """
-import os
-from langchain_openai import ChatOpenAI
 from langchain.agents import AgentExecutor, create_react_agent
-from langchain.tools import tool
 from langchain.memory import ConversationBufferMemory
+from langchain.tools import tool
+from langchain_openai import ChatOpenAI
 
 
 @tool

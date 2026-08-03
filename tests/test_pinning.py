@@ -5,10 +5,13 @@ fire, and detection must be SIDE-EFFECT-FREE (no pins written) unless we explici
 baseline. PIN_DIR is monkeypatched to a tmp dir so tests never touch real ~/.lucin.
 """
 import lucin.pinning as pinning
-from lucin.pinning import (
-    detect_rug_pulls, save_baseline, has_baseline, _is_dangerous_description,
-)
 from lucin.models import Agent, MCPServer, Tool
+from lucin.pinning import (
+    _is_dangerous_description,
+    detect_rug_pulls,
+    has_baseline,
+    save_baseline,
+)
 
 
 def _agent(desc: str, *, src: str = "/tmp/x/agent_config.json", tool: str = "send_email") -> Agent:

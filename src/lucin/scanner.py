@@ -4,9 +4,9 @@ import time
 import warnings
 from pathlib import Path
 
-from lucin.models import Agent, ScanResult, ScanMetadata
+from lucin.detectors import ACTIVE_DETECTOR_COUNT, run_all_detectors
+from lucin.models import ScanMetadata, ScanResult
 from lucin.parsers import detect_and_parse
-from lucin.detectors import run_all_detectors, ACTIVE_DETECTOR_COUNT
 
 
 def _active_detector_count() -> int:
@@ -102,8 +102,8 @@ def _detect_binary_payloads(directory: Path) -> list:
     This is the Trail of Bits finding: malicious skills hide payloads in
     binary formats that text-based scanners can't inspect.
     """
-    from lucin.models import Finding, Severity
     from lucin._fs import iter_files
+    from lucin.models import Finding, Severity
 
     # Genuinely-binary payload formats only. Shell/batch/PowerShell scripts
     # (.sh/.bat/.cmd/.ps1) are TEXT — they are not "binary payloads a text

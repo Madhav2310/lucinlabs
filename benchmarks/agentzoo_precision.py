@@ -54,6 +54,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import random
 import ssl
 import sys
@@ -62,7 +63,6 @@ import urllib.error
 import urllib.request
 import zipfile
 from collections import defaultdict
-import os
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Pool
 from pathlib import Path
@@ -584,7 +584,6 @@ TUNING_ADJUDICATIONS: dict[str, dict] = {
     "strands-agents/sdk-python::strands-py/src/strands/tools/executors/_executor.py::L0::AG-005b": {"verdict": "FP", "reason": "strands _executor.py is an abstract base class for tool executors (abc, no concrete exec/net); AG-005b misfire on an ABC"},  # #89 AG-005b
     "sweepai/sweep::sweepai/handlers/on_check_suite.py::L116::AG-DOCKER-EXEC": {"verdict": "TP", "reason": "sweep run_dockerfile_config runs `docker run` via subprocess (witness) — real container-exec vector"},  # #90 AG-DOCKER-EXEC
     "truefoundry/cognita::backend/server/routers/components.py::L0::AG-NOAUTH": {"verdict": "FP", "reason": "cognita components.py is a read-only APIRouter (GET list endpoints only); low-risk and auth is applied app-level — AG-NOAUTH weak/misfire"},  # #91 AG-NOAUTH
-    "truefoundry/cognita::backend/server/routers/components.py::L0::AG-NOAUTH": {"verdict": "FP", "reason": "duplicate of #91 — read-only component-listing GET router"},  # #92 AG-NOAUTH
     "truefoundry/cognita::backend/server/routers/components.py::L0::AG-NOAUTH": {"verdict": "FP", "reason": "duplicate of #91 — read-only component-listing GET router"},  # #93 AG-NOAUTH
     "unclecode/crawl4ai::crawl4ai/async_crawler_strategy.py::L0::AG-002": {"verdict": "FP", "reason": "crawl4ai async_crawler_strategy.py is a Playwright crawler; no data-egress sink in-file — AG-002 exfil premise absent"},  # #94 AG-002
     "unclecode/crawl4ai::crawl4ai/model_loader.py::L0::AG-002": {"verdict": "FP", "reason": "crawl4ai model_loader.py downloads/loads ML models (ingress); AG-002 exfil premise absent"},  # #95 AG-002
@@ -814,22 +813,22 @@ def phase_b() -> None:
                               if a.get("defect") and a["verdict"] == "FP")
         if up_tp != len(tp):
             ulo, uhi = _wilson(up_tp, denom)
-            print(f"  UPPER BOUND (crediting witness-correct AG-CORS, since the detector's")
+            print("  UPPER BOUND (crediting witness-correct AG-CORS, since the detector's")
             print(f"    own source_file names the right file) = {up_tp}/{denom} = "
                   f"{100*up_tp/denom:.1f}%  CI [{ulo*100:.1f}%, {uhi*100:.1f}%]")
             print(f"  => report the RANGE {results['precision_pct']}%-{100*up_tp/denom:.1f}%,"
                   f" not a single point.")
-        print(f"  (UNKNOWN excluded from precision; reported separately)")
+        print("  (UNKNOWN excluded from precision; reported separately)")
         if len(missing):
             print(f"  NOTE: {len(missing)} eligible findings are unread -- the sample is")
-            print(f"        partial, so this is not yet a population estimate.")
+            print("        partial, so this is not yet a population estimate.")
     print("-" * 74)
     print("  per-detector (within adjudicated sample):")
     for k, v in results["per_detector"].items():
         print(f"    {k:<14} TP={v['TP']:<3} FP={v['FP']:<3} UNKNOWN={v['UNKNOWN']}")
     print("-" * 74)
-    print(f"  AgentFlow published 73% (73/100) on AgentZoo (5,399 programs).")
-    print(f"  Different corpora, both real agent programs, both manual-sample.")
+    print("  AgentFlow published 73% (73/100) on AgentZoo (5,399 programs).")
+    print("  Different corpora, both real agent programs, both manual-sample.")
     print("=" * 74)
     print(f"  results -> {RESULTS_FILE.relative_to(ROOT)}")
 

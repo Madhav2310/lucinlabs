@@ -24,10 +24,10 @@ ORM query builders (session.query, Model.filter_by).
 """
 
 import ast
-from lucin.models import Agent, Finding, Severity, ToolCapability
-from lucin.parsers.body_inspector import _resolve_call_name
-from lucin.owasp import owasp_ref
 
+from lucin.models import Agent, Finding, Severity
+from lucin.owasp import owasp_ref
+from lucin.parsers.body_inspector import _resolve_call_name
 
 # SQL execution sinks that accept raw strings (dangerous)
 _SQL_EXEC_SINKS = {

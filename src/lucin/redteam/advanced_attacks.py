@@ -12,8 +12,7 @@ References:
 - McKinsey Lilli (March 2026): autonomous SQL injection
 """
 
-from lucin.redteam.attacks import AttackPayload, AttackCategory
-
+from lucin.redteam.attacks import AttackCategory, AttackPayload
 
 # === MEMORY POISONING ATTACKS ===
 

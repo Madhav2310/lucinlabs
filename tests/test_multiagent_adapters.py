@@ -9,18 +9,17 @@ from __future__ import annotations
 
 import copy
 
+from lucin.guard.otel_export import (
+    backward_trace_report,
+    to_otel_spans,
+)
+from lucin.guard.provenance import ProvenanceGraph
 from lucin.multiagent.adapters import (
     A2AGuard,
     ChromaIntegrityAdapter,
     crew_to_graph,
 )
 from lucin.multiagent.cascade import AgentGraph
-from lucin.guard.otel_export import (
-    backward_trace_report,
-    to_otel_spans,
-)
-from lucin.guard.provenance import ProvenanceGraph
-
 
 # ---------------------------------------------------------------------------
 # import smoke
@@ -167,8 +166,9 @@ def test_a2a_guard_unknown_sender_rejected():
     guard = A2AGuard()
     guard.register("bob")
     # forge a message from an unregistered sender
-    from lucin.multiagent.identity import SignedMessage
     import time
+
+    from lucin.multiagent.identity import SignedMessage
 
     forged = SignedMessage(
         sender_id="mallory", recipient_id="bob", content="hi",

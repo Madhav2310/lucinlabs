@@ -32,7 +32,6 @@ from typing import Any, Callable
 from lucin.aifg import IFCLabel
 from lucin.guard.interceptor import GuardSession, guard_tool
 
-
 # ---------------------------------------------------------------------------
 # Callable extraction — duck-typed, framework-independent
 # ---------------------------------------------------------------------------

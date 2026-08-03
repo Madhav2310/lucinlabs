@@ -509,7 +509,7 @@ class Table(BaseModel):
         frozen = True
 
     @model_validator(mode="before")
-    def check_required_fields(cls, class_values: dict) -> dict:
+    def check_required_fields(self, class_values: dict) -> dict:
         if not class_values["columns"]:
             raise ValueError("non-empty column list for must be provided")
         if not class_values["partition"]:

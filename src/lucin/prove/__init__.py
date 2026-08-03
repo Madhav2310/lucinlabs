@@ -16,8 +16,8 @@ Usage:
 from lucin.prove.payload_generator import (
     AdversarialPayload,
     PayloadVariant,
-    generate_payloads,
     generate_from_finding,
+    generate_payloads,
 )
 
 __all__ = [

@@ -27,7 +27,6 @@ from pathlib import Path
 from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
 
-
 # Tight, single-list fallback used only when the file is not parseable Python.
 # NON-greedy, NO DOTALL, and bounded to ONE bracketed list ([^\]]*) so it cannot
 # span the whole file the way the old `\[.*\*.*\]` + re.DOTALL pattern did.

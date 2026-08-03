@@ -28,8 +28,9 @@ sys.path.insert(0, str(ROOT / "benchmarks"))
 
 import httpx
 from genai_client import GenAIClient
-from lucin.guard.interceptor import GuardSession, guard_tool, GuardBlockError
-from lucin.guard.ifc_runtime import IFCPolicy, UNTRUSTED_PUBLIC
+
+from lucin.guard.ifc_runtime import UNTRUSTED_PUBLIC, IFCPolicy
+from lucin.guard.interceptor import GuardBlockError, GuardSession, guard_tool
 
 MAX_LLM_CALLS = 14          # global hard cap (~2 per task x 6 tasks + slack)
 MAX_TOKENS = 300

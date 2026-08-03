@@ -19,9 +19,8 @@ Real-world basis:
 - Token-level DoS against agents (OWASP #5: Resource Overload)
 """
 
-from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.models import Agent, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
-
 
 # Tools that can potentially return very large amounts of data
 UNBOUNDED_RETURN_PATTERNS = [

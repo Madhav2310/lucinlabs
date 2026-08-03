@@ -18,7 +18,6 @@ Instead of scoring each action independently, we score the CHAIN.
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any
 
 
 @dataclass

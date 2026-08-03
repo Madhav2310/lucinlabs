@@ -27,7 +27,6 @@ import ast
 from dataclasses import dataclass, field
 from typing import Iterator
 
-
 # ---------------------------------------------------------------------------
 # 1. Basic blocks and edges
 # ---------------------------------------------------------------------------

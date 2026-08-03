@@ -2,7 +2,7 @@
 
 import json
 from collections import OrderedDict
-from typing import List, Optional, Callable
+from typing import Callable, List, Optional
 
 import requests
 from llama_index.core.schema import Document

@@ -7,17 +7,22 @@ Observable criteria (Phase 1 PROGRESS.md):
 - IFC label lattice join is correct (monotone, sound)
 """
 
-import pytest
 from lucin.aifg import (
-    AIFG, AIFGNode, AIFGEdge, IFCLabel,
-    Integrity, Confidentiality, EdgeKind,
-    TRUSTED_PUBLIC, TRUSTED_SECRET, UNTRUSTED_PUBLIC, UNTRUSTED_SECRET,
-    build_aifg, query_trifecta, min_tool_cut, is_egress_by_name,
+    TRUSTED_PUBLIC,
+    TRUSTED_SECRET,
+    UNTRUSTED_PUBLIC,
+    Confidentiality,
+    EdgeKind,
+    IFCLabel,
+    Integrity,
+    build_aifg,
+    is_egress_by_name,
     is_untrusted_input_by_name,
+    min_tool_cut,
+    query_trifecta,
 )
-from lucin.models import Agent, Tool, ToolCapability
 from lucin.detectors.trifecta import detect_trifecta
-
+from lucin.models import Agent, Tool, ToolCapability
 
 # ---------------------------------------------------------------------------
 # helpers

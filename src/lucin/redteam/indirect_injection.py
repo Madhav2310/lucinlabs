@@ -27,8 +27,7 @@ Testing methodology:
 - This requires a mock tool layer that returns crafted responses
 """
 
-from lucin.redteam.attacks import AttackPayload, AttackCategory
-
+from lucin.redteam.attacks import AttackCategory, AttackPayload
 
 # These payloads simulate what an attacker would put INTO a data source
 # (database record, web page, document, message) that the agent reads via tools.

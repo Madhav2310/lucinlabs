@@ -7,7 +7,6 @@ from pathlib import Path
 import pytest
 
 from lucin.scanner import scan_target
-from lucin.models import Severity
 
 
 @pytest.fixture

@@ -14,10 +14,9 @@ Usage:
 """
 
 import os
-import re
 import platform
+import re
 from pathlib import Path
-
 
 # Known MCP config locations by platform
 # Source: Snyk Agent-Scan well_known_clients.py + community documentation

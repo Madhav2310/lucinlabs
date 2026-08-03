@@ -1,6 +1,7 @@
 # Expected: NO critical/high findings — this is a safe agent
 from langchain.tools import tool
 
+
 @tool
 def add(a: int, b: int) -> int:
     """Add two numbers together."""

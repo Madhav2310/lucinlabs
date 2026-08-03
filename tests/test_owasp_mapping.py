@@ -1,6 +1,6 @@
 """Every rule that fires must cite a real OWASP Agentic 2026 category."""
-import re
 import glob
+import re
 
 from lucin.owasp import ASI, RULE_TO_ASI, owasp_ref
 

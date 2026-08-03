@@ -1,0 +1,1180 @@
+[
+  {
+    "cell": null,
+    "code": "E702",
+    "end_location": {
+      "column": 55,
+      "row": 733
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/aifg.py",
+    "fix": null,
+    "location": {
+      "column": 54,
+      "row": 733
+    },
+    "message": "Multiple statements on one line (semicolon)",
+    "name": "multiple-statements-on-one-line-semicolon",
+    "noqa_row": 733,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/multiple-statements-on-one-line-semicolon"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 120,
+      "row": 67
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/badge.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 67
+    },
+    "message": "Line too long (119 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 71,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 120,
+      "row": 107
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/badge.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 107
+    },
+    "message": "Line too long (119 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 111,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 115,
+      "row": 286
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/behavioral/scoring.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 286
+    },
+    "message": "Line too long (114 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 286,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 117,
+      "row": 318
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/behavioral/scoring.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 318
+    },
+    "message": "Line too long (116 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 318,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 102,
+      "row": 348
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/behavioral/scoring.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 348
+    },
+    "message": "Line too long (101 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 348,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E741",
+    "end_location": {
+      "column": 10,
+      "row": 396
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/behavioral/streaming.py",
+    "fix": null,
+    "location": {
+      "column": 9,
+      "row": 396
+    },
+    "message": "Ambiguous variable name: `l`",
+    "name": "ambiguous-variable-name",
+    "noqa_row": 396,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/ambiguous-variable-name"
+  },
+  {
+    "cell": null,
+    "code": "F401",
+    "end_location": {
+      "column": 65,
+      "row": 17
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/detectors/__init__.py",
+    "fix": null,
+    "location": {
+      "column": 44,
+      "row": 17
+    },
+    "message": "`lucin.detectors.path_traversal.detect_path_traversal` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+    "name": "unused-import",
+    "noqa_row": 17,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 129,
+      "row": 274
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/detectors/docker_exec.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 274
+    },
+    "message": "Line too long (128 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 274,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 105,
+      "row": 300
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/detectors/docker_exec.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 300
+    },
+    "message": "Line too long (104 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 300,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 121,
+      "row": 315
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/fix.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 315
+    },
+    "message": "Line too long (120 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 337,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 124,
+      "row": 320
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/fix.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 320
+    },
+    "message": "Line too long (123 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 337,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 120,
+      "row": 1
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/guard/otel_export.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 1
+    },
+    "message": "Line too long (119 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 17,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 127,
+      "row": 140
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 140
+    },
+    "message": "Line too long (126 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 152,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 124,
+      "row": 141
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 141
+    },
+    "message": "Line too long (123 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 152,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 122,
+      "row": 144
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 144
+    },
+    "message": "Line too long (121 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 152,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 138,
+      "row": 145
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 145
+    },
+    "message": "Line too long (137 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 152,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 215,
+      "row": 149
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 149
+    },
+    "message": "Line too long (214 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 152,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 140,
+      "row": 259
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 259
+    },
+    "message": "Line too long (139 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 496,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 117,
+      "row": 393
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 393
+    },
+    "message": "Line too long (116 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 496,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 136,
+      "row": 462
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 462
+    },
+    "message": "Line too long (135 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 496,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 116,
+      "row": 464
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 464
+    },
+    "message": "Line too long (115 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 496,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 118,
+      "row": 466
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 466
+    },
+    "message": "Line too long (117 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 496,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 193,
+      "row": 507
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 507
+    },
+    "message": "Line too long (192 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 151,
+      "row": 509
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 509
+    },
+    "message": "Line too long (150 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 165,
+      "row": 510
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 510
+    },
+    "message": "Line too long (164 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 130,
+      "row": 512
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 512
+    },
+    "message": "Line too long (129 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 155,
+      "row": 513
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 513
+    },
+    "message": "Line too long (154 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 171,
+      "row": 514
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 514
+    },
+    "message": "Line too long (170 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 199,
+      "row": 516
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 516
+    },
+    "message": "Line too long (198 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 123,
+      "row": 517
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 517
+    },
+    "message": "Line too long (122 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 137,
+      "row": 521
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 521
+    },
+    "message": "Line too long (136 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 146,
+      "row": 522
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 522
+    },
+    "message": "Line too long (145 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 196,
+      "row": 529
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 529
+    },
+    "message": "Line too long (195 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 144,
+      "row": 535
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 535
+    },
+    "message": "Line too long (143 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 141,
+      "row": 536
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 536
+    },
+    "message": "Line too long (140 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 145,
+      "row": 538
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 538
+    },
+    "message": "Line too long (144 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 118,
+      "row": 539
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 539
+    },
+    "message": "Line too long (117 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 168,
+      "row": 541
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 541
+    },
+    "message": "Line too long (167 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 144,
+      "row": 543
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 543
+    },
+    "message": "Line too long (143 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 183,
+      "row": 544
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 544
+    },
+    "message": "Line too long (182 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 126,
+      "row": 546
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 546
+    },
+    "message": "Line too long (125 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 125,
+      "row": 550
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 550
+    },
+    "message": "Line too long (124 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 169,
+      "row": 552
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 552
+    },
+    "message": "Line too long (168 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 153,
+      "row": 553
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 553
+    },
+    "message": "Line too long (152 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 131,
+      "row": 556
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 556
+    },
+    "message": "Line too long (130 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 134,
+      "row": 557
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 557
+    },
+    "message": "Line too long (133 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 158,
+      "row": 568
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 568
+    },
+    "message": "Line too long (157 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 151,
+      "row": 584
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 584
+    },
+    "message": "Line too long (150 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 143,
+      "row": 585
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 585
+    },
+    "message": "Line too long (142 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 147,
+      "row": 586
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 586
+    },
+    "message": "Line too long (146 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 141,
+      "row": 587
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 587
+    },
+    "message": "Line too long (140 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 123,
+      "row": 588
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 588
+    },
+    "message": "Line too long (122 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 121,
+      "row": 589
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/html_report.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 589
+    },
+    "message": "Line too long (120 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 601,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 169,
+      "row": 20
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/monitor.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 20
+    },
+    "message": "Line too long (168 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 25,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 149,
+      "row": 21
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/monitor.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 21
+    },
+    "message": "Line too long (148 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 25,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 120,
+      "row": 1
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/multiagent/adapters.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 1
+    },
+    "message": "Line too long (119 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 15,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 125,
+      "row": 1
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/prove/attack_library.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 1
+    },
+    "message": "Line too long (124 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 32,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 125,
+      "row": 1
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/prove/benchmark.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 1
+    },
+    "message": "Line too long (124 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 26,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 107,
+      "row": 241
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/redteam/cli.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 241
+    },
+    "message": "Line too long (106 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 241,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 114,
+      "row": 245
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/redteam/cli.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 245
+    },
+    "message": "Line too long (113 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 245,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 158,
+      "row": 253
+    },
+    "filename": "/Users/madhav/lucin/src/lucin/redteam/cli.py",
+    "fix": null,
+    "location": {
+      "column": 101,
+      "row": 253
+    },
+    "message": "Line too long (157 > 100)",
+    "name": "line-too-long",
+    "noqa_row": 253,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  }
+]

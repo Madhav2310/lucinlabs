@@ -4,8 +4,8 @@ Tests Lucin against real code from popular open-source agent projects.
 If any of these tests fail, it means a code change broke real-world detection.
 """
 
-import pytest
 from pathlib import Path
+
 from lucin.scanner import scan_target
 
 BASE = Path(__file__).parent.parent / "real_world_tests"

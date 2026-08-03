@@ -34,7 +34,6 @@ from control_plane.api.schemas import Principal
 from control_plane.db import TenantScopedSession
 from control_plane.enums import Role
 
-
 # Role ranking for "at least this role" checks.
 _ROLE_RANK = {Role.VIEWER: 0, Role.MEMBER: 1, Role.ADMIN: 2, Role.OWNER: 3}
 

@@ -27,9 +27,7 @@ Without WebSocket, clients must poll — which adds latency and load.
 """
 
 import json
-import asyncio
 from datetime import datetime
-from typing import Any
 
 from fastapi import WebSocket, WebSocketDisconnect
 

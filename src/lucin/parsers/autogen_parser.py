@@ -15,7 +15,6 @@ Reference: AutoGen (microsoft/autogen) — part of Microsoft Agent Framework 1.0
 """
 
 import ast
-import re
 from pathlib import Path
 
 from lucin._fs import iter_files

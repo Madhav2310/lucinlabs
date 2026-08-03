@@ -6,11 +6,10 @@ round-trip, so we track sensitive CONTENT and re-taint it when it reappears.
 
 import pytest
 
+from lucin.aifg import Confidentiality, IFCLabel, Integrity
+from lucin.guard.ifc_runtime import UNTRUSTED_PUBLIC, UNTRUSTED_SECRET, IFCPolicy
+from lucin.guard.interceptor import GuardBlockError, GuardSession, guard_tool
 from lucin.guard.taint_registry import TaintRegistry
-from lucin.guard.interceptor import GuardSession, guard_tool, GuardBlockError
-from lucin.guard.ifc_runtime import IFCPolicy, UNTRUSTED_SECRET, UNTRUSTED_PUBLIC
-from lucin.aifg import IFCLabel, Integrity, Confidentiality
-
 
 SECRET = IFCLabel(Integrity.UNTRUSTED, Confidentiality.SECRET)
 PUBLIC = IFCLabel(Integrity.UNTRUSTED, Confidentiality.PUBLIC)

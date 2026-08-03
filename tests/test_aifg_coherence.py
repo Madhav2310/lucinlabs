@@ -40,13 +40,19 @@ Run: ./venv/bin/python -m pytest tests/test_aifg_coherence.py -q
 from dataclasses import fields
 
 from lucin.aifg import (
-    AIFG, AIFGNode, AIFGEdge, TrifectaFinding,
-    build_aifg, query_trifecta, EdgeKind, Integrity, Confidentiality,
+    AIFG,
+    AIFGEdge,
+    AIFGNode,
+    Confidentiality,
+    EdgeKind,
+    Integrity,
+    TrifectaFinding,
+    build_aifg,
+    query_trifecta,
 )
 from lucin.guard.provenance import ProvenanceGraph
-from lucin.multiagent.cascade import AgentGraph
 from lucin.models import Agent, Tool, ToolCapability
-
+from lucin.multiagent.cascade import AgentGraph
 
 # ---------------------------------------------------------------------------
 # Shared scenario: the canonical lethal-trifecta example, expressed three ways.

@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Callable
 
-from lucin.redteam.attacks import AttackPayload, ALL_ATTACKS, AttackCategory
+from lucin.redteam.attacks import ALL_ATTACKS, AttackCategory, AttackPayload
 
 
 class TestResult(str, Enum):

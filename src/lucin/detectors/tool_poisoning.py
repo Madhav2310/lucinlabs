@@ -10,9 +10,8 @@ Reference: Invariant Labs MCP Tool Poisoning research (2025-2026)
 
 import re
 
-from lucin.models import Agent, Finding, Severity, Tool
+from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
-
 
 # Patterns that suggest hidden/manipulative instructions in tool descriptions
 INJECTION_INDICATORS = [

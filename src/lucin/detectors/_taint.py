@@ -21,12 +21,16 @@ from __future__ import annotations
 
 import ast
 
-from lucin.parsers.body_inspector import _resolve_call_name
 from lucin.analysis.cross_function_taint import (
     annotate_functions as _annotate_functions,
+)
+from lucin.analysis.cross_function_taint import (
     augment_taint as _augment_taint,
+)
+from lucin.analysis.cross_function_taint import (
     is_tainted as _is_tainted_tokens,
 )
+from lucin.parsers.body_inspector import _resolve_call_name
 
 # Parameters that are never attacker-controlled tool inputs (framework plumbing).
 SKIP_PARAMS = {

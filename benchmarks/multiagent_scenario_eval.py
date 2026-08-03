@@ -48,7 +48,6 @@ from lucin.multiagent.adapters import A2AGuard
 from lucin.multiagent.cascade import AgentGraph, CascadeDetector
 from lucin.multiagent.identity import AgentIdentity, sign_message
 
-
 # ---------------------------------------------------------------------------
 # Part 1: IDENTITY -- authenticated agent-to-agent messages
 # ---------------------------------------------------------------------------

@@ -45,10 +45,10 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from lucin.behavioral.trace_gen import benign_session, attack_session, ROLES
-from lucin.behavioral.monitor import AgentMonitor
 from lucin.behavioral.baselines import RoleBaselineManager
 from lucin.behavioral.drift import DriftMonitor
+from lucin.behavioral.monitor import AgentMonitor
+from lucin.behavioral.trace_gen import ROLES, attack_session, benign_session
 
 ROLE = "support"
 POINT_THRESHOLD = 0.7          # per-event alert threshold
@@ -157,7 +157,7 @@ def main() -> int:
 
     def _p(x):  # scaled
         return 100 * x
-    print(f"\nPer-session mean anomaly score (x100):")
+    print("\nPer-session mean anomaly score (x100):")
     print(f"  benign            mu={_p(st.mean(benign_means)):.1f}  sd={_p(st.pstdev(benign_means)):.1f}")
     print(f"  benign new-normal mu={_p(st.mean(nn_means)):.1f}  sd={_p(st.pstdev(nn_means)):.1f}")
     print(f"  transient attack  mu={_p(st.mean(atk_means)):.1f}")
@@ -237,7 +237,7 @@ def main() -> int:
     # attack-vs-drift classification confusion (drift vs transient-attack):
     correct = len(delays) + (n_atk - atk_fired)
     total = n_drift + n_atk
-    print(f"\nAttack-vs-drift classification (drift fires / transient-attack silent):")
+    print("\nAttack-vs-drift classification (drift fires / transient-attack silent):")
     print(f"   {correct}/{total} correct ({100*correct/total:.1f}%)")
 
     # --- Cross-check against river's PageHinkley ---

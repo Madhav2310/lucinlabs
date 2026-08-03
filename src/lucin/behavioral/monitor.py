@@ -28,14 +28,14 @@ from __future__ import annotations
 
 import math
 import time
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass
 
+from lucin.behavioral.drift import DriftEvent, DriftMonitor
+from lucin.behavioral.streaming import AnomalyScore, RollingNormalizer, StreamingEnsemble
 from lucin.behavioral.trajectory import (
-    TrajectoryFeaturizer, EventFeatureVector, event_key, is_sensitive_tool,
+    EventFeatureVector,
+    TrajectoryFeaturizer,
 )
-from lucin.behavioral.streaming import StreamingEnsemble, AnomalyScore, RollingNormalizer
-from lucin.behavioral.drift import DriftMonitor, DriftEvent
 
 FEATURE_DIM = 6  # matches EventFeatureVector.to_vector()
 FEATURE_NAMES = [
@@ -149,7 +149,7 @@ class MonitorEvent:
                          f"secret_velocity: {self.features.secret_read_velocity:.2f}")
             top = self.top_contributing_features
             if top:
-                lines.append(f"  top drivers: " + ", ".join(
+                lines.append("  top drivers: " + ", ".join(
                     f"{name}={v:.3f}" for name, v in top))
         return "\n".join(lines)
 

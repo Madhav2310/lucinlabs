@@ -1,9 +1,9 @@
 """AutoGen-style multi-agent team with code execution.
 Based on patterns from microsoft/autogen examples.
 """
-from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
 import os
 
+from autogen import AssistantAgent, GroupChat, GroupChatManager, UserProxyAgent
 
 # Configuration for the LLM
 config_list = [

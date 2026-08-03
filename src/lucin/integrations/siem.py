@@ -19,7 +19,6 @@ from typing import Any
 
 from lucin.models import Finding, ScanResult, Severity
 
-
 # OCSF severity mapping
 SEVERITY_TO_OCSF = {
     Severity.CRITICAL: 5,  # Critical

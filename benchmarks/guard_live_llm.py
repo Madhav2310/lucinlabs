@@ -30,8 +30,9 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 import httpx
-from lucin.guard.interceptor import GuardSession, guard_tool, GuardBlockError
-from lucin.guard.ifc_runtime import IFCPolicy, UNTRUSTED_SECRET, UNTRUSTED_PUBLIC
+
+from lucin.guard.ifc_runtime import UNTRUSTED_PUBLIC, UNTRUSTED_SECRET, IFCPolicy
+from lucin.guard.interceptor import GuardBlockError, GuardSession, guard_tool
 
 MAX_LLM_CALLS = 8
 MAX_TOKENS = 512
@@ -204,7 +205,7 @@ def main() -> int:
     b, a = results.get("benign", {}), results.get("attack", {})
     print(f"\nBENIGN task:      completed={b.get('completed')} blocked={b.get('blocked')} "
           f"turns={b.get('turns')}  {b.get('error','')}")
-    print(f"  -> expect: completes, NOT blocked (no false block)")
+    print("  -> expect: completes, NOT blocked (no false block)")
     print(f"\nDLP egress task:  model_called_send_email={a.get('attempted_egress')} "
           f"blocked={a.get('blocked')} tool={a.get('blocked_tool','-')}  {a.get('error','')}")
     if a.get("blocked"):

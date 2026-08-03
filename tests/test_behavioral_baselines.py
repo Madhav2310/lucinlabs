@@ -6,21 +6,17 @@ validate detection quality on real agent traces.
 
 from __future__ import annotations
 
-import math
-
 import pytest
 
 pytest.importorskip("numpy", reason="behavioral extra not installed")
 
 from lucin.behavioral.baselines import (
-    RolePriorStore,
     RoleBaselineManager,
+    RolePriorStore,
     empirical_bayes_shrink,
-    DEFAULT_PRIOR_STD,
 )
 from lucin.behavioral.monitor import FEATURE_NAMES
 from lucin.behavioral.trajectory import EventFeatureVector
-
 
 # --------------------------------------------------------------------------- #
 # import smoke                                                                 #

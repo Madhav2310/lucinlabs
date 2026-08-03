@@ -1,16 +1,12 @@
 """Tests for AG-DOCKER-EXEC and AG-RAG-NO-SANITIZE detectors."""
 
 import ast
-import textwrap
 import tempfile
-from pathlib import Path
+import textwrap
 
-import pytest
-
-from lucin.detectors.docker_exec import detect_docker_exec, _command_contains_docker_run
+from lucin.detectors.docker_exec import _command_contains_docker_run, detect_docker_exec
 from lucin.detectors.rag_sanitize import detect_rag_no_sanitize
-from lucin.models import Agent, Tool, ToolCapability, Severity, ScanResult
-
+from lucin.models import Agent, Severity, Tool, ToolCapability
 
 # ---------------------------------------------------------------------------
 # AG-DOCKER-EXEC

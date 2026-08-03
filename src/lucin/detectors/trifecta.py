@@ -21,8 +21,8 @@ becomes more precise (Phase 1b taint engine), AG-TRIFECTA will
 progressively subsume AG-002. Until then they are complementary.
 """
 
+from lucin.aifg import TrifectaFinding, build_aifg, min_tool_cut, query_trifecta
 from lucin.models import Agent, Finding, Severity
-from lucin.aifg import build_aifg, query_trifecta, min_tool_cut, TrifectaFinding
 from lucin.owasp import owasp_ref
 
 
@@ -46,7 +46,7 @@ def detect_trifecta(agent: Agent) -> list[Finding]:
     removable = {t.name for t in agent.tools}
     cut = min_tool_cut(g, untrusted_ctrl, egress_sinks, removable)
     cut_str = (
-        f"Minimal fix (provably breaks all exfil paths):\n"
+        "Minimal fix (provably breaks all exfil paths):\n"
         + "\n".join(f"  → Restrict or gate tool '{t}'" for t in sorted(cut))
         if cut else
         "No removable tool identified — review agent architecture."

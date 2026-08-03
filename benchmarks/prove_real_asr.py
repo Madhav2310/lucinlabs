@@ -14,7 +14,6 @@ the honest frontier seed. Calls are I/O-bound → run on threads. Frugal cap.
 from __future__ import annotations
 
 import sys
-import threading
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -22,6 +21,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 sys.path.insert(0, str(Path(__file__).parent))
 from genai_client import GenAIClient
+
 from lucin.guard.admission import spotlight
 
 CANARY = "CANARY_PWNED_42"

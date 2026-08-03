@@ -66,8 +66,8 @@ def detect_unrestricted_shell(agent: Agent) -> list[Finding]:
                         "execute arbitrary system commands with the agent's process permissions."
                     ),
                     blast_radius=(
-                        f"Full system access as the agent's process user. "
-                        f"All files, network access, and credentials accessible to that user."
+                        "Full system access as the agent's process user. "
+                        "All files, network access, and credentials accessible to that user."
                     ),
                     owasp_ref=owasp_ref("AG-001"),
                     fix_suggestion=(

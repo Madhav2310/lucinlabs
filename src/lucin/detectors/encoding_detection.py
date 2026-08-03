@@ -22,14 +22,13 @@ Real-world basis:
 - URL encoding bypass: common in web security, now applied to agent inputs
 """
 
-import re
 import base64
 import math
+import re
 from collections import Counter
 
-from lucin.models import Agent, Finding, Severity, Tool
+from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
-
 
 # Minimum length for encoded content to be suspicious
 MIN_ENCODED_LENGTH = 20

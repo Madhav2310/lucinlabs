@@ -10,7 +10,6 @@ These are two distinct but related frameworks:
 """
 
 import ast
-import re
 from pathlib import Path
 
 from lucin._fs import iter_files

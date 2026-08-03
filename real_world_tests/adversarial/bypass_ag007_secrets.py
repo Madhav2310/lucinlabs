@@ -2,11 +2,12 @@
 
 Real-world developers hide secrets in ways that pattern matching misses.
 """
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain_openai import ChatOpenAI
-from langchain.tools import Tool
-from langchain import hub
 import base64
+
+from langchain import hub
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain.tools import Tool
+from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-4")
 prompt = hub.pull("hwchase17/react")
@@ -33,11 +34,13 @@ DB_PASSWORD = bytes([b ^ 0x42 for b in _obfuscated]).decode()
 
 # === BYPASS ATTEMPT 5: Environment variable fallback with hardcoded default ===
 import os
+
 OPENAI_KEY = os.environ.get("OPENAI_API_KEY", "sk-proj-a7b2c9d4e1f8g3h6i5j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6")
 
 # === BYPASS ATTEMPT 6: Loaded from a local file that's committed ===
 # In real code, the .env file might be accidentally committed
 from pathlib import Path
+
 if Path(".secrets.json").exists():
     import json
     _secrets = json.loads(Path(".secrets.json").read_text())

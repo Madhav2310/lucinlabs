@@ -6,13 +6,13 @@ Precision is sacred (flagship = 0.0% FP / 52 repos), so every detector has
 BOTH fires-on-vuln and does-not-fire-on-benign assertions.
 """
 
-import textwrap
 import tempfile
+import textwrap
 
-from lucin.detectors.ssrf import detect_ssrf
+from lucin.detectors.docker_exec import detect_docker_exec
 from lucin.detectors.insecure_deserialization import detect_insecure_deserialization
 from lucin.detectors.path_traversal import detect_path_traversal
-from lucin.detectors.docker_exec import detect_docker_exec
+from lucin.detectors.ssrf import detect_ssrf
 from lucin.models import Agent, Tool, ToolCapability
 
 

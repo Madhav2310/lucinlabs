@@ -25,7 +25,7 @@ Real-world basis:
 import re
 from itertools import combinations
 
-from lucin.models import Agent, Finding, Severity, MCPServer, ToolCapability
+from lucin.models import Agent, Finding, MCPServer, Severity, ToolCapability
 from lucin.owasp import owasp_ref
 
 
@@ -193,7 +193,7 @@ def _analyze_server_pair(server_a: MCPServer, server_b: MCPServer, agent: Agent)
                 ),
                 agent_name=agent.name,
                 attack_scenario="Cross-origin trust boundary violation via confused deputy pattern.",
-                blast_radius=f"Resources of both servers exposed.",
+                blast_radius="Resources of both servers exposed.",
                 owasp_ref=owasp_ref("AG-024"),
                 fix_suggestion="Separate these servers into different agents with distinct scopes.",
                 source_file=agent.source_file,

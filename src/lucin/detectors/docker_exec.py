@@ -27,7 +27,6 @@ from pathlib import Path
 from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
 
-
 # subprocess-family calls that could invoke docker
 _SUBPROCESS_SINKS = {
     "subprocess.run", "subprocess.Popen", "subprocess.check_output",
@@ -228,7 +227,6 @@ def detect_docker_exec(agent: Agent) -> list[Finding]:
 
             # Only scan functions that look like tools or capability-bearing code
             has_docker_run = False
-            docker_line = func_node.lineno
             tainted_cmd = False
             var_defs = _build_var_defs(func_node)
 
@@ -243,7 +241,6 @@ def detect_docker_exec(agent: Agent) -> list[Finding]:
 
                 if _command_contains_docker_run(call_node, var_defs):
                     has_docker_run = True
-                    docker_line = call_node.col_offset  # approximate
                     # Check if any arg to the outer function reaches the docker call
                     param_names = {a.arg for a in func_node.args.args} - {"self", "cls"}
                     if param_names:

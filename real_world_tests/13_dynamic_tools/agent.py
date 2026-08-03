@@ -8,15 +8,14 @@ This tests whether our scanner can detect tools that are:
 3. Loaded from a plugin system
 4. Generated from a schema/config
 """
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain_openai import ChatOpenAI
-from langchain.tools import Tool, StructuredTool
-from langchain import hub
-from pydantic import BaseModel, Field
-from typing import Callable
 import os
-import json
+from typing import Callable
 
+from langchain import hub
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain.tools import StructuredTool, Tool
+from langchain_openai import ChatOpenAI
+from pydantic import BaseModel, Field
 
 llm = ChatOpenAI(model="gpt-4")
 prompt = hub.pull("hwchase17/react")

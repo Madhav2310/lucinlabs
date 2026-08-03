@@ -29,7 +29,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
-
 # Runtime telemetry gives us a tool NAME but not a declared capability set, so
 # to reuse the static egress classifier (aifg.is_egress_by_name) we infer the
 # two flags it needs from the observed name. Conservative and name-only; the
@@ -327,8 +326,13 @@ class ProvenanceGraph:
         # Lazy import: keeps this module import-light and avoids any import
         # ordering surprise. aifg.py is stdlib-only, so purity is preserved.
         from lucin.aifg import (
-            AIFG, AIFGNode, AIFGEdge, EdgeKind, UNTRUSTED_PUBLIC,
-            ifc_label_from_strings, is_egress_by_name,
+            AIFG,
+            UNTRUSTED_PUBLIC,
+            AIFGEdge,
+            AIFGNode,
+            EdgeKind,
+            ifc_label_from_strings,
+            is_egress_by_name,
         )
 
         g = AIFG(agent_name=self.agent_id)

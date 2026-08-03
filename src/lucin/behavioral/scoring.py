@@ -24,7 +24,6 @@ Modes:
 - Scoring: deviation of a new action from that baseline (`score`).
 """
 
-import math
 from dataclasses import dataclass, field
 
 from lucin.behavioral.features import ActionFeatures
@@ -192,7 +191,7 @@ class BehavioralScorer:
 
         if features.tool_is_new_for_agent:
             score += 70
-            factors.append(f"First-ever use of this tool by this agent")
+            factors.append("First-ever use of this tool by this agent")
         elif features.tool_frequency_for_agent < 0.01:
             score += 50
             factors.append(f"Rarely-used tool (frequency: {features.tool_frequency_for_agent:.3f})")
@@ -268,7 +267,6 @@ class BehavioralScorer:
         score = 0
         factors = []
 
-        agent_id = features.agent_id
         current_tool = features.tool_name_encoded
 
         # Get the previous tool from the baseline's sequence history.

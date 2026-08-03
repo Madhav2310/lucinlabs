@@ -30,12 +30,10 @@ Patterns:
 """
 
 import ast
-import re
 from pathlib import Path
 
 from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
-
 
 # Names that suggest retrieved/fetched content from a vector store or retriever
 _RETRIEVAL_SIGNALS = {

@@ -125,7 +125,7 @@ def build(target: str) -> Path:
     if not nodes:
         raise SystemExit(f"no trifecta found in {target} — pick a fixture that has one")
 
-    by_id = {n["id"]: n for n in nodes}
+    {n["id"]: n for n in nodes}
     untrusted = [n["id"] for n in nodes if n.get("is_untrusted_input")]
     sinks = [n["id"] for n in nodes if n.get("is_egress")]
     # A "secret" source: neither untrusted-input nor sink, and not the model.

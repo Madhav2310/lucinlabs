@@ -37,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import numpy as np
 
 from lucin.behavioral.layered_monitor import LayeredMonitor
-from lucin.behavioral.trace_gen import benign_session, ROLE_NAMES
+from lucin.behavioral.trace_gen import ROLE_NAMES, benign_session
 
 _CACHE = Path(__file__).parent / "corpus_cache" / "deepset_prompt_injections.json"
 SEED = 0
@@ -95,7 +95,7 @@ def main() -> int:
     # --- 1. Layer-1 detection on injection-bearing tool-returns ---------------
     # One benign behavioral session per injection; the injection rides on a mid-
     # session tool-return event. Layer-1 must fire on that event.
-    rng = random.Random(SEED)
+    random.Random(SEED)
     inj_detected = 0
     for k, text in enumerate(inj):
         role = ROLE_NAMES[k % len(ROLE_NAMES)]
@@ -152,7 +152,7 @@ def main() -> int:
             fp_with += 1
         if behav_off:
             fp_without += 1
-    fp_with_rate = fp_with / N_SESS
+    fp_with / N_SESS
     fp_without_rate = fp_without / N_SESS
     behav_on_rate = behavioral_fp_on / N_SESS
 

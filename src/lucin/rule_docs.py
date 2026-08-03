@@ -13,7 +13,6 @@ Usage:
     Path("docs/rules.md").write_text(docs)
 """
 
-from lucin.owasp import RULE_TO_ASI as _RULE_TO_ASI  # re-exported for site/build_rules.py
 
 # Complete rule catalog with documentation
 # ---------------------------------------------------------------------------

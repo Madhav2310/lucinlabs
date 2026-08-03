@@ -1,36 +1,35 @@
 """Security detectors for agent configurations."""
 
+from lucin.detectors.agent_server import detect_agent_server
+from lucin.detectors.compositional_risk import detect_compositional_risk
+from lucin.detectors.context_overflow import detect_context_overflow
+from lucin.detectors.cross_origin import detect_cross_origin
+from lucin.detectors.data_exfiltration import detect_data_exfiltration
+from lucin.detectors.delegation import detect_delegation_risks
+from lucin.detectors.docker_exec import detect_docker_exec
+from lucin.detectors.encoding_detection import detect_encoding_obfuscation
+from lucin.detectors.framework_pin import detect_framework_pin
+from lucin.detectors.insecure_deserialization import detect_insecure_deserialization
+from lucin.detectors.mcp_auth import detect_unauthenticated_mcp
+from lucin.detectors.missing_controls import detect_missing_controls
+from lucin.detectors.no_telemetry import detect_no_telemetry
+from lucin.detectors.overprivilege import detect_dangerous_combinations
+from lucin.detectors.path_traversal import detect_path_traversal
+from lucin.detectors.prompt_leakage import detect_prompt_leakage
+from lucin.detectors.rag_sanitize import detect_rag_no_sanitize
+from lucin.detectors.scope_violation import detect_scope_violations
+from lucin.detectors.secrets import detect_secrets
+from lucin.detectors.secrets_fallback import detect_secrets_fallback
+from lucin.detectors.self_modification import detect_self_modification
+from lucin.detectors.shell_access import detect_unrestricted_shell
+from lucin.detectors.sql_injection import detect_sql_injection
+from lucin.detectors.ssrf import detect_ssrf
+from lucin.detectors.supply_chain import detect_supply_chain
+from lucin.detectors.tool_poisoning import detect_tool_poisoning
+from lucin.detectors.tool_shadowing import detect_tool_shadowing
+from lucin.detectors.trifecta import detect_trifecta
 from lucin.models import Agent, Finding, Severity
 from lucin.rule_docs import cwes_for
-from lucin.detectors.shell_access import detect_unrestricted_shell
-from lucin.detectors.data_exfiltration import detect_data_exfiltration
-from lucin.detectors.mcp_auth import detect_unauthenticated_mcp
-from lucin.detectors.overprivilege import detect_dangerous_combinations
-from lucin.detectors.secrets import detect_secrets
-from lucin.detectors.tool_poisoning import detect_tool_poisoning
-from lucin.detectors.missing_controls import detect_missing_controls
-from lucin.detectors.supply_chain import detect_supply_chain
-from lucin.detectors.delegation import detect_delegation_risks
-from lucin.detectors.self_modification import detect_self_modification
-from lucin.detectors.context_overflow import detect_context_overflow
-from lucin.detectors.encoding_detection import detect_encoding_obfuscation
-from lucin.detectors.scope_violation import detect_scope_violations
-from lucin.detectors.cross_origin import detect_cross_origin
-from lucin.detectors.compositional_risk import detect_compositional_risk
-from lucin.detectors.tool_shadowing import detect_tool_shadowing
-from lucin.detectors.prompt_leakage import detect_prompt_leakage
-from lucin.detectors.no_telemetry import detect_no_telemetry
-from lucin.detectors.trifecta import detect_trifecta
-from lucin.detectors.sql_injection import detect_sql_injection
-from lucin.detectors.agent_server import detect_agent_server
-from lucin.detectors.secrets_fallback import detect_secrets_fallback
-from lucin.detectors.framework_pin import detect_framework_pin
-from lucin.detectors.docker_exec import detect_docker_exec
-from lucin.detectors.rag_sanitize import detect_rag_no_sanitize
-from lucin.detectors.ssrf import detect_ssrf
-from lucin.detectors.insecure_deserialization import detect_insecure_deserialization
-from lucin.detectors.path_traversal import detect_path_traversal
-
 
 # ---------------------------------------------------------------------------
 # The DETECTOR REGISTRY — the single source of truth for "what runs".

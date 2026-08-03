@@ -25,8 +25,7 @@ Output event: {"tool": str, "args": dict, "t": float, "label": int}
 from __future__ import annotations
 
 import random
-from dataclasses import dataclass, field
-
+from dataclasses import dataclass
 
 # ---------------------------------------------------------------------------
 # Tool spec: (tool_name, target_class). target ∈ {"none","internal","external"}

@@ -2,8 +2,9 @@
 Expected: AG-SQL fires on sql_engine function.
 Pattern: smolagents text_to_sql example — exact real-world case.
 """
-from langchain.agents import tool
 import sqlite3
+
+from langchain.agents import tool
 
 conn = sqlite3.connect(":memory:")
 conn.execute("CREATE TABLE users (id INTEGER, name TEXT, secret TEXT)")

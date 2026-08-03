@@ -23,13 +23,11 @@ from lucin.multiagent.identity import (
     IdentityRegistry,
     SignedMessage,
     sign_message,
-    verify_message,
 )
 from lucin.multiagent.memory_integrity import (
     IntegrityReport,
     MemoryIntegrityMonitor,
 )
-
 
 # ---------------------------------------------------------------------------
 # CrewAI adapter

@@ -17,11 +17,9 @@ not present in any individual tool.
 The key insight: the WHOLE is more dangerous than the sum of its parts.
 """
 
-from itertools import combinations
 
-from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.models import Agent, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
-
 
 # Dangerous N-way compositions — genuinely novel combinations not covered by AG-002/AG-005.
 #
@@ -92,9 +90,9 @@ def detect_compositional_risk(agent: Agent) -> list[Finding]:
 
     # Count tools per capability
     read_tools = [t for t in agent.tools if ToolCapability.READ_DATA in t.capabilities]
-    write_tools = [t for t in agent.tools if ToolCapability.WRITE_DATA in t.capabilities]
-    exec_tools = [t for t in agent.tools if ToolCapability.EXECUTE_CODE in t.capabilities]
-    net_tools = [t for t in agent.tools if ToolCapability.NETWORK_ACCESS in t.capabilities]
+    [t for t in agent.tools if ToolCapability.WRITE_DATA in t.capabilities]
+    [t for t in agent.tools if ToolCapability.EXECUTE_CODE in t.capabilities]
+    [t for t in agent.tools if ToolCapability.NETWORK_ACCESS in t.capabilities]
 
     for composition in DANGEROUS_COMPOSITIONS:
         required = set(composition["requires"])

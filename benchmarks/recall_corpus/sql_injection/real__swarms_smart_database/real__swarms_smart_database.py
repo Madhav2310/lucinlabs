@@ -16,14 +16,13 @@ Features:
 Author: Swarms Framework
 """
 
-import sqlite3
 import json
+import sqlite3
 from pathlib import Path
-from loguru import logger
-
-from swarms import Agent, HierarchicalSwarm
 
 from dotenv import load_dotenv
+from loguru import logger
+from swarms import Agent, HierarchicalSwarm
 
 load_dotenv()
 
@@ -194,7 +193,7 @@ def create_table(
         # Update metadata
         cursor.execute(
             """
-            INSERT OR REPLACE INTO _database_metadata (key, value) 
+            INSERT OR REPLACE INTO _database_metadata (key, value)
             VALUES (?, ?)
         """,
             (f"table_{clean_table_name}_created", "true"),
@@ -923,24 +922,24 @@ if __name__ == "__main__":
 
     task1 = """
     Create a comprehensive e-commerce database system with the following requirements:
-    
-    1. Create a database called 'ecommerce_db' 
+
+    1. Create a database called 'ecommerce_db'
     2. Create tables for:
        - customers (id, name, email, phone, address, created_at)
        - products (id, name, description, price, category, stock_quantity, created_at)
        - orders (id, customer_id, order_date, total_amount, status)
        - order_items (id, order_id, product_id, quantity, unit_price)
-    
+
     3. Insert sample data:
        - Add 3 customers
        - Add 5 products in different categories
        - Create 2 orders with multiple items
-    
+
     4. Query the database to:
        - Show all customers with their order history
        - Display products by category with stock levels
        - Calculate total sales by product
-    
+
     Ensure all operations are executed properly and provide comprehensive results."""
 
     result1 = smart_database_swarm.run(task=task1)

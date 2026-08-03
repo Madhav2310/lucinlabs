@@ -7,15 +7,15 @@ Tests whether we detect:
 2. Unbounded data retrieval (AG-019)
 3. Potential data exfiltration through RAG results
 """
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain.tools import Tool
-from langchain import hub
-from langchain_community.vectorstores import FAISS
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.chains import RetrievalQA
 import os
 
+from langchain import hub
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain.chains import RetrievalQA
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.tools import Tool
+from langchain_community.vectorstores import FAISS
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 llm = ChatOpenAI(model="gpt-4", temperature=0)
 prompt = hub.pull("hwchase17/react")
@@ -77,8 +77,8 @@ def save_conversation(session_id: str, message: str) -> str:
 # External API tool (potential exfil vector)
 def notify_team(channel: str, message: str) -> str:
     """Send a notification to the team via webhook."""
-    import urllib.request
     import json
+    import urllib.request
     webhook_url = os.environ.get("SLACK_WEBHOOK", "https://hooks.slack.com/services/T00/B00/xxx")
     data = json.dumps({"channel": channel, "text": message}).encode()
     req = urllib.request.Request(webhook_url, data=data, headers={"Content-Type": "application/json"})

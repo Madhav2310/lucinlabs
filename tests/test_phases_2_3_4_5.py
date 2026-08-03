@@ -1,21 +1,22 @@
 """Tests for Phase 2 (PROVE), Phase 3 (GUARD), Phase 4 (Behavioral ML), Phase 5 (Multi-agent)."""
 
-import time
 import pytest
+
+from lucin.guard.ifc_runtime import (
+    UNTRUSTED_PUBLIC,
+    UNTRUSTED_SECRET,
+    IFCPolicy,
+)
 
 # ---------------------------------------------------------------------------
 # Phase 3 — GUARD Interceptor
 # ---------------------------------------------------------------------------
-
 from lucin.guard.interceptor import (
-    GuardSession, guard_tool, GuardBlockError, GuardedAgent,
-    make_guarded_langchain_tool,
+    GuardBlockError,
+    GuardedAgent,
+    GuardSession,
+    guard_tool,
 )
-from lucin.guard.ifc_runtime import (
-    IFCPolicy, Tainted,
-    UNTRUSTED_SECRET, UNTRUSTED_PUBLIC, TRUSTED_PUBLIC,
-)
-from lucin.aifg import Integrity, Confidentiality
 
 
 def test_guard_allows_benign_call():
@@ -119,14 +120,14 @@ def test_guard_non_egress_always_allowed():
 # ---------------------------------------------------------------------------
 
 pytest.importorskip("numpy", reason="behavioral extra not installed")
-from lucin.behavioral.monitor import AgentMonitor, replay_trace, FEATURE_DIM
+from lucin.behavioral.monitor import FEATURE_DIM, AgentMonitor, replay_trace
 
 
 def test_monitor_session_runs():
     monitor = AgentMonitor(role="test-role", warmup_events=5)
     session = monitor.new_session("s1")
     for i in range(10):
-        event = session.observe("web_search", args={"q": "python"}, timestamp=float(i))
+        session.observe("web_search", args={"q": "python"}, timestamp=float(i))
     assert len(session.events) == 10
 
 
@@ -201,11 +202,13 @@ def test_monitor_feature_vector_dimension():
 # Phase 2 — PROVE: Adversarial Payload Generator
 # ---------------------------------------------------------------------------
 
-from lucin.prove.payload_generator import (
-    generate_from_finding, generate_payloads, AdversarialPayload, PayloadVariant,
-    _homoglyph_encode,
-)
 from lucin.models import Finding, Severity
+from lucin.prove.payload_generator import (
+    PayloadVariant,
+    _homoglyph_encode,
+    generate_from_finding,
+    generate_payloads,
+)
 
 
 def _make_trifecta_finding():
@@ -263,7 +266,7 @@ def test_generate_payloads_filters_by_severity():
                 description="d", agent_name="a", owasp_ref="X"),
     ]
     payloads_high = generate_payloads(findings, min_severity=Severity.HIGH)
-    payloads_all  = generate_payloads(findings, min_severity=Severity.LOW)
+    generate_payloads(findings, min_severity=Severity.LOW)
     # MEDIUM AG-SQL has no generator anyway, but CRITICAL trifecta should appear
     assert any(p.finding_id == "AG-TRIFECTA" for p in payloads_high)
 
@@ -289,14 +292,15 @@ def test_unknown_finding_returns_empty():
 # ---------------------------------------------------------------------------
 
 from lucin.multiagent.identity import (
-    IdentityRegistry, sign_message, verify_message, SpoofedAgentError,
+    IdentityRegistry,
+    sign_message,
 )
 
 
 def test_identity_sign_and_verify():
     registry = IdentityRegistry()
     alice = registry.register("alice", secret_key=b"a" * 32)
-    bob   = registry.register("bob",   secret_key=b"b" * 32)
+    registry.register("bob",   secret_key=b"b" * 32)
 
     msg = sign_message(alice, "Hello Bob, process order #123", recipient="bob")
     assert registry.verify(msg)

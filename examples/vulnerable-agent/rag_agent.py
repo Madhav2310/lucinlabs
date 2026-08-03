@@ -16,13 +16,12 @@ A real attacker would:
 """
 
 from langchain.agents import AgentExecutor, create_react_agent
-from langchain.tools import tool
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain.memory import VectorStoreRetrieverMemory
-from langchain_community.vectorstores import Chroma
-from langchain_community.document_loaders import WebBaseLoader, DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-
+from langchain.tools import tool
+from langchain_community.document_loaders import WebBaseLoader
+from langchain_community.vectorstores import Chroma
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 # Shared vector store — same collection for ALL users
 embeddings = OpenAIEmbeddings()

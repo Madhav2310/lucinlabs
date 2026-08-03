@@ -14,26 +14,21 @@ Usage:
     lucin redteam --dry-run ./my-agent/
 """
 
-import importlib.util
-import sys
-import time
 from pathlib import Path
 from typing import Callable
 
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from rich.progress import Progress, SpinnerColumn, TextColumn
 
+from lucin.redteam.attacks import ALL_ATTACKS
 from lucin.redteam.runner import (
-    AttackResult, RedTeamReport, TestResult,
-    run_redteam, evaluate_response,
+    RedTeamReport,
+    TestResult,
+    run_redteam,
 )
-from lucin.redteam.attacks import ALL_ATTACKS, AttackCategory
 from lucin.redteam.targeted import generate_targeted_attacks
 from lucin.scanner import scan_target
-from lucin.models import ScanResult
-
 
 console = Console()
 
@@ -58,7 +53,6 @@ def run_redteam_command(
     target_path = Path(target) if target else None
 
     # Step 1: If targeted mode, scan first to understand the agent
-    agent_info = None
     attacks = ALL_ATTACKS
 
     if targeted and target_path and target_path.exists():
@@ -87,7 +81,6 @@ def run_redteam_command(
                     f"based on {len(scan_result.agents)} agent(s) with "
                     f"{sum(len(a.tools) for a in scan_result.agents)} tools.[/green]"
                 )
-            agent_info = scan_result
 
     # Step 2: If dry run, just display attacks
     if dry_run:
@@ -199,8 +192,8 @@ def _display_dry_run(attacks) -> RedTeamReport:
 
 def _create_api_agent(url: str) -> Callable[[str], str]:
     """Create an agent function that calls an HTTP API."""
-    import urllib.request
     import json
+    import urllib.request
 
     def agent_fn(prompt: str) -> str:
         data = json.dumps({"message": prompt, "input": prompt}).encode()

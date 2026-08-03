@@ -843,8 +843,8 @@ def main() -> None:
     ap_ = sc["agent_precondition"]
     print(f"  repos scanned:                      {ap_['repos_scanned']}")
     print(f"  repos where Lucin detected an agent:{ap_['repos_with_any_agent_detected']}")
-    print(f"  -> detectors receive run_all_detectors(agents=[]) on the rest, so")
-    print(f"     NO Lucin rule can fire there BY CONSTRUCTION.")
+    print("  -> detectors receive run_all_detectors(agents=[]) on the rest, so")
+    print("     NO Lucin rule can fire there BY CONSTRUCTION.")
     print(f"  vuln labels total:                  {sc['labels_total']}"
           f"  (in reachable repos: {sc['labels_in_reachable_repos']})")
     print(f"  FP traps total:                     {sc['traps_total']}"

@@ -23,10 +23,10 @@ with these guards; this module is the gate logic, not the interceptor itself.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import IntEnum
 from typing import Any
 
-from lucin.aifg import Integrity, Confidentiality, IFCLabel, is_egress_by_name
+from lucin.aifg import Confidentiality, IFCLabel, Integrity, is_egress_by_name
+
 # Reuse the SINGLE runtime name->capability inference that the provenance
 # reconstruction (ProvenanceGraph.to_aifg) already uses, so the enforcement
 # gate and the AIFG reconstruction classify egress the SAME way, and both
@@ -34,7 +34,6 @@ from lucin.aifg import Integrity, Confidentiality, IFCLabel, is_egress_by_name
 # aifg.is_egress_by_name). provenance.py imports only stdlib + a lazy aifg
 # import, so this does not create an import cycle.
 from lucin.guard.provenance import _infer_caps_from_name
-
 
 # ---------------------------------------------------------------------------
 # Re-export the label constants from aifg for convenience

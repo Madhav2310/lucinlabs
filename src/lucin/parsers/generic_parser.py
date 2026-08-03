@@ -224,7 +224,9 @@ def _func_to_tool(node: "ast.FunctionDef | ast.AsyncFunctionDef", filepath: str,
                   tree: "ast.Module | None" = None) -> Tool:
     """Convert a function definition to a Tool model."""
     from lucin.parsers.body_inspector import (
-        inspect_function_body, exec_is_body_confirmed, is_fetch_only_function,
+        exec_is_body_confirmed,
+        inspect_function_body,
+        is_fetch_only_function,
     )
     description = ast.get_docstring(node) or ""
     name_caps = classify_tool_capabilities(node.name, description)

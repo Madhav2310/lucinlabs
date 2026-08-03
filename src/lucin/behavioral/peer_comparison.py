@@ -18,9 +18,9 @@ Architecture:
 - Outlier detection identifies agents deviating from peers
 """
 
-from dataclasses import dataclass, field
-from collections import Counter, defaultdict
 import math
+from collections import Counter, defaultdict
+from dataclasses import dataclass, field
 
 
 @dataclass

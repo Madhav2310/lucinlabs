@@ -19,8 +19,8 @@ from pathlib import Path
 
 import pytest
 
+from lucin._fs import EXCLUDED_DIR_NAMES, is_excluded, iter_files
 from lucin.scanner import scan_target
-from lucin._fs import EXCLUDED_DIR_NAMES, iter_files, is_excluded
 
 
 @pytest.fixture

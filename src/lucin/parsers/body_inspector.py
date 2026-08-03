@@ -23,7 +23,6 @@ from pathlib import Path
 
 from lucin.models import ToolCapability
 
-
 # === Dangerous API signatures ===
 # Maps (module.function OR builtin) → capability it implies
 DANGEROUS_EXEC_CALLS = {
@@ -662,7 +661,6 @@ def intraproc_taint(func_node: ast.FunctionDef,
     This is strictly more precise than the existing check_parameter_taint
     which uses ast.walk (no ordering) and misses through-assignment flows.
     """
-    from dataclasses import dataclass as _dc
     aliases = import_aliases or {}
 
     SKIP_PARAMS = {"self", "cls", "ctx", "context", "run_manager", "config", "runtime"}

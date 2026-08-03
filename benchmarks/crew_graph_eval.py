@@ -37,7 +37,6 @@ import sys
 from lucin.multiagent.adapters import crew_to_graph
 from lucin.multiagent.cascade import CascadeDetector
 
-
 # ---------------------------------------------------------------------------
 # The crew we build (same logical shape in both LIVE and MOCK modes)
 # ---------------------------------------------------------------------------

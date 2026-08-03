@@ -15,13 +15,12 @@ No SDKs required — just a webhook URL.
 """
 
 import json
-import urllib.request
 import urllib.error
+import urllib.request
 from datetime import datetime
-from typing import Any
 
-from lucin.models import Finding, Severity
 from lucin.behavioral.scoring import RiskScore
+from lucin.models import Finding, Severity
 
 
 class WebhookNotifier:
@@ -84,7 +83,7 @@ class WebhookNotifier:
                     ]},
                     {"type": "section", "text": {
                         "type": "mrkdwn",
-                        "text": f"*Factors:*\n" + "\n".join(f"• {f}" for f in score.contributing_factors[:5])
+                        "text": "*Factors:*\n" + "\n".join(f"• {f}" for f in score.contributing_factors[:5])
                     }},
                 ],
             })

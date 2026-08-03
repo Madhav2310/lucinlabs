@@ -13,11 +13,11 @@ real attack surface in production.
 """
 
 import os
-from langchain.agents import AgentExecutor, create_openai_tools_agent
-from langchain_openai import ChatOpenAI
-from langchain.tools import tool
-from langchain.memory import ConversationBufferWindowMemory
 
+from langchain.agents import AgentExecutor, create_openai_tools_agent
+from langchain.memory import ConversationBufferWindowMemory
+from langchain.tools import tool
+from langchain_openai import ChatOpenAI
 
 # Production credentials loaded from environment (good practice)
 # BUT: fallback to hardcoded values for local dev (bad practice, common in reality)
@@ -79,7 +79,7 @@ def send_email(to: str, subject: str, body: str) -> str:
     """Send an email to a customer from support@company.com.
     Always include the standard footer with unsubscribe link."""
     import requests
-    resp = requests.post(
+    requests.post(
         "https://api.sendgrid.com/v3/mail/send",
         json={
             "from": {"email": "support@company.com"},

@@ -18,7 +18,7 @@ Reference: E.S. Page (1954), "Continuous Inspection Schemes"
 Used by: River library, Frouros, MOA framework
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 
 

@@ -29,7 +29,6 @@ from datetime import datetime
 from lucin.models import ScanResult, Severity
 from lucin.scoring import calculate_security_score, score_label
 
-
 # MITRE ATLAS technique tags for finding types that have a clear mapping.
 # "if available" — findings without a mapping simply omit the tag.
 _ATLAS_MAP = {
@@ -173,7 +172,7 @@ def _build_graph_section(result: ScanResult) -> tuple[str, dict]:
     ("", {}) so the caller renders a findings-only report. Never raises.
     """
     try:
-        from lucin.aifg import build_aifg, query_trifecta, min_tool_cut
+        from lucin.aifg import build_aifg, min_tool_cut, query_trifecta
 
         merged_nodes: list[dict] = []
         merged_edges: list[dict] = []

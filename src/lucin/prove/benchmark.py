@@ -29,13 +29,12 @@ from __future__ import annotations
 
 import unicodedata
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 from lucin.prove.payload_generator import (
-    AdversarialPayload,
-    PayloadVariant,
     _HOMOGLYPH_MAP,
+    AdversarialPayload,
 )
 
 # Pluggable function signatures.

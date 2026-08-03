@@ -20,11 +20,10 @@ This is what Snyk/Invariant's "tool pinning" does. We do it locally
 import hashlib
 import json
 import re
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity, MCPServer
-
+from lucin.models import Agent, Finding, MCPServer, Severity
 
 # Default pin storage directory
 PIN_DIR = Path.home() / ".lucin" / "pins"

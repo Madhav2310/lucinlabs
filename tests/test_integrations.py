@@ -6,9 +6,6 @@ from pathlib import Path
 
 import pytest
 
-from lucin.scanner import scan_target
-from lucin.scoring import calculate_security_score
-
 
 @pytest.fixture
 def tmp_dir():
@@ -60,7 +57,7 @@ class TestBadge:
 
     def test_generates_failing_badge(self, tmp_dir):
         from lucin.badge import generate_badge_svg
-        from lucin.models import ScanResult, Finding, Severity
+        from lucin.models import Finding, ScanResult, Severity
         result = ScanResult(target="test", agents=[], findings=[
             Finding(id="AG-001", title="Test", severity=Severity.CRITICAL,
                     description="test", agent_name="test")
@@ -81,7 +78,7 @@ class TestBadge:
 class TestSIEM:
     def test_generates_ocsf_events(self, tmp_dir):
         from lucin.integrations.siem import findings_to_ocsf
-        from lucin.models import ScanResult, Finding, Severity
+        from lucin.models import Finding, ScanResult, Severity
         result = ScanResult(target="test", agents=[], findings=[
             Finding(id="AG-001", title="Shell Access", severity=Severity.CRITICAL,
                     description="Unrestricted", agent_name="agent1",
@@ -95,7 +92,7 @@ class TestSIEM:
 
     def test_ocsf_ndjson_format(self, tmp_dir):
         from lucin.integrations.siem import findings_to_ocsf_ndjson
-        from lucin.models import ScanResult, Finding, Severity
+        from lucin.models import Finding, ScanResult, Severity
         result = ScanResult(target="test", agents=[], findings=[
             Finding(id="AG-001", title="Test", severity=Severity.HIGH,
                     description="test", agent_name="a"),
@@ -115,9 +112,9 @@ class TestSIEM:
 
 class TestPersistence:
     def test_save_and_load_baseline(self, tmp_dir):
-        from lucin.behavioral.scoring import BehavioralScorer
         from lucin.behavioral.features import ActionFeatures
         from lucin.behavioral.persistence import BaselinePersistence
+        from lucin.behavioral.scoring import BehavioralScorer
 
         # Create scorer and learn some data
         scorer = BehavioralScorer()
@@ -195,8 +192,8 @@ class TestRedTeamAttacks:
             assert attack.mitre_atlas != "", f"Attack {attack.id} missing MITRE ATLAS ID"
 
     def test_targeted_attacks_use_tool_names(self, tmp_dir):
-        from lucin.redteam.targeted import generate_targeted_attacks
         from lucin.models import Agent, Tool, ToolCapability
+        from lucin.redteam.targeted import generate_targeted_attacks
         agent = Agent(
             name="test", framework="test",
             tools=[

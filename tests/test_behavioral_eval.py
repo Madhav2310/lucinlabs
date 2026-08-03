@@ -4,13 +4,17 @@ import pytest
 
 pytest.importorskip("numpy", reason="behavioral extra not installed")
 
-from lucin.behavioral.trace_gen import (
-    build_corpus, benign_session, attack_session, ROLE_NAMES, ATTACKS, EVASIVE_ATTACKS,
-)
 from lucin.behavioral.score_calibration import (
-    IsotonicCalibrator, MondrianConformal, brier_score,
+    IsotonicCalibrator,
+    MondrianConformal,
+    brier_score,
 )
-
+from lucin.behavioral.trace_gen import (
+    ATTACKS,
+    EVASIVE_ATTACKS,
+    attack_session,
+    build_corpus,
+)
 
 # ---------------------------------------------------------------------------
 # Trace generator
@@ -161,6 +165,7 @@ def test_scan_statistic_rewards_contiguity_over_isolated_spike():
 
 def test_session_conformal_controls_session_fp():
     import random
+
     from lucin.behavioral.session_scoring import SessionConformalThreshold
     rng = random.Random(0)
     # benign sessions: mostly low with the occasional isolated spike (a legit
@@ -179,6 +184,7 @@ def test_session_conformal_controls_session_fp():
 
 def test_session_conformal_flags_sustained_attack():
     import random
+
     from lucin.behavioral.session_scoring import SessionConformalThreshold
     rng = random.Random(1)
     calib = {"r": [[rng.uniform(0.0, 0.2) for _ in range(30)] for _ in range(200)]}
@@ -190,6 +196,7 @@ def test_session_conformal_flags_sustained_attack():
 
 def test_session_conformal_catches_single_decisive_spike_on_quiet_role():
     import random
+
     from lucin.behavioral.session_scoring import SessionConformalThreshold
     rng = random.Random(2)
     # a role whose benign sessions are ALWAYS quiet (never spike)

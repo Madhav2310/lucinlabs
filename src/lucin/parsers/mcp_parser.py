@@ -6,9 +6,8 @@ from pathlib import Path
 import yaml
 
 from lucin._fs import iter_files
-from lucin.models import Agent, MCPServer, Tool, ToolCapability
+from lucin.models import Agent, MCPServer, Tool
 from lucin.parsers.langchain_parser import classify_tool_capabilities
-
 
 # Common MCP config file names
 MCP_CONFIG_FILES = [
@@ -110,7 +109,7 @@ def _parse_server_entry(name: str, config: dict, filepath: str) -> MCPServer:
         return MCPServer(name=name)
 
     # Determine transport
-    command = config.get("command", "")
+    config.get("command", "")
     url = config.get("url", "")
     transport = "stdio"
     if url:

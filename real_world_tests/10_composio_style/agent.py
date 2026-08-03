@@ -1,12 +1,13 @@
 """A Composio-style agent with many integrations.
 Based on patterns from github.com/ComposioHQ/composio examples.
 """
-from langchain.agents import AgentExecutor, create_openai_functions_agent
-from langchain_openai import ChatOpenAI
-from langchain.tools import Tool, StructuredTool
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-import subprocess
 import os
+import subprocess
+
+from langchain.agents import AgentExecutor, create_openai_functions_agent
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.tools import Tool
+from langchain_openai import ChatOpenAI
 
 
 # Shell execution tool (from Composio's OS tools)
@@ -48,7 +49,7 @@ def send_slack_message(channel: str, message: str) -> str:
     """Send a message to a Slack channel."""
     import requests
     token = os.environ.get("SLACK_TOKEN")
-    resp = requests.post(
+    requests.post(
         "https://slack.com/api/chat.postMessage",
         headers={"Authorization": f"Bearer {token}"},
         json={"channel": channel, "text": message}

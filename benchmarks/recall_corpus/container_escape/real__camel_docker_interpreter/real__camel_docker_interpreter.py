@@ -19,12 +19,11 @@ import uuid
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional
 
-from colorama import Fore
-
 from camel.interpreters.base import BaseInterpreter
 from camel.interpreters.interpreter_error import InterpreterError
 from camel.logger import get_logger
 from camel.utils import dependencies_required, is_docker_running
+from colorama import Fore
 
 if TYPE_CHECKING:
     from docker.models.containers import Container

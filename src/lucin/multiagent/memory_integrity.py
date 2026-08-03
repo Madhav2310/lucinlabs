@@ -43,9 +43,7 @@ from __future__ import annotations
 import hashlib
 import re
 import time
-from dataclasses import dataclass, field
-from typing import Any
-
+from dataclasses import dataclass
 
 # Patterns that suggest injected instructions in a document
 _INJECTION_PATTERNS = [

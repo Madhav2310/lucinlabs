@@ -43,6 +43,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 import httpx  # noqa: E402
 from genai_client import GenAIClient  # noqa: E402
+
 from lucin.guard.admission import spotlight  # noqa: E402
 
 CANARY = "VERIFY-8842"

@@ -13,8 +13,8 @@ from pathlib import Path
 
 import pytest
 
-from lucin.parsers.llamaindex_parser import parse_llamaindex
 from lucin.parsers import detect_and_parse
+from lucin.parsers.llamaindex_parser import parse_llamaindex
 
 
 @pytest.fixture

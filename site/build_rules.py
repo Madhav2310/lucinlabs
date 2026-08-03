@@ -35,8 +35,9 @@ sys.path.insert(0, str(ROOT / "src"))
 SITE = ROOT / "site"
 BASE = "https://lucin.pages.dev"
 
-import lucin.rule_docs as rd  # noqa: E402
 from build import _CSS, _chrome, _footer, tab_header  # reuse the one template  # noqa: E402
+
+import lucin.rule_docs as rd  # noqa: E402
 
 
 def _merged() -> dict[str, dict]:

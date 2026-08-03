@@ -17,8 +17,12 @@ import json
 import pytest
 
 from lucin.discovery import (
-    _COMMON_GLOBS, _COMMON_PATHS, credential_keys, discover_mcp_configs,
-    looks_secret, redact,
+    _COMMON_GLOBS,
+    _COMMON_PATHS,
+    credential_keys,
+    discover_mcp_configs,
+    looks_secret,
+    redact,
 )
 
 

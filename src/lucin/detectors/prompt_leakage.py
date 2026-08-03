@@ -24,7 +24,6 @@ from pathlib import Path
 from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
 
-
 # Patterns that indicate sensitive content in prompts/instructions
 SENSITIVE_PROMPT_PATTERNS = [
     # Internal URLs

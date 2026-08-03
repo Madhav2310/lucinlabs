@@ -16,14 +16,18 @@ from __future__ import annotations
 
 import pytest
 
-from lucin.guard.interceptor import GuardSession, guard_tool, GuardBlockError
+from lucin.aifg import EdgeKind
 from lucin.guard.ifc_runtime import (
-    IFCPolicy, ToolCall, Tainted, guard_tool_call,
-    UNTRUSTED_SECRET, UNTRUSTED_PUBLIC, TRUSTED_SECRET,
+    TRUSTED_SECRET,
+    UNTRUSTED_PUBLIC,
+    UNTRUSTED_SECRET,
+    IFCPolicy,
+    Tainted,
+    ToolCall,
+    guard_tool_call,
 )
+from lucin.guard.interceptor import GuardBlockError, GuardSession, guard_tool
 from lucin.guard.provenance import ProvenanceGraph
-from lucin.aifg import EdgeKind, Integrity, Confidentiality, IFCLabel
-
 
 # ---------------------------------------------------------------------------
 # E5(a) — guarded tools return the real underlying value
@@ -162,8 +166,10 @@ def test_stable_tool_encoding_is_process_independent():
 
 
 def test_estimated_recall_is_none_without_ground_truth():
+    import os
+    import tempfile
+
     from lucin.behavioral.calibration import CalibrationState, ScoreCalibrator
-    import tempfile, os
     st = CalibrationState()
     assert st.estimated_recall is None  # not a fabricated 1.0
     with tempfile.TemporaryDirectory() as d:
@@ -174,11 +180,12 @@ def test_estimated_recall_is_none_without_ground_truth():
 
 
 def test_transition_memory_survives_persistence_round_trip():
-    from lucin.behavioral.scoring import BehavioralScorer
-    from lucin.behavioral.persistence import BaselinePersistence
-    from lucin.behavioral.features import AgentAction, extract_features
-    from datetime import datetime, timedelta
     import tempfile
+    from datetime import datetime, timedelta
+
+    from lucin.behavioral.features import AgentAction, extract_features
+    from lucin.behavioral.persistence import BaselinePersistence
+    from lucin.behavioral.scoring import BehavioralScorer
 
     scorer = BehavioralScorer()
     hist: list[AgentAction] = []

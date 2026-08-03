@@ -134,7 +134,7 @@ async def chat(websocket: WebSocket):
                 # Save chat history to file.
                 async with aiofiles.open(history_path, "w") as file:
                     await file.write(json.dumps(history))
-                    
+
             except WebSocketDisconnect:
                 # Client disconnected during message processing - exit gracefully
                 logger.info("Client disconnected during message processing")

@@ -20,21 +20,22 @@ Sound-by-construction for the trifecta on labeled values. [VERIFIED]
 from __future__ import annotations
 
 import functools
-import hashlib
-import json
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Callable
 
-from lucin.aifg import Integrity, Confidentiality
+from lucin.aifg import Confidentiality, IFCLabel
 from lucin.guard.ifc_runtime import (
-    Tainted, IFCPolicy, ToolCall, Decision, guard_tool_call,
-    UNTRUSTED_PUBLIC, UNTRUSTED_SECRET, TRUSTED_PUBLIC, TRUSTED_SECRET,
+    UNTRUSTED_PUBLIC,
+    Decision,
+    IFCPolicy,
+    Tainted,
+    ToolCall,
     _call_is_egress,
+    guard_tool_call,
 )
-from lucin.aifg import IFCLabel, Integrity, Confidentiality as _Conf
+from lucin.guard.provenance import ProvenanceGraph
 from lucin.guard.taint_registry import TaintRegistry
-from lucin.guard.provenance import ProvenanceGraph, ProvType
 
 
 class GuardBlockError(RuntimeError):

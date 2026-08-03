@@ -19,11 +19,10 @@ import tempfile
 from pathlib import Path
 from typing import Any, ClassVar, Dict, List
 
-from colorama import Fore
-
 from camel.interpreters.base import BaseInterpreter
 from camel.interpreters.interpreter_error import InterpreterError
 from camel.logger import get_logger
+from colorama import Fore
 
 logger = get_logger(__name__)
 

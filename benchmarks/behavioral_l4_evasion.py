@@ -40,12 +40,16 @@ from random import Random
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from lucin.behavioral.trace_gen import (
-    benign_session, ROLES, ROLE_NAMES, _args_for, ATTACKS,
-)
-from lucin.behavioral.monitor import AgentMonitor
 from lucin.behavioral.baselines import RoleBaselineManager
+from lucin.behavioral.monitor import AgentMonitor
 from lucin.behavioral.session_scoring import SessionConformalThreshold
+from lucin.behavioral.trace_gen import (
+    ATTACKS,
+    ROLE_NAMES,
+    ROLES,
+    _args_for,
+    benign_session,
+)
 
 # Match the validated operating config in benchmarks/behavioral_eval.py exactly.
 WARMUP = 15

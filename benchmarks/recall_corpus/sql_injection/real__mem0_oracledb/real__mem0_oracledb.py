@@ -14,10 +14,9 @@ try:
 except ImportError as exc:  # pragma: no cover - dependency guard
     raise ImportError("Oracle AI Vector Search requires the 'oracledb' package.") from exc
 
-from pydantic import BaseModel
-
 from mem0.configs.vector_stores.oracledb import OracleAIVectorSearchConfig
 from mem0.vector_stores.base import VectorStoreBase
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 

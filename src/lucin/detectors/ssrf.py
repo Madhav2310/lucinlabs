@@ -27,14 +27,17 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity
 from lucin.detectors._taint import (
-    compute_taint, var_defs, is_tainted, iter_functions, resolve_sig,
+    compute_taint,
+    is_tainted,
+    iter_functions,
+    resolve_sig,
     source_files_for,
+    var_defs,
 )
-from lucin.parsers.body_inspector import build_import_alias_map, _resolve_call_name
+from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
-
+from lucin.parsers.body_inspector import build_import_alias_map
 
 # Network fetch sinks. url is positional-0 or the `url=` keyword for all of these.
 _NET_SINKS = {

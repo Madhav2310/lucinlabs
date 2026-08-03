@@ -29,7 +29,7 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass, field
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: no cover
     from lucin.aifg import TrifectaFinding
@@ -117,8 +117,13 @@ class AgentGraph:
         unchanged; it does NOT claim tool-level dataflow precision.
         """
         from lucin.aifg import (
-            AIFG, AIFGNode, AIFGEdge, EdgeKind, IFCLabel,
-            Integrity, Confidentiality,
+            AIFG,
+            AIFGEdge,
+            AIFGNode,
+            Confidentiality,
+            EdgeKind,
+            IFCLabel,
+            Integrity,
         )
 
         g = AIFG(agent_name="multiagent-cluster")
@@ -370,7 +375,7 @@ def query_cross_agent_trifecta(graph: "AgentGraph") -> list[CrossAgentTrifecta]:
     handoff_path is the most complete attacker chain rather than an arbitrary
     intermediate delegator.
     """
-    from lucin.aifg import query_trifecta, EdgeKind, _shortest_path
+    from lucin.aifg import EdgeKind, _shortest_path, query_trifecta
 
     g = graph.to_aifg()
     findings_by_sink = {tf.egress_sink: tf for tf in query_trifecta(g)}

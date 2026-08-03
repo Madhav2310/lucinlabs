@@ -15,15 +15,13 @@ Reference: CrewAI v1.14+ (49K stars, 6.7K forks as of April 2026)
 """
 
 import ast
-import re
 from pathlib import Path
 
 import yaml
 
 from lucin._fs import iter_files
-from lucin.models import Agent, Tool, ToolCapability, MCPServer
+from lucin.models import Agent, Tool, ToolCapability
 from lucin.parsers.langchain_parser import classify_tool_capabilities
-
 
 # CrewAI-specific tool patterns
 CREWAI_BUILTIN_TOOLS = {
@@ -121,9 +119,9 @@ def _parse_crewai_yaml(yaml_path: Path) -> list[Agent]:
             continue
 
         # Extract agent properties
-        role = agent_config.get("role", agent_key)
-        goal = agent_config.get("goal", "")
-        backstory = agent_config.get("backstory", "")
+        agent_config.get("role", agent_key)
+        agent_config.get("goal", "")
+        agent_config.get("backstory", "")
 
         # Extract tools
         tools = []
@@ -192,7 +190,7 @@ def _parse_crewai_python(py_file: Path) -> list[Agent]:
 
         # Extract Agent kwargs
         agent_name = _get_kwarg_value(node, "role") or _get_kwarg_value(node, "name") or "crewai_agent"
-        goal = _get_kwarg_value(node, "goal") or ""
+        _get_kwarg_value(node, "goal") or ""
         allow_delegation = _get_kwarg_bool(node, "allow_delegation")
         memory = _get_kwarg_bool(node, "memory")
         human_input = _get_kwarg_bool(node, "human_input")

@@ -6,9 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from lucin.scanner import scan_target
 from lucin.models import Severity
-
+from lucin.scanner import scan_target
 
 # === FIXTURES ===
 

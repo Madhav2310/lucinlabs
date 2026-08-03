@@ -33,9 +33,8 @@ This detector flags configurations where MCP servers are:
 import re
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity, MCPServer
+from lucin.models import Agent, Finding, MCPServer, Severity
 from lucin.owasp import owasp_ref
-
 
 # Patterns indicating unpinned/unverified MCP server installation
 UNPINNED_PATTERNS = [
@@ -328,7 +327,7 @@ def _analyze_server_supply_chain(server: MCPServer, agent: Agent) -> list[Findin
         r'"(?:@[\w-]+/)?[\w-]+(?:@[\w\d.]+)?"',
         config_content
     )
-    unpinned_packages = [
+    [
         ref for ref in package_refs
         if re.match(r'"@?[\w-]+(/[\w-]+)?"$', ref)  # No @version suffix
         and "server" in ref.lower() or "mcp" in ref.lower()

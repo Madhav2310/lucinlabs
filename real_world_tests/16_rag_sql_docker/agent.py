@@ -10,14 +10,13 @@ ML engineer who understands LLMs but not agent security.
 """
 
 import os
+import sqlite3
 import subprocess
-from langchain.vectorstores import Chroma
+
+from langchain.agents import AgentType, Tool, initialize_agent
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.llms import OpenAI
-from langchain.agents import initialize_agent, AgentType, Tool
-from langchain.tools import BaseTool
-import sqlite3
-
+from langchain.vectorstores import Chroma
 
 # --- RAG-based context retrieval (no sanitization) ---
 

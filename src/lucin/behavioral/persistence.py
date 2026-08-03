@@ -23,7 +23,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-from lucin.behavioral.scoring import BehavioralScorer, AgentBaseline, GlobalStats
+from lucin.behavioral.scoring import AgentBaseline, BehavioralScorer
 
 
 class BaselinePersistence:

@@ -2,10 +2,10 @@
 Expected: AG-RAG-NO-SANITIZE fires on answer_question function.
 Pattern: every RAG tutorial in the corpus — LangChain similarity_search → LLM.
 """
-from langchain.vectorstores import FAISS
+from langchain.agents import tool
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.llms import OpenAI
-from langchain.agents import tool
+from langchain.vectorstores import FAISS
 
 
 @tool

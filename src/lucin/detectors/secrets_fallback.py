@@ -21,8 +21,8 @@ import ast
 import re
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity
 from lucin.detectors.secrets import SECRET_PATTERNS, _is_false_positive, _mask_secret
+from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
 
 

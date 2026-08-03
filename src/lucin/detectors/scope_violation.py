@@ -28,9 +28,8 @@ Anything beyond that is a violation.
 import re
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.models import Agent, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
-
 
 # File paths that indicate scope violation for coding agents
 # (accessing files outside a typical project directory)

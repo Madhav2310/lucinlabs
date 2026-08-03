@@ -36,8 +36,8 @@ with the admission gate. monitor.py, drift.py and guard/ are untouched.
 
 from __future__ import annotations
 
-from lucin.behavioral.monitor import AgentMonitor, MonitorSession, MonitorEvent
 from lucin.behavioral.drift import PageHinkleyDetector
+from lucin.behavioral.monitor import AgentMonitor, MonitorEvent, MonitorSession
 
 # AnomalyScore.score is in [0, 1]; drift.py's Page-Hinkley defaults (threshold 15,
 # delta 0.01) are documented against a 0-99 score scale, so we rescale.

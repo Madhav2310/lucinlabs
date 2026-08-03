@@ -14,7 +14,7 @@ This is what makes Lucin actionable (like Snyk's auto-fix):
 Each fix is a self-contained code snippet that the user can review and apply.
 """
 
-from lucin.models import Finding, Severity
+from lucin.models import Finding
 
 
 def generate_fix(finding: Finding, framework: str = "auto") -> str | None:
@@ -86,8 +86,8 @@ def generate_patch(finding: Finding, framework: str = "auto") -> str | None:
             Path("fix.patch").write_text(patch)
             # Then: git apply fix.patch
     """
-    from pathlib import Path as _Path
     import difflib
+    from pathlib import Path as _Path
 
     if not finding.source_file:
         return None
@@ -229,6 +229,7 @@ def verify_fix(finding: Finding, fix_code: str) -> dict:
     """
     import tempfile
     from pathlib import Path
+
     from lucin.scanner import scan_target
 
     # Create a temp file with the fix code

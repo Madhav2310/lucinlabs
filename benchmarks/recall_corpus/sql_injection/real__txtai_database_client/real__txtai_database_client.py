@@ -7,11 +7,12 @@ import time
 
 # Conditional import
 try:
-    from sqlalchemy import StaticPool, Text, cast, create_engine, insert, text as textsql
+    from sqlalchemy import StaticPool, Text, cast, create_engine, insert
+    from sqlalchemy import text as textsql
     from sqlalchemy.orm import Session, aliased
     from sqlalchemy.schema import CreateSchema
 
-    from .schema import Base, Batch, Document, Object, Section, SectionBase, Score
+    from .schema import Base, Batch, Document, Object, Score, Section, SectionBase
 
     ORM = True
 except ImportError:

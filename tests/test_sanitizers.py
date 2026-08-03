@@ -21,8 +21,12 @@ import textwrap
 import pytest
 
 from lucin.analysis.sanitizers import (
-    SinkKind, exec_guard_status, sanitizer_kinds, is_argv_builder,
-    call_is_shell_free_argv, command_is_fully_literal,
+    SinkKind,
+    call_is_shell_free_argv,
+    command_is_fully_literal,
+    exec_guard_status,
+    is_argv_builder,
+    sanitizer_kinds,
 )
 
 

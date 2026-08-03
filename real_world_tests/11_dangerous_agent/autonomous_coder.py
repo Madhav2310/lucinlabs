@@ -5,14 +5,13 @@ full shell + file + network access with minimal guardrails.
 """
 import os
 import subprocess
-import json
-import requests
 from pathlib import Path
-from langchain_openai import ChatOpenAI
+
+import requests
+from langchain import hub
 from langchain.agents import AgentExecutor, create_react_agent
 from langchain.tools import Tool
-from langchain import hub
-
+from langchain_openai import ChatOpenAI
 
 # === TOOLS ===
 

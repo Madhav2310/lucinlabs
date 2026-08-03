@@ -26,13 +26,16 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity
 from lucin.detectors._taint import (
-    compute_taint, is_tainted, iter_functions, resolve_sig, source_files_for,
+    compute_taint,
+    is_tainted,
+    iter_functions,
+    resolve_sig,
+    source_files_for,
 )
-from lucin.parsers.body_inspector import build_import_alias_map
+from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
-
+from lucin.parsers.body_inspector import build_import_alias_map
 
 # Sinks that are ALWAYS unsafe on untrusted input.
 _ALWAYS_UNSAFE = {

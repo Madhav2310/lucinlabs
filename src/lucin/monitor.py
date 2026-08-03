@@ -26,19 +26,15 @@ Output: Real-time risk scores with explanations.
 
 import json
 import time
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from collections import defaultdict
 
 from rich.console import Console
-from rich.live import Live
-from rich.table import Table
 from rich.panel import Panel
-from rich.text import Text
 
-from lucin.behavioral.features import AgentAction, ActionFeatures, extract_features
+from lucin.behavioral.features import AgentAction, extract_features
 from lucin.behavioral.scoring import BehavioralScorer, RiskScore
-
 
 console = Console()
 

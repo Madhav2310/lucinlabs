@@ -8,6 +8,7 @@ Import order note: `base.Base` must be imported before the concrete models so
 they register on the same declarative metadata.
 """
 
+from control_plane.models.audit import AuditLog
 from control_plane.models.base import Base, TenantMixin, TimestampMixin
 from control_plane.models.enums import (
     DataRegion,
@@ -20,12 +21,11 @@ from control_plane.models.enums import (
     Severity,
     SuppressionScope,
 )
-from control_plane.models.tenant import Membership, Org, Team, User
+from control_plane.models.policy import Policy, Suppression
 from control_plane.models.repo import Repo
 from control_plane.models.scan import Finding, Scan
-from control_plane.models.policy import Policy, Suppression
 from control_plane.models.telemetry import Baseline, TelemetryEvent
-from control_plane.models.audit import AuditLog
+from control_plane.models.tenant import Membership, Org, Team, User
 
 __all__ = [
     "Base",

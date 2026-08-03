@@ -1,8 +1,8 @@
-import sys
-from io import StringIO
+import ast
 import functools
 import logging
-import ast
+import sys
+from io import StringIO
 from typing import Dict, Optional
 
 logger = logging.getLogger(__name__)

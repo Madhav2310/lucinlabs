@@ -39,7 +39,7 @@ def generate_attack_path(result: AttackResult) -> str:
     # Build visualization
     lines = []
     lines.append(f"  ╔══ Attack Path: {attack.name} ══╗")
-    lines.append(f"  ║")
+    lines.append("  ║")
 
     for i, node in enumerate(nodes):
         # Color coding via text markers
@@ -54,11 +54,11 @@ def generate_attack_path(result: AttackResult) -> str:
         lines.append(f"  ║      {node.detail}")
 
         if i < len(nodes) - 1:
-            lines.append(f"  ║      │")
-            lines.append(f"  ║      ▼")
+            lines.append("  ║      │")
+            lines.append("  ║      ▼")
 
-    lines.append(f"  ║")
-    lines.append(f"  ║ Result: EXPLOITED")
+    lines.append("  ║")
+    lines.append("  ║ Result: EXPLOITED")
     lines.append(f"  ║ Evidence: {', '.join(result.matched_indicators[:3])}")
     lines.append(f"  ║ OWASP: {attack.owasp_ref}")
     if attack.mitre_atlas:

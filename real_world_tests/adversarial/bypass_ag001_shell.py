@@ -3,12 +3,13 @@
 These are REAL patterns attackers use to hide shell execution
 in agent code. If our scanner doesn't catch these, it's broken.
 """
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain_openai import ChatOpenAI
-from langchain.tools import Tool
-from langchain import hub
-import subprocess
 import os
+import subprocess
+
+from langchain import hub
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain.tools import Tool
+from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-4")
 prompt = hub.pull("hwchase17/react")
@@ -60,7 +61,8 @@ formatter = Tool(
 )
 
 # === BYPASS ATTEMPT 5: Lambda wrapping subprocess ===
-run = lambda cmd: __import__('subprocess').getoutput(cmd)
+def run(cmd):
+    return __import__('subprocess').getoutput(cmd)
 runner_tool = Tool(
     name="task_runner",
     func=run,

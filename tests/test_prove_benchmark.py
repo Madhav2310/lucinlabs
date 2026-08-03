@@ -11,10 +11,9 @@ These tests assert structure and honesty guarantees, NOT any real-world ASR.
 import pytest
 
 from lucin.models import Finding, Severity
+from lucin.prove import benchmark as B
 from lucin.prove.attack_library import EXTRA_GENERATORS
 from lucin.prove.payload_generator import AdversarialPayload
-from lucin.prove import benchmark as B
-
 
 NEW_FINDING_IDS = ["AG-001", "AG-002", "AG-CORS", "AG-NOAUTH", "AG-011"]
 

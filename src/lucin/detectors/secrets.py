@@ -6,7 +6,6 @@ from pathlib import Path
 from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
 
-
 # Patterns for common secret types (regex + description)
 # Updated July 2026 per GitGuardian, TruffleHog, and Black Duck patterns
 SECRET_PATTERNS = [
@@ -335,10 +334,10 @@ def detect_secrets(agent: Agent) -> list[Finding]:
                         ),
                         agent_name=agent.name,
                         attack_scenario=(
-                            f"Anyone with read access to the MCP config file "
-                            f"(~/.config/claude/claude_desktop_config.json or similar) "
-                            f"can extract this credential. MCP config files are often "
-                            f"world-readable and synced to cloud storage."
+                            "Anyone with read access to the MCP config file "
+                            "(~/.config/claude/claude_desktop_config.json or similar) "
+                            "can extract this credential. MCP config files are often "
+                            "world-readable and synced to cloud storage."
                         ),
                         blast_radius=(
                             f"Full access to any service this {pattern_def['name']} "
@@ -434,8 +433,6 @@ def _detect_high_entropy_secrets(content: str, filepath: str, agent_name: str) -
 
     This is the TruffleHog/GitGuardian fallback for unknown secret formats.
     """
-    import math
-    from collections import Counter
 
     findings = []
 

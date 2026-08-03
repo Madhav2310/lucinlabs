@@ -36,10 +36,11 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 import random as _random
-from lucin.behavioral.trace_gen import build_corpus, benign_session, EVASIVE_ATTACKS, ROLE_NAMES
-from lucin.behavioral.monitor import AgentMonitor
+
 from lucin.behavioral.baselines import RoleBaselineManager
-from lucin.behavioral.score_calibration import IsotonicCalibrator, MondrianConformal
+from lucin.behavioral.monitor import AgentMonitor
+from lucin.behavioral.score_calibration import IsotonicCalibrator
+from lucin.behavioral.trace_gen import EVASIVE_ATTACKS, ROLE_NAMES, benign_session, build_corpus
 
 WARMUP = 15
 HST_WINDOW = 40
@@ -154,6 +155,7 @@ def evaluate(benign_per_role: int = 8, attack_per_type: int = 3, seed: int = 0,
     instantly with from_cache=True — no need to re-score to tune windows/alpha.
     """
     import json
+
     from sklearn.metrics import average_precision_score
 
     cache = cache or SCORE_CACHE
@@ -171,7 +173,7 @@ def evaluate(benign_per_role: int = 8, attack_per_type: int = 3, seed: int = 0,
     # --- aggregate across roles ---
     scores = [s for r in per_role for s in r["scores"]]
     labels = [l for r in per_role for l in r["labels"]]
-    benign_scores_by_role = {r["role"]: r["benign_scores"] for r in per_role}
+    {r["role"]: r["benign_scores"] for r in per_role}
     attack_sep: dict[str, list[float]] = {}
     for r in per_role:
         for a, v in r["attack_sep"].items():
@@ -278,11 +280,11 @@ def main():
     print("\n--- SESSION-LEVEL (the operating mode) ---")
     print(f"benign SESSION FP rate:  {r['benign_SESSION_fp_rate']}  (target α={r['session_alpha_target']}) "
           f"<-- SMOKE-TEST number (circular, self-generated — NOT a validated FP claim)")
-    print(f"attack SESSION detection:")
-    print(f"  non-evasive:")
+    print("attack SESSION detection:")
+    print("  non-evasive:")
     for a, d in r["session_detection_non_evasive"].items():
         print(f"    {a:16s} {d}   (span_separation={r['span_separation'].get(a)})")
-    print(f"  EVASIVE (L4) — expect low; honest limit:")
+    print("  EVASIVE (L4) — expect low; honest limit:")
     for a, d in r["session_detection_evasive_L4"].items():
         print(f"    {a:16s} {d}   (span_separation={r['span_separation'].get(a)})")
     print("\n--- per-EVENT (diagnosis, NOT the operating mode) ---")

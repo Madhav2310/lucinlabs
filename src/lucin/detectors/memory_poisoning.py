@@ -24,13 +24,11 @@ Real-world basis:
 - OWASP Agentic AI Top 10 lists this as #3 risk
 """
 
-import ast
 import re
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity, Tool
+from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
-
 
 # Patterns indicating persistent memory/state
 MEMORY_INDICATORS = {
@@ -214,9 +212,9 @@ def detect_memory_poisoning(agent: Agent) -> list[Finding]:
                     "survives context resets. The agent's long-term knowledge is corrupted."
                 ),
                 blast_radius=(
-                    f"All future sessions for this agent are affected. "
-                    f"If memory is shared across users, ALL users are affected. "
-                    f"Corruption persists until manually detected and removed."
+                    "All future sessions for this agent are affected. "
+                    "If memory is shared across users, ALL users are affected. "
+                    "Corruption persists until manually detected and removed."
                 ),
                 owasp_ref=owasp_ref("AG-013"),
                 fix_suggestion=(

@@ -32,14 +32,17 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity
 from lucin.detectors._taint import (
-    compute_taint, is_tainted, iter_functions, resolve_sig, param_names,
+    compute_taint,
+    is_tainted,
+    iter_functions,
+    param_names,
+    resolve_sig,
     source_files_for,
 )
-from lucin.parsers.body_inspector import build_import_alias_map
+from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
-
+from lucin.parsers.body_inspector import build_import_alias_map
 
 # Function-style file sinks (path is a positional arg).
 _READ_SINKS = {"open", "io.open"}

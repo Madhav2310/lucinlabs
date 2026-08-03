@@ -7,13 +7,13 @@ return. Precision is sacred: the FP-class tests assert NON-firing.
 import tempfile
 from pathlib import Path
 
-import pytest
-
-from lucin.scanner import scan_target
 from lucin.detectors import (
-    PER_AGENT_DETECTORS, CROSS_AGENT_DETECTORS, run_all_detectors,
+    CROSS_AGENT_DETECTORS,
+    PER_AGENT_DETECTORS,
+    run_all_detectors,
 )
 from lucin.models import Agent, Tool, ToolCapability
+from lucin.scanner import scan_target
 
 
 def _scan_src(src: str, name: str = "agent.py"):

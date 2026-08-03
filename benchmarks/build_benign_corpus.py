@@ -23,13 +23,14 @@ Output: benchmarks/corpus_results.json  +  printed table
 import argparse
 import json
 import os
+import ssl
 import sys
 import time
+import urllib.error
+import urllib.request
 import zipfile
 from pathlib import Path
-import ssl
-import urllib.request
-import urllib.error
+
 
 def _ssl_ctx() -> ssl.SSLContext:
     """Verified TLS context.
@@ -46,7 +47,6 @@ ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from lucin.scanner import scan_target
-from lucin.models import Severity
 
 # ---------------------------------------------------------------------------
 # The corpus: real, maintained, publicly available agent repos.
@@ -991,12 +991,12 @@ def print_report(results: list[dict]):
     print()
     print(f"  Target: < 5%  |  Status: {'✅ PASS' if fp_rate_files < 5 else '❌ FAIL — fix before launch'}")
     print()
-    print(f"  HONEST DISCLAIMER: 'benign' is assessed by repo reputation and")
-    print(f"  intent, not formal proof. FPs are counted per distinct (file, detector-id)")
-    print(f"  pair; findings whose detector id is in a repo's published known-capability")
-    print(f"  list (`known_tp`, a per-repo list — see the annotations in this file) are")
-    print(f"  excluded as documented true positives. No admitted FP is hidden in that list.")
-    print(f"  This IS an independent external corpus (not author-written fixtures).")
+    print("  HONEST DISCLAIMER: 'benign' is assessed by repo reputation and")
+    print("  intent, not formal proof. FPs are counted per distinct (file, detector-id)")
+    print("  pair; findings whose detector id is in a repo's published known-capability")
+    print("  list (`known_tp`, a per-repo list — see the annotations in this file) are")
+    print("  excluded as documented true positives. No admitted FP is hidden in that list.")
+    print("  This IS an independent external corpus (not author-written fixtures).")
     print()
 
     for r in results:

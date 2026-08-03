@@ -27,9 +27,8 @@ import base64
 import codecs
 import urllib.parse
 
+from lucin.aifg import Confidentiality, IFCLabel, Integrity
 from lucin.guard.taint_registry import TaintRegistry
-from lucin.aifg import IFCLabel, Integrity, Confidentiality
-
 
 SECRET_LABEL = IFCLabel(Integrity.UNTRUSTED, Confidentiality.SECRET)
 

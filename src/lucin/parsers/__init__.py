@@ -3,16 +3,15 @@
 from pathlib import Path
 
 from lucin.models import Agent
-from lucin.parsers.langchain_parser import parse_langchain
-from lucin.parsers.mcp_parser import parse_mcp_config
-from lucin.parsers.crewai_parser import parse_crewai
 from lucin.parsers.autogen_parser import parse_autogen
-from lucin.parsers.swarm_parser import parse_swarm
-from lucin.parsers.pydantic_ai_parser import parse_pydantic_ai
-from lucin.parsers.google_adk_parser import parse_google_adk
-from lucin.parsers.llamaindex_parser import parse_llamaindex
+from lucin.parsers.crewai_parser import parse_crewai
 from lucin.parsers.generic_parser import parse_generic
-
+from lucin.parsers.google_adk_parser import parse_google_adk
+from lucin.parsers.langchain_parser import parse_langchain
+from lucin.parsers.llamaindex_parser import parse_llamaindex
+from lucin.parsers.mcp_parser import parse_mcp_config
+from lucin.parsers.pydantic_ai_parser import parse_pydantic_ai
+from lucin.parsers.swarm_parser import parse_swarm
 
 _PARSERS_BY_FRAMEWORK = {
     "langchain": [parse_langchain],

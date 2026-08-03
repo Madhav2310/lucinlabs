@@ -17,7 +17,6 @@ from pathlib import Path
 from lucin import __version__
 from lucin.models import Finding, ScanResult, Severity
 
-
 _SEVERITY_TO_SARIF_LEVEL = {
     Severity.CRITICAL: "error",
     Severity.HIGH: "error",

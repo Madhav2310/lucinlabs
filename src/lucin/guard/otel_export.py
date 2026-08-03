@@ -22,7 +22,6 @@ from typing import Any
 
 from lucin.guard.provenance import ProvenanceGraph, ProvenanceNode, ProvType
 
-
 # GenAI convention span kinds we map onto. ACTIVITY nodes are the "operations";
 # ENTITY/AGENT nodes are represented as spans too so the full lineage is visible.
 _OTEL_KIND = {
@@ -83,17 +82,14 @@ def _node_to_span(node: dict, prov: ProvenanceGraph) -> dict:
             attrs["gen_ai.tool.inputs"] = _stringify(node_attrs["inputs"])
         if node_attrs.get("triggered_by"):
             attrs["lucin.triggered_by"] = node_attrs["triggered_by"]
-        op_name = "execute_tool"
     elif prov_type == ProvType.ENTITY.value:
         attrs["gen_ai.operation.name"] = "entity"
         node_attrs = node.get("attributes", {})
         for k in ("integrity", "confidentiality", "content_preview"):
             if k in node_attrs:
                 attrs[f"lucin.{k}"] = node_attrs[k]
-        op_name = "entity"
     else:  # agent
         attrs["gen_ai.operation.name"] = "agent"
-        op_name = "agent"
 
     links: list[dict] = []
     for edge_kind in ("was_generated_by", "was_derived_from",

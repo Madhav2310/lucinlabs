@@ -7,11 +7,10 @@ from pathlib import Path
 from lucin._fs import iter_files
 from lucin.models import Agent, Tool, ToolCapability
 from lucin.parsers.body_inspector import (
+    build_import_alias_map,
     inspect_function_body,
     inspect_function_body_with_callees,
-    build_import_alias_map,
 )
-
 
 # Tool names/patterns that indicate dangerous capabilities
 # These are ordered from most dangerous to least

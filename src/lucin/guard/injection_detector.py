@@ -58,8 +58,8 @@ class TfidfFeaturizer:
         self._reason = ""
 
     def fit(self, texts: Sequence[str]) -> "TfidfFeaturizer":
-        from sklearn.feature_extraction.text import TfidfVectorizer
         from scipy.sparse import hstack
+        from sklearn.feature_extraction.text import TfidfVectorizer
 
         # Regularized to generalize on small corpora: higher min_df + capped
         # features fight the 40k-features-vs-few-hundred-samples overfit that

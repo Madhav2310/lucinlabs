@@ -12,12 +12,12 @@ that the ``with``-binding step must NOT newly flag.
 """
 
 import ast
-import textwrap
 import tempfile
+import textwrap
 
-from lucin.detectors.insecure_deserialization import detect_insecure_deserialization
-from lucin.detectors._taint import compute_taint, is_tainted, iter_functions
 from lucin.analysis import cross_function_taint as cft
+from lucin.detectors._taint import compute_taint, is_tainted, iter_functions
+from lucin.detectors.insecure_deserialization import detect_insecure_deserialization
 from lucin.models import Agent, Tool, ToolCapability
 
 

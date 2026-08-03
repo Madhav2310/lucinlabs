@@ -25,7 +25,6 @@ from control_plane.enums import (
     SuppressionScope,
 )
 
-
 # --- common ---------------------------------------------------------------
 
 class Health(BaseModel):

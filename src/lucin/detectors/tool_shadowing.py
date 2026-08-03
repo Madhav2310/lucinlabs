@@ -16,7 +16,7 @@ Example:
 - The LLM may pick the shadow tool instead of the legitimate one
 """
 
-from lucin.models import Agent, Finding, Severity, Tool
+from lucin.models import Agent, Finding, Severity
 from lucin.owasp import owasp_ref
 
 

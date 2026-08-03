@@ -3,12 +3,12 @@
 Real-world exfiltration doesn't use tools named 'http_request' and 'read_file'.
 Attackers use innocent-looking tool combinations.
 """
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain_openai import ChatOpenAI
-from langchain.tools import Tool
-from langchain import hub
 import urllib.request
-import json
+
+from langchain import hub
+from langchain.agents import AgentExecutor, create_react_agent
+from langchain.tools import Tool
+from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(model="gpt-4")
 prompt = hub.pull("hwchase17/react")

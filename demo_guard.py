@@ -13,7 +13,6 @@ Run: python demo_guard.py
 from __future__ import annotations
 
 import sys
-import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -23,8 +22,8 @@ print("\n" + "="*70)
 print("PHASE 1 — SCAN (static analysis)")
 print("="*70)
 
-from agentguard.scanner import scan_target
 from agentguard.models import Severity
+from agentguard.scanner import scan_target
 
 result = scan_target(Path("real_world_tests/16_rag_sql_docker/agent.py"))
 criticals = [f for f in result.findings if f.severity == Severity.CRITICAL]
@@ -39,7 +38,7 @@ print("\n" + "="*70)
 print("PHASE 2 — PROVE (adversarial payload generation)")
 print("="*70)
 
-from agentguard.prove import generate_payloads, PayloadVariant
+from agentguard.prove import PayloadVariant, generate_payloads
 
 payloads = generate_payloads(result.findings)
 print(f"\nGenerated {len(payloads)} adversarial payloads from {len(criticals)} findings")
@@ -59,8 +58,8 @@ print("\n" + "="*70)
 print("PHASE 3 — GUARD (runtime enforcement)")
 print("="*70)
 
-from agentguard.guard.interceptor import GuardSession, guard_tool, GuardBlockError
-from agentguard.guard.ifc_runtime import IFCPolicy, UNTRUSTED_SECRET, UNTRUSTED_PUBLIC
+from agentguard.guard.ifc_runtime import UNTRUSTED_SECRET, IFCPolicy
+from agentguard.guard.interceptor import GuardBlockError, GuardSession, guard_tool
 
 # Set up the policy: send_email is NOT in the allowlist
 policy = (IFCPolicy("demo-agent")
@@ -92,7 +91,7 @@ try:
     print("  ✗ send_email should have been BLOCKED")
 
 except GuardBlockError as e:
-    print(f"  ✓ GUARD BLOCKED the exfiltration attempt:")
+    print("  ✓ GUARD BLOCKED the exfiltration attempt:")
     print(f"    Reason: {e.decision.reason}")
     for w in e.decision.witness[:2]:
         print(f"    Witness: {w}")
@@ -106,7 +105,7 @@ print("\n" + "="*70)
 print("PHASE 4 — BEHAVIORAL ML (trajectory anomaly detection)")
 print("="*70)
 
-from agentguard.behavioral.monitor import AgentMonitor, replay_trace
+from agentguard.behavioral.monitor import AgentMonitor
 
 monitor = AgentMonitor(role="rag-agent", warmup_events=10, threshold=0.7)
 monitor_session = monitor.new_session("demo-session")
@@ -152,7 +151,7 @@ support = registry.register("support-agent", role="support",
 attacker = registry.register("fake-agent", secret_key=b"wrong-key" * 4)
 
 msg = sign_message(triage, "Please handle ticket #4521", recipient="support-agent")
-print(f"\nIdentity verification:")
+print("\nIdentity verification:")
 print(f"  Legit triage→support: {registry.verify(msg)}")
 
 # Forge the message (tamper with content)
@@ -173,7 +172,7 @@ graph = (AgentGraph()
 
 detector = CascadeDetector(graph)
 cascade = detector.propagate_failure("triage")
-print(f"\nCascade analysis (triage compromised):")
+print("\nCascade analysis (triage compromised):")
 print(f"  Blast radius:   {sorted(cascade.blast_radius)}")
 print(f"  High-risk:      {cascade.high_risk_agents}")
 print(f"  R₀ = {cascade.r_zero:.2f} ({'⚠ WORM RISK' if cascade.is_worm_risk else 'contained'})")
@@ -198,7 +197,7 @@ poisoned_kb = clean_kb + [{
 }]
 integrity_report = mem_monitor.check("support-kb", poisoned_kb)
 
-print(f"\nRAG store integrity check:")
+print("\nRAG store integrity check:")
 print(f"  Has tampering: {integrity_report.has_tampering}")
 for event in integrity_report.events:
     print(f"  [{event.risk}] {event.event_type}: {event.doc_id}")

@@ -23,7 +23,7 @@ This is particularly dangerous because:
 4. Actions by sub-agents may not appear in the audit trail as "delegated"
 """
 
-from lucin.models import Agent, Finding, Severity, Tool, ToolCapability
+from lucin.models import Agent, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
 
 

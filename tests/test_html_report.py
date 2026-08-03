@@ -8,11 +8,8 @@ XSS escaping, graceful degrade on AIFG-build failure, and the self-contained
 import json
 import re
 
-import pytest
-
-from lucin.models import Agent, Finding, ScanResult, Severity, Tool, ToolCapability
-from lucin import html_report
 from lucin.html_report import generate_html_report
+from lucin.models import Agent, Finding, ScanResult, Severity, Tool, ToolCapability
 
 
 def _trifecta_agent() -> Agent:

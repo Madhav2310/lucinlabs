@@ -1,6 +1,7 @@
 # Expected: NO critical/high findings — read-only search agent
 from langchain.tools import tool
 
+
 @tool
 def search_docs(query: str) -> str:
     """Search internal documentation for relevant articles."""

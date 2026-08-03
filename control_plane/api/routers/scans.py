@@ -20,7 +20,7 @@ from control_plane.api.schemas import (
     ScanList,
     ScanSummary,
 )
-from control_plane.enums import Role, ScanStatus
+from control_plane.enums import Role
 
 router = APIRouter(prefix="/v1", tags=["scans"])
 

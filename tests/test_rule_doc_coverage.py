@@ -15,7 +15,6 @@ from pathlib import Path
 
 import lucin.rule_docs as rd
 
-
 _SRC = Path(__file__).resolve().parent.parent / "src" / "lucin"
 # AG-005a/AG-005b are dict-literal IDs ("id": "AG-005a") ending in a lowercase
 # suffix, not the id="..." kwarg form most detectors use — both must be matched.

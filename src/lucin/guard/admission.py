@@ -41,11 +41,10 @@ from typing import Callable, Protocol, runtime_checkable
 from lucin.detectors.tool_poisoning import (
     INJECTION_INDICATORS,
     JAILBREAK_INDICATORS,
-    PROMPT_EXTRACTION_INDICATORS,
     MULTILANG_INJECTION_INDICATORS,
+    PROMPT_EXTRACTION_INDICATORS,
     _deobfuscate,
 )
-
 
 # ---------------------------------------------------------------------------
 # 1. Spotlighting / datamarking  (arXiv:2403.14720)

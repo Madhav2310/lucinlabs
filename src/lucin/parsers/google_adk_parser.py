@@ -16,10 +16,10 @@ import ast
 from pathlib import Path
 
 from lucin._fs import iter_files
-from lucin.models import Agent, Tool, ToolCapability
+from lucin.models import Agent, Tool
 from lucin.parsers.body_inspector import (
-    inspect_function_body,
     build_import_alias_map,
+    inspect_function_body,
 )
 from lucin.parsers.langchain_parser import classify_tool_capabilities
 
@@ -84,8 +84,8 @@ def _parse_adk_agents(content: str, filepath: str) -> list[Agent]:
     # Parse each agent
     for var_name, call in agent_vars.items():
         name = _get_keyword_str(call, "name") or var_name
-        description = _get_keyword_str(call, "description") or ""
-        instruction = _get_keyword_str(call, "instruction") or ""
+        _get_keyword_str(call, "description") or ""
+        _get_keyword_str(call, "instruction") or ""
 
         # Parse tools
         tools = []
