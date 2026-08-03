@@ -95,11 +95,11 @@ def _make_result(finding: Finding, cwd: Path) -> dict:
         result["locations"] = [location]
 
     if finding.fix_suggestion:
-        result["fixes"] = [
-            {
-                "description": {"text": finding.fix_suggestion[:1000]},
-            }
-        ]
+        # NOT SARIF `fixes`: that field requires a concrete `artifactChanges` /
+        # `replacements` patch per the schema, which we don't have — only prose
+        # guidance. Claiming a structured fix we can't back up is worse than not
+        # having one, so this goes in the message text instead.
+        result["message"]["text"] += f"\n\nFix: {finding.fix_suggestion[:1000]}"
 
     if finding.witness:
         # SARIF: witness chain goes in the message as additional context
