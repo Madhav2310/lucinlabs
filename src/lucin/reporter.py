@@ -1,6 +1,5 @@
 """Terminal output formatting — the screenshot moment."""
 
-import os
 import textwrap
 from pathlib import PurePath
 
@@ -22,26 +21,23 @@ def _print_hanging(console: Console, text: Text, indent: int) -> None:
         console.print(pad + line if i > 0 else line)
 
 
-# Emoji render at inconsistent cell widths across terminals, which misaligns
-# Panel borders — and under NO_COLOR (a request for plain, portable output,
-# not just "no ANSI color") they're visual noise on top of that. Fall back to
-# fixed-width ASCII markers in that case.
-if os.environ.get("NO_COLOR"):
-    SEVERITY_STYLES = {
-        Severity.CRITICAL: ("bold red", "[CRIT]"),
-        Severity.HIGH: ("bold yellow", "[HIGH]"),
-        Severity.MEDIUM: ("yellow", "[MED] "),
-        Severity.LOW: ("dim", "[LOW] "),
-        Severity.INFO: ("dim", "[INFO]"),
-    }
-else:
-    SEVERITY_STYLES = {
-        Severity.CRITICAL: ("bold red", "🔴"),
-        Severity.HIGH: ("bold yellow", "🟠"),
-        Severity.MEDIUM: ("yellow", "🟡"),
-        Severity.LOW: ("dim", "⚪"),
-        Severity.INFO: ("dim", "ℹ️"),
-    }
+# No emoji markers. Two independent reasons converged on dropping them
+# entirely rather than gating behind a flag or NO_COLOR check:
+#   - Emoji render at inconsistent cell widths across terminals and font
+#     stacks (Rich sizes panel borders from the Unicode width category, not
+#     the terminal's actual glyph rendering, so the two can disagree and the
+#     border misaligns).
+#   - The severity word ("CRITICAL:", "HIGH:", ...) already states the same
+#     information the marker did, and border/text color already carries it a
+#     second time — the marker was pure redundancy, and in NO_COLOR mode it
+#     used to duplicate literally: "[CRIT] CRITICAL: ...".
+SEVERITY_STYLES = {
+    Severity.CRITICAL: "bold red",
+    Severity.HIGH: "bold yellow",
+    Severity.MEDIUM: "yellow",
+    Severity.LOW: "dim",
+    Severity.INFO: "dim",
+}
 
 
 def print_findings(console: Console, result: ScanResult, ci: bool = False):
@@ -148,7 +144,7 @@ def _print_triage_table(console: Console, result: ScanResult):
     table.add_column("LOCATION")
 
     for finding in sorted(result.findings, key=lambda f: list(Severity).index(f.severity)):
-        style, _ = SEVERITY_STYLES[finding.severity]
+        style = SEVERITY_STYLES[finding.severity]
         # Basename only: the target's directory prefix is already in the
         # "Target:" line above and repeating it on every row is what forced
         # truncation of the one column that identifies where to look.
@@ -167,7 +163,7 @@ def _print_triage_table(console: Console, result: ScanResult):
 
 def _print_finding(console: Console, finding: Finding):
     """Print a single finding."""
-    style, icon = SEVERITY_STYLES[finding.severity]
+    style = SEVERITY_STYLES[finding.severity]
 
     lines = []
     if finding.agent_name:
@@ -216,12 +212,12 @@ def _print_finding(console: Console, finding: Finding):
 
     border_style = style.replace("bold ", "")
     if finding.is_new is True:
-        title = f"{icon} NEW {finding.severity.value.upper()}: {finding.title} [{finding.id}]"
+        title = f"NEW {finding.severity.value.upper()}: {finding.title} [{finding.id}]"
     elif finding.is_new is False:
-        title = f"{icon} accepted {finding.severity.value.upper()}: {finding.title} [{finding.id}]"
+        title = f"accepted {finding.severity.value.upper()}: {finding.title} [{finding.id}]"
         border_style = "dim"
     else:
-        title = f"{icon} {finding.severity.value.upper()}: {finding.title} [{finding.id}]"
+        title = f"{finding.severity.value.upper()}: {finding.title} [{finding.id}]"
     console.print(Panel(
         "\n".join(lines),
         title=title,
@@ -232,7 +228,6 @@ def _print_finding(console: Console, finding: Finding):
 def _print_ci_output(console: Console, result: ScanResult):
     """Minimal CI output."""
     for finding in result.findings:
-        _, icon = SEVERITY_STYLES[finding.severity]
         loc = ""
         if finding.source_file:
             loc = f" ({finding.source_file}"
@@ -245,7 +240,7 @@ def _print_ci_output(console: Console, result: ScanResult):
         elif finding.is_new is False:
             tag = "accepted "
         console.print(
-            f"{icon} {tag}[{finding.severity.value.upper()}] {finding.id}: "
+            f"{tag}[{finding.severity.value.upper()}] {finding.id}: "
             f"{finding.title} - {finding.agent_name}{loc}"
         )
 
