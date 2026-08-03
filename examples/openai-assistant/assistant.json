@@ -1,0 +1,78 @@
+{
+  "name": "Data Analysis Assistant",
+  "model": "gpt-4o",
+  "instructions": "You are a data analyst. Help users query and analyze data. You have access to a database and can execute code to create visualizations.",
+  "tools": [
+    {
+      "type": "code_interpreter"
+    },
+    {
+      "type": "file_search"
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "query_database",
+        "description": "Execute a SQL query against the analytics database and return results",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The SQL query to execute"
+            },
+            "database": {
+              "type": "string",
+              "enum": ["analytics", "customers", "transactions"]
+            }
+          },
+          "required": ["query"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "send_report",
+        "description": "Send a generated report to the specified email address",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "Recipient email address"
+            },
+            "subject": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            },
+            "attachments": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          },
+          "required": ["to", "subject", "body"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "execute_shell",
+        "description": "Run a shell command for data processing tasks",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "command": {
+              "type": "string",
+              "description": "Shell command to execute"
+            }
+          },
+          "required": ["command"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Lucin misses — Limits</title>
+<meta name="description" content="The honest coverage gaps: a 24% false-negative rate, 17% SSRF recall, path traversal deliberately unregistered, and why precision was chosen over recall.">
+<link rel="canonical" href="https://lucin.pages.dev/limits/">
+<link rel="stylesheet" href="/fonts.css">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Lucin">
+<meta property="og:url" content="https://lucin.pages.dev/limits/">
+<meta property="og:title" content="What Lucin misses — Limits">
+<meta property="og:description" content="The honest coverage gaps: a 24% false-negative rate, 17% SSRF recall, path traversal deliberately unregistered, and why precision was chosen over recall.">
+<meta property="og:image" content="https://lucin.pages.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lucin — static analysis for AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What Lucin misses — Limits">
+<meta name="twitter:description" content="The honest coverage gaps: a 24% false-negative rate, 17% SSRF recall, path traversal deliberately unregistered, and why precision was chosen over recall.">
+<meta name="twitter:image" content="https://lucin.pages.dev/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle",
+ "headline":"What Lucin misses — Limits","description":"The honest coverage gaps: a 24% false-negative rate, 17% SSRF recall, path traversal deliberately unregistered, and why precision was chosen over recall.","url":"https://lucin.pages.dev/limits/",
+ "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
+ "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/"}}
+</script>
+<style>
+:root{
+  --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#6C7076;
+  --line:#D7D9DC; --line-strong:#141414;
+  --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
+  --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ff-heading:'Space Grotesk',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --radius:4px; --radius-chip:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--canvas)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+  background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
+  gap:26px;height:58px;font-size:14px}
+.nav-in .mark{display:inline-flex;align-items:center;gap:9px;font-family:var(--ff-heading);
+  font-weight:700;font-size:16px;letter-spacing:-.01em}
+.nav-in a{color:var(--ink-soft);text-decoration:none;font-weight:500}
+.nav-in a:hover{color:var(--sev-crit)}
+.nav-in .right{margin-left:auto;display:flex;gap:16px;align-items:center}
+.install{font-family:var(--mono);font-size:13px;background:var(--sunken);
+  border:1px solid var(--sunken);border-radius:var(--radius);padding:7px 12px;
+  color:#C7CAD1}
+main{max-width:760px;margin:0 auto;padding:56px 24px 96px}
+h1{font-family:var(--ff-heading);font-size:clamp(30px,4.5vw,42px);line-height:1.12;
+  letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+h2{font-family:var(--ff-heading);font-size:24px;line-height:1.25;letter-spacing:-.02em;
+  font-weight:700;margin:44px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-family:var(--ff-heading);font-size:18px;font-weight:600;margin:28px 0 10px}
+p,ul,ol,blockquote,table{margin:0 0 16px}
+ul,ol{padding-left:22px}
+li{margin:5px 0}
+strong{color:var(--ink);font-weight:600}
+p,li{color:var(--ink-soft)}
+a[href]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);
+  text-underline-offset:3px}
+a[href]:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+blockquote{border-left:3px solid var(--sev-crit);padding:2px 0 2px 16px;
+  color:var(--ink-muted)}
+/* code: inline is a light chip with a border; blocks are the one deliberate dark
+   inversion (matches the report/hero convention) — pre code resets the chip so
+   nested code is not double-boxed. */
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em;
+  font-variant-ligatures:none}
+pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--sunken);
+  color:#C7CAD1;border-radius:var(--radius);padding:14px 16px;
+  margin:0 0 18px;overflow:auto;-webkit-font-smoothing:auto}
+pre code{background:0 0;border:0;padding:0;font-size:1em;color:inherit}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface);color:var(--ink);font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 24px 56px;
+  color:var(--ink-muted);font-size:13px}
+footer .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+footer .mark-sm{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
+footer a{text-decoration:none;color:var(--ink-muted)}
+footer a:hover{color:var(--sev-crit)}
+
+@media(max-width:640px){
+  .nav-in .links,.install{display:none}
+  main{padding-top:36px}
+  .mobile-nav{display:block;position:relative}
+  .mobile-nav summary{list-style:none;cursor:pointer;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav-panel{position:absolute;right:0;top:40px;background:var(--canvas);border:1px solid var(--line);padding:8px 0;min-width:180px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.08);border-radius:4px}
+  .mobile-nav-panel a{display:block;padding:10px 16px;font-size:14px;color:var(--ink);text-decoration:none;font-weight:500}
+  .mobile-nav-panel a:hover{background:var(--surface);color:var(--sev-crit)}
+}
+@media(min-width:641px){
+  .mobile-nav{display:none}
+}
+
+/* ---- docs/benchmarks/limits/rules/changelog "tab family" header ----
+   Each is its own real page/route (not a client-side view switch) — the tabs
+   are plain links, and the current page's tab gets the active fill. */
+.back-home{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-home:hover{color:var(--sev-crit)}
+.eyebrow2{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);
+  font-weight:600;margin-top:30px}
+h1.page-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(34px,3.8vw,46px);
+  letter-spacing:-.025em;line-height:1.06;margin:16px 0 0}
+p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color:var(--ink-soft)}
+.tab-row{display:flex;gap:0;margin-top:34px;border:1.5px solid var(--ink);border-radius:2px;
+  width:fit-content;overflow:hidden}
+.tab-pill{padding:10px 18px;font-family:var(--mono);font-size:12.5px;text-decoration:none;
+  color:var(--ink);border-right:1px solid var(--ink);transition:background .18s,color .18s}
+.tab-pill:last-child{border-right:0}
+.tab-pill:hover{background:var(--surface);color:var(--ink)}
+.tab-pill.active{background:var(--ink);color:var(--canvas)}
+.tab-pill.active:hover{background:var(--ink);color:var(--canvas)}
+</style>
+</head><body>
+<nav><div class="nav-in">
+  <a class="mark" href="/" aria-label="Lucin home"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>LUCIN</a>
+  <span class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></span>
+  <span class="right">
+    <span class="install">$ pip install lucin</span>
+    <details class="mobile-nav" style="margin-left:12px">
+      <summary aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M3 6h14M3 10h14M3 14h14"/>
+        </svg>
+      </summary>
+      <nav class="mobile-nav-panel">
+        <a href="/blog/">Blog</a><a href="/docs/">Docs</a>
+      </nav>
+    </details>
+  </span>
+</div></nav>
+<main><a class="back-home" href="/">← Home</a>
+<div class="eyebrow2">LIMITS</div>
+<h1 class="page-h1">What Lucin misses</h1>
+<p class="page-dek">The honest coverage gaps: a 24% false-negative rate, 17% SSRF recall, path traversal deliberately unregistered, and why precision was chosen over recall.</p>
+<div class="tab-row"><a href="/docs/" class="tab-pill">docs</a><a href="/benchmarks/" class="tab-pill">benchmarks</a><span class="tab-pill active">limits</span><a href="/rules/" class="tab-pill">rules</a><a href="/changelog/" class="tab-pill">changelog</a></div><p>Honesty is a feature here. This page states the boundaries plainly. If a claim wouldn't
+survive a security researcher reading the actual code, it doesn't belong in the docs — so
+these are the real edges, each tied to the code or the measured number that proves it.</p>
+<h3>SCAN is a static, pre-deploy scanner</h3>
+<p>It finds enabling misconfigurations and known dangerous patterns in code before you ship.
+It does <strong>not</strong>:</p>
+<ul>
+<li><strong>Detect novel zero-days or emergent runtime behavior</strong> — that needs runtime monitoring.</li>
+<li><strong>Catch vulnerabilities that only appear during execution</strong> — dynamic injection, runtime
+prompt attacks, or behavior emerging from model+tool interaction.</li>
+<li><strong>Guarantee 100% detection</strong> — coverage depends on how the agent is structured. Highly
+dynamic Python (heavy <code>getattr</code>, reflection, generated code) reduces recall.</li>
+<li><strong>Solve alignment</strong> — we bound what tools <em>can</em> do; we don't fix the model's <em>intent</em>.</li>
+</ul>
+<p>A clean scan means no known dangerous static patterns were found. It does not mean the
+agent is safe under all inputs.</p>
+<h3>Per-class recall gaps (measured, not hidden)</h3>
+<p>Measured recall is <strong>38/50 = 76%</strong> (<code>python benchmarks/recall_corpus.py</code>). The gaps:</p>
+<h4>SSRF — partial (17%)</h4>
+<p><code>AG-SSRF</code> is deliberately conservative: it fires only when taint forms the <strong>URL host</strong> of
+a request sink (<code>u = f&quot;http://{host}&quot;; get(u)</code>). It will <em>not</em> flag a bare whole-URL
+parameter or a <code>__init__</code>-assigned sink, and it skips patterns that a legitimate
+URL-fetching tool would also match. This trades SSRF recall for the precision result
+(0 confirmed FP outside a documented per-repo known-capability allowlist) — by design
+(<code>src/lucin/detectors/ssrf.py</code>).</p>
+<h4>Path traversal — 0% (detector built but UNREGISTERED)</h4>
+<p><code>AG-PATH-TRAVERSAL</code> is built, sound, and unit-tested — but it is <strong>intentionally not
+registered</strong> in the scan path. The benign corpus contains byte-identical <em>legitimate</em> file
+tools (<code>open(param)</code>, <code>os.path.join(base, name)</code>, <code>Path.write_text</code>) that are
+indistinguishable from the vulnerable shapes under static analysis. Registering the
+detector would break the precision result (0 confirmed FP outside a documented per-repo
+known-capability allowlist), so it is gated off — <strong>precision over recall</strong>.
+The gate and its rationale are documented in <code>src/lucin/detectors/__init__.py</code>.</p>
+<h4>Container escape — 80%</h4>
+<p><code>AG-DOCKER-EXEC</code> resolves docker commands built via a variable, but misses cases where the
+container is driven through the docker <strong>SDK</strong> rather than a subprocess command.</p>
+<h3>Interprocedural / cross-file taint</h3>
+<p>Lucin does <strong>not</strong> perform whole-program, call-graph-based interprocedural taint
+analysis. The standard Python call-graph tool, <strong>PyCG</strong>, is unavailable on the build
+mirror, so it is not vendored or integrated. What actually runs:</p>
+<ul>
+<li><strong>Single-function (intraprocedural) taint</strong>, flow-sensitive, field-insensitive, over each
+tool body (<code>parsers/body_inspector.py</code>, <code>intraproc_taint</code>).</li>
+<li><strong>Limited cross-function / intra-class taint</strong> (<code>analysis/cross_function_taint.py</code>, wired
+via <code>detectors/_taint.py</code>) — resolves same-file method-to-method flows (e.g.
+<code>__init__</code> → <code>pickle.load</code>). Not a full call graph; does not cross files or resolve
+dynamic dispatch.</li>
+<li><strong>Capability-based classification</strong> as the cross-function approximation — flag dangerous
+<em>capability combinations</em> (the trifecta / dangerous-combination detectors) instead of
+proving a precise A→B path.</li>
+</ul>
+<p>A separate <code>analysis/file_scope_taint.py</code> exists and is unit-tested but is <strong>not wired</strong>
+into production scans — treat it as experimental.</p>
+<p><strong>Consequence:</strong> a vuln where untrusted input enters in one function and reaches a sink in
+a <em>different file</em>, with no single tool exhibiting the dangerous combination, may be
+missed with path-level precision. The capability heuristic recovers many of these, but not
+all, and dynamic dispatch is treated as a conservative barrier.</p>
+<h3>Detectors held back on purpose</h3>
+<ul>
+<li><strong>AG-013 (memory/RAG poisoning)</strong> — registered but returns no findings; disabled pending
+real false-positive data before it is re-enabled.</li>
+<li><strong>AG-PATH-TRAVERSAL</strong> — built and unit-tested, unregistered for precision (above).</li>
+</ul>
+<h3>Experimental / not-yet-validated capabilities</h3>
+<p>These ship as code but are <strong>not</strong> part of the validated core:</p>
+<ul>
+<li><strong><code>lucin monitor</code> (behavioral, ML)</strong> — validated on <strong>synthetic</strong> corpora only
+(session-level benign FP 3.75%, drift, adaptive-evasion). Precision on <strong>real production
+traces</strong> is <em>not yet measured</em> — genuinely launch-gated (needs real user traffic).</li>
+<li><strong><code>lucin redteam</code> (PROVE)</strong> — payload generation works; a published model-level
+attack-success-rate frontier is currently <strong>endpoint-gated</strong>: the only reachable LLM
+gateway applies a content filter that rejects overt injection payloads at the API layer,
+which confounds a clean ASR measurement. See <code>DEFINITION_OF_DONE.md</code>.</li>
+<li><strong><code>lucin serve</code> (REST API)</strong> — experimental.</li>
+</ul>
+<h3>Launch-gated residuals (cannot be faked pre-launch)</h3>
+<p>By the project's own contract (<code>DEFINITION_OF_DONE.md</code>), these require real users/traces
+and are <strong>not</strong> claimed as done:</p>
+<ul>
+<li>Behavioral precision on real production traffic.</li>
+<li>A design-partner production witness of GUARD.</li>
+<li>SCAN precision at the true scale/diversity of the <em>population</em> of user repos (the 52-repo
+corpus is a strong pre-launch proxy, not the population).</li>
+<li>Days-later multi-agent attack detection in a live deployment.</li>
+</ul>
+<h3>Reproduce these claims</h3>
+<p>Every number on this page regenerates:</p>
+<pre><code class="language-bash">python benchmarks/recall_corpus.py        # 38/50 = 76%, per-class + false-negative list
+python benchmarks/build_benign_corpus.py  # 0 confirmed FP (documented per-repo allowlist) / 52 repos / 2,732 files
+python -m pytest tests/ -q                # 517 passing
+</code></pre>
+</main>
+<footer><div class="in">
+  <span class="mark-sm">LUCIN</span>
+  <span>Every claim reproducible from a committed command.</span>
+  <span style="display:flex;gap:14px;margin-left:auto">
+    <a href="/benchmarks/">Methodology</a>
+    <a href="/limits/">What it misses</a>
+    <a href="/docs/threat-model/">Threat model</a>
+  </span>
+</div></footer>
+</body>
+</html>

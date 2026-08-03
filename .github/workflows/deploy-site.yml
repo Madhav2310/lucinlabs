@@ -1,0 +1,34 @@
+# Deploys site/ to Cloudflare Pages on every push to main that touches the
+# site, so the live site can never drift from what's actually in the repo —
+# no more "I deployed by hand from my laptop and forgot to commit the change."
+#
+# One-time setup (dashboard, not automatable from here):
+#   1. Cloudflare dashboard → My Profile → API Tokens → Create Token →
+#      custom token with "Cloudflare Pages:Edit" permission on this account.
+#   2. GitHub repo → Settings → Secrets and variables → Actions → New secret:
+#        CLOUDFLARE_API_TOKEN   = the token from step 1
+#        CLOUDFLARE_ACCOUNT_ID  = your account ID (Cloudflare dashboard -> Workers & Pages -> right sidebar)
+
+name: Deploy site to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=lucin

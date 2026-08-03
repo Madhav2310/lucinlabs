@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog — Lucin</title>
+<meta name="description" content="Dated record of what changed in Lucin, including the changes that were reverted and why. A changelog that only lists wins is marketing.">
+<link rel="canonical" href="https://lucin.pages.dev/changelog/">
+<link rel="stylesheet" href="/fonts.css">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Lucin">
+<meta property="og:url" content="https://lucin.pages.dev/changelog/">
+<meta property="og:title" content="Changelog — Lucin">
+<meta property="og:description" content="Dated record of what changed in Lucin, including the changes that were reverted and why. A changelog that only lists wins is marketing.">
+<meta property="og:image" content="https://lucin.pages.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lucin — static analysis for AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Changelog — Lucin">
+<meta name="twitter:description" content="Dated record of what changed in Lucin, including the changes that were reverted and why. A changelog that only lists wins is marketing.">
+<meta name="twitter:image" content="https://lucin.pages.dev/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article",
+ "headline":"Changelog — Lucin","description":"Dated record of what changed in Lucin, including the changes that were reverted and why. A changelog that only lists wins is marketing.","url":"https://lucin.pages.dev/changelog/",
+ "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
+ "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/"}}
+</script>
+<style>
+:root{
+  --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#6C7076;
+  --line:#D7D9DC; --line-strong:#141414;
+  --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
+  --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ff-heading:'Space Grotesk',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --radius:4px; --radius-chip:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--canvas)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+  background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
+  gap:26px;height:58px;font-size:14px}
+.nav-in .mark{display:inline-flex;align-items:center;gap:9px;font-family:var(--ff-heading);
+  font-weight:700;font-size:16px;letter-spacing:-.01em}
+.nav-in a{color:var(--ink-soft);text-decoration:none;font-weight:500}
+.nav-in a:hover{color:var(--sev-crit)}
+.nav-in .right{margin-left:auto;display:flex;gap:16px;align-items:center}
+.install{font-family:var(--mono);font-size:13px;background:var(--sunken);
+  border:1px solid var(--sunken);border-radius:var(--radius);padding:7px 12px;
+  color:#C7CAD1}
+main{max-width:760px;margin:0 auto;padding:56px 24px 96px}
+h1{font-family:var(--ff-heading);font-size:clamp(30px,4.5vw,42px);line-height:1.12;
+  letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+h2{font-family:var(--ff-heading);font-size:24px;line-height:1.25;letter-spacing:-.02em;
+  font-weight:700;margin:44px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-family:var(--ff-heading);font-size:18px;font-weight:600;margin:28px 0 10px}
+p,ul,ol,blockquote,table{margin:0 0 16px}
+ul,ol{padding-left:22px}
+li{margin:5px 0}
+strong{color:var(--ink);font-weight:600}
+p,li{color:var(--ink-soft)}
+a[href]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);
+  text-underline-offset:3px}
+a[href]:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+blockquote{border-left:3px solid var(--sev-crit);padding:2px 0 2px 16px;
+  color:var(--ink-muted)}
+/* code: inline is a light chip with a border; blocks are the one deliberate dark
+   inversion (matches the report/hero convention) — pre code resets the chip so
+   nested code is not double-boxed. */
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em;
+  font-variant-ligatures:none}
+pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--sunken);
+  color:#C7CAD1;border-radius:var(--radius);padding:14px 16px;
+  margin:0 0 18px;overflow:auto;-webkit-font-smoothing:auto}
+pre code{background:0 0;border:0;padding:0;font-size:1em;color:inherit}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface);color:var(--ink);font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 24px 56px;
+  color:var(--ink-muted);font-size:13px}
+footer .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+footer .mark-sm{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
+footer a{text-decoration:none;color:var(--ink-muted)}
+footer a:hover{color:var(--sev-crit)}
+
+@media(max-width:640px){
+  .nav-in .links,.install{display:none}
+  main{padding-top:36px}
+  .mobile-nav{display:block;position:relative}
+  .mobile-nav summary{list-style:none;cursor:pointer;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav-panel{position:absolute;right:0;top:40px;background:var(--canvas);border:1px solid var(--line);padding:8px 0;min-width:180px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.08);border-radius:4px}
+  .mobile-nav-panel a{display:block;padding:10px 16px;font-size:14px;color:var(--ink);text-decoration:none;font-weight:500}
+  .mobile-nav-panel a:hover{background:var(--surface);color:var(--sev-crit)}
+}
+@media(min-width:641px){
+  .mobile-nav{display:none}
+}
+
+/* ---- docs/benchmarks/limits/rules/changelog "tab family" header ----
+   Each is its own real page/route (not a client-side view switch) — the tabs
+   are plain links, and the current page's tab gets the active fill. */
+.back-home{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-home:hover{color:var(--sev-crit)}
+.eyebrow2{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);
+  font-weight:600;margin-top:30px}
+h1.page-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(34px,3.8vw,46px);
+  letter-spacing:-.025em;line-height:1.06;margin:16px 0 0}
+p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color:var(--ink-soft)}
+.tab-row{display:flex;gap:0;margin-top:34px;border:1.5px solid var(--ink);border-radius:2px;
+  width:fit-content;overflow:hidden}
+.tab-pill{padding:10px 18px;font-family:var(--mono);font-size:12.5px;text-decoration:none;
+  color:var(--ink);border-right:1px solid var(--ink);transition:background .18s,color .18s}
+.tab-pill:last-child{border-right:0}
+.tab-pill:hover{background:var(--surface);color:var(--ink)}
+.tab-pill.active{background:var(--ink);color:var(--canvas)}
+.tab-pill.active:hover{background:var(--ink);color:var(--canvas)}
+</style>
+</head><body>
+<nav><div class="nav-in">
+  <a class="mark" href="/" aria-label="Lucin home"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>LUCIN</a>
+  <span class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></span>
+  <span class="right">
+    <span class="install">$ pip install lucin</span>
+    <details class="mobile-nav" style="margin-left:12px">
+      <summary aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M3 6h14M3 10h14M3 14h14"/>
+        </svg>
+      </summary>
+      <nav class="mobile-nav-panel">
+        <a href="/blog/">Blog</a><a href="/docs/">Docs</a>
+      </nav>
+    </details>
+  </span>
+</div></nav>
+<main><a class="back-home" href="/">← Home</a>
+<div class="eyebrow2">CHANGELOG</div>
+<h1 class="page-h1">Changelog</h1>
+<p class="page-dek">Dated record of what changed in Lucin, including the changes that were reverted and why. A changelog that only lists wins is marketing.</p>
+<div class="tab-row"><a href="/docs/" class="tab-pill">docs</a><a href="/benchmarks/" class="tab-pill">benchmarks</a><a href="/limits/" class="tab-pill">limits</a><a href="/rules/" class="tab-pill">rules</a><span class="tab-pill active">changelog</span></div><p>Lucin is pre-launch and developed in the open. Entries are dated and describe what
+changed, including the mistakes — a changelog that only lists wins is marketing.</p>
+<p>Every claim below has a command that regenerates it. Where a change was <strong>reverted</strong>,
+the reason is stated, because a reverted change is information.</p>
+<hr />
+<h3>2026-07-30</h3>
+<p><strong>Precision work, measured end to end.</strong> Ran the scanner against a fresh population of
+<strong>81 real GitHub agent repositories / 5,868 files</strong> (no overlap with the existing
+benign corpus, enforced by a guard in the harness), then hand-adjudicated a fixed-seed
+100-finding sample by reading the actual code behind each finding. Starting point:
+<strong>8 true positives / 52 false positives / 40 unadjudicable = 13.3% precision.</strong> After
+the fixes below, and a later clean-holdout <strong>precision of 20.5-31.5% (n=73, 95% CI 12.9-42.9%)</strong> — the original 58% was train-on-test and is withdrawn — with <strong>0 confirmed true positives
+deleted</strong>, and <strong>every remaining HIGH/CRITICAL finding now carries a witness or a
+source line</strong> a reader can open. Reproduce: <code>python benchmarks/agentzoo_precision.py</code>.</p>
+<p>Five real defects, each found only by that external measurement and not by 473 passing
+unit tests:</p>
+<ul>
+<li><strong>Fetch was being classified as egress.</strong> Any network-touching tool defaulted to
+&quot;egress sink&quot;, so <code>download_object</code>, <code>scrape_page</code> and <code>web_fetch_tool</code> became fake
+exfiltration sinks. Fixed with verb-intent resolution: an outward verb anywhere wins,
+otherwise the leading verb decides, otherwise a fetch verb means source.
+(AG-TRIFECTA findings 11 → 7.)</li>
+<li><strong>Parameterized ORM was flagged as SQL injection.</strong> <code>select(T).where(T.id == arg)</code>
+passed to <code>.execute()</code> looked like a raw-SQL sink; 0 of 7 sampled AG-SQL findings
+were real. <code>text()</code>, f-strings and concatenation remain dangerous. (18 → 8.)</li>
+<li><strong>A hardened sandbox was reported as a container escape.</strong> AG-DOCKER-EXEC fired on
+<code>--runtime=runsc</code> gVisor runners and on <code>docker --version</code> probes — i.e. it reported
+the mitigation as the vulnerability. Escape flags and hardening flags are now
+distinguished. (That detector scored 0 true positives against 3 false alarms on the sampled findings; it now produces none of them.)</li>
+<li><strong><code>shlex.quote</code> did not clear a finding.</strong> <code>lucin fix</code> tells you to wrap a command in
+<code>shlex.quote</code>; the scanner then flagged your code again after you did, and reported
+CRITICAL on <code>subprocess.run([&quot;git&quot;,&quot;status&quot;])</code>, which has no user input at all.
+There is now a kind-scoped sanitizer model (<code>src/lucin/analysis/sanitizers.py</code>) —
+<code>shlex.quote</code> clears COMMAND sinks and deliberately does not silence SQL or path sinks.</li>
+<li><strong>Findings with no evidence claimed CRITICAL.</strong> Capability-composition rules
+(AG-006, AG-028, AG-COMP, AG-002, AG-005a/b, AG-NOAUTH) assert something about a
+tool set with no line and no path. On the adjudicated sample they ran <strong>1 true
+positive / 8 false positives</strong>, and held 21 of the 23 findings that could not be
+adjudicated at all. Severity is now bounded by evidence: no evidence path, no
+HIGH/CRITICAL. They are still reported, so recall is unchanged.</li>
+</ul>
+<p><strong>Two changes attempted and reverted</strong>, because measurement said they made things worse:</p>
+<ul>
+<li>Letting body evidence <em>veto</em> a name-inferred <code>EXECUTE_CODE</code> killed real false
+positives but cost <strong>4 real recall cases</strong> (76% → 70%): class-based toolkits hide
+their exec behind <code>self._docker_exec(...)</code>, so &quot;no exec found&quot; was absence of
+evidence, not evidence of absence.</li>
+<li>Callee-aware capability inference <strong>broke the benign-corpus precision gate</strong>
+(52/52 clean → 51/52, 0 → 3 false positives). Precision is the brand, so it went back.</li>
+</ul>
+<p><strong>A regression found and fixed.</strong> <code>knowledge_search</code> had been dropped from the
+untrusted-input vocabulary, so AG-TRIFECTA had silently stopped firing on RAG agents —
+the canonical case. Restored, with a regression test; benign corpus held at 0
+adjudicated false positives.</p>
+<p><strong>AG-RUGPULL shipped, opt-in.</strong> Tool-description pinning existed in the codebase with
+<strong>zero callers</strong>. Now wired behind <code>lucin scan --pin</code>, with a dangerous-delta gate so a
+benign wording change does not alarm — only a description that gains
+exec/exfil/secret language does.</p>
+<p><strong>Documentation for 11 previously undocumented rules.</strong> A third of the rule set had
+only an OWASP mapping, so <code>lucin explain</code> had nothing to say about it. Written from
+each detector's real trigger condition, with thresholds quoted from the code.</p>
+<p><strong>Website.</strong> First real site: 35 pages generated from content that already existed as
+markdown, full meta/Open Graph/JSON-LD, AI-crawler-friendly <code>robots.txt</code>, and a
+reproducible gate (<code>python site/check_site.py</code>) that enforces — among other things —
+that a page may not cite our favourable precision number without the unfavourable one
+beside it. That rule immediately caught four of our own blog posts.</p>
+<hr />
+<h3>2026-07-29</h3>
+<p><strong>Trained admission detector.</strong> Regex-only prompt-injection triage measured <strong>8.4%
+recall</strong> on a real third-party corpus — a hard ceiling, so it was replaced by a small
+local classifier: <strong>67.2% recall at a 1% benign false-positive budget</strong> (TF-IDF/ONNX,
+no network). Caught and fixed an overfit and a gate-band false-positive bug along the way.</p>
+<p><strong>Session-level behavioural detection.</strong> Per-event alerting was unusable — multiple
+comparisons produced a <strong>96% benign session false-positive rate</strong>. Redesigned around
+session-level two-scale conformal testing with per-role Wilson bounds:
+<strong>3.75% benign session FP</strong> on a synthetic adversarial corpus. Labelled synthetic
+everywhere, and kept out of headline claims.</p>
+<p><strong>GUARD blocked a real exfiltration, live.</strong> A real model performed a plausible task
+that emailed a customer's PII to an external address; the deterministic gate blocked
+it, and a benign task passed with no false block. Honest finding: the model refused
+overt injection attempts on its own — GUARD's value is the DLP leak the model does
+<em>not</em> recognise.</p>
+<p><strong>A latency claim corrected.</strong> &quot;Sub-millisecond&quot; was wrong. Measured ~5 ms per event,
+and the claim was fixed everywhere it appeared.</p>
+<p><strong>Half-Space Trees were ranking anomalies backwards.</strong> A hand-rolled implementation
+scored anomalies in reverse (Spearman −0.52 vs a reference implementation). Replaced
+with <code>river</code>'s. Unit tests had been green throughout.</p>
+<hr />
+<h3>2026-07-28</h3>
+<p><strong>Deleted more than was added.</strong> Removed the single biggest false-positive generator
+(bare method-name matching, where <code>.get()</code> implied network access and <code>.run()</code> implied
+execution), dropped dead code, and disabled a memory-poisoning rule that was
+effectively a coin flip until it could be measured.</p>
+<p><strong>First real precision measurement.</strong> Built a benign corpus of real third-party agent
+repositories and drove the false-positive rate from <strong>19.5%</strong> to <strong>0 adjudicated false
+positives</strong>, fixing <strong>22 distinct false-positive bug classes</strong> on the way.
+Reproduce: <code>python benchmarks/build_benign_corpus.py</code>.</p>
+<p><strong>Honest README.</strong> Removed claims the code did not support — no &quot;ML ensemble&quot; that
+wasn't there, no detector count that didn't match the registry — and added a section
+describing what the tool does <em>not</em> catch.</p>
+<p><strong>SARIF output + GitHub Action</strong>, so findings appear in the GitHub Security tab and
+inline on pull requests.</p>
+</main>
+<footer><div class="in">
+  <span class="mark-sm">LUCIN</span>
+  <span>Every claim reproducible from a committed command.</span>
+  <span style="display:flex;gap:14px;margin-left:auto">
+    <a href="/benchmarks/">Methodology</a>
+    <a href="/limits/">What it misses</a>
+    <a href="/docs/threat-model/">Threat model</a>
+  </span>
+</div></footer>
+</body>
+</html>

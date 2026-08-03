@@ -1,0 +1,7 @@
+{
+  "name": "Safe Research Assistant",
+  "model": "gpt-4o",
+  "tools": [
+    {"type": "file_search"}
+  ]
+}

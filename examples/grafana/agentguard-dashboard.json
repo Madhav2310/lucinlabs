@@ -1,0 +1,131 @@
+{
+  "dashboard": {
+    "title": "AgentGuard - Agent Security Monitoring",
+    "description": "Real-time security monitoring for AI agents. Shows anomaly scores, alerts, and security posture.",
+    "tags": ["agentguard", "ai-security", "agents"],
+    "timezone": "browser",
+    "refresh": "5s",
+    "panels": [
+      {
+        "title": "Security Score (Overall)",
+        "type": "gauge",
+        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0},
+        "targets": [
+          {"expr": "agentguard_security_score", "legendFormat": "Score"}
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "steps": [
+                {"value": 0, "color": "red"},
+                {"value": 25, "color": "orange"},
+                {"value": 50, "color": "yellow"},
+                {"value": 70, "color": "light-green"},
+                {"value": 90, "color": "green"}
+              ]
+            },
+            "max": 100, "min": 0
+          }
+        }
+      },
+      {
+        "title": "Active Agents",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 3, "x": 6, "y": 0},
+        "targets": [
+          {"expr": "agentguard_agents_monitored", "legendFormat": "Agents"}
+        ]
+      },
+      {
+        "title": "Alerts (Last Hour)",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 3, "x": 9, "y": 0},
+        "targets": [
+          {"expr": "increase(agentguard_alerts_total[1h])", "legendFormat": "Alerts"}
+        ],
+        "fieldConfig": {"defaults": {"color": {"mode": "thresholds"}, "thresholds": {"steps": [{"value": 0, "color": "green"}, {"value": 1, "color": "red"}]}}}
+      },
+      {
+        "title": "Findings by Severity",
+        "type": "piechart",
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0},
+        "targets": [
+          {"expr": "agentguard_findings_by_severity", "legendFormat": "{{severity}}"}
+        ]
+      },
+      {
+        "title": "Anomaly Scores Over Time",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {"expr": "agentguard_anomaly_score", "legendFormat": "{{agent_id}}"}
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "steps": [
+                {"value": 0, "color": "green"},
+                {"value": 30, "color": "yellow"},
+                {"value": 60, "color": "orange"},
+                {"value": 85, "color": "red"}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "title": "Actions Per Minute (by Agent)",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {"expr": "rate(agentguard_actions_total[1m])*60", "legendFormat": "{{agent_id}}"}
+        ]
+      },
+      {
+        "title": "Top Findings",
+        "type": "table",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16},
+        "targets": [
+          {"expr": "agentguard_finding_info", "format": "table"}
+        ],
+        "transformations": [
+          {"id": "organize", "options": {"excludeByName": {}, "renameByName": {"severity": "Severity", "rule_id": "Rule", "title": "Finding", "agent": "Agent"}}}
+        ]
+      },
+      {
+        "title": "Drift Events",
+        "type": "logs",
+        "gridPos": {"h": 6, "w": 12, "x": 0, "y": 24},
+        "targets": [
+          {"expr": "{job=\"agentguard\"} |= \"drift\""}
+        ]
+      },
+      {
+        "title": "Red Team Results (Last Run)",
+        "type": "stat",
+        "gridPos": {"h": 6, "w": 12, "x": 12, "y": 24},
+        "targets": [
+          {"expr": "agentguard_redteam_resilience_score", "legendFormat": "Resilience %"}
+        ],
+        "fieldConfig": {"defaults": {"unit": "percent", "thresholds": {"steps": [{"value": 0, "color": "red"}, {"value": 50, "color": "yellow"}, {"value": 80, "color": "green"}]}}}
+      }
+    ],
+    "annotations": {
+      "list": [
+        {
+          "name": "Alerts",
+          "datasource": "prometheus",
+          "expr": "agentguard_alert_fired",
+          "iconColor": "red",
+          "titleFormat": "Alert: {{agent_id}}"
+        }
+      ]
+    }
+  },
+  "__metadata": {
+    "tool": "AgentGuard",
+    "version": "0.1.0",
+    "description": "Import this dashboard into Grafana. Requires Prometheus datasource with AgentGuard metrics.",
+    "instructions": "1. Start AgentGuard API: agentguard serve\n2. Configure Prometheus to scrape :8080/metrics\n3. Import this JSON into Grafana\n4. Panels auto-populate as agents are monitored"
+  }
+}

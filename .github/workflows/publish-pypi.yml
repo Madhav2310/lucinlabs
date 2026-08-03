@@ -1,0 +1,55 @@
+# Publishes to PyPI on every GitHub Release, using PyPI's Trusted Publishing
+# (OIDC) — no API token stored anywhere, on GitHub or in this repo. This is
+# the current recommended approach (twine itself warns "not supported for
+# trusted publishing" when run locally, which is what pushed this here).
+#
+# One-time setup (PyPI dashboard, not automatable from here):
+#   pypi.org → lucin project → Manage → Publishing → Add a new publisher:
+#     Owner:              Madhav2310
+#     Repository name:    lucinlabs
+#     Workflow filename:  publish-pypi.yml
+#     Environment name:   pypi   (recommended, matches the job below)
+#
+# After that: bump the version in pyproject.toml + src/lucin/__init__.py,
+# push, then create a GitHub Release (which publishes a matching git tag) —
+# the wheel builds and uploads automatically, no local twine step needed.
+
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write  # required for PyPI Trusted Publishing
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build
+        run: |
+          pip install build twine
+          python -m build --wheel
+          python -m twine check dist/*.whl
+
+      - name: Block release if the artifact contains internal references
+        run: |
+          cd /tmp && rm -rf relcheck && mkdir relcheck && cd relcheck
+          unzip -qo "$GITHUB_WORKSPACE"/dist/*.whl -d unpacked
+          if grep -rniE '\bvisa\b|_VISA_CA|madhmitt|personalmusings|Desktop/Python-certs' unpacked \
+               | grep -viE 'Mastercard|Amex|ending 4242'; then
+            echo "::error::Artifact contains internal references — release blocked."
+            exit 1
+          fi
+          echo "Artifact is clean."
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

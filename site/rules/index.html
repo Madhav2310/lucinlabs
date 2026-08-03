@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detection rules — Lucin</title>
+<meta name="description" content="Every Lucin detection rule: what it catches in an AI agent, why it matters, and how to fix it. 37 documented rules with severity and OWASP Agentic mapping.">
+<link rel="canonical" href="https://lucin.pages.dev/rules/">
+<link rel="stylesheet" href="/fonts.css">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Lucin">
+<meta property="og:url" content="https://lucin.pages.dev/rules/">
+<meta property="og:title" content="Detection rules — Lucin">
+<meta property="og:description" content="Every Lucin detection rule: what it catches in an AI agent, why it matters, and how to fix it. 37 documented rules with severity and OWASP Agentic mapping.">
+<meta property="og:image" content="https://lucin.pages.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lucin detection rule Rules">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Detection rules — Lucin">
+<meta name="twitter:description" content="Every Lucin detection rule: what it catches in an AI agent, why it matters, and how to fix it. 37 documented rules with severity and OWASP Agentic mapping.">
+<meta name="twitter:image" content="https://lucin.pages.dev/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"Article","headline":"Detection rules — Lucin","description":"Every Lucin detection rule: what it catches in an AI agent, why it matters, and how to fix it. 37 documented rules with severity and OWASP Agentic mapping.","url":"https://lucin.pages.dev/rules/",
+   "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
+   "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/",
+     "sameAs":["https://github.com/Madhav2310/lucinlabs","https://pypi.org/project/lucin/"]}},
+ {"@type":"BreadcrumbList","itemListElement":[
+   {"@type":"ListItem","position":1,"name":"Home","item":"https://lucin.pages.dev/"},
+   {"@type":"ListItem","position":2,"name":"Rules","item":"https://lucin.pages.dev/rules/"},
+   {"@type":"ListItem","position":3,"name":"Rules","item":"https://lucin.pages.dev/rules/"}]}
+]}
+</script>
+<style>
+:root{
+  --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#6C7076;
+  --line:#D7D9DC; --line-strong:#141414;
+  --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
+  --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ff-heading:'Space Grotesk',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --radius:4px; --radius-chip:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--canvas)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+  background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
+  gap:26px;height:58px;font-size:14px}
+.nav-in .mark{display:inline-flex;align-items:center;gap:9px;font-family:var(--ff-heading);
+  font-weight:700;font-size:16px;letter-spacing:-.01em}
+.nav-in a{color:var(--ink-soft);text-decoration:none;font-weight:500}
+.nav-in a:hover{color:var(--sev-crit)}
+.nav-in .right{margin-left:auto;display:flex;gap:16px;align-items:center}
+.install{font-family:var(--mono);font-size:13px;background:var(--sunken);
+  border:1px solid var(--sunken);border-radius:var(--radius);padding:7px 12px;
+  color:#C7CAD1}
+main{max-width:760px;margin:0 auto;padding:56px 24px 96px}
+h1{font-family:var(--ff-heading);font-size:clamp(30px,4.5vw,42px);line-height:1.12;
+  letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+h2{font-family:var(--ff-heading);font-size:24px;line-height:1.25;letter-spacing:-.02em;
+  font-weight:700;margin:44px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-family:var(--ff-heading);font-size:18px;font-weight:600;margin:28px 0 10px}
+p,ul,ol,blockquote,table{margin:0 0 16px}
+ul,ol{padding-left:22px}
+li{margin:5px 0}
+strong{color:var(--ink);font-weight:600}
+p,li{color:var(--ink-soft)}
+a[href]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);
+  text-underline-offset:3px}
+a[href]:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+blockquote{border-left:3px solid var(--sev-crit);padding:2px 0 2px 16px;
+  color:var(--ink-muted)}
+/* code: inline is a light chip with a border; blocks are the one deliberate dark
+   inversion (matches the report/hero convention) — pre code resets the chip so
+   nested code is not double-boxed. */
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em;
+  font-variant-ligatures:none}
+pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--sunken);
+  color:#C7CAD1;border-radius:var(--radius);padding:14px 16px;
+  margin:0 0 18px;overflow:auto;-webkit-font-smoothing:auto}
+pre code{background:0 0;border:0;padding:0;font-size:1em;color:inherit}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface);color:var(--ink);font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 24px 56px;
+  color:var(--ink-muted);font-size:13px}
+footer .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+footer .mark-sm{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
+footer a{text-decoration:none;color:var(--ink-muted)}
+footer a:hover{color:var(--sev-crit)}
+
+@media(max-width:640px){
+  .nav-in .links,.install{display:none}
+  main{padding-top:36px}
+  .mobile-nav{display:block;position:relative}
+  .mobile-nav summary{list-style:none;cursor:pointer;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav-panel{position:absolute;right:0;top:40px;background:var(--canvas);border:1px solid var(--line);padding:8px 0;min-width:180px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.08);border-radius:4px}
+  .mobile-nav-panel a{display:block;padding:10px 16px;font-size:14px;color:var(--ink);text-decoration:none;font-weight:500}
+  .mobile-nav-panel a:hover{background:var(--surface);color:var(--sev-crit)}
+}
+@media(min-width:641px){
+  .mobile-nav{display:none}
+}
+
+/* ---- docs/benchmarks/limits/rules/changelog "tab family" header ----
+   Each is its own real page/route (not a client-side view switch) — the tabs
+   are plain links, and the current page's tab gets the active fill. */
+.back-home{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-home:hover{color:var(--sev-crit)}
+.eyebrow2{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);
+  font-weight:600;margin-top:30px}
+h1.page-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(34px,3.8vw,46px);
+  letter-spacing:-.025em;line-height:1.06;margin:16px 0 0}
+p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color:var(--ink-soft)}
+.tab-row{display:flex;gap:0;margin-top:34px;border:1.5px solid var(--ink);border-radius:2px;
+  width:fit-content;overflow:hidden}
+.tab-pill{padding:10px 18px;font-family:var(--mono);font-size:12.5px;text-decoration:none;
+  color:var(--ink);border-right:1px solid var(--ink);transition:background .18s,color .18s}
+.tab-pill:last-child{border-right:0}
+.tab-pill:hover{background:var(--surface);color:var(--ink)}
+.tab-pill.active{background:var(--ink);color:var(--canvas)}
+.tab-pill.active:hover{background:var(--ink);color:var(--canvas)}
+</style>
+<style>
+.rule-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 22px}
+.chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;
+  border:1px solid var(--line-strong);border-radius:var(--radius-chip);padding:3px 8px;
+  color:var(--ink-soft)}
+.chip.crit{border-color:var(--sev-crit);color:var(--sev-crit)}
+.chip.high{border-color:var(--sev-high);color:var(--sev-high)}
+.chip.med{border-color:var(--sev-med);color:var(--sev-med)}
+.rule-grid{display:grid;grid-template-columns:1fr;gap:0;margin-top:24px;border-top:2px solid var(--ink)}
+.rule-grid a{display:flex;gap:12px;align-items:baseline;padding:13px 2px;
+  border-bottom:1px solid var(--line);text-decoration:none}
+.rule-grid a:hover{background:var(--surface)}
+.rule-grid .id{font-family:var(--mono);font-size:12.5px;color:var(--ink-muted);min-width:132px}
+.rule-grid .t{color:var(--ink);font-weight:500}
+.rule-grid .s{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-muted)}
+</style>
+</head><body>
+<nav><div class="nav-in">
+  <a class="mark" href="/" aria-label="Lucin home"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>LUCIN</a>
+  <span class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></span>
+  <span class="right">
+    <span class="install">$ pip install lucin</span>
+    <details class="mobile-nav" style="margin-left:12px">
+      <summary aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M3 6h14M3 10h14M3 14h14"/>
+        </svg>
+      </summary>
+      <nav class="mobile-nav-panel">
+        <a href="/blog/">Blog</a><a href="/docs/">Docs</a>
+      </nav>
+    </details>
+  </span>
+</div></nav>
+<main><a class="back-home" href="/">← Home</a>
+<div class="eyebrow2">RULES</div>
+<h1 class="page-h1">Detection rules</h1>
+<p class="page-dek">Every Lucin detection rule: what it catches in an AI agent, why it matters, and how to fix it. 37 documented rules with severity and OWASP Agentic mapping.</p>
+<div class="tab-row"><a href="/docs/" class="tab-pill">docs</a><a href="/benchmarks/" class="tab-pill">benchmarks</a><a href="/limits/" class="tab-pill">limits</a><span class="tab-pill active">rules</span><a href="/changelog/" class="tab-pill">changelog</a></div>
+<p style="margin-top:40px">Each rule below has a stable ID that appears in every output format, so a finding
+in CI is the same object as a finding in your terminal. Severity is bounded by
+evidence: a finding with no witness and no source line is capped below HIGH, because
+a reader cannot verify it.</p>
+<div class="rule-grid"><a href="/rules/AG-001/"><span class="id">AG-001</span><span class="t">Unrestricted Shell/Code Execution</span><span class="s">CRITICAL</span></a><a href="/rules/AG-002/"><span class="id">AG-002</span><span class="t">Data Exfiltration Path</span><span class="s">HIGH</span></a><a href="/rules/AG-003/"><span class="id">AG-003</span><span class="t">Unauthenticated MCP Server</span><span class="s">HIGH</span></a><a href="/rules/AG-005a/"><span class="id">AG-005a</span><span class="t">Database Access + Code Execution</span><span class="s">HIGH</span></a><a href="/rules/AG-005b/"><span class="id">AG-005b</span><span class="t">Code Execution + Network Access</span><span class="s">HIGH</span></a><a href="/rules/AG-006/"><span class="id">AG-006</span><span class="t">No Human Approval for Destructive Actions</span><span class="s">HIGH</span></a><a href="/rules/AG-007/"><span class="id">AG-007</span><span class="t">Hardcoded Secret / Credential</span><span class="s">HIGH</span></a><a href="/rules/AG-009/"><span class="id">AG-009</span><span class="t">Unlimited Sub-Agent Spawning</span><span class="s">HIGH</span></a><a href="/rules/AG-010/"><span class="id">AG-010</span><span class="t">No Rate Limiting on High-Risk Tools</span><span class="s">MEDIUM</span></a><a href="/rules/AG-011/"><span class="id">AG-011</span><span class="t">Tool Description Injection / Poisoning</span><span class="s">HIGH</span></a><a href="/rules/AG-012/"><span class="id">AG-012</span><span class="t">Unencrypted MCP Transport</span><span class="s">MEDIUM</span></a><a href="/rules/AG-013/"><span class="id">AG-013</span><span class="t">Memory/RAG Poisoning Risk</span><span class="s">HIGH</span></a><a href="/rules/AG-014/"><span class="id">AG-014</span><span class="t">Delegation Without Oversight</span><span class="s">HIGH</span></a><a href="/rules/AG-015/"><span class="id">AG-015</span><span class="t">Supply Chain Risk</span><span class="s">HIGH</span></a><a href="/rules/AG-016/"><span class="id">AG-016</span><span class="t">Coding Agent: Unrestricted File System Scope</span><span class="s">HIGH</span></a><a href="/rules/AG-017/"><span class="id">AG-017</span><span class="t">Browser Agent: Credential Store Access</span><span class="s">HIGH</span></a><a href="/rules/AG-019/"><span class="id">AG-019</span><span class="t">Context Overflow: Multiple Unbounded Data Tools</span><span class="s">MEDIUM</span></a><a href="/rules/AG-021/"><span class="id">AG-021</span><span class="t">Zero-Width Characters Detected (Invisible Content)</span><span class="s">HIGH</span></a><a href="/rules/AG-023/"><span class="id">AG-023</span><span class="t">Self-Modification: File Write Access to Own Source</span><span class="s">HIGH</span></a><a href="/rules/AG-024/"><span class="id">AG-024</span><span class="t">High Cross-Origin Risk: Many MCP Servers Connected</span><span class="s">MEDIUM</span></a><a href="/rules/AG-025/"><span class="id">AG-025</span><span class="t">Tool Shadowing</span><span class="s">MEDIUM</span></a><a href="/rules/AG-026/"><span class="id">AG-026</span><span class="t">Ambient Authority</span><span class="s">CRITICAL</span></a><a href="/rules/AG-027/"><span class="id">AG-027</span><span class="t">Prompt Leakage Risk</span><span class="s">HIGH</span></a><a href="/rules/AG-028/"><span class="id">AG-028</span><span class="t">Execution Without Telemetry/Monitoring</span><span class="s">HIGH</span></a><a href="/rules/AG-COMP/"><span class="id">AG-COMP</span><span class="t">Compositional Risk</span><span class="s">HIGH</span></a><a href="/rules/AG-CORS/"><span class="id">AG-CORS</span><span class="t">Agent HTTP Server: Wildcard CORS Origin</span><span class="s">HIGH</span></a><a href="/rules/AG-DESERIALIZE/"><span class="id">AG-DESERIALIZE</span><span class="t">Insecure Deserialization</span><span class="s">CRITICAL</span></a><a href="/rules/AG-DOCKER-EXEC/"><span class="id">AG-DOCKER-EXEC</span><span class="t">Container Escape Vector: docker run</span><span class="s">CRITICAL</span></a><a href="/rules/AG-ENV-FALLBACK/"><span class="id">AG-ENV-FALLBACK</span><span class="t">Hardcoded Secret as os.getenv() Fallback</span><span class="s">MEDIUM</span></a><a href="/rules/AG-FRAMEWORK-PIN/"><span class="id">AG-FRAMEWORK-PIN</span><span class="t">Unpinned Agent Framework Dependency</span><span class="s">MEDIUM</span></a><a href="/rules/AG-MCP-TOKENLEAK/"><span class="id">AG-MCP-TOKENLEAK</span><span class="t">LLM API Key Passed to MCP Server</span><span class="s">HIGH</span></a><a href="/rules/AG-NOAUTH/"><span class="id">AG-NOAUTH</span><span class="t">Agent HTTP Server: No Authentication Configured</span><span class="s">HIGH</span></a><a href="/rules/AG-PATH-TRAVERSAL/"><span class="id">AG-PATH-TRAVERSAL</span><span class="t">Path Traversal</span><span class="s">HIGH</span></a><a href="/rules/AG-RAG-NO-SANITIZE/"><span class="id">AG-RAG-NO-SANITIZE</span><span class="t">RAG Injection: Unsanitized Vector Store Content</span><span class="s">HIGH</span></a><a href="/rules/AG-SQL/"><span class="id">AG-SQL</span><span class="t">SQL Injection via Tool Parameter</span><span class="s">CRITICAL</span></a><a href="/rules/AG-SSRF/"><span class="id">AG-SSRF</span><span class="t">Server-Side Request Forgery</span><span class="s">HIGH</span></a><a href="/rules/AG-TRIFECTA/"><span class="id">AG-TRIFECTA</span><span class="t">Information-Flow Exfiltration Path (Lethal Trifecta)</span><span class="s">CRITICAL</span></a></div>
+<h2>Coverage, honestly</h2>
+<p>37 rules are documented here. The scanner ships more detectors than that;
+rules without written guidance are deliberately <em>not</em> given placeholder pages,
+because a page that restates its own title helps nobody. What the rule set as a whole
+does and does not catch is measured on <a href="/benchmarks/">benchmarks</a> and
+<a href="/limits/">limits</a>.</p>
+<pre><code>pip install lucin
+lucin scan .</code></pre></main>
+<footer><div class="in">
+  <span class="mark-sm">LUCIN</span>
+  <span>Every claim reproducible from a committed command.</span>
+  <span style="display:flex;gap:14px;margin-left:auto">
+    <a href="/benchmarks/">Methodology</a>
+    <a href="/limits/">What it misses</a>
+    <a href="/docs/threat-model/">Threat model</a>
+  </span>
+</div></footer>
+</body>
+</html>

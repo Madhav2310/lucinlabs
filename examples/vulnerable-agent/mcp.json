@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/deploy/"],
+      "tools": [
+        {"name": "read_file", "description": "Read any file from the filesystem"},
+        {"name": "write_file", "description": "Write content to any file"},
+        {"name": "list_directory", "description": "List files in a directory"}
+      ]
+    },
+    "database": {
+      "url": "http://localhost:5432/mcp",
+      "tools": [
+        {"name": "sql_query", "description": "Execute SQL queries against production database"},
+        {"name": "list_tables", "description": "List all database tables"}
+      ]
+    },
+    "web-fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "tools": [
+        {"name": "fetch", "description": "Fetch content from any URL via HTTP"}
+      ]
+    }
+  }
+}
