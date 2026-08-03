@@ -220,7 +220,7 @@ pre.term-body{margin:0;padding:26px 28px 30px;font-family:var(--mono);font-size:
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);
   border-bottom:2px solid var(--ink);margin-top:30px}
 .stat-cell{display:flex;flex-direction:column;justify-content:space-between;min-height:206px;
-  padding:26px;border-right:1px solid var(--line)}
+  padding:26px;border-right:1px solid var(--line);min-width:0}
 .stat-cell:first-child{padding-left:0}
 .stat-cell:last-child{border-right:0;padding-right:0}
 .stat-num{font-family:var(--ff-heading);font-size:52px;font-weight:700;letter-spacing:-.03em;
@@ -228,7 +228,7 @@ pre.term-body{margin:0;padding:26px 28px 30px;font-family:var(--mono);font-size:
 .stat-label{font-size:14px;font-weight:600;margin-top:10px;line-height:1.4}
 .stat-sub{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
 .stat-caption{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
-.stat-cmd{font-family:var(--mono);font-size:12px;color:#5F6369;margin-top:18px;white-space:nowrap}
+.stat-cmd{font-family:var(--mono);font-size:12px;color:#5F6369;margin-top:18px;overflow-wrap:break-word}
 .proof-note{margin-top:20px;font-size:13.5px;color:var(--muted);max-width:76ch}
 .proof-note a{font-weight:600}
 
@@ -284,11 +284,21 @@ footer.site-footer a{text-decoration:none;color:var(--muted);display:inline-flex
 footer.site-footer a:hover{color:var(--red)}
 
 .mobile-nav{display:none}
+/* D-1: the stat grid used to jump straight from 4 columns to 1 at 900px,
+   which meant 4 numbers took ~839px of vertical scroll on any device in the
+   900-720px band (iPad landscape, most 11-13" laptops in a split window). A
+   2-column step holds the comparison the section is making instead of
+   forcing a slow single-file scroll through four numerals. */
+@media(max-width:1000px){
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .stat-cell:nth-child(2n){border-right:0}
+  .stat-cell:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
 @media(max-width:900px){
   header.hero{grid-template-columns:1fr;padding-top:56px}
   .hero-grid-bg{display:none}
-  .how-grid,.stat-grid,.fn-grid,.report-grid{grid-template-columns:1fr}
-  .how-col,.stat-cell{border-right:0;border-bottom:1px solid var(--line);padding-left:0;padding-right:0}
+  .how-grid,.fn-grid,.report-grid{grid-template-columns:1fr}
+  .how-col{border-right:0;border-bottom:1px solid var(--line);padding-left:0;padding-right:0}
   .why-now{grid-template-columns:1fr}
   nav{padding:0 20px}
   .nav-links{display:none}
@@ -308,6 +318,10 @@ footer.site-footer a:hover{color:var(--red)}
 @media(max-width:480px){
   .install-pill{width:100%;justify-content:space-between}
   .copy-btn{flex:0 0 auto}
+  .stat-grid{grid-template-columns:1fr}
+  .stat-cell{border-right:0;border-bottom:1px solid var(--line);min-height:0;padding-left:0;padding-right:0}
+  .stat-cell:last-child{border-bottom:0}
+  .stat-cell .stat-cmd{margin-top:12px}
 }
 </style>
 </head>
@@ -321,11 +335,12 @@ footer.site-footer a:hover{color:var(--red)}
     LUCIN
   </a>
   <div class="nav-links">
-    <a href="#how" data-jump="how">How it works</a>
-    <a href="#output" data-jump="output">Output</a>
-    <a href="#proof" data-jump="proof">Benchmarks</a>
-    <a href="/blog/">Blog</a>
     <a href="/docs/">Docs</a>
+    <a href="/rules/">Rules</a>
+    <a href="#proof" data-jump="proof">Benchmarks</a>
+    <a href="/limits/">Limits</a>
+    <a href="/compare/">Compare</a>
+    <a href="/blog/">Blog</a>
     <a class="nav-gh" href="https://github.com/Madhav2310/lucinlabs"
        target="_blank" rel="noopener">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
@@ -344,11 +359,12 @@ footer.site-footer a:hover{color:var(--red)}
       </svg>
     </summary>
     <nav class="mobile-nav-panel">
-      <a href="#how" data-jump="how">How it works</a>
-      <a href="#output" data-jump="output">Output</a>
-      <a href="#proof" data-jump="proof">Benchmarks</a>
-      <a href="/blog/">Blog</a>
       <a href="/docs/">Docs</a>
+      <a href="/rules/">Rules</a>
+      <a href="#proof" data-jump="proof">Benchmarks</a>
+      <a href="/limits/">Limits</a>
+      <a href="/compare/">Compare</a>
+      <a href="/blog/">Blog</a>
       <a href="https://github.com/Madhav2310/lucinlabs" target="_blank" rel="noopener">GitHub</a>
       <a class="mobile-cta" href="/docs/">Scan your agent</a>
     </nav>
