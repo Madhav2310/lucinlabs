@@ -1,9 +1,12 @@
 """Terminal output formatting — the screenshot moment."""
 
 import os
+import textwrap
+from pathlib import PurePath
 
 from rich.console import Console
 from rich.panel import Panel
+from rich.table import Table
 from rich.text import Text
 
 from lucin.models import Finding, ScanResult, Severity
@@ -103,8 +106,9 @@ def print_findings(console: Console, result: ScanResult, ci: bool = False):
         ))
         return
 
-    # Summary bar
-    _print_summary(console, result)
+    # Triage table — every finding, one line each, so the shape of the
+    # problem is visible before scrolling into the full panels below.
+    _print_triage_table(console, result)
     console.print()
 
     # Individual findings
@@ -119,28 +123,46 @@ def print_findings(console: Console, result: ScanResult, ci: bool = False):
     console.print()
 
 
-def _print_summary(console: Console, result: ScanResult):
-    """Print the findings summary box."""
-    parts = []
-    _BAR_MAX = 24  # characters at the largest count
-    _counts = {
-        "CRITICAL": (result.critical_count, "bold red"),
-        "HIGH":     (result.high_count,     "bold yellow"),
-        "MEDIUM":   (result.medium_count,   "yellow"),
-        "LOW":      (result.low_count,      "dim"),
-    }
-    _peak = max((n for n, _ in _counts.values()), default=0) or 1
-    for _label, (_n, _style) in _counts.items():
-        if not _n:
-            continue
-        _width = max(1, round(_n / _peak * _BAR_MAX))
-        parts.append(f"[{_style}]{_label:<9} {'█' * _width}  {_n}[/{_style}]")
+def _print_triage_table(console: Console, result: ScanResult):
+    """Print every finding as one table row, sorted by severity, so the shape
+    of the problem — how many, which severity, which tool, where — is visible
+    in one screen before the full panels below. Every finding still gets its
+    full panel; this table adds a triage view in front of it, it does not
+    replace or gate anything."""
+    counts_line = " · ".join(
+        f"[{style}]{n} {label.lower()}[/{style}]"
+        for label, n, style in (
+            ("CRITICAL", result.critical_count, "bold red"),
+            ("HIGH", result.high_count, "bold yellow"),
+            ("MEDIUM", result.medium_count, "yellow"),
+            ("LOW", result.low_count, "dim"),
+        )
+        if n
+    )
 
-    console.print(Panel(
-        "\n".join(parts),
-        title="RISK SUMMARY",
-        border_style="bright_red" if result.critical_count else "yellow",
-    ))
+    table = Table(title=f"RISK SUMMARY  ·  {counts_line}", title_justify="left",
+                  box=None, pad_edge=False, show_edge=False, expand=True)
+    table.add_column("SEV")
+    table.add_column("RULE")
+    table.add_column("TOOL")
+    table.add_column("LOCATION")
+
+    for finding in sorted(result.findings, key=lambda f: list(Severity).index(f.severity)):
+        style, _ = SEVERITY_STYLES[finding.severity]
+        # Basename only: the target's directory prefix is already in the
+        # "Target:" line above and repeating it on every row is what forced
+        # truncation of the one column that identifies where to look.
+        loc = PurePath(finding.source_file).name if finding.source_file else "—"
+        if finding.source_line:
+            loc += f":{finding.source_line}"
+        table.add_row(
+            f"[{style}]{finding.severity.value.upper()}[/{style}]",
+            finding.id,
+            finding.tool_name or "—",
+            loc,
+        )
+
+    console.print(Panel(table, border_style="bright_red" if result.critical_count else "yellow"))
 
 
 def _print_finding(console: Console, finding: Finding):
@@ -168,8 +190,15 @@ def _print_finding(console: Console, finding: Finding):
     if finding.witness:
         lines.append("")
         lines.append("[cyan]Proof:[/cyan]")
+        # Wrap each witness line ourselves, with every physical line — first
+        # and continuation alike — carrying the same 2-space indent. Left to
+        # Rich's own paragraph wrapping, a long witness resets to the panel's
+        # left edge on wrap, so "confirmed by body inspection" reads as a
+        # new, unrelated fact instead of a continuation of the line above it.
+        content_width = max(20, console.width - 6)  # panel border + padding
         for w in finding.witness:
-            lines.append(f"  [dim]{w}[/dim]")
+            for wrapped_line in textwrap.wrap(w, width=content_width - 2) or [""]:
+                lines.append(f"  [dim]{wrapped_line}[/dim]")
 
     if finding.fix_suggestion:
         lines.append("")

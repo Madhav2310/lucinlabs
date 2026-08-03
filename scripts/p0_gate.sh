@@ -39,7 +39,7 @@ chk "P0-3 action at root"      '[ -f action.yml ]'
 skip_unless "P0-3 v1 tag exists" 'git tag -l | grep -qx v1' "tag cut in final release pass"
 chk "P0-3 README snippet"      '! grep -q "lucin/lucin@v1" README.md'
 chk "P0-8 github in nav"       'grep -q "class=\"nav-gh\"" site/index.html'
-chk "P0-9 bars proportional"   './venv/bin/lucin scan examples/vulnerable-agent/ --no-telemetry 2>&1 | grep -A3 "RISK SUMMARY" | grep -q "MEDIUM.*████████████████████████"'
+chk "P0-9 risk summary exact"  './venv/bin/lucin scan examples/vulnerable-agent/ --no-telemetry 2>&1 | grep -q "4 critical .*4 high .*25 medium"'
 chk "P0-10 no telemetry lie (src)" '! grep -rq "no telemetry" site/build.py site/llms.txt docs/ README.md'
 chk "P0-10 default disclosed"  'grep -q "on by default" docs/quickstart.md && grep -q "on by default" README.md'
 chk "P0-10 all cmds opt out"   'for c in scan info explain fix badge discover redteam monitor serve; do ./venv/bin/lucin $c --help 2>&1 | grep -q -- "--no-telemetry" || exit 1; done'
