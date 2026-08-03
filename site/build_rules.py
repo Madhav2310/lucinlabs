@@ -154,6 +154,7 @@ def _head(title: str, desc: str, url: str, rid: str) -> str:
 .rule-grid .t{{color:var(--ink);font-weight:500}}
 .rule-grid .s{{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-muted)}}
 </style>
+<script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>"""
 
 

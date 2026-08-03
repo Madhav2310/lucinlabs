@@ -36,7 +36,7 @@
 <style>
 :root{
   --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
-  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#6C7076;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#484C51;
   --line:#D7D9DC; --line-strong:#141414;
   --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
   --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -50,6 +50,7 @@ body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
 a{color:inherit}
 ::selection{background:var(--ink);color:var(--canvas)}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+.post-cta :focus-visible, .sunken :focus-visible, .dark-card :focus-visible, .install-pill :focus-visible { outline-color: var(--canvas) !important; }
 nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
   background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
 .nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
@@ -148,12 +149,13 @@ p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color
 .rule-grid .t{color:var(--ink);font-weight:500}
 .rule-grid .s{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-muted)}
 </style>
+<script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head><body>
 <nav><div class="nav-in">
   <a class="mark" href="/" aria-label="Lucin home"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>LUCIN</a>
-  <span class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></span>
-  <span class="right">
-    <span class="install">$ pip install lucin</span>
+  <div class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></div>
+  <div class="right">
+    <button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){t.innerText='$ pip install lucin'},1600)" aria-label="Copy install command" style="cursor:pointer">$ pip install lucin</button>
     <details class="mobile-nav" style="margin-left:12px">
       <summary aria-label="Menu">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -164,7 +166,7 @@ p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color
         <a href="/blog/">Blog</a><a href="/docs/">Docs</a>
       </nav>
     </details>
-  </span>
+  </div>
 </div></nav>
 <main><h1>AG-006: No Human Approval for Destructive Actions</h1>
 <div class="rule-meta">
