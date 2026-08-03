@@ -207,7 +207,7 @@ p.post-sources em{font-style:normal}
 </style>"""
 
 
-def _head(title: str, desc: str, url: str, date_published: str = "", date_modified: str = "") -> str:
+def _head(title: str, desc: str, url: str, date_published: str = "", date_modified: str = "", css: str = "") -> str:
     t, d = _html.escape(title), _html.escape(desc)
     dates_ld = ""
     if date_published:
@@ -221,6 +221,7 @@ def _head(title: str, desc: str, url: str, date_published: str = "", date_modifi
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{t} — Lucin</title>
 <meta name="description" content="{d}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3.5' cy='10' r='2.6' fill='%23141414'/%3E%3Cline x1='6.1' y1='10' x2='13.9' y2='10' stroke='%23141414' stroke-width='1.6'/%3E%3Ccircle cx='16.5' cy='10' r='2.6' fill='%23D6321F'/%3E%3C/svg%3E">
 <link rel="canonical" href="{url}">
 <link rel="stylesheet" href="/fonts.css">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -245,6 +246,7 @@ def _head(title: str, desc: str, url: str, date_published: str = "", date_modifi
 </script>
 {_CSS}
 {_POST_CSS}
+{css}
 </head>"""
 
 
@@ -253,15 +255,15 @@ def _nav() -> str:
     return f"""<body>
 <nav><div class="nav-in">
   <a class="mark" href="/" aria-label="Lucin home">{_LOGO_SVG}LUCIN</a>
-  <span class="links" style="display:flex;gap:22px">{links}</span>
-  <span class="right"><span class="install">$ pip install lucin</span></span>
+  <div class="links" style="display:flex;gap:22px">{links}</div>
+  <div class="right"><button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){{t.innerText='$ pip install lucin'}},1600)" aria-label="Copy install command" style="cursor:pointer">$ pip install lucin</button></div>
 </div></nav>"""
 
 
 def _cta_card() -> str:
     return """<div class="post-cta">
   <div><div class="t">Check your own agent for this shape.</div><div class="s">Free, MIT, 30 seconds.</div></div>
-  <div class="pill"><span><span class="prompt">$</span> pip install lucin</span></div>
+  <div class="pill"><button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){t.innerText='$ pip install lucin'},1600)" aria-label="Copy install command" style="cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;font-size:inherit;padding:0">$ pip install lucin</button></div>
 </div>"""
 
 
@@ -308,8 +310,7 @@ def build_index() -> Path:
   </div>
 </a>"""
     page = (
-        _head("Field notes on agent security", "Teardowns of real incidents, the graph theory behind the detectors, and the benchmark numbers with the commands that produce them.", url)
-        + """<style>
+        _head("Field notes on agent security", "Teardowns of real incidents, the graph theory behind the detectors, and the benchmark numbers with the commands that produce them.", url, css="""<style>
 .blog-hero{max-width:1000px;margin:0 auto;padding:56px 24px 0}
 .blog-hero h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(36px,4vw,52px);
   letter-spacing:-.025em;line-height:1.05;margin:18px 0 0}
@@ -324,7 +325,7 @@ def build_index() -> Path:
 .blog-row-dek{margin-top:12px;font-size:15px;line-height:1.6;color:var(--ink-soft);max-width:64ch}
 .blog-row-cta{margin-top:14px;font-size:13.5px;font-weight:600;color:var(--sev-crit)}
 .blog-foot-note{max-width:1000px;margin:28px auto 0;padding:0 24px;font-size:13.5px;color:var(--ink-muted)}
-</style>"""
+</style>""")
         + _nav()
         + f"""<div class="blog-hero">
   <div class="eyebrow" style="font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);font-weight:600">THE LUCIN BLOG</div>

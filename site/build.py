@@ -83,7 +83,7 @@ _LOGO_SVG = ('<svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"
              '<circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>')
 
 
-def _head(title: str, desc: str, url: str, schema: str) -> str:
+def _head(title: str, desc: str, url: str, schema: str, og_type: str = "website", css: str = "") -> str:
     """The single source of SEO truth for every generated page."""
     t, d = _html.escape(title), _html.escape(desc)
     return f"""<!DOCTYPE html>
@@ -93,10 +93,11 @@ def _head(title: str, desc: str, url: str, schema: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{t}</title>
 <meta name="description" content="{d}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3.5' cy='10' r='2.6' fill='%23141414'/%3E%3Cline x1='6.1' y1='10' x2='13.9' y2='10' stroke='%23141414' stroke-width='1.6'/%3E%3Ccircle cx='16.5' cy='10' r='2.6' fill='%23D6321F'/%3E%3C/svg%3E">
 <link rel="canonical" href="{url}">
 <link rel="stylesheet" href="/fonts.css">
 <meta name="robots" content="index,follow,max-image-preview:large">
-<meta property="og:type" content="article">
+<meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="Lucin">
 <meta property="og:url" content="{url}">
 <meta property="og:title" content="{t}">
@@ -115,7 +116,7 @@ def _head(title: str, desc: str, url: str, schema: str) -> str:
  "isPartOf":{{"@type":"WebSite","name":"Lucin","url":"{BASE}/"}},
  "publisher":{{"@type":"Organization","name":"Lucin Labs","url":"{BASE}/"}}}}
 </script>
-{_CSS}
+{_CSS}{css}
 </head>"""
 
 
@@ -126,7 +127,7 @@ def _head(title: str, desc: str, url: str, schema: str) -> str:
 _CSS = """<style>
 :root{
   --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
-  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#6C7076;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#484C51;
   --line:#D7D9DC; --line-strong:#141414;
   --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
   --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -140,6 +141,7 @@ body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
 a{color:inherit}
 ::selection{background:var(--ink);color:var(--canvas)}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+.post-cta :focus-visible, .sunken :focus-visible, .dark-card :focus-visible, .install-pill :focus-visible { outline-color: var(--canvas) !important; }
 nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
   background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
 .nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
@@ -236,9 +238,9 @@ def _chrome(active: str) -> str:
     return f"""<body>
 <nav><div class="nav-in">
   <a class="mark" href="/" aria-label="Lucin home">{_LOGO_SVG}LUCIN</a>
-  <span class="links" style="display:flex;gap:22px">{links}</span>
-  <span class="right">
-    <span class="install">$ pip install lucin</span>
+  <div class="links" style="display:flex;gap:22px">{links}</div>
+  <div class="right">
+    <button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){{t.innerText='$ pip install lucin'}},1600)" aria-label="Copy install command" style="cursor:pointer">$ pip install lucin</button>
     <details class="mobile-nav" style="margin-left:12px">
       <summary aria-label="Menu">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -249,7 +251,7 @@ def _chrome(active: str) -> str:
         {mobile_links}
       </nav>
     </details>
-  </span>
+  </div>
 </div></nav>
 <main>"""
 

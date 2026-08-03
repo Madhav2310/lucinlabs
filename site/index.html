@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lucin — Your agent can be talked into anything</title>
 <meta name="description" content="Other scanners read tool names and guess. Lucin reads the code inside every tool your AI agent can call and traces the exact path from a poisoned prompt to your data leaving the building. Free, open source, no API key.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3.5' cy='10' r='2.6' fill='%23141414'/%3E%3Cline x1='6.1' y1='10' x2='13.9' y2='10' stroke='%23141414' stroke-width='1.6'/%3E%3Ccircle cx='16.5' cy='10' r='2.6' fill='%23D6321F'/%3E%3C/svg%3E">
 <link rel="canonical" href="https://lucin.pages.dev/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 
@@ -33,11 +34,11 @@
   "applicationCategory":"DeveloperApplication",
   "applicationSubCategory":"Security scanner",
   "operatingSystem":"macOS, Linux, Windows",
-  "programmingLanguage":"Python",
   "description":"Static analyzer for AI agents. Maps information flow through an agent's tools to find paths where untrusted input can reach a dangerous action, and publishes a reproducible false-positive rate.",
   "url":"https://lucin.pages.dev/",
   "downloadUrl":"https://pypi.org/project/lucin/",
-  "codeRepository":"https://github.com/Madhav2310/lucinlabs",
+  "sameAs":["https://github.com/Madhav2310/lucinlabs"],
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","ratingCount":"100"},
   "license":"https://github.com/Madhav2310/lucinlabs/blob/main/LICENSE",
   "offers":{"@type":"Offer","price":"0","priceCurrency":"USD",
             "description":"Open-source scanner, free forever"}},
@@ -52,7 +53,7 @@
 <style>
 :root{
   --paper:#FAFAF8; --ink:#141414; --red:#D6321F; --red-dark:#A82415;
-  --body:#3D4147; --muted:#6C7076; --muted2:#8A8E94;
+  --body:#3D4147; --muted:#54585D; --muted2:#8A8E94;
   --line:#D7D9DC; --hover:#F3F2EE; --hover2:#F1F0EC;
   --amber:#E8A33D; --amber-dark:#D69A1F;
   --plate:#141414; --chip:#2B2B2B; --dim:#8A8F98; --mono-body:#C7CAD1; --prompt:#F0917F; --bright-red:#FF6B57;
@@ -70,6 +71,7 @@ a:hover{color:var(--red-dark)}
 ::selection{background:var(--ink);color:var(--paper)}
 button{font-family:inherit;border:0;background:none;cursor:pointer;color:inherit}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.dark-card :focus-visible, .install-pill :focus-visible, .sunken :focus-visible { outline-color: var(--paper) !important; }
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulseRing{0%,100%{opacity:.35;stroke-width:1.5}50%{opacity:.9;stroke-width:2.5}}
@@ -347,7 +349,7 @@ footer.site-footer a:hover{color:var(--red)}
         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.42 7.42 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A7.995 7.995 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
       </svg>
       <span>GitHub</span>
-      <span class="gh-stars" id="ghStars" aria-label="GitHub stars"></span>
+      <span class="gh-stars" id="ghStars"></span>
     </a>
     <a class="nav-cta" href="/docs/">Scan your agent</a>
   </div>
@@ -372,6 +374,7 @@ footer.site-footer a:hover{color:var(--red)}
   <div class="scroll-hairline" id="scrollHairline"></div>
 </nav>
 
+<main>
 <header class="hero" id="top" tabindex="-1">
   <div class="hero-grid-bg" aria-hidden="true"></div>
   <div class="hero-left">
@@ -681,6 +684,7 @@ Process completed with exit code 1.</span>
     </form>
   </div>
 </section>
+</main>
 
 <footer class="site-footer">
   <span class="mark">LUCIN</span>

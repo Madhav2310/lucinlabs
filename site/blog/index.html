@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Field notes on agent security — Lucin</title>
 <meta name="description" content="Teardowns of real incidents, the graph theory behind the detectors, and the benchmark numbers with the commands that produce them.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3.5' cy='10' r='2.6' fill='%23141414'/%3E%3Cline x1='6.1' y1='10' x2='13.9' y2='10' stroke='%23141414' stroke-width='1.6'/%3E%3Ccircle cx='16.5' cy='10' r='2.6' fill='%23D6321F'/%3E%3C/svg%3E">
 <link rel="canonical" href="https://lucin.pages.dev/blog/">
 <link rel="stylesheet" href="/fonts.css">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -30,7 +31,7 @@
 <style>
 :root{
   --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
-  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#6C7076;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#484C51;
   --line:#D7D9DC; --line-strong:#141414;
   --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
   --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -44,6 +45,7 @@ body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
 a{color:inherit}
 ::selection{background:var(--ink);color:var(--canvas)}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+.post-cta :focus-visible, .sunken :focus-visible, .dark-card :focus-visible, .install-pill :focus-visible { outline-color: var(--canvas) !important; }
 nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
   background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
 .nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
@@ -167,7 +169,7 @@ p.post-sources em{font-style:normal}
 .back-link{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
 .back-link:hover{color:var(--sev-crit)}
 </style>
-</head><style>
+<style>
 .blog-hero{max-width:1000px;margin:0 auto;padding:56px 24px 0}
 .blog-hero h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(36px,4vw,52px);
   letter-spacing:-.025em;line-height:1.05;margin:18px 0 0}
@@ -182,11 +184,12 @@ p.post-sources em{font-style:normal}
 .blog-row-dek{margin-top:12px;font-size:15px;line-height:1.6;color:var(--ink-soft);max-width:64ch}
 .blog-row-cta{margin-top:14px;font-size:13.5px;font-weight:600;color:var(--sev-crit)}
 .blog-foot-note{max-width:1000px;margin:28px auto 0;padding:0 24px;font-size:13.5px;color:var(--ink-muted)}
-</style><body>
+</style>
+</head><body>
 <nav><div class="nav-in">
   <a class="mark" href="/" aria-label="Lucin home"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>LUCIN</a>
-  <span class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></span>
-  <span class="right"><span class="install">$ pip install lucin</span></span>
+  <div class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></div>
+  <div class="right"><button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){t.innerText='$ pip install lucin'},1600)" aria-label="Copy install command" style="cursor:pointer">$ pip install lucin</button></div>
 </div></nav><div class="blog-hero">
   <div class="eyebrow" style="font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);font-weight:600">THE LUCIN BLOG</div>
   <h1>Field notes on agent security.</h1>
@@ -226,7 +229,7 @@ p.post-sources em{font-style:normal}
 <p class="blog-foot-note">More posts as we publish them. Every claim links to the command that reproduces it.</p>
 <div style="max-width:1000px;margin:44px auto 0;padding:0 24px 96px"><div class="post-cta">
   <div><div class="t">Check your own agent for this shape.</div><div class="s">Free, MIT, 30 seconds.</div></div>
-  <div class="pill"><span><span class="prompt">$</span> pip install lucin</span></div>
+  <div class="pill"><button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){t.innerText='$ pip install lucin'},1600)" aria-label="Copy install command" style="cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;font-size:inherit;padding:0">$ pip install lucin</button></div>
 </div></div>
 </body>
 </html>
