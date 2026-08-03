@@ -1,8 +1,16 @@
-# Dogfoods the packaged GitHub Action (action.yml) on Lucin's own PRs — proof
-# that `uses: Madhav2310/lucinlabs@v1` works, not just the raw CLI.
+# Dogfoods the packaged GitHub Action (action.yml) on Lucin's own PRs.
 # (.github/workflows/lucin.yml separately dogfoods the CLI + SARIF upload path.)
 #
-# Uses .lucin-baseline.json (--baseline mode, P0-12): a security scanner's own
+# TWO jobs on purpose, because they prove different things:
+#   local-action    — `uses: ./`, the working tree. Catches a broken action.yml
+#                     in the PR itself, before it is ever tagged.
+#   published-action — `uses: Madhav2310/lucinlabs@v1`, exactly what an external
+#                     consumer writes. This is the only one that proves the
+#                     README snippet works: the local path can pass while the
+#                     published tag 404s, installs a yanked version, or points
+#                     at a commit with action.yml in the wrong place.
+#
+# Both use .lucin-baseline.json (--baseline, P0-12): a security scanner's own
 # source inherently discusses the patterns it detects (parser code that
 # references subprocess/shell while parsing untrusted code, a taint-labeling
 # function that looks like an exfil path to the taint analyzer itself) — those
@@ -17,13 +25,29 @@ on:
     branches: [main]
 
 jobs:
-  action-self-scan:
-    name: Run Lucin Action on this repo
+  local-action:
+    name: Action from working tree (uses: ./)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: ./
+        with:
+          scan-path: 'src/lucin'
+          fail-on: 'critical'
+          baseline: '.lucin-baseline.json'
+
+  published-action:
+    name: Action as an external consumer (uses: @v1)
+    runs-on: ubuntu-latest
+    # Never blocks a PR: this resolves the PUBLISHED v1 tag, so on a PR that
+    # bumps the version it legitimately lags until the release is cut. It is
+    # here to surface a broken public entry point, not to gate development.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Madhav2310/lucinlabs@v1
         with:
           scan-path: 'src/lucin'
           fail-on: 'critical'

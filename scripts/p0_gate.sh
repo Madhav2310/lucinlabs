@@ -15,7 +15,13 @@ chk "P0-2 src is clean"        '[ "$(grep -rniE "\bvisa\b" src/lucin/ | grep -vi
 # pattern in publish-pypi.yml, which necessarily contains the literal word "visa".
 chk "P0-2 tree has only 4 refs" '[ "$(git ls-files -- "*.py" "*.md" "*.yml" "*.toml" | xargs grep -niE "\bvisa\b|madhmitt|personalmusings|_VISA_CA" 2>/dev/null | grep -viE "visualiz|advisa|revisa" | wc -l | tr -d " ")" = "4" ]'
 chk "P0-2 no internal paths"   '! (git ls-files -- "*.py" "*.md" | xargs grep -q "conversational-analytics\|Desktop/repos2\|GENAI_SSL_CERT_FILE" 2>/dev/null)'
-chk "P0-2 history squashed"    '[ "$(git log --all --oneline | wc -l | tr -d " ")" = "1" ]'
+# NOT "exactly 1 commit": that was only true the moment the orphan squash landed,
+# and every legitimate commit since made it fail for no reason — a check that
+# cries wolf is worse than no check. What actually matters is that the rewritten
+# history carries no employer references.
+# Excludes this script and the release gate: both necessarily contain the search
+# patterns as literal regexes, and matching your own detector is a false positive.
+chk "P0-2 history is clean"    '[ "$(git log --all -p -- . ":(exclude)scripts/p0_gate.sh" ":(exclude).github/workflows/publish-pypi.yml" 2>/dev/null | grep -ciE "madhmitt|_VISA_CA|visa fraud|visa-style|conversational-analytics")" = "0" ]'
 chk "P0-2 internal docs gone"  '[ "$(git ls-files | grep -cE "^(plan|research|docs/archive|docs/design)/")" = "0" ]'
 chk "P0-2 release gate exists" 'grep -q "release blocked" .github/workflows/publish-pypi.yml'
 chk "P0-1 form has name attrs" 'grep -q "name=\"email\"" site/index.html'
