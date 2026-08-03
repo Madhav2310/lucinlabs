@@ -60,9 +60,18 @@ def _scan(target: str) -> list[dict]:
         [sys.executable, "-m", "lucin", "scan", target, "--format", "json", "--no-telemetry"],
         capture_output=True, text=True, cwd=ROOT)
     try:
-        return json.loads(out.stdout).get("findings", [])
+        findings = json.loads(out.stdout).get("findings", [])
     except json.JSONDecodeError:
-        return []
+        raise SystemExit(
+            f"make_og: scan of {target} produced no JSON. Run with an interpreter that has\n"
+            f"lucin installed (e.g. venv/bin/python site/make_og.py).\nstderr: {out.stderr[:400]}"
+        ) from None
+    if not findings:
+        raise SystemExit(
+            f"make_og: scan of {target} returned 0 findings, which would render an empty\n"
+            f"terminal panel on every shared link. Pick a target that produces findings."
+        )
+    return findings
 
 
 def build(target: str) -> Path:
@@ -122,7 +131,9 @@ def build(target: str) -> Path:
 
     # footer: the paired numbers, same discipline as the page
     numbers = json.loads((ROOT / "site" / "numbers.json").read_text())
-    precision_recall = f"{numbers['precision']} precision  ·  {numbers['recall']} recall"
+    # derived, never hardcoded: the card must not be able to drift from /limits
+    misses = numbers["recall_cases"] - round(numbers["recall_cases"] * numbers["recall_pct"] / 100)
+    precision_recall = f"{numbers['recall_pct']}% recall  ·  {misses} known misses, all published"
     d.line([64, H - 96, W - 64, H - 96], fill=LINE, width=1)
     d.text((64, H - 76),
            precision_recall,
