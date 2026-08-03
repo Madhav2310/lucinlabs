@@ -8,7 +8,7 @@
 #
 # This scans your agent code and fails if findings exceed the threshold.
 
-name: 'Lucin'
+name: 'Lucin Agent Security Scan'
 description: 'Scan AI agent code for security vulnerabilities'
 author: 'Lucin'
 
