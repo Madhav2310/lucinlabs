@@ -20,6 +20,7 @@ Or via CLI:
     lucin serve --port 8080
 """
 
+import os
 import tempfile
 import time
 from datetime import datetime
@@ -76,10 +77,17 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
+# Wildcard origin + allow_credentials=True is the exact AG-CORS pattern this
+# product warns users about — Starlette reflects the request's Origin header
+# in that combination, which is worse than a plain wildcard (any site can make
+# credentialed requests). Default to same-origin-only; widen via env var.
+_allowed_origins = [
+    o.strip() for o in os.environ.get("LUCIN_API_ALLOWED_ORIGINS", "").split(",") if o.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure appropriately for production
-    allow_credentials=True,
+    allow_origins=_allowed_origins,
+    allow_credentials=bool(_allowed_origins),
     allow_methods=["*"],
     allow_headers=["*"],
 )

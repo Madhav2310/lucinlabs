@@ -1,6 +1,13 @@
 # Dogfoods the packaged GitHub Action (action.yml) on Lucin's own PRs — proof
 # that `uses: Madhav2310/lucinlabs@v1` works, not just the raw CLI.
 # (.github/workflows/lucin.yml separately dogfoods the CLI + SARIF upload path.)
+#
+# Uses .lucin-baseline.json (--baseline mode, P0-12): a security scanner's own
+# source inherently discusses the patterns it detects (parser code that
+# references subprocess/shell while parsing untrusted code, a taint-labeling
+# function that looks like an exfil path to the taint analyzer itself) — those
+# are accepted debt, not real findings. This is also the intended dogfooding
+# of --baseline itself: only genuinely NEW findings fail this check.
 
 name: Self-scan (Action)
 
@@ -20,3 +27,4 @@ jobs:
         with:
           scan-path: 'src/lucin'
           fail-on: 'critical'
+          baseline: '.lucin-baseline.json'
