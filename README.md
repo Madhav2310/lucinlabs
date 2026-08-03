@@ -1,8 +1,15 @@
 # Lucin
 
+[![PyPI](https://img.shields.io/pypi/v/lucin.svg)](https://pypi.org/project/lucin/)
+[![Tests](https://img.shields.io/badge/tests-549%20passing-brightgreen)](https://github.com/Madhav2310/lucinlabs/actions)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/pypi/pyversions/lucin.svg)](https://pypi.org/project/lucin/)
+
 **Find what your AI agents can do that they shouldn't — before attackers do.**
 
 Lucin is an open-source static security scanner for AI agents. It reads the actual code inside your agent's tools — not just tool names or descriptions — and finds dangerous capability configurations before they reach production, mapped to the [OWASP Top 10 for Agentic Applications](https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/).
+
+![Lucin scanning a vulnerable agent — 8/100, critical](lucin-scan.gif)
 
 ## Quick Start
 
@@ -14,6 +21,14 @@ lucin scan ./my-agent/
 No API keys. No configuration files. No account signup. Your code and findings
 never leave your machine — see [Telemetry](#telemetry) for the one thing that
 does (anonymous counts, on by default, one command to turn off).
+
+## Contents
+
+- [What It Does](#what-it-does) · [What It Finds](#what-it-finds) · [What it doesn't catch](#what-it-doesnt-catch-honesty-matters)
+- [Supported Frameworks](#supported-frameworks) · [Usage](#usage) · [Security Score](#security-score) · [How It Works](#how-it-works)
+- [Validated Capabilities](#validated-capabilities-reproducible) · [Red Team Engine](#red-team-engine) · [Behavioral Monitor](#behavioral-monitor-ml)
+- [CI/CD Integration](#cicd-integration) · [Configuration](#configuration) · [Telemetry](#telemetry)
+- [Why Lucin?](#why-lucin) · [Contributing](#contributing)
 
 ## What It Does
 
@@ -236,7 +251,7 @@ Every number below ships with the command that regenerates it. Numbers on **synt
 corpora are labeled as such; capabilities that genuinely require real users/traces are
 labeled **not-yet-validated (launch-gated)** and are not claimed as done.
 
-Test suite: 545 passing (12 skipped, 1 xfailed) — `python -m pytest tests/ -q`
+Test suite: 549 passing (12 skipped, 1 xfailed) — `python -m pytest tests/ -q`
 (requires the `behavioral` extra: `pip install -e ".[dev,behavioral]"`).
 
 | Capability | Measured result | Regenerate with | Status |

@@ -31,7 +31,22 @@ export async function onRequestPost({ request, env }) {
   } catch (e) {
     if (!/UNIQUE/i.test(String(e))) return json({ ok: false, error: "storage failed" }, 500);
   }
+
+  notify(env, name, email, stack, note);
   return json({ ok: true }, 200);
+}
+
+// Fire-and-forget push notification so a new lead doesn't sit unseen in D1.
+// NTFY_TOPIC is set as an environment variable/secret on the Pages project,
+// not committed here, since the topic name is the only access control ntfy.sh gives it.
+function notify(env, name, email, stack, note) {
+  if (!env.NTFY_TOPIC) return;
+  const lines = [`${name} <${email}>`, stack ? `stack: ${stack}` : null, note || null].filter(Boolean);
+  fetch(`https://ntfy.sh/${env.NTFY_TOPIC}`, {
+    method: "POST",
+    headers: { Title: "New Lucin design-partner lead", Priority: "high", Tags: "email" },
+    body: lines.join("\n"),
+  }).catch(() => {});
 }
 
 function json(obj, status) {
