@@ -36,7 +36,7 @@ inputs:
   version:
     description: 'Lucin version to install (pin this in production)'
     required: false
-    default: '0.1.2'
+    default: '0.1.3'
   baseline:
     description: 'Path to a Lucin findings-baseline file. Only new findings fail the build.'
     required: false

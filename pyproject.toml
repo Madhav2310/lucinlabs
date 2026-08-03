@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "lucin"
-version = "0.1.2"
+version = "0.1.3"
 description = "Find what your AI agents can do that they shouldn't — before attackers do."
 readme = "README.md"
 license = "MIT"
