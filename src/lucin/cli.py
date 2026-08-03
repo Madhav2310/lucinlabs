@@ -779,7 +779,7 @@ def telemetry(
         console.print()
         console.print("[dim]Never sent: file paths, repo or target names, source code, secret "
                       "values, witness text, tool names, agent names.[/dim]")
-        console.print("[dim]Collector source: telemetry-worker/  (allowlist enforced server-side)[/dim]")
+        console.print("[dim]Collector source: site/functions/api/telemetry.js  (allowlist enforced server-side)[/dim]")
     elif action == "enable":
         tel.enable()
         console.print("[green]Telemetry enabled.[/green]")

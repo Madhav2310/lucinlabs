@@ -1,6 +1,6 @@
 """Lucin telemetry — anonymous, aggregate-only, on by default.
 
-WHAT IS SENT (allowlisted, enforced again server-side — see telemetry-worker/src/index.js):
+WHAT IS SENT (allowlisted, enforced again server-side — see site/functions/api/telemetry.js):
   anon_id, event_type, lucin_version, python_version, os, frameworks,
   agent_count, tool_count, file_count, scan_duration_ms, output_format,
   ci_mode, finding_counts_json ({rule_id: count} — rule IDs and counts only),
@@ -29,7 +29,7 @@ from urllib.error import URLError
 
 CONFIG_DIR = Path.home() / ".lucin"
 CONFIG_PATH = CONFIG_DIR / "config.json"
-COLLECTOR_URL = "https://lucin-telemetry.candura-telemetry.workers.dev/v1/event"
+COLLECTOR_URL = "https://lucin.pages.dev/api/telemetry"
 TIMEOUT_SECONDS = 1.5
 
 

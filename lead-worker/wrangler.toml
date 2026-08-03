@@ -1,8 +1,0 @@
-name = "lucin-leads"
-main = "src/index.js"
-compatibility_date = "2026-01-01"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "lucin-leads"
-database_id = "00239cb8-57d4-4114-ab52-09aa3103255e"

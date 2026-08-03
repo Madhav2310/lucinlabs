@@ -341,7 +341,7 @@ identifying) so we can tell "10 scans from 10 users" apart from "10 scans from
 1 user."
 
 **Never sent:** file paths, target/repo names, source code, secret values,
-witness text, or tool/agent names. The collector — [`telemetry-worker/`](telemetry-worker/),
+witness text, or tool/agent names. The collector — [`site/functions/api/telemetry.js`](site/functions/api/telemetry.js),
 open source in this repo — enforces this server-side with a strict allowlist,
 so it's true even if a future version of this client tried to send more.
 

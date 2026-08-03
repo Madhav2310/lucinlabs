@@ -31,4 +31,10 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy site --project-name=lucin
+          workingDirectory: site
+          command: pages deploy . --project-name=lucin
+          # workingDirectory matters: site/functions/ is resolved relative to
+          # the wrangler process's cwd, not the deploy target argument. Running
+          # `pages deploy site` from the repo root silently skips the Functions
+          # bundle (confirmed: no "Compiled Worker" / "Uploading Functions
+          # bundle" lines in the output, and POST /api/* returns 405).
