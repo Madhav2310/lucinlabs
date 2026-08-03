@@ -95,7 +95,19 @@ footer .mark-sm{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
 footer a{text-decoration:none;color:var(--ink-muted)}
 footer a:hover{color:var(--sev-crit)}
 
-@media(max-width:640px){.nav-in .links,.install{display:none}main{padding-top:36px}}
+@media(max-width:640px){
+  .nav-in .links,.install{display:none}
+  main{padding-top:36px}
+  .mobile-nav{display:block;position:relative}
+  .mobile-nav summary{list-style:none;cursor:pointer;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav-panel{position:absolute;right:0;top:40px;background:var(--canvas);border:1px solid var(--line);padding:8px 0;min-width:180px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.08);border-radius:4px}
+  .mobile-nav-panel a{display:block;padding:10px 16px;font-size:14px;color:var(--ink);text-decoration:none;font-weight:500}
+  .mobile-nav-panel a:hover{background:var(--surface);color:var(--sev-crit)}
+}
+@media(min-width:641px){
+  .mobile-nav{display:none}
+}
 
 /* ---- docs/benchmarks/limits/rules/changelog "tab family" header ----
    Each is its own real page/route (not a client-side view switch) — the tabs
@@ -270,7 +282,7 @@ agent.run(&quot;Load the dataset at &lt;url&gt; and prepare a summary report.&qu
 </code></pre>
 
 <p class="post-p">Run it, and tell us where it's wrong. The scanner is MIT-licensed, the benchmark numbers regenerate from committed commands, and the 24% we miss is written down. Cut the edge.</p>
-<p class="post-sources">Sources: <a href="https://huggingface.co/blog/security-incident-july-2026">Hugging Face security incident disclosure (July 2026)</a> · <a href="https://simonwillison.net/2026/Jul/22/openai-cyberattack/">Simon Willison, &quot;OpenAI's accidental cyberattack against Hugging Face&quot;</a> · <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/">Simon Willison, &quot;The lethal trifecta&quot; (June 2025)</a> · <a href="https://thehackernews.com/2026/07/worlds-largest-ai-model-repository.html">The Hacker News</a> · <a href="https://genai.owasp.org/llm-top-10/">OWASP Top 10 for LLM Applications 2025</a>. All Lucin numbers are reproducible from the commands shown, verified against DEFINITION_OF_DONE.md as of 2026-07-29.</p>
+<p class="post-sources">Sources: <a href="https://huggingface.co/blog/security-incident-july-2026">Hugging Face security incident disclosure (July 2026)</a> · <a href="https://simonwillison.net/2026/Jul/22/openai-cyberattack/">Simon Willison, &quot;OpenAI's accidental cyberattack against Hugging Face&quot;</a> · <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/">Simon Willison, &quot;The lethal trifecta&quot; (June 2025)</a> · <a href="https://thehackernews.com/2026/07/worlds-largest-ai-model-repository.html">The Hacker News</a> · <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">OWASP Top 10 for LLM Applications 2025</a>. All Lucin numbers are reproducible from the commands shown, verified against DEFINITION_OF_DONE.md as of 2026-07-29.</p>
   </div>
   <div class="post-cta">
   <div><div class="t">Check your own agent for this shape.</div><div class="s">Free, MIT, 30 seconds.</div></div>

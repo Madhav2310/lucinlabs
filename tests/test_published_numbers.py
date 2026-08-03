@@ -27,3 +27,12 @@ def test_no_stale_precision_string_anywhere():
     """The 58% figure was baked into an old OG image. It must never reappear."""
     for p in list(Path("site").rglob("*.html")) + [Path("README.md"), Path("site/make_og.py")]:
         assert "58% precision" not in p.read_text(), f"stale precision figure in {p}"
+
+
+def test_new_benchmark_numbers_agree():
+    readme = Path("README.md").read_text()
+    assert NUM["unit_tests"] in readme, f"Expected {NUM['unit_tests']} in README.md"
+    assert "Behavioral benchmark on 52 real-world repos (in progress)" not in readme, "Found stale '(in progress)' in README.md"
+
+    html = Path("site/index.html").read_text()
+    assert f">{NUM['tests_passing']}<" in html or f" {NUM['tests_passing']} passing" in html or f"**{NUM['tests_passing']} passing**" in html or str(NUM['tests_passing']) in html, "Could not find tests_passing in HTML"

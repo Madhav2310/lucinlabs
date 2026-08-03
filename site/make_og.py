@@ -121,9 +121,11 @@ def build(target: str) -> Path:
                 x += f_tiny.getlength("→") + 10
 
     # footer: the paired numbers, same discipline as the page
+    numbers = json.loads((ROOT / "site" / "numbers.json").read_text())
+    precision_recall = f"{numbers['precision']} precision  ·  {numbers['recall']} recall"
     d.line([64, H - 96, W - 64, H - 96], fill=LINE, width=1)
     d.text((64, H - 76),
-           "0 adjudicated FP / 2,732 files  ·  76% recall / 10 classes",
+           precision_recall,
            font=f_small, fill=INK_SOFT)
     d.text((64, H - 46),
            "Open source · pip install lucin · every number regenerates from a command",

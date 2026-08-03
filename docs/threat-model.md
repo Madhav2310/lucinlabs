@@ -73,7 +73,7 @@ the jobs of PROVE (dynamic) and [GUARD](/runtime/) (runtime enforcement + behavi
 monitoring), and of the honest boundaries in [what SCAN misses](/limits/).
 
 A note on the "why now": the July 2026 Hugging Face incident (an autonomous agent
-executing 17,000+ actions into production) is a real motivating event, but neither SCAN
+executing 17,600+ actions into production) is a real motivating event, but neither SCAN
 nor GUARD would have stopped the underlying sandbox-escape zero-day itself. Lucin
 addresses the far larger class of *misconfiguration-enabled* exfiltration and misuse — not
 novel zero-days. We don't overclaim that.

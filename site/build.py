@@ -189,7 +189,19 @@ footer .mark-sm{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
 footer a{text-decoration:none;color:var(--ink-muted)}
 footer a:hover{color:var(--sev-crit)}
 
-@media(max-width:640px){.nav-in .links,.install{display:none}main{padding-top:36px}}
+@media(max-width:640px){
+  .nav-in .links,.install{display:none}
+  main{padding-top:36px}
+  .mobile-nav{display:block;position:relative}
+  .mobile-nav summary{list-style:none;cursor:pointer;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav-panel{position:absolute;right:0;top:40px;background:var(--canvas);border:1px solid var(--line);padding:8px 0;min-width:180px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.08);border-radius:4px}
+  .mobile-nav-panel a{display:block;padding:10px 16px;font-size:14px;color:var(--ink);text-decoration:none;font-weight:500}
+  .mobile-nav-panel a:hover{background:var(--surface);color:var(--sev-crit)}
+}
+@media(min-width:641px){
+  .mobile-nav{display:none}
+}
 
 /* ---- docs/benchmarks/limits/rules/changelog "tab family" header ----
    Each is its own real page/route (not a client-side view switch) — the tabs
@@ -216,12 +228,27 @@ def _chrome(active: str) -> str:
     links = "".join(
         f'<a href="{href}"' + (' aria-current="page"' if label == active else "") + f'>{label}</a>'
         for label, href in NAV)
+    
+    mobile_links = "".join(
+        f'<a href="{href}"' + (' aria-current="page" style="font-weight:700"' if label == active else "") + f'>{label}</a>'
+        for label, href in NAV)
+
     return f"""<body>
 <nav><div class="nav-in">
   <a class="mark" href="/" aria-label="Lucin home">{_LOGO_SVG}LUCIN</a>
   <span class="links" style="display:flex;gap:22px">{links}</span>
   <span class="right">
     <span class="install">$ pip install lucin</span>
+    <details class="mobile-nav" style="margin-left:12px">
+      <summary aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M3 6h14M3 10h14M3 14h14"/>
+        </svg>
+      </summary>
+      <nav class="mobile-nav-panel">
+        {mobile_links}
+      </nav>
+    </details>
   </span>
 </div></nav>
 <main>"""

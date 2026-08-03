@@ -745,6 +745,7 @@ def discover(
 @app.command()
 def telemetry(
     action: str = typer.Argument("status", help="status | enable | disable"),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
 ):
     """Manage anonymous usage telemetry (on by default, aggregate-only).
 
@@ -760,6 +761,9 @@ def telemetry(
         lucin telemetry enable
     """
     from lucin import telemetry as tel
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
 
     if action == "status":
         import json as _json

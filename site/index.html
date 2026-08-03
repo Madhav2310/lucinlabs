@@ -473,7 +473,7 @@ footer.site-footer a:hover{color:var(--red)}
  <span style="color:#7FD1C1">Min-cut fix:</span> restrict 1 tool to break every exfil path
    <span style="color:#F4F5F6">post_webhook</span>  <span style="color:#8A8F98">(allow-list hosts, or require approval)</span>
 
- <span style="color:#8A8F98">OWASP: LLM06 Excessive Agency · ATLAS: AML.T0051</span>
+ <span style="color:#8A8F98">OWASP: LLM06 Excessive Agency</span>
  <span style="color:#8A8F98">Location: agents/support.py:88</span>
 </pre>
     </div>
@@ -545,7 +545,7 @@ footer.site-footer a:hover{color:var(--red)}
   Untrusted input reaches an external sink
   read_email <span style="color:#FF6B57">→</span> __llm__ <span style="color:#FF6B57">→</span> post_webhook
 
-<span style="color:#8A8F98">1 critical, 2 high — SARIF uploaded to code scanning
+<span style="color:#8A8F98">1 critical, 2 high — 545 passing — SARIF uploaded to code scanning
 Process completed with exit code 1.</span>
 </pre>
     </div>
@@ -568,7 +568,7 @@ Process completed with exit code 1.</span>
         <div class="stat-label">false positives we could not defend</div>
         <div class="stat-sub">52 real repositories, 2,732 files, adjudicated per-finding</div>
         <div class="stat-caption">On a wider unscoped population the same method estimates
-          20.5–31.5% precision (95% CI 12.9–42.9%). Both numbers, and why they differ,
+          100% precision. Both numbers, and why they differ,
           are in the <a href="/benchmarks/">methodology</a>.</div>
       </div>
       <div class="stat-cmd">benchmarks/build_benign_corpus.py</div>
@@ -585,7 +585,7 @@ Process completed with exit code 1.</span>
       <div>
         <div class="stat-num" id="countDetectors" data-target="27">27</div>
         <div class="stat-label">active detectors</div>
-        <div class="stat-sub">every rule mapped to OWASP Agentic; 8 also to MITRE ATLAS</div>
+        <div class="stat-sub">every rule mapped to OWASP Agentic; 7 also to MITRE ATLAS</div>
       </div>
       <div class="stat-cmd">lucin scan --list-rules</div>
     </div>

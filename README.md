@@ -236,8 +236,8 @@ Every number below ships with the command that regenerates it. Numbers on **synt
 corpora are labeled as such; capabilities that genuinely require real users/traces are
 labeled **not-yet-validated (launch-gated)** and are not claimed as done.
 
-Test suite: **537 passing** (12 skipped, 1 xfail) — `python -m pytest tests/ -q`
-(requires the `dev` extra: `pip install -e ".[dev]"`).
+Test suite: 545 passing (12 skipped, 1 xfailed) — `python -m pytest tests/ -q`
+(requires the `behavioral` extra: `pip install -e ".[dev,behavioral]"`).
 
 | Capability | Measured result | Regenerate with | Status |
 |-----------|-----------------|-----------------|--------|
@@ -354,7 +354,7 @@ whichever comes first — this isn't meant to be the permanent posture.
 
 ## Why Lucin?
 
-After the [Hugging Face breach](https://huggingface.co/blog/security-incident-july-2026) (July 2026) — where an autonomous AI agent executed 17,000+ actions and breached production infrastructure — every team deploying AI agents needs to answer:
+After the [Hugging Face breach](https://huggingface.co/blog/security-incident-july-2026) (July 2026) — where an autonomous AI agent executed 17,600+ actions and breached production infrastructure — every team deploying AI agents needs to answer:
 
 > "What can our agents do that they shouldn't?"
 

@@ -66,7 +66,7 @@ def _merged() -> dict[str, dict]:
     # Rules that exist ONLY as an OWASP mapping must still appear here, with empty
     # copy, so `_publishable` reports them as work to do. Omitting them made the
     # coverage gap invisible — which defeats the point of refusing to ship thin pages.
-    for rid, asi in rd._RULE_TO_ASI.items():
+    for rid, asi in rd.RULE_CWE.items():
         cur = out.setdefault(rid, {"title": rid, "severity": "", "what": "", "why": "",
                                    "fix": "", "asi": []})
         if not cur["asi"]:
