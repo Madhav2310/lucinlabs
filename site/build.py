@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """build.py — generate the site's content pages from markdown we already wrote.
 
-The launch content existed for weeks as markdown in `docs/` and `plan/content/`; it
+The launch content existed for weeks as markdown in `docs/` and `site/content/`; it
 had simply never been built into pages, so `sitemap.xml` advertised 9 URLs that 404'd.
 This turns those documents into real pages that satisfy `check_site.py`:
 full meta/canonical/OG/Twitter/JSON-LD, no dead links, no render-blocking third party.
@@ -52,19 +52,19 @@ PAGES: list[tuple[str, str, str, str, str, str]] = [
      "TechArticle", "Docs"),
     # Blog posts (index + 3 articles) are built by build_blog.py, through a
     # bespoke post template — not this generic one.
-    ("runtime", "plan/content/runtime_preview.md",
+    ("runtime", "site/content/runtime_preview.md",
      "Runtime enforcement — design-partner preview",
      "GUARD enforces the same information-flow model the scanner uses statically. It is a design-partner preview, not generally available — this page states plainly what is validated and what is not.",
      "WebPage", "Docs"),
-    ("changelog", "plan/content/changelog.md",
+    ("changelog", "site/content/changelog.md",
      "Changelog — Lucin",
      "Dated record of what changed in Lucin, including the changes that were reverted and why. A changelog that only lists wins is marketing.",
      "Article", "Changelog"),
-    ("compare/semgrep", "plan/content/compare_semgrep.md",
+    ("compare/semgrep", "site/content/compare_semgrep.md",
      "Lucin vs Semgrep — an honest comparison",
      "Semgrep is a better general-purpose SAST tool; Lucin finds agent-specific information-flow problems Semgrep structurally cannot. Where each wins, with measured numbers.",
      "Article", "Docs"),
-    ("compare/codeql", "plan/content/compare_codeql.md",
+    ("compare/codeql", "site/content/compare_codeql.md",
      "Lucin vs CodeQL — an honest comparison",
      "CodeQL is a far more powerful analysis engine; it does not model an AI agent's tool graph. The three cases it cannot flag, and why our LLM-boundary assumption differs.",
      "Article", "Docs"),

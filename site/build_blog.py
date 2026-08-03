@@ -3,7 +3,7 @@
 
 WHY A SEPARATE BUILDER
 -----------------------
-The three posts in `plan/content/` are full, richly-sourced articles (code
+The posts in `site/content/` are full, richly-sourced articles (code
 samples, a comparison table, citations) — not the shorter draft blocks in the
 design handoff's prototype. This renders the REAL markdown through the new
 paper/ink/red typed-block system (heading / paragraph / code / table /
@@ -44,16 +44,16 @@ from build import _CSS, _LOGO_SVG, NAV  # noqa: E402  (reuse the one template's 
 #  meta description. date_modified is None unless the post was substantively
 #  corrected after publication — see dateModified in the JSON-LD.)
 POSTS: list[tuple[str, str, str, str, str, str, str | None]] = [
-    ("hugging-face-agent-breach", "plan/content/hf_teardown.md", "TEARDOWN", "29 JUL 2026", "12 min read",
+    ("hugging-face-agent-breach", "site/content/hf_teardown.md", "TEARDOWN", "29 JUL 2026", "12 min read",
      "A malicious dataset, a tool that executes code, a credential read, an outbound call. We rebuilt the incident as an information-flow graph — and found the single edge that carries all 17,600 actions.",
      "03 AUG 2026"),  # corrected: action count, timeframe, attacker description, detection framing
-    ("litellm-supply-chain-compromise", "plan/content/litellm_teardown.md", "TEARDOWN", "25 JUL 2026", "9 min read",
+    ("litellm-supply-chain-compromise", "site/content/litellm_teardown.md", "TEARDOWN", "25 JUL 2026", "9 min read",
      "A credential harvester in a library with 95 million monthly downloads. The attack chain started by compromising a security scanner, which is exactly why you shouldn't trust ours.",
      None),
-    ("lethal-trifecta", "plan/content/blog_lethal_trifecta.md", "METHOD", "29 JUL 2026", "9 min read",
+    ("lethal-trifecta", "site/content/blog_lethal_trifecta.md", "METHOD", "29 JUL 2026", "9 min read",
      "Private data, untrusted content, external reach. Any one is fine; all three wired together is the incident. Here is how to read those edges off your own tool list — and which to cut versus gate.",
      None),
-    ("reproducible-benchmark", "plan/content/blog_reproducible_benchmark.md", "PROOF", "29 JUL 2026", "7 min read",
+    ("reproducible-benchmark", "site/content/blog_reproducible_benchmark.md", "PROOF", "29 JUL 2026", "7 min read",
      "A security tool that will not show you its benchmark harness is asking you to take its word for it. Here is ours, and the exact command that regenerates every number on this site.",
      None),
 ]

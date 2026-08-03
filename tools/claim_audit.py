@@ -40,9 +40,7 @@ PUBLIC_GLOBS = [
     "LEARN.md",
     "HANDOFF.md",
     "docs/*.md",
-    "plan/content/*.md",
-    "plan/mockups/landing.html",
-    "plan/mockups/app/*.html",
+    "site/content/*.md",
 ]
 
 # ---- rules: (id, description, compiled regex, optional allow-if-line-contains) ----
