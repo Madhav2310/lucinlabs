@@ -1,7 +1,8 @@
-# Publishes to PyPI on every GitHub Release, using PyPI's Trusted Publishing
-# (OIDC) — no API token stored anywhere, on GitHub or in this repo. This is
-# the current recommended approach (twine itself warns "not supported for
-# trusted publishing" when run locally, which is what pushed this here).
+# Publishes the Python package to PyPI on semantic-version GitHub releases,
+# using PyPI's Trusted Publishing (OIDC) — no API token stored anywhere, on
+# GitHub or in this repo. This is the current recommended approach (twine
+# itself warns "not supported for trusted publishing" when run locally, which
+# is what pushed this here).
 #
 # One-time setup (PyPI dashboard, not automatable from here):
 #   pypi.org → lucin project → Manage → Publishing → Add a new publisher:
@@ -13,6 +14,7 @@
 # After that: bump the version in pyproject.toml + src/lucin/__init__.py,
 # push, then create a GitHub Release (which publishes a matching git tag) —
 # the wheel builds and uploads automatically, no local twine step needed.
+# Non-package releases such as the floating `v1` Action tag are ignored.
 
 name: Publish to PyPI
 
@@ -25,6 +27,7 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     environment: pypi
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.release.tag_name, '.') }}
     permissions:
       id-token: write  # required for PyPI Trusted Publishing
     steps:
