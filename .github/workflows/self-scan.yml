@@ -26,7 +26,7 @@ on:
 
 jobs:
   local-action:
-    name: Action from working tree (uses: ./)
+    name: "Action from working tree (uses: ./)"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
           baseline: '.lucin-baseline.json'
 
   published-action:
-    name: Action as an external consumer (uses: @v1)
+    name: "Action as an external consumer (uses: @v1)"
     runs-on: ubuntu-latest
     # Never blocks a PR: this resolves the PUBLISHED v1 tag, so on a PR that
     # bumps the version it legitimately lags until the release is cut. It is
