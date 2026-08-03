@@ -11,21 +11,31 @@ SEVERITY_WEIGHTS = {
     Severity.INFO: 0,
 }
 
-# Maximum penalty (the score can't go below 0)
-MAX_PENALTY = 100
+# Decay constant for the score curve — see calculate_security_score.
+_DECAY = 70
 
 
 def calculate_security_score(result: ScanResult) -> int:
     """Calculate security score from 0 (terrible) to 100 (no findings).
 
     Scoring logic:
-    - Start at 100 (perfect)
-    - Deduct points per finding based on severity
-    - Each CRITICAL deducts 25 points
-    - Each HIGH deducts 15 points
-    - Each MEDIUM deducts 8 points
-    - Each LOW deducts 3 points
-    - Floor at 0
+    - Each finding contributes a weighted penalty (CRITICAL 25, HIGH 15,
+      MEDIUM 8, LOW 3) — same weights as before.
+    - score = 100 * DECAY / (DECAY + total_weighted_penalty)
+
+    This used to be a flat 100-minus-penalty, floored at 0. That formula
+    made any scan whose weighted penalty reached 100 — as few as 4 CRITICAL
+    findings alone, or a realistic mix like 4 CRITICAL + 4 HIGH + 25 MEDIUM —
+    read as an indistinguishable 0. A repo with 4 critical findings and one
+    with 40 both showed the same number, so the score stopped carrying
+    information exactly where it mattered most: telling "bad" apart from
+    "much worse."
+
+    The hyperbolic form here never truly floors — it only approaches 0 as
+    the weighted penalty grows, so scores keep differentiating regardless of
+    scale (see tests/test_scoring.py for calibration examples), while still
+    landing 1-3 finding scans in roughly the same bands the old linear
+    formula did.
 
     A score of:
     - 90-100: Excellent (no critical/high findings)
@@ -34,13 +44,8 @@ def calculate_security_score(result: ScanResult) -> int:
     - 25-49:  Poor (serious vulnerabilities)
     - 0-24:   Critical (immediate action required)
     """
-    score = 100
-
-    for finding in result.findings:
-        penalty = SEVERITY_WEIGHTS.get(finding.severity, 0)
-        score -= penalty
-
-    return max(0, score)
+    weighted = sum(SEVERITY_WEIGHTS.get(f.severity, 0) for f in result.findings)
+    return round(100 * _DECAY / (_DECAY + weighted))
 
 
 def score_label(score: int) -> str:
