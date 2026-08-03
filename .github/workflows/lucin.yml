@@ -52,7 +52,12 @@ jobs:
 
       - name: Run Lucin scan → SARIF
         run: |
-          lucin scan . --format sarif --output lucin.sarif
+          # scan-path is src/lucin, not `.`: this repo's own examples/,
+          # real_world_tests/ and benchmarks/recall_corpus/ are deliberately
+          # vulnerable teaching/test fixtures, not something to gate CI on.
+          # If you copied this file into your own repo, scan-path should
+          # point at your actual agent code (default `.` is usually right).
+          lucin scan src/lucin --format sarif --output lucin.sarif
         # Always produce the SARIF file even if findings exist, so GitHub
         # Code Scanning can display them. Exit code is handled below.
 
@@ -67,6 +72,10 @@ jobs:
 
       - name: Fail on high/critical findings
         run: |
-          lucin scan . --ci --fail-on high
+          # --baseline: a scanner's own source inherently discusses the
+          # patterns it detects (see .lucin-baseline.json) — only genuinely
+          # new findings should fail this check. Also derives from the JSON
+          # already produced above instead of a second full scan.
+          lucin scan src/lucin --ci --fail-on high --baseline .lucin-baseline.json
         # Separate step so SARIF upload always happens even on failure.
         # Change --fail-on to 'critical' to only fail on CRITICAL findings.
