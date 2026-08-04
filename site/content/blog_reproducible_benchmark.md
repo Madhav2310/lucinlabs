@@ -1,50 +1,64 @@
-# We published our false-positive rate and the command that regenerates it. Here's why nobody else does.
+# I published my false-positive rate and the command that regenerates it. Here is why almost nobody does.
 
-*~1,250 words. All numbers reproducible against `DEFINITION_OF_DONE.md`, verified 2026-07-29. Product name placeholder `lucin` pending rename.*
+Every security tool tells you what it catches. Detects 200+ attack techniques. Blocks 95% of prompt injections. Full OWASP LLM Top 10 coverage.
 
----
+Go looking for the command that proves any of it and you will not find one. Not on the landing page, not in the docs, not in the repository. The number is there. The way to check the number is not.
 
-Pick any AI-agent security tool and read its landing page. You will find a detection number — "detects 200+ attack techniques," "blocks 95% of prompt injections," "catches OWASP LLM Top 10." What you will not find is a command you can run to check it.
+That gap is not an oversight. It is the business model, and this post is about what happens when you close it.
 
-That asymmetry is the whole reason this post exists. In security tooling, the number that decides whether a tool gets adopted or uninstalled is not recall. It's precision. And precision is exactly the number nobody publishes.
+## The wrong number sells
 
-## A false positive is worse than a miss
+Ask a vendor how good their scanner is and they will answer with recall: what fraction of the bad things it finds. It is the number that fills a slide. It is also very nearly irrelevant to whether the tool is still installed a year from now.
 
-This is the thesis, and it's counterintuitive enough that it's worth stating plainly: **for adoption, a false positive is worse than a miss.**
+The number that decides that is precision, and it decides it through a sequence every engineer has lived through.
 
-A miss is invisible. You never see the vuln the tool didn't find, so it costs you nothing in trust. A false positive is loud, and it costs you the tool. The first time a scanner flags a line that's obviously fine, a developer's confidence drops. The third time, they add `# noqa`. The fifth time, they pipe it to `/dev/null` in CI and forget it exists. A security tool that gets muted is worse than no tool, because now there's a dashboard that's green for the wrong reason and nobody's actually looking.
+A scanner flags a line that is obviously fine. You look, you shrug, you move on, and something small happens to your relationship with the tool. Third time, someone adds a `# noqa`. Fifth time, it goes to `/dev/null` in CI with a comment nobody will read. Now you have a green dashboard, a security control in the build, and no one looking at either.
 
-Every developer who's run a noisy linter or a CVE scanner that screams about unreachable dependencies knows this in their gut. The industry's response has been to compete on breadth of detection — more techniques, more rules, more scary findings in the demo — because scary findings sell and false positives don't show up in a slide. So the incentive is to maximize recall in the demo and never mention precision.
+A muted scanner is worse than no scanner, because no scanner is at least honest about the coverage you have.
 
-We think that's backwards, and we think the way to prove it is to publish the precision number *with the command that regenerates it.*
+So here is the thing worth saying plainly, and it is counterintuitive enough that the industry has organised itself around denying it: **for adoption, a false positive costs more than a miss.**
+
+A miss is invisible. You never meet the vulnerability the tool failed to find, so it takes nothing from you. A false positive is loud, it is in your face, and it takes the tool. Recall failures are silent. Precision failures are the ones that get you uninstalled.
+
+Which means the incentive is to maximise the number people can see and never publish the one that matters. That is what everybody does, and it is rational, and I think it is worth breaking.
 
 ## The number, and the command
 
-Here is our false-positive rate:
+Mine is 11.
 
-**11 adjudicated false positives across 54 real repositories / 9,520 files** — counted per distinct (file, detector-id) pair, outside a documented per-repo known-capability allowlist. And the number that corpus *cannot* tell you: on a deliberately broader 81-repo population, precision is **20.5–31.5% (n=73 clean-holdout adjudicated, 95% CI 12.9–42.9%)**. Our earlier 58% was computed over the same adjudication labels used to build the precision filters — train-on-test — and is withdrawn. Both are published because only one of them flatters us.
-
-Here is the command:
+**11 adjudicated false positives across 54 real repositories and 9,520 files**, counted per distinct (file, detector-id) pair, outside a documented per-repo known-capability allowlist.
 
 ```
 python benchmarks/build_benign_corpus.py
 ```
 
-The corpus is 52 real open-source repos — real agent frameworks and real applications built on them (smolagents, CAMEL, LlamaIndex, mem0, txtai, autogen, agno, promptflow, and more), not fixtures we wrote. The script clones them, runs every detector, and counts confirmed false positives. Confirmed true-positives (380 of them) are excluded per the documented methodology so they don't flatter the number. The result is 11 adjudicated false positives. You can run it and get the same number, or you can find one we missed — which is genuinely the most useful thing you could send us.
+The corpus is 54 real open-source repositories, not fixtures I wrote to be found: smolagents, CAMEL, LlamaIndex, mem0, txtai, autogen, agno, promptflow and others. The script clones them, runs every detector, and counts what survives adjudication. 380 confirmed true positives are excluded under the documented methodology, so they cannot quietly flatter the result.
 
-Getting to 0.0% was not free, and we didn't get there by being timid. We got there by triaging real false positives and fixing the detectors: an `"execute"`-keyword over-match, a bare-substring match on FastAPI/Flask servers, a DB-verb substring firing inside docstrings. Each one was a detector that was technically "right" and practically noise. Cutting them is what earns the green checkmark meaning something.
+Eleven was not free, and I did not get there by making the detectors timid. I got there by opening every false positive and fixing what produced it. An `execute` keyword that over-matched. A bare substring that fired on any FastAPI or Flask server. A database verb matching inside a docstring. Each of those was a rule that was technically correct and practically noise, and cutting them is the only reason a clean scan means anything.
 
-## The number you're not supposed to show next to it
+## Now the number that cuts the other way
 
-Zero confirmed false positives, on its own, is a red flag, and you should treat it as one. `cat /dev/null` never fires either. The only way a near-zero false-positive count means anything is if you publish recall next to it — so we do:
+Eleven false positives across 54 repositories sounds excellent. Print it alone and it is misleading, so here is what that corpus cannot tell you.
 
-**76% recall: 38 of 50 distinct vulnerabilities across 10 classes. A 24% false-negative rate. 86% (19/22) on the real third-party cases.**
+On a deliberately broader 81-repo population, precision is **20.5 to 31.5%** (n=73 clean-holdout adjudicated, 95% CI 12.9 to 42.9%).
+
+Those two numbers are both true and they describe different questions. The first asks whether I fire on code that is known to be fine. The second asks what fraction of everything I say is worth your time on a population I did not curate. The second is the harder question and the answer is not flattering.
+
+There was an earlier figure of 58%. It was computed over the same adjudication labels used to build the precision filters, which is training on the test set. It is withdrawn. I am telling you about a number I deleted because the deletion is the point: if the only numbers that ever survive contact with your methodology are the good ones, you do not have a methodology.
+
+## A low false-positive count is a red flag
+
+You should treat mine as one. `cat /dev/null` has never produced a false positive either.
+
+The only thing that makes a precision claim mean anything is recall printed beside it, so:
+
+**76% recall. 38 of 50 distinct vulnerabilities across 10 classes. A 24% false-negative rate. 86%, or 19 of 22, on the real third-party cases.**
 
 ```
 python benchmarks/recall_corpus.py
 ```
 
-The recall corpus is 50 distinct vulnerable agents — 22 real cases with provenance/CVEs recorded in a manifest, plus 28 labeled constructed ones — spanning 10 vulnerability classes. Here's the honest per-class breakdown, including the classes we're weak or blind on:
+The recall corpus is 50 distinct vulnerable agents: 22 real cases with provenance and CVEs in a manifest, plus 28 labelled constructed ones. Per class, including where I am weak and where I am blind:
 
 | Vuln class | Recall | Note |
 |---|---|---|
@@ -52,40 +66,50 @@ The recall corpus is 50 distinct vulnerable agents — 22 real cases with proven
 | Command injection | 100% | |
 | eval / exec RCE | 100% | |
 | CORS / no-auth | 100% | |
-| Lethal trifecta (exfil edge) | 100% | the flagship shape |
+| Lethal trifecta (exfil edge) | 100% | on labelled cases |
 | Insecure deserialization | 100% | via cross-function/intra-class taint |
-| Container escape | ~80% | resolves docker cmds built via a variable |
-| SSRF | 17% | **deliberately conservative** — only fires when tainted data forms the URL host |
-| Path traversal | 0% | detector **built, sound, unit-tested — left unregistered on purpose** (see below) |
+| Container escape | ~80% | resolves docker commands built through a variable |
+| SSRF | 17% | deliberately conservative: fires only when tainted data forms the URL host |
+| Path traversal | 0% | detector built, sound, unit-tested, switched off on purpose |
 
-The path-traversal row is the one that makes the point. We have a working, unit-tested path-traversal detector. It's not registered. If we turned it on, recall would go up — and the precision result (11 confirmed FP outside a documented per-repo known-capability allowlist) would break, because the benign corpus contains byte-identical *legitimate* file-handling tools that the detector cannot distinguish from the vulnerable ones without runtime context. So we left it off. That is precision-over-recall as a policy, not a slogan: we would rather miss a class and say so than ship a detector we know fires on benign code.
+## The zero I am proudest of
 
-SSRF at 17% is the same choice at a smaller scale — the detector only fires when tainted data actually forms the URL host, so it stays quiet (and precise) rather than flagging every outbound request.
+Look at the last row again. Zero percent. Not because I could not build it.
 
-## Why nobody else publishes this
+I did build it. It works. It has unit tests. It catches real bugs.
 
-Not because they're dishonest. Because it's expensive and it's dangerous.
+It is not registered, and it will not be, because the benign corpus is full of legitimate file-handling tools that are byte-identical to the vulnerable ones without runtime context. Turning it on raises recall on the slide and breaks the precision result in your repository. So it sits in the tree, switched off, and the class it covers reads 0%.
 
-**It's expensive** because a reproducible benchmark is real infrastructure — a corpus of real repos, a labeling methodology, a script that regenerates the number on every commit — and it has to stay green as the detectors change. That's ongoing work with no demo payoff.
+That is the whole argument for precision over recall, made once, with something that cost me. It is easy to say you value precision. It is different to publish a zero you could have made a number.
 
-**It's dangerous** because the moment you publish the command, the number stops being yours. A hostile reader can run it. If your real false-positive rate is 12% and your marketing says "low false positives," a reproducible command turns your marketing into a lie anyone can prove in thirty seconds. Most tools can't survive that, so they don't offer it. The absence of a rerun command is itself information.
+SSRF at 17% is the same trade, smaller. That detector fires only when tainted data actually forms the URL host, so it stays quiet instead of flagging every outbound request in your codebase.
 
-There's a deeper reason too. Publishing the command forces you to publish the *methodology* — what counts as a false positive, what's excluded, what corpus. Once that's in the open, you can't quietly tune the number by moving the goalposts. The discipline the command imposes on us is the actual product: it's what keeps the 0.0% honest across releases.
+## Why almost nobody does this
 
-## What this buys, and what it doesn't
+Not dishonesty. Two much more ordinary reasons.
 
-We're not claiming the benchmark makes us correct. 52 repos is a proxy for the true population of agent codebases, not the population itself; precision at real user scale is something we can only earn with real users, and we say so. The recall number will move as we add detectors, and when it moves, the command will show it moving — up or down.
+It is expensive. A reproducible benchmark is infrastructure: a corpus of real repositories, a labelling methodology, a script that regenerates on every commit, and all of it staying green while the detectors keep moving underneath. That is permanent work with no demo payoff.
 
-What the reproducible benchmark buys is the one thing security tooling runs on and can't fake: **trust you can check.** You don't have to believe our false-positive rate. You can run `build_benign_corpus.py` and watch it come back 0, or you can run it and find the false positive we missed. Either outcome is better than a number on a slide.
+And it is dangerous. The moment you publish the command, the number stops being yours. A hostile reader runs it. If your real false-positive rate is 12% and your marketing says "low false positives", you have handed every skeptic a thirty-second disproof. Most tools cannot survive that, so they do not offer it, and the absence of a rerun command is itself information about the number.
 
-If you run an agent in production, that's the ask. Point the scanner at it, try to make it cry wolf, and file the issue when it does.
+There is a third reason and it is the one that actually bites. Publishing the command forces you to publish the methodology: what counts as a false positive, what is excluded, which corpus, how adjudication works. Once that is public you can no longer improve the number quietly by moving a definition. The discipline is the product. The number is just its receipt.
+
+## What this does not buy
+
+It does not make me right.
+
+54 repositories are a proxy for the population of real agent codebases. They are not that population. Precision at real user scale is something I can only earn from real users, and I have not earned it. The recall figure will move as detectors change, and when it moves the command will show which direction it went, including the wrong one.
+
+What it buys is narrower and it is the only thing security tooling genuinely runs on: a claim you can check without trusting the person making it. You do not have to believe eleven. You can run `build_benign_corpus.py` and get eleven, or you can run it and find the twelfth one I missed.
+
+The second outcome is worth more to me than the first, and it is the ask.
 
 ```
 pip install lucin && lucin scan ./your-agent/
 ```
 
-The scanner is MIT-licensed. Both benchmark commands are committed. The 24% we miss is written down. Run the numbers yourself — we'd rather you reproduce them than trust our marketing.
+MIT licensed. Both commands are committed. The 24% I miss is written down by name.
 
 ---
 
-*Sources: [OWASP Top 10 for LLM Applications 2025](https://owasp.org/www-project-top-10-for-large-language-model-applications/) · benchmark methodology and both commands are in the repo. All figures verified against DEFINITION_OF_DONE.md, 2026-07-29.*
+*Sources: [OWASP Top 10 for LLM Applications 2025](https://owasp.org/www-project-top-10-for-large-language-model-applications/). Benchmark methodology and both commands are in the repository. All figures verified against DEFINITION_OF_DONE.md, 2026-07-29.*

@@ -44,17 +44,17 @@ from build import _CSS, _LOGO_SVG, NAV  # noqa: E402  (reuse the one template's 
 #  meta description. date_modified is None unless the post was substantively
 #  corrected after publication — see dateModified in the JSON-LD.)
 POSTS: list[tuple[str, str, str, str, str, str, str | None]] = [
-    ("hugging-face-agent-breach", "site/content/hf_teardown.md", "TEARDOWN", "29 JUL 2026", "12 min read",
-     "A malicious dataset, a tool that executes code, a credential read, an outbound call. We rebuilt the incident as an information-flow graph — and found the single edge that carries all 17,600 actions.",
+    ("hugging-face-agent-breach", "site/content/hf_teardown.md", "TEARDOWN", "29 JUL 2026", "9 min read",
+     "A malicious dataset, a tool that runs code, a credential read, an outbound call. Four ordinary tools, none of them a mistake on its own. Drawn as a graph, they are one edge, walked 17,600 times.",
      "03 AUG 2026"),  # corrected: action count, timeframe, attacker description, detection framing
     ("litellm-supply-chain-compromise", "site/content/litellm_teardown.md", "TEARDOWN", "25 JUL 2026", "9 min read",
-     "A credential harvester in a library with 95 million monthly downloads. The attack chain started by compromising a security scanner, which is exactly why you shouldn't trust ours.",
+     "A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.",
      None),
-    ("lethal-trifecta", "site/content/blog_lethal_trifecta.md", "METHOD", "29 JUL 2026", "9 min read",
-     "Private data, untrusted content, external reach. Any one is fine; all three wired together is the incident. Here is how to read those edges off your own tool list — and which to cut versus gate.",
+    ("lethal-trifecta", "site/content/blog_lethal_trifecta.md", "METHOD", "29 JUL 2026", "7 min read",
+     "Private data, untrusted content, external reach. Any one is fine, all three is an incident. Open your tool file: this is the ten-minute pass that tells you which edges to cut and which to gate.",
      None),
     ("reproducible-benchmark", "site/content/blog_reproducible_benchmark.md", "PROOF", "29 JUL 2026", "7 min read",
-     "A security tool that will not show you its benchmark harness is asking you to take its word for it. Here is ours, and the exact command that regenerates every number on this site.",
+     "Every scanner publishes what it catches. Almost none publish a command you can run to check. Here is my false-positive count, the number that argues against it, and both commands.",
      None),
 ]
 
@@ -158,7 +158,14 @@ def _read_post(src: str) -> tuple[str, str]:
     """Returns (title, rendered_body_html)."""
     text = (ROOT / src).read_text()
     m = re.match(r"\A\s*#\s+(.*?)\n", text)
-    title = m.group(1).strip() if m else src
+    if not m:
+        # Falling back to the source path silently published "site/content/x.md" as a
+        # post title. A build that cannot read a title must stop, not guess.
+        raise SystemExit(
+            f"{src}: no H1 on the first line. A post must open with '# Title' "
+            f"(found: {text[:60]!r}). Remove any draft note above the heading."
+        )
+    title = m.group(1).strip()
     text = re.sub(r"\A\s*#\s+.*?\n", "", text, count=1)
     blocks = _split_blocks(text)
     return title, _render_blocks(blocks)

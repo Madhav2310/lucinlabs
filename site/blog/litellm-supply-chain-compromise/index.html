@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>site/content/litellm_teardown.md — Lucin</title>
-<meta name="description" content="A credential harvester in a library with 95 million monthly downloads. The attack chain started by compromising a security scanner, which is exactly why you shouldn&#x27;t trust ours.">
+<title>The attack chain started by compromising a security scanner — Lucin</title>
+<meta name="description" content="A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3.5' cy='10' r='2.6' fill='%23141414'/%3E%3Cline x1='6.1' y1='10' x2='13.9' y2='10' stroke='%23141414' stroke-width='1.6'/%3E%3Ccircle cx='16.5' cy='10' r='2.6' fill='%23D6321F'/%3E%3C/svg%3E">
 <link rel="canonical" href="https://lucin.pages.dev/blog/litellm-supply-chain-compromise/">
 <link rel="stylesheet" href="/fonts.css">
@@ -12,19 +12,19 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Lucin">
 <meta property="og:url" content="https://lucin.pages.dev/blog/litellm-supply-chain-compromise/">
-<meta property="og:title" content="site/content/litellm_teardown.md">
-<meta property="og:description" content="A credential harvester in a library with 95 million monthly downloads. The attack chain started by compromising a security scanner, which is exactly why you shouldn&#x27;t trust ours.">
+<meta property="og:title" content="The attack chain started by compromising a security scanner">
+<meta property="og:description" content="A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.">
 <meta property="og:image" content="https://lucin.pages.dev/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Lucin — static analysis for AI agents">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="site/content/litellm_teardown.md">
-<meta name="twitter:description" content="A credential harvester in a library with 95 million monthly downloads. The attack chain started by compromising a security scanner, which is exactly why you shouldn&#x27;t trust ours.">
+<meta name="twitter:title" content="The attack chain started by compromising a security scanner">
+<meta name="twitter:description" content="A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.">
 <meta name="twitter:image" content="https://lucin.pages.dev/og.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"TechArticle",
- "headline":"site/content/litellm_teardown.md","description":"A credential harvester in a library with 95 million monthly downloads. The attack chain started by compromising a security scanner, which is exactly why you shouldn&#x27;t trust ours.","url":"https://lucin.pages.dev/blog/litellm-supply-chain-compromise/",
+ "headline":"The attack chain started by compromising a security scanner","description":"A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.","url":"https://lucin.pages.dev/blog/litellm-supply-chain-compromise/",
  "datePublished":"2026-07-25",
  "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
  "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/"}}
@@ -180,53 +180,60 @@ p.post-sources em{font-style:normal}
 </div></nav><article style="max-width:760px;margin:0 auto;padding:40px 24px 0">
   <a class="back-link" href="/blog/">← All field notes</a>
   <div class="post-meta-row"><span class="kicker">TEARDOWN</span><span>25 JUL 2026</span><span>9 min read</span></div>
-  <h1 class="post-h1">site/content/litellm_teardown.md</h1>
-  <p class="post-dek">A credential harvester in a library with 95 million monthly downloads. The attack chain started by compromising a security scanner, which is exactly why you shouldn&#x27;t trust ours.</p>
+  <h1 class="post-h1">The attack chain started by compromising a security scanner</h1>
+  <p class="post-dek">A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.</p>
   <div class="post-rule"></div>
   <div class="post-body">
-<h2 class="post-h"><em>~2,400 words. Flagship post.</em></h2>
 <p class="post-p"><em>What the LiteLLM supply-chain compromise means for tools like this one</em></p>
-<p class="post-p">On 24 March 2026 at 10:39 UTC, two versions of <code>litellm</code> appeared on PyPI that no LangChain maintainer had tagged, no CI job had built, and no release workflow had produced. Versions 1.82.7 and 1.82.8 were uploaded directly, bypassing the pipeline entirely. There is no corresponding tag in the GitHub repository. For about forty minutes they were the newest release of a library that PyPI serves roughly 95 million times a month, and that sits underneath most of the agent frameworks, MCP servers and orchestration tools currently in production.</p>
+<p class="post-p">On 24 March 2026 at 10:39 UTC, two versions of <code>litellm</code> appeared on PyPI that no maintainer had tagged, no CI job had built, and no release workflow had produced.</p>
+<p class="post-p">Versions 1.82.7 and 1.82.8 went up directly, past the pipeline. There is no matching tag in the GitHub repository, because nothing in the repository was involved. For roughly forty minutes they were the newest release of a library PyPI serves about 95 million times a month, sitting underneath most of the agent frameworks, MCP servers and orchestration tools currently in production.</p>
 <p class="post-p">Inside the wheel was a file called <code>litellm_init.pth</code>.</p>
-<p class="post-p">A <code>.pth</code> file in a Python environment is not a module. It is a line of code the interpreter executes at startup, before your program runs, every time any Python process begins in that environment. You do not have to import <code>litellm</code>. You do not have to call it. If it is installed, the payload runs.</p>
-<p class="post-p">That payload had three stages: a credential harvester, a Kubernetes lateral-movement toolkit, and a persistent backdoor. It collected cloud credentials, SSH keys and Kubernetes secrets.</p>
+<p class="post-p">A <code>.pth</code> file is not a module. It is a line of code the interpreter runs at startup, before your program begins, every time any Python process starts in that environment. You do not have to import <code>litellm</code>. You do not have to call it. If it is installed, the payload runs.</p>
+<p class="post-p">The payload had three stages: a credential harvester, a Kubernetes lateral-movement toolkit, and a persistent backdoor. It took cloud credentials, SSH keys and Kubernetes secrets.</p>
 <p class="post-p">PyPI quarantined the package. The last known-clean release is 1.82.6.</p>
-<p class="post-p">That is the incident. The part worth several thousand words is how the attacker got in.</p>
-<h3 class="post-h">The way in was a security scanner</h3>
-<p class="post-p">The threat actor, tracked as TeamPCP, did not phish a LangChain maintainer. They did not brute-force a PyPI password. They obtained the publishing credentials by first compromising <strong>Trivy</strong>, the open-source vulnerability scanner running inside LiteLLM's own CI/CD pipeline.</p>
-<p class="post-p">Set out as a timeline, the campaign is coherent and deliberate:</p>
+<p class="post-p">That is the incident, and it is the least interesting part. What is worth several thousand words is how the attacker got the keys.</p>
+<h2 class="post-h">They came in through the security scanner</h2>
+<p class="post-p">The threat actor, tracked as TeamPCP, did not phish a maintainer. They did not brute-force a PyPI password.</p>
+<p class="post-p">They took the publishing credentials by first compromising <strong>Trivy</strong>, the open-source vulnerability scanner running inside LiteLLM's own CI/CD pipeline.</p>
+<p class="post-p">Laid out as a timeline, the campaign is patient and deliberate:</p>
 <ul class="post-list">
-<li><strong>19 March</strong> — Trivy, Aqua Security's scanner, is compromised.</li>
-<li><strong>21 March</strong> — Checkmarx's AST GitHub Actions are compromised.</li>
-<li><strong>24 March</strong> — LiteLLM 1.82.7 and 1.82.8 are published to PyPI with the backdoor.</li>
-<li><strong>27 March</strong> — <code>telnyx</code> 4.87.1 and 4.87.2 are backdoored.</li>
+<li><strong>19 March.</strong> Trivy, Aqua Security's scanner, is compromised.</li>
+<li><strong>21 March.</strong> Checkmarx's AST GitHub Actions are compromised.</li>
+<li><strong>24 March.</strong> LiteLLM 1.82.7 and 1.82.8 go to PyPI with the backdoor.</li>
+<li><strong>27 March.</strong> <code>telnyx</code> 4.87.1 and 4.87.2 are backdoored.</li>
 </ul>
 
-<p class="post-p">Alongside this, CanisterWorm was moving through npm. Datadog's researchers tied the threads together.</p>
-<p class="post-p">Read the first two entries again. The attacker's route into the AI supply chain ran <strong>through the security tooling</strong>. Not around it. Through it.</p>
-<p class="post-p">There is a reason that works, and it is structural rather than accidental. Consider what a scanner needs in order to do its job in your pipeline. It needs to run on every commit, which means it runs with your CI's privileges. It needs to read your entire source tree, including files your application never reads. It frequently needs registry credentials to resolve dependencies. It often needs a token to post results back to your pull requests. And because it is a security tool, nobody audits it, because auditing it feels like the thing it was supposed to do for you.</p>
-<p class="post-p">A scanner is a privileged process that reads everything and that no one questions. If you were designing a target, you would design that.</p>
-<h3 class="post-h">The uncomfortable question this raises about us</h3>
-<p class="post-p">I build a security scanner. It is called Lucin, it reads the code inside AI agents' tools, and it traces paths from untrusted input to dangerous actions. If you install it in your CI, it will run on every commit with your CI's privileges and read your whole source tree.</p>
-<p class="post-p">Everything I just described as a good target describes my product.</p>
-<p class="post-p">So I am not going to pretend this incident is only a story about someone else's failure. The honest response is to say what structural properties make a scanner a smaller target, and then to be held to them.</p>
-<p class="post-p"><strong>It should run locally, with no service.</strong> <code>lucin scan .</code> completes in under a second on a typical agent and needs no API key, no account and no network call to function. Your code does not leave your machine. There is no server holding your source, which means there is no server whose compromise reaches your source. This is not a feature I can take much credit for — it is a consequence of doing static analysis rather than selling a platform — but it is the property that matters here.</p>
-<p class="post-p"><strong>It should be readable.</strong> The whole thing is MIT-licensed on GitHub. The detectors are pure functions, <code>Agent → list[Finding]</code>. If you want to know what a rule does, you can read it in a couple of minutes, which is the actual answer to &quot;why should I trust this binary.&quot; Do not trust it. Read it. That is the offer, and it is only meaningful because the code is small enough to accept.</p>
-<p class="post-p"><strong>It should be pinnable, and you should pin it.</strong> Every version is tagged and published to PyPI. The GitHub Action takes an explicit <code>version</code> input. Pin it to a digest if you want. If a version of Lucin is ever compromised, an unpinned dependency is how it reaches you.</p>
-<p class="post-p"><strong>It should ask for as little as possible.</strong> Lucin needs read access to your source. It does not need registry credentials, cloud credentials, or a token to write to your repository. When it runs in CI, findings are emitted as workflow annotations, which requires no additional permission grant.</p>
-<p class="post-p">I am aware of how this reads: a vendor using an industry incident to explain why its own architecture is sound. So here is the part that argument does not cover. None of those properties would have saved you from the LiteLLM compromise, because that attack did not come through the scanner's <em>design</em>. It came through the scanner's <em>release pipeline</em>. My release pipeline is a GitHub Actions workflow with a PyPI token, which is a smaller version of exactly the thing that failed. Being local and open-source does not fix that. What fixes it is pinning, provenance attestation, and you not extending trust you have not checked.</p>
-<h3 class="post-h">What your dependency graph looks like from here</h3>
+<p class="post-p">CanisterWorm was moving through npm alongside it. Datadog's researchers tied the threads together.</p>
+<p class="post-p">Read the first two entries again. The route into the AI supply chain ran through the security tooling. Not around it. Through it.</p>
+<p class="post-p">That works for a structural reason rather than an accidental one, and it is worth spelling out. Think about what a scanner needs in order to do its job in your pipeline. It runs on every commit, so it runs with your CI's privileges. It reads your entire source tree, including files your application never touches. It frequently needs registry credentials to resolve dependencies. It often needs a token to write results back to your pull requests.</p>
+<p class="post-p">And nobody audits it, because auditing the security tool feels like the thing the security tool was supposed to do for you.</p>
+<p class="post-p">A scanner is a privileged process that reads everything and that no one questions. If you sat down to design a target, you would design that.</p>
+<h2 class="post-h">Which brings me to the uncomfortable part</h2>
+<p class="post-p">I build a security scanner.</p>
+<p class="post-p">It is called Lucin. It reads the code inside AI agents' tools and traces paths from untrusted input to dangerous actions. Install it in your CI and it will run on every commit, with your CI's privileges, across your whole source tree.</p>
+<p class="post-p">Every property I just described as making a perfect target is a property of my product.</p>
+<p class="post-p">So I am not going to write this as a story about someone else's failure. The useful thing I can do is state which structural choices make a scanner a smaller target, and then be held to them.</p>
+<p class="post-p"><strong>It should run locally, with no service.</strong> <code>lucin scan .</code> finishes in under a second on a typical agent and needs no API key, no account, and no network call to function. Your code does not leave your machine. There is no server holding your source, so there is no server whose compromise reaches your source. I cannot take much credit for this, since it falls out of doing static analysis instead of selling a platform, but it is the property that matters here.</p>
+<p class="post-p"><strong>It should be readable.</strong> The whole thing is MIT-licensed on GitHub, and the detectors are pure functions: <code>Agent → list[Finding]</code>. If you want to know what a rule does, you can read it in a couple of minutes. That is the honest answer to &quot;why should I trust this binary.&quot; Do not trust it. Read it. The offer only means anything because the code is small enough to accept.</p>
+<p class="post-p"><strong>It should be pinnable, and you should pin it.</strong> Every version is tagged and published. The GitHub Action takes an explicit <code>version</code> input. Pin it to a digest if you want. If a release of Lucin is ever compromised, an unpinned dependency is exactly how it reaches you.</p>
+<p class="post-p"><strong>It should ask for as little as it can.</strong> Lucin needs read access to your source. It does not need registry credentials, cloud credentials, or a token to write to your repository. In CI, findings come out as workflow annotations, which require no extra permission grant.</p>
+<p class="post-p">I know how that reads. A vendor uses an industry incident to explain why its own architecture is sound.</p>
+<p class="post-p">So here is what the argument does not cover. None of those four properties would have saved you from the LiteLLM compromise, because that attack did not come through the scanner's <em>design</em>. It came through the scanner's <em>release pipeline</em>.</p>
+<p class="post-p">My release pipeline is a GitHub Actions workflow holding a PyPI token. Which is a smaller version of precisely the thing that failed.</p>
+<p class="post-p">Being local does not fix that. Being open source does not fix that. What fixes it is pinning, provenance attestation, and you declining to extend trust you have not checked, including to me.</p>
+<h2 class="post-h">What your dependency graph looks like from here</h2>
 <p class="post-p">If you build agents, LiteLLM is probably in your tree, and probably not because you chose it.</p>
-<p class="post-p">It is the routing layer beneath a large number of higher-level tools. You install a framework, the framework wants a provider-agnostic gateway, and <code>litellm</code> arrives transitively. Ninety-five million downloads a month is not ninety-five million deliberate decisions; it is a small number of decisions multiplied by everything downstream of them.</p>
-<p class="post-p">This is what makes the forty-minute window less reassuring than it sounds. Forty minutes is short for a human deciding to upgrade a library. It is not short for CI. An unpinned dependency in a build that runs on every push, on a repository with any traffic at all, resolves to whatever is newest at the moment it runs. A forty-minute window catches whoever happened to build during it, and &quot;whoever happened to build&quot; is not a small set when the ecosystem is this large and pipelines run this often.</p>
-<p class="post-p">Two versions were published, and PyPI eventually quarantined the entire package — which broke installs for people who had done nothing wrong. That is the correct call and it illustrates a second-order cost: the remediation for a compromised popular package is an outage for everybody depending on it.</p>
-<h3 class="post-h">The rule that fires on this</h3>
-<p class="post-p">Lucin has a detector called <code>AG-FRAMEWORK-PIN</code>. It is a small, unglamorous rule. It looks at how your agent's framework dependencies are specified and flags the ones that are not pinned. Severity medium. It is the sort of finding people dismiss.</p>
+<p class="post-p">It is the routing layer underneath a large number of higher-level tools. You install a framework, the framework wants a provider-agnostic gateway, and <code>litellm</code> arrives transitively. Ninety-five million downloads a month is not ninety-five million decisions. It is a small number of decisions multiplied by everything downstream of them.</p>
+<p class="post-p">That is what makes the forty-minute window less reassuring than it sounds. Forty minutes is short for a human deciding to upgrade a library. It is not short for CI. An unpinned dependency, in a build that runs on every push, on a repository with any traffic at all, resolves to whatever is newest the moment it runs. A forty-minute window catches whoever happened to be building, and &quot;whoever happened to be building&quot; is not a small set when the ecosystem is this large and pipelines fire this often.</p>
+<p class="post-p">Then PyPI quarantined the whole package, which broke installs for people who had done nothing wrong. That was the correct call, and it shows the second-order cost: the remediation for a compromised popular package is an outage for everybody who depends on it.</p>
+<h2 class="post-h">The rule that fires on this</h2>
+<p class="post-p">Lucin has a detector called <code>AG-FRAMEWORK-PIN</code>. It is small and unglamorous. It looks at how your agent's framework dependencies are specified and flags the ones that are not pinned. Severity medium. The kind of finding people close without reading.</p>
 <p class="post-p">In March 2026 that exact configuration was the delivery mechanism for a credential harvester in a library with 95 million monthly downloads.</p>
-<p class="post-p">I want to be precise about what the rule does and does not do, because overclaiming here would be worse than saying nothing.</p>
-<p class="post-p">It does not detect malicious packages. It has no threat intelligence, no reputation feed and no knowledge of which versions are compromised. It would not have told you that 1.82.7 was backdoored.</p>
-<p class="post-p">What it does is narrower and, on the evidence of this incident, more useful than it sounds. It tells you which of your dependencies are resolved at build time rather than fixed by you — which is the same as telling you where an attacker who compromises a registry account reaches your build without touching your repository. That is not a detection. It is an inventory of a specific kind of exposure, and it is the difference between &quot;we were in the blast radius&quot; and &quot;we were not.&quot;</p>
-<p class="post-p">The companion rule is <code>AG-015</code>, which does the same for unpinned MCP servers. MCP servers are a newer version of the same problem with a worse trust model: they are frequently pulled by identifier at runtime, from registries with less scrutiny than PyPI, and they execute with whatever the agent's permissions are.</p>
+<p class="post-p">I want to be precise about what the rule does, because overclaiming here would be worse than staying quiet.</p>
+<p class="post-p">It does not detect malicious packages. It has no threat intelligence, no reputation feed, and no knowledge of which versions are compromised. It would not have told you that 1.82.7 was backdoored.</p>
+<p class="post-p">What it does is narrower and, on the evidence of this incident, more useful than it sounds. It tells you which of your dependencies are resolved at build time rather than fixed by you, which is the same as telling you where an attacker who compromises a registry account reaches your build without ever touching your repository.</p>
+<p class="post-p">That is not a detection. It is an inventory of one specific kind of exposure, and it is the difference between &quot;we were in the blast radius&quot; and &quot;we were not.&quot;</p>
+<p class="post-p">The companion rule is <code>AG-015</code>, which does the same for unpinned MCP servers. Those are a newer version of the same problem with a worse trust model: pulled by identifier at runtime, from registries with less scrutiny than PyPI, executing with whatever permissions the agent has.</p>
 <pre class="post-code"><code>$ lucin scan .
 
   MEDIUM  AG-FRAMEWORK-PIN   Unpinned agent framework version
@@ -235,25 +242,25 @@ p.post-sources em{font-style:normal}
   Fix:      litellm==1.82.6
 </code></pre>
 
-<h3 class="post-h">What to do about this specific incident</h3>
-<p class="post-p">If you were running anything in the affected window:</p>
+<h2 class="post-h">If you were running anything in that window</h2>
 <ol class="post-list">
 <li><strong>Check whether 1.82.7 or 1.82.8 ever resolved in any environment,</strong> including ephemeral CI runners. Lockfiles, CI logs, container image layers. The last clean release is 1.82.6.</li>
-<li><strong>If either version ran anywhere, rotate.</strong> Cloud credentials, SSH keys, Kubernetes secrets, and anything else readable from the environment. The payload ran at interpreter startup, so &quot;we never called litellm&quot; is not an exclusion.</li>
+<li><strong>If either version ran anywhere, rotate.</strong> Cloud credentials, SSH keys, Kubernetes secrets, anything readable from the environment. The payload ran at interpreter startup, so &quot;we never called litellm&quot; is not an exclusion.</li>
 <li><strong>Look for the <code>.pth</code>.</strong> <code>litellm_init.pth</code> in <code>site-packages</code> is the marker.</li>
-<li><strong>Then pin.</strong> Not just <code>litellm</code> — the whole tree, with a lockfile and a hash.</li>
+<li><strong>Then pin.</strong> Not just <code>litellm</code>, but the whole tree, with a lockfile and a hash.</li>
 </ol>
 
-<h3 class="post-h">What I actually think the lesson is</h3>
-<p class="post-p">The comfortable reading of this incident is that supply-chain attacks are getting more sophisticated and we all need better tooling. I do not think that is right, and I think the comfortable reading is why this keeps happening.</p>
-<p class="post-p">The attacker did not need sophistication. They needed to notice that security tools are privileged, ubiquitous and unexamined, and that a scanner's credentials are worth more than the thing it is scanning. Then they walked from one to the next, four times in nine days.</p>
-<p class="post-p">The lesson is about where trust accumulates. Every tool you add to a pipeline to reduce risk is also a component whose compromise transfers to you, and security tools concentrate privilege more than most because we grant them access precisely so they can look at everything. That trade can still be worth making. It is not worth making unexamined.</p>
+<h2 class="post-h">What I actually think the lesson is</h2>
+<p class="post-p">The comfortable reading is that supply-chain attacks are getting more sophisticated and we all need better tooling. I do not think that is right, and I think the comfortable reading is why this keeps happening.</p>
+<p class="post-p">The attacker needed no sophistication. They needed to notice that security tools are privileged, ubiquitous and unexamined, and that a scanner's credentials are worth more than whatever the scanner is scanning. Then they walked from one to the next, four times in nine days.</p>
+<p class="post-p">The lesson is about where trust accumulates. Every tool you add to a pipeline to reduce risk is also a component whose compromise transfers to you, and security tools concentrate privilege more than most, because we grant them access precisely so they can look at everything.</p>
+<p class="post-p">That trade can still be worth making. It is not worth making unexamined.</p>
 <p class="post-p">Which means the question to ask of my scanner, and of every other one in your pipeline, is not &quot;does it find bugs.&quot; It is: what does it need, who can publish it, what happens if that publisher is compromised, and can you read it?</p>
-<p class="post-p">I would rather you asked me those questions than took my word for anything.</p>
+<p class="post-p">I would rather you asked me those than took my word for anything.</p>
 <p class="post-p"><strong>Reproduce anything in this post</strong></p>
-<pre class="post-code"><code>Scan your own agent:   pip install lucin &amp;&amp; lucin scan .
-Read every detector:   github.com/Madhav2310/lucinlabs/tree/main/src/lucin/detectors
-Our false-negative list: python benchmarks/recall_corpus.py
+<pre class="post-code"><code>Scan your own agent:      pip install lucin &amp;&amp; lucin scan .
+Read every detector:      github.com/Madhav2310/lucinlabs/tree/main/src/lucin/detectors
+My false-negative list:   python benchmarks/recall_corpus.py
 </code></pre>
 
 <p class="post-p"><em>Sources:</em> LiteLLM's advisory (<a href="https://docs.litellm.ai/blog/security-update-march-2026">docs.litellm.ai</a>) · Datadog Security Labs on the TeamPCP campaign (<a href="https://securitylabs.datadoghq.com/articles/litellm-compromised-pypi-teampcp-supply-chain-campaign/">securitylabs.datadoghq.com</a>) · Snyk on the Trivy pivot (<a href="https://snyk.io/blog/poisoned-security-scanner-backdooring-litellm/">snyk.io</a>) · ARMO's payload analysis (<a href="https://www.armosec.io/blog/litellm-supply-chain-attack-backdoor-analysis/">armosec.io</a>) · Endor Labs (<a href="https://www.endorlabs.com/learn/teampcp-isnt-done">endorlabs.com</a>) · Bitsight (<a href="https://www.bitsight.com/blog/litellm-versions-1-82-7-1-82-8-supply-chain-compromise">bitsight.com</a>) · Trend Micro (<a href="https://www.trendmicro.com/en_us/research/26/c/inside-litellm-supply-chain-compromise.html">trendmicro.com</a>)</p>

@@ -83,3 +83,10 @@ benchmarks/skill_corpus/
 
 # Internal working plan — not part of the published repo.
 PHASE_6_PLAN.md
+
+# Competitive research clones — third-party repos, multi-GB, never committed.
+# Inventory + analysis live in competitive/*/ANALYSIS.md (those ARE tracked if moved into launch/).
+competitive/
+
+# Local scan baselines written by `lucin scan` when run inside this repo.
+.lucin/
