@@ -2,7 +2,7 @@
 
 *What the LiteLLM supply-chain compromise means for tools like this one*
 
-On 24 March 2026 at 10:39 UTC, two versions of `litellm` appeared on PyPI that no LangChain maintainer had tagged, no CI job had built, and no release workflow had produced. Versions 1.82.7 and 1.82.8 were uploaded directly, bypassing the pipeline entirely. There is no corresponding tag in the GitHub repository. For about forty minutes they were the newest release of a library that PyPI serves roughly 95 million times a month, and that sits underneath most of the agent frameworks, MCP servers and orchestration tools currently in production.
+On 24 March 2026 at 10:39 UTC, two versions of `litellm` appeared on PyPI that no LiteLLM maintainer had tagged, no CI job had built, and no release workflow had produced. Versions 1.82.7 and 1.82.8 were uploaded directly, bypassing the pipeline entirely. There is no corresponding tag in the GitHub repository. For about forty minutes they were the newest release of a library that PyPI serves roughly 95 million times a month, and that sits underneath most of the agent frameworks, MCP servers and orchestration tools currently in production.
 
 Inside the wheel was a file called `litellm_init.pth`.
 
@@ -16,7 +16,7 @@ That is the incident. The part worth several thousand words is how the attacker 
 
 ### The way in was a security scanner
 
-The threat actor, tracked as TeamPCP, did not phish a LangChain maintainer. They did not brute-force a PyPI password. They obtained the publishing credentials by first compromising **Trivy**, the open-source vulnerability scanner running inside LiteLLM's own CI/CD pipeline.
+The threat actor, tracked as TeamPCP, did not phish a LiteLLM maintainer. They did not brute-force a PyPI password. They obtained the publishing credentials by first compromising **Trivy**, the open-source vulnerability scanner running inside LiteLLM's own CI/CD pipeline.
 
 Set out as a timeline, the campaign is coherent and deliberate:
 
@@ -41,7 +41,7 @@ Everything I just described as a good target describes my product.
 
 So I am not going to pretend this incident is only a story about someone else's failure. The honest response is to say what structural properties make a scanner a smaller target, and then to be held to them.
 
-**It should run locally, with no service.** `lucin scan .` completes in under a second on a typical agent and needs no API key, no account and no network call to function. Your code does not leave your machine. There is no server holding your source, which means there is no server whose compromise reaches your source. This is not a feature I can take much credit for — it is a consequence of doing static analysis rather than selling a platform — but it is the property that matters here.
+**It should run locally, with no service.** `lucin scan .` completes in under a second on a typical agent and needs no API key, no account and no network call to function. Your code does not leave your machine. There is no server holding your source, which means there is no server whose compromise reaches your source. This is not a feature I can take much credit for, since it is a consequence of doing static analysis rather than selling a platform, but it is the property that matters here.
 
 **It should be readable.** The whole thing is MIT-licensed on GitHub. The detectors are pure functions, `Agent → list[Finding]`. If you want to know what a rule does, you can read it in a couple of minutes, which is the actual answer to "why should I trust this binary." Do not trust it. Read it. That is the offer, and it is only meaningful because the code is small enough to accept.
 
@@ -59,7 +59,7 @@ It is the routing layer beneath a large number of higher-level tools. You instal
 
 This is what makes the forty-minute window less reassuring than it sounds. Forty minutes is short for a human deciding to upgrade a library. It is not short for CI. An unpinned dependency in a build that runs on every push, on a repository with any traffic at all, resolves to whatever is newest at the moment it runs. A forty-minute window catches whoever happened to build during it, and "whoever happened to build" is not a small set when the ecosystem is this large and pipelines run this often.
 
-Two versions were published, and PyPI eventually quarantined the entire package — which broke installs for people who had done nothing wrong. That is the correct call and it illustrates a second-order cost: the remediation for a compromised popular package is an outage for everybody depending on it.
+Two versions were published, and PyPI eventually quarantined the entire package, which broke installs for people who had done nothing wrong. That is the correct call and it illustrates a second-order cost: the remediation for a compromised popular package is an outage for everybody depending on it.
 
 ### The rule that fires on this
 
@@ -71,7 +71,7 @@ I want to be precise about what the rule does and does not do, because overclaim
 
 It does not detect malicious packages. It has no threat intelligence, no reputation feed and no knowledge of which versions are compromised. It would not have told you that 1.82.7 was backdoored.
 
-What it does is narrower and, on the evidence of this incident, more useful than it sounds. It tells you which of your dependencies are resolved at build time rather than fixed by you — which is the same as telling you where an attacker who compromises a registry account reaches your build without touching your repository. That is not a detection. It is an inventory of a specific kind of exposure, and it is the difference between "we were in the blast radius" and "we were not."
+What it does is narrower and, on the evidence of this incident, more useful than it sounds. It tells you which of your dependencies are resolved at build time rather than fixed by you, which is the same as telling you where an attacker who compromises a registry account reaches your build without touching your repository. That is not a detection. It is an inventory of a specific kind of exposure, and it is the difference between "we were in the blast radius" and "we were not."
 
 The companion rule is `AG-015`, which does the same for unpinned MCP servers. MCP servers are a newer version of the same problem with a worse trust model: they are frequently pulled by identifier at runtime, from registries with less scrutiny than PyPI, and they execute with whatever the agent's permissions are.
 
@@ -91,7 +91,7 @@ If you were running anything in the affected window:
 1. **Check whether 1.82.7 or 1.82.8 ever resolved in any environment,** including ephemeral CI runners. Lockfiles, CI logs, container image layers. The last clean release is 1.82.6.
 2. **If either version ran anywhere, rotate.** Cloud credentials, SSH keys, Kubernetes secrets, and anything else readable from the environment. The payload ran at interpreter startup, so "we never called litellm" is not an exclusion.
 3. **Look for the `.pth`.** `litellm_init.pth` in `site-packages` is the marker.
-4. **Then pin.** Not just `litellm` — the whole tree, with a lockfile and a hash.
+4. **Then pin.** Not just `litellm`, but the whole tree, with a lockfile and a hash.
 
 ### What I actually think the lesson is
 
