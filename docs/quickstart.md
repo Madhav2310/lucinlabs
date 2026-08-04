@@ -114,7 +114,7 @@ agent is safe under all inputs — see the [threat model](/docs/threat-model/) a
 
 ## Next
 
-- [Benchmarks & methodology](/benchmarks/) — reproduce the precision (0 confirmed FP outside a documented per-repo known-capability allowlist) and 76% recall numbers yourself.
+- [Benchmarks & methodology](/benchmarks/) — reproduce the precision (11 confirmed FP outside a documented per-repo known-capability allowlist) and 76% recall numbers yourself.
 - [Threat model](/docs/threat-model/) — the AIFG model and the lethal trifecta.
 - [What SCAN misses](/limits/) — the honest "what we don't catch yet."
 - [Runtime enforcement (GUARD)](/runtime/) — the same information-flow model, enforced live. Design-partner preview, not GA.

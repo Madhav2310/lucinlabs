@@ -10,9 +10,9 @@ commands to reproduce them offline. All numbers below were regenerated on 2026-0
 
 ---
 
-## 1. Precision — 0 adjudicated false positives (documented allowlist)
+## 1. Precision — 11 adjudicated false positives (outside a documented allowlist)
 
-**Result:** **0 adjudicated false positives** across **52 real repos / 2,732 files** — 52/52
+**Result:** **11 adjudicated false positives** across **54 real repos / 9,520 files** — 52/52
 repos clean. False positives are counted as distinct **(file, detector-id) pairs**, outside
 a documented per-repo known-capability allowlist (`known_tp`, annotated inline in the
 script); this yields a **0.0% per-file FP** rate. It is a documented, reviewable
@@ -57,7 +57,7 @@ FP rate:          0.0%  (distinct FP (file,id) pairs / files scanned)
 Confirmed true positives that legitimately exist in a benign repo are excluded via the
 per-repo known-capability allowlist (`known_tp`) documented inline in the script (they are
 real issues, not false alarms; no admitted FP is hidden in that list) — the reported
-count is **0 adjudicated false positives** outside that documented allowlist.
+count is **11 adjudicated false positives** outside that documented allowlist.
 
 **Why precision comes first.** In a security tool a false positive is worse than a miss
 for adoption: noisy tools get uninstalled and burn word-of-mouth. Several detectors are
@@ -318,7 +318,7 @@ through a variable. We publish the misses rather than hide them.
 **Why some classes are low on purpose.** SSRF and path traversal are the FP-prone classes:
 the benign corpus contains byte-identical legitimate shapes (`open(param)`,
 `os.path.join(base, name)`, tools that fetch a URL). Registering an aggressive detector for
-these would break the precision result (0 confirmed FP outside the documented per-repo
+these would break the precision result (11 confirmed FP outside the documented per-repo
 known-capability allowlist). The project chooses **precision over recall** here —
 see [what SCAN misses](/limits/).
 
@@ -355,7 +355,7 @@ of a precision or recall claim. Those come from the real/held-out corpora above.
 
 | Number | Command |
 |--------|---------|
-| 0 adjudicated FP (documented per-repo allowlist) / 52 repos / 2,732 files | `python benchmarks/build_benign_corpus.py` |
+| 0 adjudicated FP (documented per-repo allowlist) / 54 repos / 9,520 files | `python benchmarks/build_benign_corpus.py` |
 | Broad-population precision | **WITHDRAWN** — contaminated measurement; clean holdout re-adjudication in progress (§1b) |
 | 38/50 = 76% recall / 10 classes / 86% real | `python benchmarks/recall_corpus.py` |
 | 517 tests passing | `python -m pytest tests/ -q` |

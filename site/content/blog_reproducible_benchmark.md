@@ -22,7 +22,7 @@ We think that's backwards, and we think the way to prove it is to publish the pr
 
 Here is our false-positive rate:
 
-**0 adjudicated false positives across 52 real repositories / 2,732 files** — counted per distinct (file, detector-id) pair, outside a documented per-repo known-capability allowlist. And the number that corpus *cannot* tell you: on a deliberately broader 81-repo population, precision is **20.5–31.5% (n=73 clean-holdout adjudicated, 95% CI 12.9–42.9%)**. Our earlier 58% was computed over the same adjudication labels used to build the precision filters — train-on-test — and is withdrawn. Both are published because only one of them flatters us.
+**11 adjudicated false positives across 54 real repositories / 9,520 files** — counted per distinct (file, detector-id) pair, outside a documented per-repo known-capability allowlist. And the number that corpus *cannot* tell you: on a deliberately broader 81-repo population, precision is **20.5–31.5% (n=73 clean-holdout adjudicated, 95% CI 12.9–42.9%)**. Our earlier 58% was computed over the same adjudication labels used to build the precision filters — train-on-test — and is withdrawn. Both are published because only one of them flatters us.
 
 Here is the command:
 
@@ -30,7 +30,7 @@ Here is the command:
 python benchmarks/build_benign_corpus.py
 ```
 
-The corpus is 52 real open-source repos — real agent frameworks and real applications built on them (smolagents, CAMEL, LlamaIndex, mem0, txtai, autogen, agno, promptflow, and more), not fixtures we wrote. The script clones them, runs every detector, and counts confirmed false positives. Confirmed true-positives (380 of them) are excluded per the documented methodology so they don't flatter the number. The result is 0 adjudicated false positives. You can run it and get the same number, or you can find one we missed — which is genuinely the most useful thing you could send us.
+The corpus is 52 real open-source repos — real agent frameworks and real applications built on them (smolagents, CAMEL, LlamaIndex, mem0, txtai, autogen, agno, promptflow, and more), not fixtures we wrote. The script clones them, runs every detector, and counts confirmed false positives. Confirmed true-positives (380 of them) are excluded per the documented methodology so they don't flatter the number. The result is 11 adjudicated false positives. You can run it and get the same number, or you can find one we missed — which is genuinely the most useful thing you could send us.
 
 Getting to 0.0% was not free, and we didn't get there by being timid. We got there by triaging real false positives and fixing the detectors: an `"execute"`-keyword over-match, a bare-substring match on FastAPI/Flask servers, a DB-verb substring firing inside docstrings. Each one was a detector that was technically "right" and practically noise. Cutting them is what earns the green checkmark meaning something.
 
@@ -58,7 +58,7 @@ The recall corpus is 50 distinct vulnerable agents — 22 real cases with proven
 | SSRF | 17% | **deliberately conservative** — only fires when tainted data forms the URL host |
 | Path traversal | 0% | detector **built, sound, unit-tested — left unregistered on purpose** (see below) |
 
-The path-traversal row is the one that makes the point. We have a working, unit-tested path-traversal detector. It's not registered. If we turned it on, recall would go up — and the precision result (0 confirmed FP outside a documented per-repo known-capability allowlist) would break, because the benign corpus contains byte-identical *legitimate* file-handling tools that the detector cannot distinguish from the vulnerable ones without runtime context. So we left it off. That is precision-over-recall as a policy, not a slogan: we would rather miss a class and say so than ship a detector we know fires on benign code.
+The path-traversal row is the one that makes the point. We have a working, unit-tested path-traversal detector. It's not registered. If we turned it on, recall would go up — and the precision result (11 confirmed FP outside a documented per-repo known-capability allowlist) would break, because the benign corpus contains byte-identical *legitimate* file-handling tools that the detector cannot distinguish from the vulnerable ones without runtime context. So we left it off. That is precision-over-recall as a policy, not a slogan: we would rather miss a class and say so than ship a detector we know fires on benign code.
 
 SSRF at 17% is the same choice at a smaller scale — the detector only fires when tainted data actually forms the URL host, so it stays quiet (and precise) rather than flagging every outbound request.
 

@@ -90,12 +90,83 @@ def test_site_html_matches_numbers_json():
     assert f'data-target="{NUM["recall_pct"]}"' in html
     assert f'data-target="{NUM["detectors_active"]}"' in html
     assert f'data-target="{NUM["frameworks"]}"' in html
+    # fp_count was NOT checked here, which is how the landing page kept claiming
+    # "0 false positives" and "100% precision" long after the measured values were
+    # 11 and 20.5-31.5%. Commit 1d5837f corrected the OG image and missed the page
+    # body, because site/index.html is hand-written rather than generated from this
+    # JSON — so a fix to the JSON never propagated and no test noticed.
+    assert f'data-target="{NUM["fp_count"]}"' in html, (
+        f'site/index.html does not carry fp_count={NUM["fp_count"]} from numbers.json'
+    )
 
 
-def test_no_stale_precision_string_anywhere():
-    """The 58% figure was baked into an old OG image. It must never reappear."""
-    for p in list(Path("site").rglob("*.html")) + [Path("README.md"), Path("site/make_og.py")]:
-        assert "58% precision" not in p.read_text(), f"stale precision figure in {p}"
+def test_site_precision_and_corpus_claims_match_numbers_json():
+    """The benchmarks block must state the measured precision, not an aspiration.
+
+    This is the one defect that cannot coexist with the positioning: the audience
+    most worth reaching is exactly the audience that opens the methodology page,
+    sees a different number, and concludes the honesty stance is decorative.
+    """
+    html = Path("site/index.html").read_text()
+    assert NUM["precision_range"] in html, (
+        f'Landing page does not state the measured precision range '
+        f'{NUM["precision_range"]} from numbers.json'
+    )
+    assert f'{NUM["repos"]} real repositories' in html, "stale repo count on landing page"
+    assert f'{NUM["files"]:,} files' in html, "stale file count on landing page"
+
+
+def test_no_unearned_precision_or_fp_claims():
+    """Absolute claims we have measured to be false must never reappear anywhere.
+
+    `0 false positives` and `100% precision` were both live on lucin.pages.dev while
+    `build_benign_corpus.py` printed 11 and the methodology page said 20.5-31.5%.
+
+    Deliberately NOT banned: "100% recall (4/4 labeled trifecta cases)". That is true
+    and denominated — `recall_corpus.py` reports secret_exfil_trifecta 4/4. Banning a
+    figure that is accurate and carries its n would be theatre, and `claim_audit.py`
+    R3 already enforces the real rule (no UN-denominated 100% recall).
+
+    Word-boundary matched: "150 false positives out of 330 detections" is a cited
+    figure about Meta's Pysa in the Semgrep comparison, not a claim about Lucin, and
+    a naive substring match flags it.
+    """
+    import re
+
+    banned = (r"58% precision", r"100% precision",
+              r"\b0 false positives", r"\bzero false positives",
+              r"\b0 adjudicated false positives", r"\b0 confirmed FP")
+    targets = (list(Path("site").rglob("*.html"))
+               + list(Path("site/content").rglob("*.md"))
+               + list(Path("docs").rglob("*.md"))
+               + [Path("README.md"), Path("site/make_og.py")])
+    for p in targets:
+        if not p.exists():
+            continue
+        text = p.read_text()
+        for phrase in banned:
+            hit = re.search(phrase, text, re.IGNORECASE)
+            assert hit is None, (
+                f"unearned claim {hit.group(0)!r} in {p} — measured values are "
+                f'fp_count={NUM["fp_count"]}, precision={NUM["precision_range"]}'
+            )
+
+
+def test_claim_audit_gate_passes():
+    """Run tools/claim_audit.py — the honesty gate that was wired to nothing.
+
+    It exists specifically to fail CI on dishonest public copy, and `grep -rln
+    claim_audit tests/ .github/` returned NOTHING: it had never been connected to the
+    test suite or to CI, which is why "0 false positives" and "100% precision" stayed
+    live on the landing page long after the measured values were 11 and 20.5-31.5%.
+    A launch gate nobody runs is not a gate.
+    """
+    root = Path(__file__).resolve().parent.parent
+    proc = subprocess.run([sys.executable, "tools/claim_audit.py"],
+                          capture_output=True, text=True, cwd=root)
+    assert proc.returncode == 0, (
+        f"claim_audit.py failed:\n{proc.stdout[-2000:]}\n{proc.stderr[-500:]}"
+    )
 
 
 def test_new_benchmark_numbers_agree():

@@ -1,7 +1,7 @@
 # Lucin
 
 [![PyPI](https://img.shields.io/pypi/v/lucin.svg)](https://pypi.org/project/lucin/)
-[![Tests](https://img.shields.io/badge/tests-551%20passing-brightgreen)](https://github.com/Madhav2310/lucinlabs/actions)
+[![Tests](https://img.shields.io/badge/tests-553%20passing-brightgreen)](https://github.com/Madhav2310/lucinlabs/actions)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/pypi/pyversions/lucin.svg)](https://pypi.org/project/lucin/)
 
@@ -138,9 +138,12 @@ What the scanner actually does today:
   `detectors/_taint.py`). It resolves same-file method-to-method flows — e.g. a value
   stored in `__init__` and later reaching a `pickle.load` sink — but it is **not** a
   whole-program call graph and does not cross files or resolve dynamic dispatch.
-- A separate summary-based analyzer (`src/lucin/analysis/file_scope_taint.py`) exists
-  and is unit-tested but is **not wired into the production scan path** — experimental,
-  not shipping coverage.
+- Kind-scoped sanitizers (`src/lucin/analysis/sanitizers.py`) — a value made safe for a
+  SHELL sink is not credited as safe for a SQL sink. Fail-closed, so it can only ever
+  withdraw a finding we can prove is guarded. Applied per-detector; the taint engines
+  themselves do not consult it, so there is no barrier semantics inside the fixpoint.
+- `src/lucin/analysis/cfg.py` builds a real intraprocedural CFG but is **imported by
+  nothing** — written to enable flow-sensitive taint and never wired in. Dead code today.
 
 What this means for recall (stated honestly):
 
@@ -279,7 +282,7 @@ Every number below ships with the command that regenerates it. Numbers on **synt
 corpora are labeled as such; capabilities that genuinely require real users/traces are
 labeled **not-yet-validated (launch-gated)** and are not claimed as done.
 
-Test suite: 551 passing (15 skipped, 1 xfailed) — `python -m pytest tests/ -q`
+Test suite: 553 passing (15 skipped, 1 xfailed) — `python -m pytest tests/ -q`
 (requires the `behavioral` extra: `pip install -e ".[dev,behavioral]"`).
 
 | Capability | Measured result | Regenerate with | Status |

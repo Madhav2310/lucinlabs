@@ -34,7 +34,7 @@ agent is safe under all inputs.
 No score is shown, no badge is offered, and `--ci` exits **2** (distinct from 1 =
 "findings at or above threshold") so a pipeline can tell *unable to analyse* from
 *analysed and failed*. Every scan also prints a coverage line — `Analysed 1 of 201
-source files; 200 unsupported (.rs 200)` — at 100% coverage and at 0.5%.
+source files; 200 unsupported (.rs 200)` — whether coverage is complete or negligible.
 
 This is the scan-level counterpart of the finding-level evidence gate: a finding nobody
 can check must not be CRITICAL, so **a scan that examined nothing must not score 100**.
@@ -63,7 +63,7 @@ Measured recall is **38/50 = 76%** (`python benchmarks/recall_corpus.py`). The g
 a request sink (`u = f"http://{host}"; get(u)`). It will *not* flag a bare whole-URL
 parameter or a `__init__`-assigned sink, and it skips patterns that a legitimate
 URL-fetching tool would also match. This trades SSRF recall for the precision result
-(0 confirmed FP outside a documented per-repo known-capability allowlist) — by design
+(11 confirmed FP outside a documented per-repo known-capability allowlist) — by design
 (`src/lucin/detectors/ssrf.py`).
 
 ### Path traversal — 0% (detector built but UNREGISTERED)
@@ -71,7 +71,7 @@ URL-fetching tool would also match. This trades SSRF recall for the precision re
 registered** in the scan path. The benign corpus contains byte-identical *legitimate* file
 tools (`open(param)`, `os.path.join(base, name)`, `Path.write_text`) that are
 indistinguishable from the vulnerable shapes under static analysis. Registering the
-detector would break the precision result (0 confirmed FP outside a documented per-repo
+detector would break the precision result (11 confirmed FP outside a documented per-repo
 known-capability allowlist), so it is gated off — **precision over recall**.
 The gate and its rationale are documented in `src/lucin/detectors/__init__.py`.
 
@@ -95,8 +95,14 @@ mirror, so it is not vendored or integrated. What actually runs:
   *capability combinations* (the trifecta / dangerous-combination detectors) instead of
   proving a precise A→B path.
 
-A separate `analysis/file_scope_taint.py` exists and is unit-tested but is **not wired**
-into production scans — treat it as experimental.
+- **Kind-scoped sanitizers** (`analysis/sanitizers.py`) — a value made safe for a SHELL
+  sink is not credited as safe for a SQL sink. Fail-closed: an unrecognised call is
+  treated as NOT sanitizing, so this can only ever withdraw a finding we can prove is
+  guarded. Applied at the detector level; the taint engines themselves do not consult it,
+  so there is no barrier semantics inside the dataflow fixpoint.
+
+`analysis/cfg.py` builds a real intraprocedural CFG but is **imported by nothing** — it
+was written to enable flow-sensitive taint and never wired in. Dead code today.
 
 **Consequence:** a vuln where untrusted input enters in one function and reaches a sink in
 a *different file*, with no single tool exhibiting the dangerous combination, may be
@@ -160,6 +166,6 @@ Every number on this page regenerates:
 
 ```bash
 python benchmarks/recall_corpus.py        # 38/50 = 76%, per-class + false-negative list
-python benchmarks/build_benign_corpus.py  # 0 confirmed FP (documented per-repo allowlist) / 52 repos / 2,732 files
-python -m pytest tests/ -q                # 517 passing
+python benchmarks/build_benign_corpus.py  # 11 confirmed FP (outside a documented per-repo allowlist) / 54 repos / 9,520 files
+python -m pytest tests/ -q                # 553 passing
 ```

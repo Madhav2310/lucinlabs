@@ -565,7 +565,7 @@ footer.site-footer a:hover{color:var(--red)}
   Untrusted input reaches an external sink
   read_email <span style="color:#FF6B57">→</span> __llm__ <span style="color:#FF6B57">→</span> post_webhook
 
-<span style="color:#8A8F98">1 critical, 2 high — 551 passing — SARIF uploaded to code scanning
+<span style="color:#8A8F98">1 critical, 2 high — 553 passing — SARIF uploaded to code scanning
 Process completed with exit code 1.</span>
 </pre>
     </div>
@@ -584,11 +584,12 @@ Process completed with exit code 1.</span>
   <div class="stat-grid">
     <div class="stat-cell">
       <div>
-        <div class="stat-num">0</div>
-        <div class="stat-label">false positives we could not defend</div>
-        <div class="stat-sub">52 real repositories, 2,732 files, adjudicated per-finding</div>
-        <div class="stat-caption">On a wider unscoped population the same method estimates
-          100% precision. Both numbers, and why they differ,
+        <div class="stat-num" id="countFP" data-target="11">11</div>
+        <div class="stat-label">open false positives — published, not hidden</div>
+        <div class="stat-sub">54 real repositories, 9,520 files, adjudicated per-finding</div>
+        <div class="stat-caption">Each one is listed by file and line in the command's own
+          output. On a wider unscoped population the same method estimates
+          20.5–31.5% precision (95% CI 12.9–42.9%). Both numbers, and why they differ,
           are in the <a href="/benchmarks/">methodology</a>.</div>
       </div>
       <div class="stat-cmd">benchmarks/build_benign_corpus.py</div>
