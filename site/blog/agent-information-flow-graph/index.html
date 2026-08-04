@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An information-flow model for AI agents, and what it provably cannot decide — Lucin</title>
+<meta name="description" content="The lattice, the reachability query, and the min vertex cut, in 985 lines. Plus the one question the static model provably cannot answer, which is where the runtime half has to begin.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3.5' cy='10' r='2.6' fill='%23141414'/%3E%3Cline x1='6.1' y1='10' x2='13.9' y2='10' stroke='%23141414' stroke-width='1.6'/%3E%3Ccircle cx='16.5' cy='10' r='2.6' fill='%23D6321F'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://lucin.pages.dev/blog/agent-information-flow-graph/">
+<link rel="stylesheet" href="/fonts.css">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Lucin">
+<meta property="og:url" content="https://lucin.pages.dev/blog/agent-information-flow-graph/">
+<meta property="og:title" content="An information-flow model for AI agents, and what it provably cannot decide">
+<meta property="og:description" content="The lattice, the reachability query, and the min vertex cut, in 985 lines. Plus the one question the static model provably cannot answer, which is where the runtime half has to begin.">
+<meta property="og:image" content="https://lucin.pages.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lucin — static analysis for AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="An information-flow model for AI agents, and what it provably cannot decide">
+<meta name="twitter:description" content="The lattice, the reachability query, and the min vertex cut, in 985 lines. Plus the one question the static model provably cannot answer, which is where the runtime half has to begin.">
+<meta name="twitter:image" content="https://lucin.pages.dev/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle",
+ "headline":"An information-flow model for AI agents, and what it provably cannot decide","description":"The lattice, the reachability query, and the min vertex cut, in 985 lines. Plus the one question the static model provably cannot answer, which is where the runtime half has to begin.","url":"https://lucin.pages.dev/blog/agent-information-flow-graph/",
+ "datePublished":"2026-08-05",
+ "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
+ "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/"}}
+</script>
+<style>
+:root{
+  --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#484C51;
+  --line:#D7D9DC; --line-strong:#141414;
+  --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
+  --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ff-heading:'Space Grotesk',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --radius:4px; --radius-chip:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--canvas)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+.post-cta :focus-visible, .sunken :focus-visible, .dark-card :focus-visible, .install-pill :focus-visible { outline-color: var(--canvas) !important; }
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+  background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
+  gap:26px;height:58px;font-size:14px}
+.nav-in .mark{display:inline-flex;align-items:center;gap:9px;font-family:var(--ff-heading);
+  font-weight:700;font-size:16px;letter-spacing:-.01em}
+.nav-in a{color:var(--ink-soft);text-decoration:none;font-weight:500}
+.nav-in a:hover{color:var(--sev-crit)}
+.nav-in .right{margin-left:auto;display:flex;gap:16px;align-items:center}
+.install{font-family:var(--mono);font-size:13px;background:var(--sunken);
+  border:1px solid var(--sunken);border-radius:var(--radius);padding:7px 12px;
+  color:#C7CAD1}
+main{max-width:760px;margin:0 auto;padding:56px 24px 96px}
+h1{font-family:var(--ff-heading);font-size:clamp(30px,4.5vw,42px);line-height:1.12;
+  letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+h2{font-family:var(--ff-heading);font-size:24px;line-height:1.25;letter-spacing:-.02em;
+  font-weight:700;margin:44px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-family:var(--ff-heading);font-size:18px;font-weight:600;margin:28px 0 10px}
+p,ul,ol,blockquote,table{margin:0 0 16px}
+ul,ol{padding-left:22px}
+li{margin:5px 0}
+strong{color:var(--ink);font-weight:600}
+p,li{color:var(--ink-soft)}
+a[href]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);
+  text-underline-offset:3px}
+a[href]:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+blockquote{border-left:3px solid var(--sev-crit);padding:2px 0 2px 16px;
+  color:var(--ink-muted)}
+/* code: inline is a light chip with a border; blocks are the one deliberate dark
+   inversion (matches the report/hero convention) — pre code resets the chip so
+   nested code is not double-boxed. */
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em;
+  font-variant-ligatures:none}
+pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--sunken);
+  color:#C7CAD1;border-radius:var(--radius);padding:14px 16px;
+  margin:0 0 18px;overflow:auto;-webkit-font-smoothing:auto}
+pre code{background:0 0;border:0;padding:0;font-size:1em;color:inherit}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface);color:var(--ink);font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 24px 56px;
+  color:var(--ink-muted);font-size:13px}
+footer .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+footer .mark-sm{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
+footer a{text-decoration:none;color:var(--ink-muted)}
+footer a:hover{color:var(--sev-crit)}
+
+@media(max-width:640px){
+  .nav-in .links,.install{display:none}
+  main{padding-top:36px}
+  .mobile-nav{display:block;position:relative}
+  .mobile-nav summary{list-style:none;cursor:pointer;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav-panel{position:absolute;right:0;top:40px;background:var(--canvas);border:1px solid var(--line);padding:8px 0;min-width:180px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.08);border-radius:4px}
+  .mobile-nav-panel a{display:block;padding:10px 16px;font-size:14px;color:var(--ink);text-decoration:none;font-weight:500}
+  .mobile-nav-panel a:hover{background:var(--surface);color:var(--sev-crit)}
+}
+@media(min-width:641px){
+  .mobile-nav{display:none}
+}
+
+/* ---- docs/benchmarks/limits/rules/changelog "tab family" header ----
+   Each is its own real page/route (not a client-side view switch) — the tabs
+   are plain links, and the current page's tab gets the active fill. */
+.back-home{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-home:hover{color:var(--sev-crit)}
+.eyebrow2{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);
+  font-weight:600;margin-top:30px}
+h1.page-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(34px,3.8vw,46px);
+  letter-spacing:-.025em;line-height:1.06;margin:16px 0 0}
+p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color:var(--ink-soft)}
+.tab-row{display:flex;gap:0;margin-top:34px;border:1.5px solid var(--ink);border-radius:2px;
+  width:fit-content;overflow:hidden}
+.tab-pill{padding:10px 18px;font-family:var(--mono);font-size:12.5px;text-decoration:none;
+  color:var(--ink);border-right:1px solid var(--ink);transition:background .18s,color .18s}
+.tab-pill:last-child{border-right:0}
+.tab-pill:hover{background:var(--surface);color:var(--ink)}
+.tab-pill.active{background:var(--ink);color:var(--canvas)}
+.tab-pill.active:hover{background:var(--ink);color:var(--canvas)}
+</style>
+<style>
+.post-meta-row{display:flex;gap:16px;margin-top:32px;font-family:var(--mono);font-size:11.5px;color:var(--ink-muted)}
+.post-meta-row .kicker{color:var(--sev-crit);font-weight:600}
+.post-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(32px,3.6vw,44px);
+  letter-spacing:-.025em;line-height:1.1;margin:16px 0 0}
+.post-dek{margin-top:20px;font-size:19px;line-height:1.55;color:var(--ink-soft)}
+.post-rule{height:2px;background:var(--ink);margin:36px 0 0}
+.post-body{margin-top:32px;font-size:17px;line-height:1.7;color:#242628}
+.post-body>*{margin-bottom:22px}
+h2.post-h{font-family:var(--ff-heading);font-weight:700;font-size:22px;letter-spacing:-.015em;margin:38px 0 -6px}
+h3.post-h{font-family:var(--ff-heading);font-weight:700;font-size:18px;letter-spacing:-.01em;margin:30px 0 -6px}
+p.post-p{margin:0}
+p.post-p code{font-family:var(--mono);font-size:.88em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em}
+p.post-p a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:2px}
+p.post-p a:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+ul.post-list,ol.post-list{padding-left:22px;color:#242628}
+ul.post-list li,ol.post-list li{margin:8px 0}
+ul.post-list code,ol.post-list code{font-family:var(--mono);font-size:.88em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em}
+pre.post-code{margin:0;background:var(--sunken);color:#C7CAD1;padding:18px 20px;border-radius:6px;
+  font-family:var(--mono);font-size:13px;line-height:1.7;overflow-x:auto}
+pre.post-code code{background:0 0;border:0;padding:0;color:inherit}
+.post-table-wrap{overflow-x:auto}
+.post-table-wrap table{width:100%;border-collapse:collapse;font-size:14.5px}
+.post-table-wrap th,.post-table-wrap td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.post-table-wrap th{background:var(--surface);font-weight:600;font-family:var(--ff-heading)}
+p.post-sources{margin:0;padding:16px 20px;background:var(--surface-muted);border-left:3px solid var(--sev-crit);
+  font-size:13.5px;line-height:1.6;color:var(--ink-muted)}
+p.post-sources em{font-style:normal}
+.post-cta{margin:44px 0 96px;background:var(--sunken);color:#FAFAF8;border-radius:6px;padding:36px 40px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.post-cta .t{font-family:var(--ff-heading);font-weight:700;font-size:20px}
+.post-cta .s{color:#B7BAC0;font-size:13.5px;margin-top:6px}
+.post-cta .pill{display:inline-flex;align-items:center;gap:14px;height:48px;padding:0 6px 0 20px;
+  background:#08090A;border:1px solid #2B2B2B;border-radius:2px;font-family:var(--mono);font-size:13.5px;
+  white-space:nowrap;color:#fff}
+.post-cta .pill .prompt{color:#F0917F}
+.back-link{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-link:hover{color:var(--sev-crit)}
+</style>
+
+<script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head><body>
+<nav><div class="nav-in">
+  <a class="mark" href="/" aria-label="Lucin home"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>LUCIN</a>
+  <div class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></div>
+  <div class="right"><button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){t.innerText='$ pip install lucin'},1600)" aria-label="Copy install command" style="cursor:pointer">$ pip install lucin</button></div>
+</div></nav><article style="max-width:760px;margin:0 auto;padding:40px 24px 0">
+  <a class="back-link" href="/blog/">← All field notes</a>
+  <div class="post-meta-row"><span class="kicker">METHOD</span><span>05 AUG 2026</span><span>11 min read</span></div>
+  <h1 class="post-h1">An information-flow model for AI agents, and what it provably cannot decide</h1>
+  <p class="post-dek">The lattice, the reachability query, and the min vertex cut, in 985 lines. Plus the one question the static model provably cannot answer, which is where the runtime half has to begin.</p>
+  <div class="post-rule"></div>
+  <div class="post-body">
+<p class="post-p">Most agent security tooling answers the question &quot;does this look dangerous?&quot; That question has no formal content, which is why the answers are classifiers, heuristics, and confidence floats that nobody can check.</p>
+<p class="post-p">This is a description of a different question, one that does have formal content: <strong>can untrusted data reach an external sink through a node that holds secrets, and if so, what is the smallest set of tools whose removal makes that impossible?</strong></p>
+<p class="post-p">Both halves of that are decidable on a graph. This post is the model, the two algorithms, the proofs they rest on, and, at length, the part the model cannot decide and why that boundary is where a runtime layer has to begin.</p>
+<p class="post-p">Everything here is in <code>src/lucin/aifg.py</code>, 985 lines, MIT licensed.</p>
+<h2 class="post-h">1. The graph</h2>
+<p class="post-p">An agent is a set of tools. Each tool is a function with a body. The Agent Information-Flow Graph (AIFG) has one node per tool, plus one distinguished node, <code>__llm__</code>, that I will come back to because it carries most of the interesting difficulty.</p>
+<p class="post-p">Edges are dataflow. An edge from <code>read_email</code> to <code>post_webhook</code> asserts that a value produced by the first can reach an argument of the second. Edges carry a kind, which separates <em>data</em> flow from <em>control</em> flow: whether the untrusted value became the payload, or merely steered the decision to make the call. Both matter, and conflating them is a common way to produce findings that cannot be defended.</p>
+<p class="post-p">Nodes are built by parsing tool bodies, not tool names. A tool called <code>get_weather</code> whose body calls <code>subprocess.run</code> is classified by the <code>subprocess.run</code>. This is the entire reason the model is worth building over a schema: names are documentation, and documentation is not a security boundary.</p>
+<h2 class="post-h">2. The lattice</h2>
+<p class="post-p">Every node carries a label, and the label is a pair drawn from two classical lattices.</p>
+<pre class="post-code"><code class="language-python">class Integrity(IntEnum):      # Biba. Higher = more trusted.
+    UNTRUSTED = 0
+    TRUSTED   = 1
+
+class Confidentiality(IntEnum): # Bell-LaPadula. Higher = more secret.
+    PUBLIC   = 0
+    INTERNAL = 1
+    SECRET   = 2
+</code></pre>
+
+<p class="post-p">Integrity is Biba: untrusted data may not rise to trusted without an explicit endorser. LLM output, tool returns, web and email content default to <code>UNTRUSTED</code>. Developer config and the system prompt default to <code>TRUSTED</code>.</p>
+<p class="post-p">Confidentiality is Bell-LaPadula: secret data may not flow to public without an explicit declassifier.</p>
+<p class="post-p">When values from several sources combine, the labels join:</p>
+<pre class="post-code"><code class="language-python">def join(self, other):
+    return IFCLabel(
+        integrity       = min(self.integrity, other.integrity),   # most-untrusted wins
+        confidentiality = max(self.confidentiality, other.conf),  # most-secret wins,
+    )
+</code></pre>
+
+<p class="post-p">Minimum on integrity, maximum on confidentiality. One tainted input taints the result; one secret input makes the result secret.</p>
+<p class="post-p">That choice is not stylistic. The join is monotone in both components, so the labelling of a graph is a monotone function on a finite lattice, and by Knaster-Tarski a least fixed point exists and iteration reaches it. In practice: label propagation terminates, and it terminates at the same answer regardless of the order you visit nodes in. A model whose result depends on traversal order is not a model, it is a heuristic with extra steps.</p>
+<h2 class="post-h">3. The trifecta, as labelled reachability</h2>
+<p class="post-p">Simon Willison's lethal trifecta names the condition informally: an agent is exposed to exfiltration by injection when it has access to private data, exposure to untrusted content, and the ability to communicate externally.</p>
+<p class="post-p">As a graph predicate it becomes precise. A trifecta exists when there is a path from a node whose integrity label is <code>UNTRUSTED</code> to a node classified as an egress sink, where some node along that path carries confidentiality <code>INTERNAL</code> or above.</p>
+<p class="post-p">Two things follow immediately, and both matter more than they look.</p>
+<p class="post-p"><strong>First, it is a reachability query,</strong> which means it is decidable in linear time and the answer does not depend on a threshold. There is no confidence score because there is nothing to be uncertain about at this layer. The path exists in the graph or it does not.</p>
+<p class="post-p"><strong>Second, and this is the load-bearing part, a positive answer comes with a witness.</strong> <code>query_trifecta</code> does not return a boolean. It returns the path:</p>
+<pre class="post-code"><code>control: read_email      → __llm__ → post_webhook
+data:    query_customers → __llm__ → post_webhook
+</code></pre>
+
+<p class="post-p">Separate control and data witnesses, because they answer different questions: what steered the call, and what ended up in it.</p>
+<p class="post-p">A finding that ships with the path that produced it is checkable by a reader who does not trust the tool. That property is what the rest of the system is built to preserve, and it is the difference between a scanner and an oracle.</p>
+<p class="post-p">It is also enforced downstream. A CRITICAL or HIGH finding with no witness and no source line is capped to MEDIUM before it is reported, because a reader cannot verify it. On the precision corpus, findings carrying a witness or a source line ran at <strong>50% precision</strong>; findings carrying neither ran at <strong>11%</strong>. The evidence gate is not a nicety, it is where half the precision comes from.</p>
+<h2 class="post-h">4. Minimal remediation, as a min vertex cut</h2>
+<p class="post-p">Knowing a path exists is not advice. The useful question is which tools to change, and the smallest honest answer to that is a graph problem too.</p>
+<p class="post-p">You want the minimum-cardinality set of tool nodes whose removal disconnects every untrusted source from every egress sink. That is a minimum vertex cut, and by Menger's theorem its size equals the maximum number of vertex-disjoint source-to-sink paths.</p>
+<p class="post-p">The standard construction converts vertex capacities to edge capacities by splitting:</p>
+<pre class="post-code"><code class="language-python">for nid in g.nodes:
+    if nid in removable:
+        cap[f&quot;{nid}::in&quot;][f&quot;{nid}::out&quot;] = 1.0    # unit cost: cuttable
+    else:
+        cap[f&quot;{nid}::in&quot;][f&quot;{nid}::out&quot;] = INF    # cannot be cut
+
+for e in g.edges:
+    cap[f&quot;{e.src}::out&quot;][f&quot;{e.dst}::in&quot;] = INF    # real edges are free
+</code></pre>
+
+<p class="post-p">Split every node into <code>v_in → v_out</code>. Give that internal edge capacity 1 if the tool may be restricted and infinity if it may not, since some tools are load-bearing and an operator cannot delete them. Give every real edge infinity, so only node-splits can ever saturate. Attach a super-source to the untrusted sources and a super-sink to the egress sinks, run Edmonds-Karp, and read the cut off the residual graph: the nodes whose <code>::in</code> is still reachable from the source but whose <code>::out</code> is not.</p>
+<p class="post-p">The output is a sentence a person can act on: <em>restrict these two tools and every exfiltration path in this agent is severed.</em> Not a ranked list of forty findings. A cut.</p>
+<p class="post-p"><strong>A caveat I would rather state than have found.</strong> The cut is computed only over trifecta paths. Measured on the current baseline, <code>AG-TRIFECTA</code> accounts for <strong>21 of 701 findings across 21 of 658 targets</strong>, roughly 3%. So this is the minimal provable fix for the exfiltration class, and it is not &quot;the minimum set of changes that eliminates your findings.&quot; The three highest-volume rules are not covered by it at all. The graph layer appears to be uncontested (a grep for <code>min_cut|max_flow|lattice|IFC</code> across the two nearest open-source scanners I cloned and read, <code>agent-audit</code> and <code>SkillSpector</code>, returns zero hits in either), but its blast radius is narrow and a claim that does not say so is dishonest.</p>
+<h2 class="post-h">5. What the model provably cannot decide</h2>
+<p class="post-p">Here is the part that matters, and the reason I do not think static analysis is the whole answer to this problem.</p>
+<p class="post-p">Look again at the witness:</p>
+<pre class="post-code"><code>read_email      → __llm__ → post_webhook
+query_customers → __llm__ → post_webhook
+</code></pre>
+
+<p class="post-p"><code>__llm__</code> is a node in the graph because the model is a real participant in the dataflow: values go in, values come out, and the transformation is opaque. Routing LLM-mediated data through an explicit join is the honest representation. Pretending <code>read_email</code> connects directly to <code>post_webhook</code> would assert a path the code does not contain.</p>
+<p class="post-p">But an opaque join has a consequence that no amount of static cleverness removes. <strong>Two sources enter <code>__llm__</code> and one value leaves it. Static analysis cannot determine which source fed which sink.</strong></p>
+<p class="post-p">It knows both sources reached the model. It knows the model reached the sink. It cannot know whether the secret from <code>query_customers</code> is in the outgoing payload, or whether only the untrusted text from <code>read_email</code> is, or both. There is no dataflow fact to recover, because the transformation happened inside a system whose behaviour is not a function of its source code.</p>
+<p class="post-p">This is not an engineering gap. It is not PyCG being unavailable, or a call graph being incomplete, or a fixpoint being imprecise. It is a property of putting a model in the middle of a dataflow: the static graph can prove a path is <em>possible</em> and can never prove which values traversed it.</p>
+<p class="post-p">Which is exactly why the model's default posture is conservative. The join is monotone toward danger, so an <code>__llm__</code> node fed by anything untrusted taints everything downstream of it. That is sound and it over-approximates, and the over-approximation is visible in the numbers: overall precision on an uncurated 81-repo population is <strong>20.5 to 31.5%</strong> (n=73 clean-holdout adjudicated, 95% CI 12.9 to 42.9%), and on that clean holdout <code>AG-TRIFECTA</code> specifically scored <strong>0 of 6</strong>. A predicate that is easy to satisfy when a corpus is labelled is not the same as a predicate that is easy to satisfy usefully in the wild.</p>
+<p class="post-p">At runtime the ambiguity disappears, because you are no longer reasoning about what could happen. Runtime lineage is observed 1:1: this value, from this call, arrived at this argument. The disambiguation static analysis cannot perform is not hard at runtime, it is free.</p>
+<p class="post-p">So the argument for a runtime layer is not that static analysis is weak or incomplete. It is that one specific question, <em>which source fed this sink across the model</em>, is undecidable before execution and trivially decidable during it.</p>
+<h2 class="post-h">6. One model, two evaluations, and precisely how far that goes</h2>
+<p class="post-p">If the static and runtime halves ran different models, the argument above would be worthless: you would have two policy languages that drift, and the first time they disagreed the security team would trust neither.</p>
+<p class="post-p">They do not. <code>lucin.aifg</code> is imported by the static trifecta detector, by five modules of the runtime layer, and by the control plane's reconstruction path. The runtime provenance graph reconstructs into the same <code>AIFG</code> dataclass and the same <code>to_dict()</code> schema, and <code>query_trifecta</code> runs unchanged over both.</p>
+<p class="post-p">The tripwire is <code>tests/test_aifg_coherence.py</code>, and I want to state exactly what it asserts, because this is the claim most likely to be overstated by someone summarising it, including me:</p>
+<ul class="post-list">
+<li>The three native graph representations (static AIFG, runtime provenance, multi-agent delegation) are <strong>structurally distinct types</strong>. It really was three graphs.</li>
+<li>The runtime graph <strong>projects into</strong> the static <code>AIFG</code> type and schema, and <code>query_trifecta</code> yields a structurally identical <code>TrifectaFinding</code> from both on the same scenario.</li>
+<li>The multi-agent delegation graph also projects in, coarser and agent-granular, scoped as such.</li>
+<li>Runtime edges are observed lineage, not inferred.</li>
+</ul>
+
+<p class="post-p">The claim is honest at the level of schema coherence, query coherence, and real runtime edges. It is <strong>not</strong> a claim of tool-level static witness precision, and §5 is why. If the runtime side ever could not be reconstructed into <code>lucin.aifg.AIFG</code> without a parallel type, the &quot;one coherent model&quot; language would have to be retracted from everything public. It can, so it stands, at that scope and no wider.</p>
+<h2 class="post-h">7. What is not built</h2>
+<p class="post-p">Sharing a type is not the same as sharing an artifact.</p>
+<p class="post-p">A static finding and a runtime decision are the same kind of object, and there is currently <strong>no path by which a scan produces a runtime policy</strong>. Every <code>IFCPolicy</code> in the repository is hand-constructed with a literal agent name. The policy type carries an allowlist and an agent id, with no slot for a finding or a source location, and the runtime <code>Decision</code> type carries <code>allow</code>, <code>reason</code>, <code>witness</code> and an allowlist entry, with no field that could hold a rule id or a <code>file:line</code>.</p>
+<p class="post-p">So a runtime block cannot presently cite the static finding that predicted it. That seam is the obvious next piece of work and it is not written yet. I would rather say that here than let a reader infer otherwise from the word &quot;unified.&quot;</p>
+<p class="post-p">Two further limits, stated because they bound everything above. The runtime gate protects values that have been wrapped and labelled; unwrapped raw values pass through unchecked, which is the interceptor's problem and not the gate's. And the behavioural anomaly layer that sits alongside all of this is validated on synthetic corpora only, at a 3.75% benign-session false-positive rate, with zero production deployments.</p>
+<h2 class="post-h">8. Related work</h2>
+<p class="post-p">The model is not novel in its parts, and I think that is a point in its favour rather than against it.</p>
+<p class="post-p">Microsoft Research's Costa and Köpf, <a href="https://arxiv.org/pdf/2505.23643"><em>Securing AI Agents with Information-Flow Control</em></a>, independently describes labelling tools and arguments and comparing static labels against dynamic ones. That is this lattice, arrived at separately, which is the sort of convergence that suggests the shape is right rather than merely mine.</p>
+<p class="post-p"><a href="https://arxiv.org/pdf/2107.07300"><em>Deriving Static Security Testing from Runtime Security Protection</em></a> argues for a single policy library driving both static verification and runtime enforcement, precisely so that policy semantics cannot diverge between them. §6 is an attempt at that property, and §7 is how far short of it I currently am.</p>
+<p class="post-p">The sanitizer model is scoped per sink kind, modelled on Pysa's <code>Sanitize[TaintSink[SQL]]</code>: a value made safe for a shell sink is not credited as safe for a SQL sink. It is fail-closed, so it can only ever withdraw a finding it can prove is guarded. The Artemis ablation (<a href="https://arxiv.org/abs/2502.21026">arXiv 2502.21026</a>, OOPSLA 2025) measured weaker sanitizer modelling producing 9.2× more false positives, which is the reason it is scoped rather than global.</p>
+<h2 class="post-h">9. Reproduce</h2>
+<pre class="post-code"><code>python benchmarks/build_benign_corpus.py     # 11 adjudicated FPs / 54 repos / 9,520 files
+python benchmarks/recall_corpus.py           # 76% recall, 38/50, and the 12 misses by name
+python benchmarks/agentzoo_precision.py --report-only   # 20.5-31.5% precision, n=73
+</code></pre>
+
+<p class="post-p">The model is <code>src/lucin/aifg.py</code>. The coherence tripwire is <code>tests/test_aifg_coherence.py</code>. Both are short enough to read in an afternoon, which is the only real answer to why you should believe any of this.</p>
+<p class="post-p">If you find the model wrong, or the cut unsound, or a case where the labelling is not monotone, that is worth considerably more to me than agreement.</p>
+<p class="post-sources">Sources: <a href="https://arxiv.org/pdf/2505.23643">Costa &amp; Köpf, Securing AI Agents with Information-Flow Control (arXiv 2505.23643)</a> · <a href="https://arxiv.org/pdf/2107.07300">Deriving Static Security Testing from Runtime Security Protection (arXiv 2107.07300)</a> · <a href="https://arxiv.org/abs/2502.21026">Artemis (arXiv 2502.21026), OOPSLA 2025</a> · <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/">Simon Willison, The lethal trifecta</a>. Lucin figures reproducible from the commands above.</p>
+  </div>
+  <div class="post-cta">
+  <div><div class="t">Check your own agent for this shape.</div><div class="s">Free, MIT, 30 seconds.</div></div>
+  <div class="pill"><button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){t.innerText='$ pip install lucin'},1600)" aria-label="Copy install command" style="cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;font-size:inherit;padding:0">$ pip install lucin</button></div>
+</div>
+</article>
+</body>
+</html>
