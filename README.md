@@ -1,7 +1,7 @@
 # Lucin
 
 [![PyPI](https://img.shields.io/pypi/v/lucin.svg)](https://pypi.org/project/lucin/)
-[![Tests](https://img.shields.io/badge/tests-538%20passing-brightgreen)](https://github.com/Madhav2310/lucinlabs/actions)
+[![Tests](https://img.shields.io/badge/tests-551%20passing-brightgreen)](https://github.com/Madhav2310/lucinlabs/actions)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/pypi/pyversions/lucin.svg)](https://pypi.org/project/lucin/)
 
@@ -279,7 +279,7 @@ Every number below ships with the command that regenerates it. Numbers on **synt
 corpora are labeled as such; capabilities that genuinely require real users/traces are
 labeled **not-yet-validated (launch-gated)** and are not claimed as done.
 
-Test suite: 538 passing (15 skipped, 1 xfailed) — `python -m pytest tests/ -q`
+Test suite: 551 passing (15 skipped, 1 xfailed) — `python -m pytest tests/ -q`
 (requires the `behavioral` extra: `pip install -e ".[dev,behavioral]"`).
 
 | Capability | Measured result | Regenerate with | Status |

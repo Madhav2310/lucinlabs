@@ -358,6 +358,12 @@
      "severity": "medium"
     },
     {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
      "evidence_class": "posture",
      "has_witness": false,
      "id": "AG-006",
@@ -824,6 +830,12 @@
    "corpus": "benign",
    "findings": [
     {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
      "evidence_class": "posture",
      "has_witness": false,
      "id": "AG-006",
@@ -1242,6 +1254,12 @@
    "corpus": "benign",
    "findings": [
     {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
      "evidence_class": "posture",
      "has_witness": false,
      "id": "AG-006",
@@ -1524,6 +1542,12 @@
     {
      "evidence_class": "inferred",
      "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
      "id": "AG-005b",
      "severity": "medium"
     },
@@ -1711,6 +1735,12 @@
      "evidence_class": "inferred",
      "has_witness": false,
      "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
      "severity": "medium"
     },
     {
@@ -2209,6 +2239,12 @@
      "evidence_class": "witnessed",
      "has_witness": true,
      "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
      "severity": "medium"
     },
     {
@@ -2752,6 +2788,12 @@
      "severity": "critical"
     },
     {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
      "evidence_class": "posture",
      "has_witness": false,
      "id": "AG-010",
@@ -2941,6 +2983,12 @@
      "evidence_class": "witnessed",
      "has_witness": true,
      "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
      "severity": "medium"
     },
     {
@@ -3201,6 +3249,12 @@
   {
    "corpus": "benign",
    "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
     {
      "evidence_class": "inferred",
      "has_witness": false,

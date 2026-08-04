@@ -133,6 +133,90 @@ OBFUSCATION_CALLS = {
 }
 
 
+def _reads_environment_credentials(func_node: ast.AST) -> bool:
+    """Does this body read process-environment values?
+
+    WHY THIS EXISTS
+    ---------------
+    Reading a credential out of the environment is the single most common way an
+    agent tool touches a secret, and NONE of its four syntactic forms produced any
+    capability at all (measured 2026-08-05):
+
+        os.environ["OPENAI_API_KEY"]  -> []      os.getenv("K")        -> []
+        os.environ.get("K")           -> []      os.environ.items()    -> []
+
+    while `open(p).read()` correctly yielded ['read_data', 'file_system'].
+
+    That blinded the lethal-trifecta detector. `aifg.py::_label_for_tool` grants
+    INTERNAL confidentiality only when a tool has READ_DATA or FILE_SYSTEM, and
+    `query_trifecta` requires an INTERNAL-or-above source to satisfy its (S) leg.
+    So a tool that read `os.environ["API_KEY"]` and sent it to an egress sink could
+    never complete a trifecta — the exact exfiltration shape the rule exists for.
+
+    `os.environ[...]` is a Subscript, not a Call, so the call-signature table in
+    `inspect_function_body` could not see it however many entries it had. This
+    walks for the attribute/subscript forms as well.
+
+    SCOPED TO CREDENTIAL-LOOKING KEYS, and that is a correctness choice, not just a
+    noise choice. `_label_for_tool`'s rule is "could this return secrets/PII" —
+    `os.environ["LOG_LEVEL"]` cannot, `os.environ["OPENAI_API_KEY"]` can. Treating
+    every environment read as a secret source added 11 witness-less MEDIUM findings
+    across the benign corpus (AG-002/AG-005a on ordinary LLM-client wrappers that
+    read their own API key and call an API) — the capability-composition class this
+    repo measured at 11% precision. Those are noise, not findings.
+
+    A read with NO inspectable key — `os.environ.items()`, `dict(os.environ)`,
+    a variable key — is treated as credential-bearing regardless: it is the most
+    dangerous form and there is nothing to judge, so it fails closed.
+    """
+    cred = ("key", "token", "secret", "password", "passwd", "pwd", "credential",
+            "auth", "api", "access", "private", "cert", "signature", "session")
+
+    def _key_is_credential_like(node: ast.expr | None) -> bool:
+        if node is None:
+            return True                      # no key to inspect -> fail closed
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            return any(c in node.value.lower() for c in cred)
+        return True                          # dynamic key -> cannot judge -> fail closed
+
+    for node in ast.walk(func_node):
+        # os.environ["K"] / environ["K"]
+        if isinstance(node, ast.Subscript):
+            tgt = node.value
+            is_env = (isinstance(tgt, ast.Attribute) and tgt.attr == "environ") or \
+                     (isinstance(tgt, ast.Name) and tgt.id == "environ")
+            if is_env and _key_is_credential_like(node.slice):
+                return True
+        if isinstance(node, ast.Call):
+            fn = node.func
+            arg0 = node.args[0] if node.args else None
+            # os.getenv("K") / getenv("K")
+            if (isinstance(fn, ast.Name) and fn.id == "getenv") or \
+               (isinstance(fn, ast.Attribute) and fn.attr == "getenv"):
+                if _key_is_credential_like(arg0):
+                    return True
+            # os.environ.get("K")
+            if isinstance(fn, ast.Attribute) and fn.attr == "get":
+                recv = fn.value
+                is_env = (isinstance(recv, ast.Attribute) and recv.attr == "environ") or \
+                         (isinstance(recv, ast.Name) and recv.id == "environ")
+                if is_env and _key_is_credential_like(arg0):
+                    return True
+            # os.environ.items()/.keys()/.values() — bulk, no key to inspect
+            if isinstance(fn, ast.Attribute) and fn.attr in ("items", "keys", "values"):
+                recv = fn.value
+                if (isinstance(recv, ast.Attribute) and recv.attr == "environ") or \
+                   (isinstance(recv, ast.Name) and recv.id == "environ"):
+                    return True
+            # dict(os.environ) — whole-environment copy
+            if isinstance(fn, ast.Name) and fn.id == "dict" and node.args:
+                a = node.args[0]
+                if (isinstance(a, ast.Attribute) and a.attr == "environ") or \
+                   (isinstance(a, ast.Name) and a.id == "environ"):
+                    return True
+    return False
+
+
 def inspect_function_body(
     func_node: ast.FunctionDef,
     source: str = "",
@@ -152,6 +236,13 @@ def inspect_function_body(
     """
     capabilities = set()
     aliases = import_aliases or {}
+
+    # Environment reads are a data source: the value "could return secrets/PII",
+    # which is exactly the condition `aifg.py::_label_for_tool` uses to assign
+    # INTERNAL confidentiality. Checked separately because `os.environ[...]` is a
+    # Subscript, not a Call, and so cannot be matched by call-signature tables.
+    if _reads_environment_credentials(func_node):
+        capabilities.add(ToolCapability.READ_DATA)
 
     for node in ast.walk(func_node):
         if isinstance(node, ast.Call):
