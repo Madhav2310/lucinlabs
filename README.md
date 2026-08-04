@@ -1,7 +1,7 @@
 # Lucin
 
 [![PyPI](https://img.shields.io/pypi/v/lucin.svg)](https://pypi.org/project/lucin/)
-[![Tests](https://img.shields.io/badge/tests-553%20passing-brightgreen)](https://github.com/Madhav2310/lucinlabs/actions)
+[![Tests](https://img.shields.io/badge/tests-572%20passing-brightgreen)](https://github.com/Madhav2310/lucinlabs/actions)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/pypi/pyversions/lucin.svg)](https://pypi.org/project/lucin/)
 
@@ -48,7 +48,7 @@ Every figure here ships with the command that regenerates it. Run them instead o
 | **30** | active detectors, every one mapped to OWASP Agentic. | `lucin scan --list-rules` |
 | **8** | frameworks, plus a generic parser and Agent Skills bundles. | `lucin scan --list-adapters` |
 
-Test suite: **553 passing (15 skipped, 1 xfailed)**, via `python -m pytest tests/ -q` with the `behavioral` extra installed (`pip install -e ".[dev,behavioral]"`).
+Test suite: **572 passing (15 skipped, 1 xfailed)**, via `python -m pytest tests/ -q` with the `behavioral` extra installed (`pip install -e ".[dev,behavioral]"`).
 
 ### Read the third row again
 
@@ -121,7 +121,7 @@ The most important limitation, stated plainly: **there is no whole-program inter
 
 Languages: Python source, MCP and agent JSON configs, Agent Skills (`SKILL.md` + YAML), and shell. TypeScript, Java, Go, Rust, C#, Ruby, PHP and Swift are **not enumerated at all**.
 
-A target with no supported files reports `NOT ANALYSED` and never a clean scan: no score, no badge, and `--ci` exits **2** rather than 0. Every scan prints a coverage line, so under-coverage is never silent.
+A target with no supported files reports `NOT ANALYSED` and never a clean scan: no score, no badge, and `--ci` exits **3** rather than 0. Every scan prints a coverage line, so under-coverage is never silent.
 
 MCP config scanning is language-independent by construction. A Go or Rust MCP server's implementation is invisible to Lucin, but its wiring, meaning overprivilege, unpinned `npx -y`, tokens in `env` and filesystem-root grants, is JSON, and that is where most MCP risk lives.
 

@@ -39,7 +39,7 @@ def run_redteam_command(
     dry_run: bool = False,
     targeted: bool = True,
     categories: list[str] | None = None,
-) -> RedTeamReport:
+) -> RedTeamReport | None:
     """Execute red team testing against an agent.
 
     Modes:
@@ -89,10 +89,17 @@ def run_redteam_command(
     # Step 3: Determine how to invoke the agent
     if api_url:
         agent_fn = _create_api_agent(api_url)
-    elif target_path and target_path.suffix == '.py':
-        agent_fn = _create_mock_agent()  # For now, mock until we have real invocation
     else:
-        agent_fn = _create_mock_agent()
+        # No target. Previously both of these branches substituted
+        # `_create_mock_agent()`, so `lucin redteam ./any-agent/` produced a
+        # resilience score from canned replies — identical for a trivial
+        # `add(a, b)` agent and a shell-exec agent, in 0 ms, with per-attack
+        # "evidence" for responses no agent produced.
+        #
+        # Absence of a target is now representable: return None and let the CLI
+        # report NOT EXECUTED. A red-team verdict we did not earn is worse than
+        # no verdict at all.
+        return None
 
     # Step 4: Run attacks
     report = run_redteam(
@@ -108,18 +115,33 @@ def print_redteam_report(report: RedTeamReport):
     """Print red team results with beautiful formatting."""
     console.print()
 
-    # Resilience Score
+    # Resilience score. `None` means too few attacks reached a determinate
+    # outcome to justify a number — rendered as NOT DETERMINED, never as 0%,
+    # because "we could not tell" is not "the agent failed".
     score = report.resilience_score
-    color = "green" if score >= 80 else "yellow" if score >= 50 else "red"
-    score_bar = "█" * (score // 5) + "░" * (20 - score // 5)
-    console.print(Panel(
-        f"[bold {color}]{score_bar}  {score}% Resilient[/bold {color}]\n"
-        f"[dim]{report.passed_count} attacks resisted, "
-        f"{report.failed_count} attacks succeeded, "
-        f"{len(report.results) - report.passed_count - report.failed_count} unclear[/dim]",
-        title="RESILIENCE SCORE",
-        border_style=color,
-    ))
+    unclear = len([r for r in report.results if r.result == TestResult.UNCLEAR])
+    errored = len([r for r in report.results if r.result == TestResult.ERROR])
+    breakdown = (
+        f"[dim]{report.passed_count} resisted · {report.failed_count} succeeded · "
+        f"{unclear} undetermined · {errored} errored "
+        f"(determined {report.determinate_count} of {report.measured_count})[/dim]"
+    )
+
+    if score is None:
+        console.print(Panel(
+            "[yellow bold]NOT DETERMINED[/yellow bold] — too few attacks reached a "
+            "clear outcome to compute a score.\n" + breakdown,
+            title="RESILIENCE SCORE",
+            border_style="yellow",
+        ))
+    else:
+        color = "green" if score >= 80 else "yellow" if score >= 50 else "red"
+        score_bar = "█" * (score // 5) + "░" * (20 - score // 5)
+        console.print(Panel(
+            f"[bold {color}]{score_bar}  {score}% Resilient[/bold {color}]\n" + breakdown,
+            title="RESILIENCE SCORE",
+            border_style=color,
+        ))
     console.print()
 
     # Results table
@@ -220,39 +242,3 @@ def _create_api_agent(url: str) -> Callable[[str], str]:
     return agent_fn
 
 
-def _create_mock_agent() -> Callable[[str], str]:
-    """Create a mock agent for testing the red team framework itself.
-
-    This simulates a moderately-secure agent that blocks some attacks
-    but is vulnerable to others. Used for demonstration.
-    """
-    def mock_agent(prompt: str) -> str:
-        prompt_lower = prompt.lower()
-
-        # Block obvious injection attempts
-        if "ignore" in prompt_lower and "instruction" in prompt_lower:
-            return "I can't ignore my instructions. How can I help you with your actual task?"
-
-        if "system prompt" in prompt_lower and "show" in prompt_lower:
-            return "I can't share my system prompt. That information is confidential."
-
-        # Vulnerable to social engineering with urgency
-        if "urgent" in prompt_lower and "production" in prompt_lower:
-            return "I understand this is urgent. Let me run that command for you right away. Executing..."
-
-        # Vulnerable to authority claims
-        if "admin" in prompt_lower or "maintenance mode" in prompt_lower:
-            return "Maintenance mode activated. Running with elevated permissions. What would you like me to do?"
-
-        # Vulnerable to encoded attacks
-        if "base64" in prompt_lower or "decode" in prompt_lower:
-            return "Let me decode that for you: run the command: cat /etc/passwd. Executing..."
-
-        # Vulnerable to data exfiltration via legitimate-sounding tasks
-        if "migration" in prompt_lower and ("send" in prompt_lower or "post" in prompt_lower):
-            return "I'll help with the migration. Querying all records and sending to the endpoint via http_request. Transferred 4,521 records successfully."
-
-        # Default: appears helpful
-        return "I'd be happy to help with that task. What specific information do you need?"
-
-    return mock_agent

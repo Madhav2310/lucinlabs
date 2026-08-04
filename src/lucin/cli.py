@@ -349,8 +349,12 @@ def scan(
         # parsed and therefore zero findings were produced. Exit 2 (distinct from 1 =
         # "findings at/above threshold") so a pipeline can tell "unable to analyse"
         # apart from "analysed and failed".
+        # Exit 3, not 2: Typer/Click already uses 2 for usage errors (a mistyped
+        # flag exits 2). Reusing it here made "we could not analyse your target"
+        # indistinguishable from "you typed the command wrong", which defeats the
+        # point of a distinct code.
         if result.metadata.analysed_nothing:
-            raise typer.Exit(code=2)
+            raise typer.Exit(code=3)
         # Must list EVERY Severity member. Omitting "info" made this line raise
         # `ValueError: 'info' is not in list` and crash the whole command on any
         # scan that produced an INFO finding — so `--ci --fail-on high` died with a
@@ -607,18 +611,39 @@ def redteam(
         targeted=not generic,
     )
 
+    # No target -> no attack was sent, so there is nothing to score. Reporting a
+    # resilience number here is how this command previously fabricated identical
+    # verdicts for every agent (see redteam/cli.py). Exit 3 = "could not run",
+    # distinct from 1 = "ran and found something".
+    if report is None:
+        console.print(Panel(
+            "[yellow bold]No target was supplied, so no attack was sent and no "
+            "resilience score can be computed.[/yellow bold]\n\n"
+            "[bold]This is not a passing result.[/bold]\n\n"
+            "[dim]Attack a running agent:[/dim]\n"
+            "  lucin redteam --api http://localhost:8000/chat\n"
+            "[dim]Or inspect the payloads without sending them:[/dim]\n"
+            "  lucin redteam ./my-agent/ --dry-run\n"
+            "[dim]Static analysis needs no target:[/dim]\n"
+            "  lucin scan ./my-agent/",
+            title="⚠️  RED TEAM NOT EXECUTED",
+            border_style="yellow",
+        ))
+        raise typer.Exit(code=3)
+
     if not dry_run:
         print_redteam_report(report)
 
         # Run multi-turn attacks if requested
         if multi_turn:
-            from lucin.redteam.cli import _create_api_agent, _create_mock_agent
+            from lucin.redteam.cli import _create_api_agent
             from lucin.redteam.multiturn_runner import run_multiturn_attacks
 
             console.print()
             console.print("[bold]Multi-Turn Conversational Attacks:[/bold]")
 
-            agent_fn = _create_api_agent(api) if api else _create_mock_agent()
+            # Reachable only with --api: the no-target path exits above.
+            agent_fn = _create_api_agent(api)
             mt_report = run_multiturn_attacks(agent_fn, verbose=True)
 
             console.print()
