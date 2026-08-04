@@ -75,7 +75,42 @@ def print_findings(console: Console, result: ScanResult, ci: bool = False):
 
     # Progress bar (simulated since scan is already done)
     console.print(f" [dim]Scan completed in {result.scan_duration_ms:.0f}ms[/dim]")
+
+    # Coverage — always shown, at 100% and at 0.5%. A security tool must never
+    # leave "what did you NOT look at?" implicit.
+    meta = result.metadata
+    if meta.files_total:
+        cov = f" [dim]Analysed {meta.files_analysed} of {meta.files_total} source files"
+        if meta.unsupported_extensions:
+            top = sorted(meta.unsupported_extensions.items(),
+                         key=lambda kv: -kv[1])[:4]
+            listed = ", ".join(f"{ext} {n}" for ext, n in top)
+            skipped = sum(meta.unsupported_extensions.values())
+            cov += f"; {skipped} unsupported ({listed})"
+        console.print(cov + ".[/dim]")
     console.print()
+
+    # A scan that read NOTHING has no verdict to give. Rendering 100/100 here is the
+    # scan-level version of the bug the evidence gate fixed at the finding level:
+    # a Rust/Go/Java/TypeScript agent with a live command injection scored
+    # "100/100 — Excellent", offered a README badge, and exited 0 under --ci.
+    if meta.analysed_nothing:
+        exts = ", ".join(
+            f"{n} {ext}" for ext, n in
+            sorted(meta.unsupported_extensions.items(), key=lambda kv: -kv[1])[:6]
+        ) or "no source files"
+        console.print(Panel(
+            "[yellow bold]No supported files found — this target was NOT analysed."
+            "[/yellow bold]\n\n"
+            f"[dim]Saw {exts}. Lucin reads Python, MCP/agent JSON configs, Agent "
+            "Skills (SKILL.md + YAML) and shell.[/dim]\n\n"
+            "[bold]This is not a clean result.[/bold] [dim]No score is shown because "
+            "nothing was inspected — an unscanned agent is unknown, not safe.\n"
+            "Supported languages and their depth: docs/limits.md[/dim]",
+            title="⚠️  NOT ANALYSED",
+            border_style="yellow",
+        ))
+        return
 
     # Security Score — rendered on both paths, including a clean scan: 100/100 is the
     # one genuinely shareable moment the product produces, and it used to vanish exactly

@@ -25,6 +25,7 @@ dependencies = [
     "rich>=13.0.0",
     "pyyaml>=6.0",
     "pydantic>=2.0",
+    "bashlex>=0.18",
 ]
 
 [project.optional-dependencies]
@@ -61,6 +62,26 @@ packages = ["src/lucin"]
 [tool.ruff]
 target-version = "py310"
 line-length = 100
+
+# Validation corpora are VERBATIM THIRD-PARTY CODE and must never be reformatted.
+# Their evidential value comes from being byte-identical to the SHA recorded in the
+# manifest — reformatting them silently turns an external corpus into our own code
+# and invalidates every number measured against it.
+#
+# `benchmarks/corpus/` and the other large corpora are gitignored, and ruff honours
+# .gitignore, so they were already safe. `benchmarks/skill_corpus/` is NOT ignored
+# (it is committed) and a `ruff check benchmarks/ --fix` reformatted 2,105 of its
+# 3,229 files. No finding changed — the edits were whitespace and import order — but
+# the corpus was no longer third-party, so it was regenerated from its pinned SHAs.
+# These exclusions make that mistake impossible to repeat.
+extend-exclude = [
+    "benchmarks/corpus",
+    "benchmarks/skill_corpus",
+    "benchmarks/recall_corpus",
+    "benchmarks/safe",
+    "benchmarks/vulnerable",
+    "tests/fixtures",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W"]

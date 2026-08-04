@@ -33,7 +33,7 @@ from lucin.detectors._taint import (
     resolve_sig,
     source_files_for,
 )
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.owasp import owasp_ref
 from lucin.parsers.body_inspector import build_import_alias_map
 
@@ -151,7 +151,8 @@ def detect_insecure_deserialization(agent: Agent) -> list[Finding]:
                     ),
                     source_file=filepath,
                     source_line=node.lineno,
-                    witness=[
+                    evidence_class=EvidenceClass.WITNESSED,
+            witness=[
                         f"tainted payload → {sig}(...) in '{func.name}' (line {node.lineno})"
                     ],
                 ))

@@ -85,6 +85,13 @@ def detect_encoding_obfuscation(agent: Agent) -> list[Finding]:
             )
             findings.extend(param_findings)
 
+    if agent.skill:
+        for block in agent.skill.instructions:
+            findings.extend(_check_text_for_encoding(
+                block.text, agent.name, "Skill Instructions", "markdown body",
+                block.source_file, block.line_start
+            ))
+
     return findings
 
 

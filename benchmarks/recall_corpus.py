@@ -21,12 +21,26 @@ vulnerable agents across many vuln classes:
 
 A case is DETECTED (a HIT) iff `scan_target` emits at least one finding id in
 the case's `expected` set (the ids that represent catching THAT vuln class).
-Classes with `class_has_detector: false` (SSRF, insecure deserialization, path
-traversal) have NO Lucin detector today — every such case is a MISS BY
-DESIGN. Those misses are not a bug in this harness; they are the coverage gaps
-this corpus exists to quantify. We do NOT tune to hit a number: the measured
-recall is published as-is (it is well under 100%), because that honesty is the
-deliverable.
+Misses are reported with a reason DERIVED FROM THE LIVE REGISTRY (see
+`_registered_rule_ids`), which separates two very different admissions:
+
+  * "no registered detector emits X" — a genuine coverage gap. Today only
+    path traversal: AG-PATH-TRAVERSAL is built and unit-tested but deliberately
+    NOT registered, because the benign corpus contains byte-identical legitimate
+    file tools (precision over recall).
+  * "X IS registered but declined this shape" — a deliberate precision
+    trade-off. Today SSRF (1/6) and container escape: `detect_ssrf` flags only
+    taint in the URL's scheme/host position, because a bare `requests.get(url)`
+    is indistinguishable from the many benign `fetch_url`/`visit_webpage` tools
+    in the corpus (see `ssrf.py::_host_controlled`).
+
+The manifest's per-case `class_has_detector` field is NO LONGER trusted for this:
+it still says `false` for `ssrf` and `insecure_deserialization` while both
+detectors are registered, and AG-DESERIALIZE in fact fires on 6/6 of its cases.
+A hand-maintained field describing the registry will always drift from it.
+
+We do NOT tune to hit a number: the measured recall is published as-is (it is
+well under 100%), because that honesty is the deliverable.
 
 Reproducible + offline: all cases are cached in-repo (no download needed).
 Scanning is parallelized across CPUs (scan is CPU-bound AST work).
@@ -45,6 +59,40 @@ sys.path.insert(0, str(ROOT / "src"))
 
 RC = ROOT / "benchmarks" / "recall_corpus"
 MANIFEST = RC / "manifest.json"
+
+
+def _registered_rule_ids() -> set[str]:
+    """Rule IDs a REGISTERED detector can actually emit.
+
+    The registry is the source of truth for "what runs" (CLAUDE.md), so the
+    question "does a detector exist for this class?" must be answered from it —
+    never from a hand-maintained manifest field, which goes stale silently.
+
+    It went stale exactly this way: `manifest.json` still carries
+    `class_has_detector: false` for `ssrf` and `insecure_deserialization` even
+    though `detect_ssrf` and `detect_insecure_deserialization` are both
+    registered. AG-DESERIALIZE fires on 6/6 of its cases while the manifest
+    claimed no detector existed, and the five SSRF misses were reported as
+    "no detector for class" when the real reason is that `detect_ssrf`
+    deliberately declines the bare-parameter shape (ssrf.py, `_host_controlled`)
+    to protect precision. Both statements are published numbers; one was false.
+    """
+    import inspect
+    import re
+
+    from lucin.detectors import CROSS_AGENT_DETECTORS, PER_AGENT_DETECTORS
+
+    ids: set[str] = set()
+    for fn in list(PER_AGENT_DETECTORS) + list(CROSS_AGENT_DETECTORS):
+        module = inspect.getmodule(fn)
+        if module is None:
+            continue
+        try:
+            src = inspect.getsource(module)
+        except (OSError, TypeError):
+            continue
+        ids.update(re.findall(r'id="(AG-[A-Z0-9-]+)"', src))
+    return ids
 
 
 def _scan_one(case: dict) -> dict:
@@ -131,9 +179,18 @@ def main() -> int:
         misses = [r for r in measured if not r["detected"]]
         print("-" * 78)
         print("  FALSE NEGATIVES (real vulns Lucin does NOT flag) — honest list:")
+        registered = _registered_rule_ids()
         for r in sorted(misses, key=lambda x: x["id"]):
-            why = "no detector for class" if not r["class_has_detector"] else \
-                  f"got {r['found'] or '(none)'}, expected {r['expected']}"
+            # Derived from the live registry, never from the manifest field.
+            # Distinguishes "we ship nothing for this class" (a coverage gap)
+            # from "the detector is registered and declined this shape"
+            # (a deliberate precision trade-off) — very different admissions.
+            covered = sorted(set(r["expected"]) & registered)
+            if not covered:
+                why = f"no registered detector emits {r['expected']}"
+            else:
+                why = (f"got {r['found'] or '(none)'}, expected {r['expected']} "
+                       f"— {','.join(covered)} IS registered but declined this shape")
             print(f"    MISS  {r['id']}  [{r['origin']}]  {why}")
         print("=" * 78)
         print("Reproduce: python benchmarks/recall_corpus.py   "

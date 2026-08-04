@@ -24,7 +24,7 @@ import ast
 import re
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.owasp import owasp_ref
 
 # Tight, single-list fallback used only when the file is not parseable Python.
@@ -184,6 +184,7 @@ def _scan_server_file(filepath: str, agent_name: str) -> list[Finding]:
                 "  # + add Bearer token or API key middleware"
             ),
             source_file=filepath,
+            evidence_class=EvidenceClass.WITNESSED,
             witness=[f"allow_origins=[\"*\"] in {path.name}"],
         ))
 

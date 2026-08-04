@@ -1,6 +1,6 @@
 """AG-005: Detect dangerous tool combinations."""
 
-from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.models import Agent, EvidenceClass, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
 
 DANGEROUS_COMBOS = [

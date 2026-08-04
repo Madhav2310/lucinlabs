@@ -58,6 +58,9 @@ RULE_TO_ASI: dict[str, tuple[str, ...]] = {
     "AG-SQL":             ("ASI05", "ASI02"),
     "AG-SSRF":            ("ASI02",),
     "AG-TRIFECTA":        ("ASI01", "ASI02"),
+    "AG-SKILL-CHAIN":     ("ASI02", "ASI05"),
+    "AG-SKILL-EXTERNAL-INSTRUCTIONS": ("ASI05",),
+    "AG-SKILL-MANIFEST-GAP": ("ASI04",),
 }
 
 

@@ -1,7 +1,7 @@
 # Lucin
 
 [![PyPI](https://img.shields.io/pypi/v/lucin.svg)](https://pypi.org/project/lucin/)
-[![Tests](https://img.shields.io/badge/tests-549%20passing-brightgreen)](https://github.com/Madhav2310/lucinlabs/actions)
+[![Tests](https://img.shields.io/badge/tests-553%20passing-brightgreen)](https://github.com/Madhav2310/lucinlabs/actions)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/pypi/pyversions/lucin.svg)](https://pypi.org/project/lucin/)
 
@@ -46,16 +46,18 @@ does (anonymous counts, on by default, one command to turn off).
 
 ## What It Finds
 
-Lucin ships **29 detector modules** (source: `src/lucin/detectors/`). **27 are
-registered/active** (`from lucin.detectors import ACTIVE_DETECTOR_COUNT`); two are
+Lucin ships **33 detector modules** (source: `src/lucin/detectors/`). **30 are
+registered/active** (`from lucin.detectors import ACTIVE_DETECTOR_COUNT`); three are
 intentionally held back:
-- **AG-013** (memory poisoning) returns no findings — disabled pending real false-positive
-  data (see note below).
+- **AG-013** (memory poisoning) is **not registered**, so it never runs in a scan —
+  held back pending a real benign-corpus false-positive measurement (see note below).
+- **`skill_declaration`** is a shared helper consumed by the skill detectors, not a
+  detector in its own right.
 - **AG-PATH-TRAVERSAL** is built, sound, and unit-tested but **intentionally unregistered**:
   the benign corpus contains byte-identical legitimate file tools (`open(param)`,
-  `os.path.join(base, name)`), so registering it would break the published
-  0-false-positive result (see *Validated Capabilities*). Precision over recall, by design
-  (`src/lucin/detectors/__init__.py` documents the gate).
+  `os.path.join(base, name)`), so registering it would add false positives on top of
+  the ones already measured (see *Validated Capabilities*). Precision over recall, by
+  design (`src/lucin/detectors/__init__.py` documents the gate).
 
 Rule IDs and severities below are read directly from the detector source (`grep -rhoE
 'id="AG-[A-Z0-9-]+"' src/lucin/detectors/*.py`).
@@ -76,7 +78,7 @@ run cleanly on a real checkout instead of flagging every compiled `.so` in your 
 | AG-009 | Unlimited Sub-Agent Spawning | MEDIUM |
 | AG-010 | No Rate Limiting on High-Risk Tools | MEDIUM |
 | AG-011 | Tool Description Injection (tool poisoning) | HIGH |
-| AG-013 | Memory/RAG Poisoning Risk | HIGH — *disabled: detector returns no findings, rebuilding with real FP data* |
+| AG-013 | Memory/RAG Poisoning Risk | HIGH — *built + unit-tested but **UNREGISTERED** (no benign-corpus FP measurement yet — see `docs/limits.md`)* |
 | AG-014 | Multi-Agent Delegation Chain Risks (cross-agent) | HIGH |
 | AG-015 | Supply Chain: Unpinned MCP Server | HIGH |
 | AG-016 | Coding Agent Scope Violation | HIGH |
@@ -100,6 +102,9 @@ run cleanly on a real checkout instead of flagging every compiled `.so` in your 
 | AG-ENV-FALLBACK | Insecure Secret Env Fallback | MEDIUM |
 | AG-COMP | Compositional Capability Risk | HIGH |
 | AG-FRAMEWORK-PIN | Unpinned Agent Framework Version | MEDIUM |
+| AG-SKILL-CHAIN | Undeclared High-Risk Capability Chain in a bundled skill (fetch/decode/deserialize/exec composition) | CRITICAL/INFO — *severity gated on manifest declaration, see `docs/limits.md`* |
+| AG-SKILL-MANIFEST-GAP | Skill capability disclosure report: observed vs. declared capabilities | INFO — *report, not a verdict* |
+| AG-SKILL-EXTERNAL-INSTRUCTIONS | Skill fetches instructions/config dynamically at runtime | HIGH |
 
 ## What it doesn't catch (honesty matters)
 
@@ -133,9 +138,12 @@ What the scanner actually does today:
   `detectors/_taint.py`). It resolves same-file method-to-method flows — e.g. a value
   stored in `__init__` and later reaching a `pickle.load` sink — but it is **not** a
   whole-program call graph and does not cross files or resolve dynamic dispatch.
-- A separate summary-based analyzer (`src/lucin/analysis/file_scope_taint.py`) exists
-  and is unit-tested but is **not wired into the production scan path** — experimental,
-  not shipping coverage.
+- Kind-scoped sanitizers (`src/lucin/analysis/sanitizers.py`) — a value made safe for a
+  SHELL sink is not credited as safe for a SQL sink. Fail-closed, so it can only ever
+  withdraw a finding we can prove is guarded. Applied per-detector; the taint engines
+  themselves do not consult it, so there is no barrier semantics inside the fixpoint.
+- `src/lucin/analysis/cfg.py` builds a real intraprocedural CFG but is **imported by
+  nothing** — written to enable flow-sensitive taint and never wired in. Dead code today.
 
 What this means for recall (stated honestly):
 
@@ -170,8 +178,31 @@ A clean scan means no known dangerous patterns were found in static configuratio
 - **OpenAI Swarm** — Python-based agent/handoff analysis
 - **PydanticAI** — Python-based agent + tool analysis
 - **Google ADK** — Python-based agent analysis
+- **LlamaIndex** — Python-based agent + tool analysis
 - **OpenAI Assistants** — JSON config (code_interpreter, functions), handled by the generic parser
 - **Any Python agent** — Generic parser catches @tool decorators + schemas
+
+Plus one non-framework artifact type: **Agent Skills** (`SKILL.md` bundles per
+[agentskills.io](https://agentskills.io/specification)) — a packaging format, not an
+orchestration framework, so it is counted and reported separately from the 8 frameworks
+above. See `docs/limits.md` for what skill scanning does and does not yet cover.
+
+### Languages
+
+Lucin analyses **Python** source, **MCP/agent JSON configs**, **Agent Skills**
+(`SKILL.md` + YAML) and **shell**. It does **not** read TypeScript/JavaScript, Java,
+Kotlin, C#, Go, Rust, Ruby, PHP or Swift source — those files are not enumerated at all.
+
+A target with no supported files is reported as **`NOT ANALYSED`**, never as a clean
+scan: no score, no badge, and `--ci` exits **2** (distinct from 1 = "findings at or above
+threshold"). Every scan prints a coverage line — `Analysed 1 of 201 source files; 200
+unsupported (.rs 200)` — so under-coverage is never silent.
+
+The **MCP config** row is language-independent by construction: a Go or Rust MCP server's
+implementation is invisible to Lucin, but its wiring — overprivilege, unpinned `npx -y`,
+tokens in `env`, filesystem-root grants — is JSON, and that is where most MCP risk lives.
+
+Full support matrix and the reasoning: [`docs/limits.md`](docs/limits.md).
 
 ## Usage
 
@@ -251,12 +282,12 @@ Every number below ships with the command that regenerates it. Numbers on **synt
 corpora are labeled as such; capabilities that genuinely require real users/traces are
 labeled **not-yet-validated (launch-gated)** and are not claimed as done.
 
-Test suite: 549 passing (12 skipped, 1 xfailed) — `python -m pytest tests/ -q`
+Test suite: 553 passing (15 skipped, 1 xfailed) — `python -m pytest tests/ -q`
 (requires the `behavioral` extra: `pip install -e ".[dev,behavioral]"`).
 
 | Capability | Measured result | Regenerate with | Status |
 |-----------|-----------------|-----------------|--------|
-| SCAN precision (benign corpus) | **0 confirmed false positives across 52 real repos / 2,732 files** — counted per distinct (file, detector-id) pair against a published per-repo known-capability list (`benchmarks/build_benign_corpus.py`); no admitted FP hidden in that list. The scanner excludes vendored/build dirs (`venv`, `node_modules`, `site-packages`, `.git`, `dist`, `build`, `*.dist-info`), so it does not false-flag a project's dependencies. | `python benchmarks/build_benign_corpus.py` | real repos |
+| SCAN precision (benign corpus) | **11 confirmed false positives across 54 real repos / 9,520 files** — 45 of 54 repos scan completely clean. Counted per distinct (file, detector-id) pair against a published per-repo known-capability list (`benchmarks/build_benign_corpus.py`); no admitted FP is hidden in that list. Open FPs: 4×AG-001, 4×AG-SQL, 2×AG-DESERIALIZE, 1×AG-SSRF — each listed by file and line in the command's output, triage in progress. The 4 AG-SQL are database-driver methods (`search`, `sqldialect`, `load_from_mysql`) that take caller-supplied SQL by contract; **the same functions are labelled true positives in the recall corpus**, an unresolved ground-truth conflict tracked openly rather than tuned away. The scanner excludes vendored/build dirs (`venv`, `node_modules`, `site-packages`, `.git`, `dist`, `build`, `*.dist-info`), so it does not false-flag a project's dependencies. **This number was previously published as "0 across 52 repos / 2,732 files" and was wrong** — the corpus grew and drifted while the claim did not. Corrected 2026-08-04; `benchmarks/regression_snapshot.py` now guards every corpus number against silent drift. | `python benchmarks/build_benign_corpus.py` | real repos |
 | SCAN recall (held-out corpus) | **38/50 = 76%** across 10 vuln classes (24% FN; 19/22 = 86% on real cases); 100% on SQL/CQL/cmd/RCE/CORS/trifecta/deserialization, 80% container-escape, 17% SSRF (conservative), 0% path-traversal (detector built-but-unregistered for precision) | `python benchmarks/recall_corpus.py` | 22 real + 28 labeled constructed |
 | GUARD live-LLM block | Real model drives GUARD-wrapped tools; PII exfil **blocked** with witness; benign completes | `python benchmarks/guard_live_llm.py` | live LLM |
 | GUARD false-block rate | **0/6 = 0.0%** on live-LLM benign tasks | `python benchmarks/guard_falseblock.py` | live LLM |

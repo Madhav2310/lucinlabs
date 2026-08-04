@@ -372,7 +372,7 @@ def detect_tool_poisoning(agent: Agent) -> list[Finding]:
                 break  # One finding per tool for suspicious patterns
 
         # Check for excessively long descriptions (potential instruction hiding)
-        if len(tool.description) > 500:
+        if len(tool.description) > 500 and agent.framework != "skill":
             findings.append(Finding(
                 id="AG-011",
                 title="Unusually Long Tool Description",

@@ -24,7 +24,7 @@ Detection: AST scan for subprocess.run/Popen/check_output calls whose first argu
 import ast
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.owasp import owasp_ref
 
 # subprocess-family calls that could invoke docker
@@ -297,7 +297,8 @@ def detect_docker_exec(agent: Agent) -> list[Finding]:
                 ),
                 source_file=filepath,
                 source_line=func_node.lineno,
-                witness=[f"subprocess with docker run in '{func_node.name}' (line {func_node.lineno})"],
+                evidence_class=EvidenceClass.WITNESSED,
+            witness=[f"subprocess with docker run in '{func_node.name}' (line {func_node.lineno})"],
             ))
 
     # de-duplicate

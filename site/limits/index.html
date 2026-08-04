@@ -167,6 +167,60 @@ dynamic Python (heavy <code>getattr</code>, reflection, generated code) reduces 
 </ul>
 <p>A clean scan means no known dangerous static patterns were found. It does not mean the
 agent is safe under all inputs.</p>
+<h3>Language support — Lucin is a Python scanner with a language-independent MCP surface</h3>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Depth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Python</strong> (<code>.py</code>, <code>.pyi</code>)</td>
+<td>Full AST: taint analysis, kind-scoped sanitizers, cross-function/intra-class flows</td>
+</tr>
+<tr>
+<td><strong>MCP + agent JSON configs</strong> (<code>.mcp.json</code>, <code>claude_desktop_config.json</code>, …)</td>
+<td>Full — <strong>independent of the server's implementation language</strong></td>
+</tr>
+<tr>
+<td><strong>Agent Skills</strong> (<code>SKILL.md</code> + YAML frontmatter)</td>
+<td>Full</td>
+</tr>
+<tr>
+<td><strong>Shell</strong> (<code>.sh</code>, <code>.bash</code>, <code>.zsh</code>)</td>
+<td>Parsed with <code>bashlex</code></td>
+</tr>
+<tr>
+<td><strong>TypeScript / JavaScript</strong> (<code>.ts</code>, <code>.tsx</code>, <code>.js</code>, …)</td>
+<td><strong>Not supported.</strong> Not enumerated at all — no parser reads them</td>
+</tr>
+<tr>
+<td><strong>Java, Kotlin, C#, Go, Rust, Ruby, PHP, Swift, C/C++</strong></td>
+<td><strong>Not supported.</strong> Not enumerated</td>
+</tr>
+</tbody>
+</table>
+<p><strong>A target with no supported files is reported as <code>NOT ANALYSED</code>, not as a clean scan.</strong>
+No score is shown, no badge is offered, and <code>--ci</code> exits <strong>2</strong> (distinct from 1 =
+&quot;findings at or above threshold&quot;) so a pipeline can tell <em>unable to analyse</em> from
+<em>analysed and failed</em>. Every scan also prints a coverage line — <code>Analysed 1 of 201 source files; 200 unsupported (.rs 200)</code> — whether coverage is complete or negligible.</p>
+<p>This is the scan-level counterpart of the finding-level evidence gate: a finding nobody
+can check must not be CRITICAL, so <strong>a scan that examined nothing must not score 100</strong>.
+Before this, a Rust agent containing <code>Command::new(&quot;sh&quot;).arg(&quot;-c&quot;).arg(user_cmd)</code> and a
+hardcoded <code>sk-proj-</code> key scored <em>100/100 — Excellent</em>, was offered a README badge, and
+passed <code>--ci --fail-on high</code> with exit 0. Regression tests: <code>tests/test_language_coverage.py</code>,
+<code>tests/test_ci_exit_codes.py</code>.</p>
+<p><strong>Why we are not adding more languages.</strong> Agent frameworks are overwhelmingly Python and
+TypeScript; building Rust/Java/C# parsers is the treadmill that turns an agent scanner
+into a mediocre general-purpose SAST. TypeScript is the one genuine gap worth closing —
+it is co-Tier-1 with Python in the MCP ecosystem — and it is gated on building a JS/TS
+recall corpus first, because today we have no way to measure whether such support works.</p>
+<p><strong>What the MCP row buys you.</strong> A Go or Rust MCP server's <em>implementation</em> is invisible to
+Lucin, but its <em>wiring</em> is not: overprivilege, unpinned <code>npx -y</code>, leaked tokens in <code>env</code>,
+and filesystem-root grants are all declared in JSON, and that is where most MCP risk
+lives. <code>lucin scan</code> covers that surface regardless of what language the server is written in.</p>
 <h3>Per-class recall gaps (measured, not hidden)</h3>
 <p>Measured recall is <strong>38/50 = 76%</strong> (<code>python benchmarks/recall_corpus.py</code>). The gaps:</p>
 <h4>SSRF — partial (17%)</h4>
@@ -174,14 +228,14 @@ agent is safe under all inputs.</p>
 a request sink (<code>u = f&quot;http://{host}&quot;; get(u)</code>). It will <em>not</em> flag a bare whole-URL
 parameter or a <code>__init__</code>-assigned sink, and it skips patterns that a legitimate
 URL-fetching tool would also match. This trades SSRF recall for the precision result
-(0 confirmed FP outside a documented per-repo known-capability allowlist) — by design
+(11 confirmed FP outside a documented per-repo known-capability allowlist) — by design
 (<code>src/lucin/detectors/ssrf.py</code>).</p>
 <h4>Path traversal — 0% (detector built but UNREGISTERED)</h4>
 <p><code>AG-PATH-TRAVERSAL</code> is built, sound, and unit-tested — but it is <strong>intentionally not
 registered</strong> in the scan path. The benign corpus contains byte-identical <em>legitimate</em> file
 tools (<code>open(param)</code>, <code>os.path.join(base, name)</code>, <code>Path.write_text</code>) that are
 indistinguishable from the vulnerable shapes under static analysis. Registering the
-detector would break the precision result (0 confirmed FP outside a documented per-repo
+detector would break the precision result (11 confirmed FP outside a documented per-repo
 known-capability allowlist), so it is gated off — <strong>precision over recall</strong>.
 The gate and its rationale are documented in <code>src/lucin/detectors/__init__.py</code>.</p>
 <h4>Container escape — 80%</h4>
@@ -192,28 +246,59 @@ container is driven through the docker <strong>SDK</strong> rather than a subpro
 analysis. The standard Python call-graph tool, <strong>PyCG</strong>, is unavailable on the build
 mirror, so it is not vendored or integrated. What actually runs:</p>
 <ul>
-<li><strong>Single-function (intraprocedural) taint</strong>, flow-sensitive, field-insensitive, over each
-tool body (<code>parsers/body_inspector.py</code>, <code>intraproc_taint</code>).</li>
-<li><strong>Limited cross-function / intra-class taint</strong> (<code>analysis/cross_function_taint.py</code>, wired
+<li>
+<p><strong>Single-function (intraprocedural) taint</strong>, flow-sensitive, field-insensitive, over each
+tool body (<code>parsers/body_inspector.py</code>, <code>intraproc_taint</code>).</p>
+</li>
+<li>
+<p><strong>Limited cross-function / intra-class taint</strong> (<code>analysis/cross_function_taint.py</code>, wired
 via <code>detectors/_taint.py</code>) — resolves same-file method-to-method flows (e.g.
 <code>__init__</code> → <code>pickle.load</code>). Not a full call graph; does not cross files or resolve
-dynamic dispatch.</li>
-<li><strong>Capability-based classification</strong> as the cross-function approximation — flag dangerous
+dynamic dispatch.</p>
+</li>
+<li>
+<p><strong>Capability-based classification</strong> as the cross-function approximation — flag dangerous
 <em>capability combinations</em> (the trifecta / dangerous-combination detectors) instead of
-proving a precise A→B path.</li>
+proving a precise A→B path.</p>
+</li>
+<li>
+<p><strong>Kind-scoped sanitizers</strong> (<code>analysis/sanitizers.py</code>) — a value made safe for a SHELL
+sink is not credited as safe for a SQL sink. Fail-closed: an unrecognised call is
+treated as NOT sanitizing, so this can only ever withdraw a finding we can prove is
+guarded. Applied at the detector level; the taint engines themselves do not consult it,
+so there is no barrier semantics inside the dataflow fixpoint.</p>
+</li>
 </ul>
-<p>A separate <code>analysis/file_scope_taint.py</code> exists and is unit-tested but is <strong>not wired</strong>
-into production scans — treat it as experimental.</p>
+<p><code>analysis/cfg.py</code> builds a real intraprocedural CFG but is <strong>imported by nothing</strong> — it
+was written to enable flow-sensitive taint and never wired in. Dead code today.</p>
 <p><strong>Consequence:</strong> a vuln where untrusted input enters in one function and reaches a sink in
 a <em>different file</em>, with no single tool exhibiting the dangerous combination, may be
 missed with path-level precision. The capability heuristic recovers many of these, but not
 all, and dynamic dispatch is treated as a conservative barrier.</p>
 <h3>Detectors held back on purpose</h3>
 <ul>
-<li><strong>AG-013 (memory/RAG poisoning)</strong> — registered but returns no findings; disabled pending
-real false-positive data before it is re-enabled.</li>
+<li><strong>AG-013 (memory/RAG poisoning)</strong> — <strong>not registered</strong>; <code>detect_memory_poisoning</code> is
+reachable only from its own unit tests, not from any scan path. No benign-corpus
+false-positive measurement exists for it. See <code>src/lucin/detectors/memory_poisoning.py</code>'s
+docstring for what got it disabled originally and why it stayed unregistered after being
+retuned.</li>
 <li><strong>AG-PATH-TRAVERSAL</strong> — built and unit-tested, unregistered for precision (above).</li>
 </ul>
+<h3>Temporal ledger (<code>src/lucin/temporal/</code>) — experimental, unwired, not a claimed capability</h3>
+<p><code>TemporalLedger</code> (Merkle-chained SQLite) and the cross-session detector built on it
+(<code>detectors/multiagent/memory_integrity.py</code>) are unit-tested directly but <strong>no
+<code>lucin scan</code>/<code>lucin verify</code> code path ever calls <code>record_event</code></strong>, so they have zero
+effect on any real scan today. Do not read any README/site claim of &quot;temporal awareness&quot;
+or &quot;T3 detection&quot; as describing shipped behavior until a scan path writes to the ledger.</p>
+<p><code>TemporalLedger.verify_integrity()</code> is <strong>tamper-evident, not tamper-proof</strong>: it proves the
+recorded hash chain is internally consistent, which catches accidental corruption and
+naive tampering. It does <strong>not</strong> protect against an attacker with the same local write
+access the ledger process itself has — that attacker can edit history and recompute every
+hash forward from the edit point, and <code>verify_integrity()</code> will return <code>True</code> regardless.
+Tamper-<em>proofness</em> against a locally-privileged attacker needs an external,
+independently-controlled write path (signing with a key the process can't read, or a
+remote append-only store) — infrastructure this project has deliberately not built (see
+<code>launch/evolving conviction/PHASE_6_PLAN.md</code> §1).</p>
 <h3>Experimental / not-yet-validated capabilities</h3>
 <p>These ship as code but are <strong>not</strong> part of the validated core:</p>
 <ul>
@@ -239,8 +324,8 @@ corpus is a strong pre-launch proxy, not the population).</li>
 <h3>Reproduce these claims</h3>
 <p>Every number on this page regenerates:</p>
 <pre><code class="language-bash">python benchmarks/recall_corpus.py        # 38/50 = 76%, per-class + false-negative list
-python benchmarks/build_benign_corpus.py  # 0 confirmed FP (documented per-repo allowlist) / 52 repos / 2,732 files
-python -m pytest tests/ -q                # 517 passing
+python benchmarks/build_benign_corpus.py  # 11 confirmed FP (outside a documented per-repo allowlist) / 54 repos / 9,520 files
+python -m pytest tests/ -q                # 553 passing
 </code></pre>
 </main>
 <footer><div class="in">

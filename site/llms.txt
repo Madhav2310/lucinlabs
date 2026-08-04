@@ -37,7 +37,7 @@ triggered it. A finding with no witness and no source line is capped below HIGH,
 because it cannot be verified by a reader.
 
 Headline numbers, each with its command:
-- 0 adjudicated false positives / 52 real repos / 2,732 files — `python benchmarks/build_benign_corpus.py`
+- 11 adjudicated false positives / 54 real repos / 9,520 files — `python benchmarks/build_benign_corpus.py`
 - 20.5-31.5% precision on a broad 81-repo population (n=73 clean holdout; lower bound CI 12.9-31.2%, upper 22.0-42.9%) — `python benchmarks/agentzoo_precision.py --report-only`. Both bounds published because one attribution judgement moves the figure ~11 points. The earlier 58% was train-on-test and is withdrawn. AG-TRIFECTA scored 0 TP / 6 FP on this holdout.
 - 76% recall (38/50, 10 vulnerability classes) — `python benchmarks/recall_corpus.py`
 

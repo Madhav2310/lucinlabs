@@ -19,6 +19,41 @@ It does **not**:
 A clean scan means no known dangerous static patterns were found. It does not mean the
 agent is safe under all inputs.
 
+## Language support — Lucin is a Python scanner with a language-independent MCP surface
+
+| Target | Depth |
+|---|---|
+| **Python** (`.py`, `.pyi`) | Full AST: taint analysis, kind-scoped sanitizers, cross-function/intra-class flows |
+| **MCP + agent JSON configs** (`.mcp.json`, `claude_desktop_config.json`, …) | Full — **independent of the server's implementation language** |
+| **Agent Skills** (`SKILL.md` + YAML frontmatter) | Full |
+| **Shell** (`.sh`, `.bash`, `.zsh`) | Parsed with `bashlex` |
+| **TypeScript / JavaScript** (`.ts`, `.tsx`, `.js`, …) | **Not supported.** Not enumerated at all — no parser reads them |
+| **Java, Kotlin, C#, Go, Rust, Ruby, PHP, Swift, C/C++** | **Not supported.** Not enumerated |
+
+**A target with no supported files is reported as `NOT ANALYSED`, not as a clean scan.**
+No score is shown, no badge is offered, and `--ci` exits **2** (distinct from 1 =
+"findings at or above threshold") so a pipeline can tell *unable to analyse* from
+*analysed and failed*. Every scan also prints a coverage line — `Analysed 1 of 201
+source files; 200 unsupported (.rs 200)` — whether coverage is complete or negligible.
+
+This is the scan-level counterpart of the finding-level evidence gate: a finding nobody
+can check must not be CRITICAL, so **a scan that examined nothing must not score 100**.
+Before this, a Rust agent containing `Command::new("sh").arg("-c").arg(user_cmd)` and a
+hardcoded `sk-proj-` key scored *100/100 — Excellent*, was offered a README badge, and
+passed `--ci --fail-on high` with exit 0. Regression tests: `tests/test_language_coverage.py`,
+`tests/test_ci_exit_codes.py`.
+
+**Why we are not adding more languages.** Agent frameworks are overwhelmingly Python and
+TypeScript; building Rust/Java/C# parsers is the treadmill that turns an agent scanner
+into a mediocre general-purpose SAST. TypeScript is the one genuine gap worth closing —
+it is co-Tier-1 with Python in the MCP ecosystem — and it is gated on building a JS/TS
+recall corpus first, because today we have no way to measure whether such support works.
+
+**What the MCP row buys you.** A Go or Rust MCP server's *implementation* is invisible to
+Lucin, but its *wiring* is not: overprivilege, unpinned `npx -y`, leaked tokens in `env`,
+and filesystem-root grants are all declared in JSON, and that is where most MCP risk
+lives. `lucin scan` covers that surface regardless of what language the server is written in.
+
 ## Per-class recall gaps (measured, not hidden)
 
 Measured recall is **38/50 = 76%** (`python benchmarks/recall_corpus.py`). The gaps:
@@ -28,7 +63,7 @@ Measured recall is **38/50 = 76%** (`python benchmarks/recall_corpus.py`). The g
 a request sink (`u = f"http://{host}"; get(u)`). It will *not* flag a bare whole-URL
 parameter or a `__init__`-assigned sink, and it skips patterns that a legitimate
 URL-fetching tool would also match. This trades SSRF recall for the precision result
-(0 confirmed FP outside a documented per-repo known-capability allowlist) — by design
+(11 confirmed FP outside a documented per-repo known-capability allowlist) — by design
 (`src/lucin/detectors/ssrf.py`).
 
 ### Path traversal — 0% (detector built but UNREGISTERED)
@@ -36,7 +71,7 @@ URL-fetching tool would also match. This trades SSRF recall for the precision re
 registered** in the scan path. The benign corpus contains byte-identical *legitimate* file
 tools (`open(param)`, `os.path.join(base, name)`, `Path.write_text`) that are
 indistinguishable from the vulnerable shapes under static analysis. Registering the
-detector would break the precision result (0 confirmed FP outside a documented per-repo
+detector would break the precision result (11 confirmed FP outside a documented per-repo
 known-capability allowlist), so it is gated off — **precision over recall**.
 The gate and its rationale are documented in `src/lucin/detectors/__init__.py`.
 
@@ -60,8 +95,14 @@ mirror, so it is not vendored or integrated. What actually runs:
   *capability combinations* (the trifecta / dangerous-combination detectors) instead of
   proving a precise A→B path.
 
-A separate `analysis/file_scope_taint.py` exists and is unit-tested but is **not wired**
-into production scans — treat it as experimental.
+- **Kind-scoped sanitizers** (`analysis/sanitizers.py`) — a value made safe for a SHELL
+  sink is not credited as safe for a SQL sink. Fail-closed: an unrecognised call is
+  treated as NOT sanitizing, so this can only ever withdraw a finding we can prove is
+  guarded. Applied at the detector level; the taint engines themselves do not consult it,
+  so there is no barrier semantics inside the dataflow fixpoint.
+
+`analysis/cfg.py` builds a real intraprocedural CFG but is **imported by nothing** — it
+was written to enable flow-sensitive taint and never wired in. Dead code today.
 
 **Consequence:** a vuln where untrusted input enters in one function and reaches a sink in
 a *different file*, with no single tool exhibiting the dangerous combination, may be
@@ -70,9 +111,30 @@ all, and dynamic dispatch is treated as a conservative barrier.
 
 ## Detectors held back on purpose
 
-- **AG-013 (memory/RAG poisoning)** — registered but returns no findings; disabled pending
-  real false-positive data before it is re-enabled.
+- **AG-013 (memory/RAG poisoning)** — **not registered**; `detect_memory_poisoning` is
+  reachable only from its own unit tests, not from any scan path. No benign-corpus
+  false-positive measurement exists for it. See `src/lucin/detectors/memory_poisoning.py`'s
+  docstring for what got it disabled originally and why it stayed unregistered after being
+  retuned.
 - **AG-PATH-TRAVERSAL** — built and unit-tested, unregistered for precision (above).
+
+## Temporal ledger (`src/lucin/temporal/`) — experimental, unwired, not a claimed capability
+
+`TemporalLedger` (Merkle-chained SQLite) and the cross-session detector built on it
+(`detectors/multiagent/memory_integrity.py`) are unit-tested directly but **no
+`lucin scan`/`lucin verify` code path ever calls `record_event`**, so they have zero
+effect on any real scan today. Do not read any README/site claim of "temporal awareness"
+or "T3 detection" as describing shipped behavior until a scan path writes to the ledger.
+
+`TemporalLedger.verify_integrity()` is **tamper-evident, not tamper-proof**: it proves the
+recorded hash chain is internally consistent, which catches accidental corruption and
+naive tampering. It does **not** protect against an attacker with the same local write
+access the ledger process itself has — that attacker can edit history and recompute every
+hash forward from the edit point, and `verify_integrity()` will return `True` regardless.
+Tamper-*proofness* against a locally-privileged attacker needs an external,
+independently-controlled write path (signing with a key the process can't read, or a
+remote append-only store) — infrastructure this project has deliberately not built (see
+`launch/evolving conviction/PHASE_6_PLAN.md` §1).
 
 ## Experimental / not-yet-validated capabilities
 
@@ -104,6 +166,6 @@ Every number on this page regenerates:
 
 ```bash
 python benchmarks/recall_corpus.py        # 38/50 = 76%, per-class + false-negative list
-python benchmarks/build_benign_corpus.py  # 0 confirmed FP (documented per-repo allowlist) / 52 repos / 2,732 files
-python -m pytest tests/ -q                # 517 passing
+python benchmarks/build_benign_corpus.py  # 11 confirmed FP (outside a documented per-repo allowlist) / 54 repos / 9,520 files
+python -m pytest tests/ -q                # 553 passing
 ```

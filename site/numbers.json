@@ -1,19 +1,17 @@
 {
-  "fp_count": 0,
-  "repos": 52,
-  "files": 2732,
+  "fp_count": 11,
+  "repos": 54,
+  "files": 9520,
   "precision_range": "20.5–31.5%",
   "precision_ci": "95% CI 12.9–42.9%",
   "recall_pct": 76,
   "recall_cases": 50,
   "recall_classes": 10,
-  "detectors_active": 27,
+  "detectors_active": 30,
   "frameworks": 8,
-  "tests_passing": 549,
-  "unit_tests": "549 passing (12 skipped, 1 xfailed)",
+  "tests_passing": 553,
+  "unit_tests": "553 passing (15 skipped, 1 xfailed)",
   "behavioral_repos": 52,
   "behavioral_frameworks": 14,
-  "behavioral_agents": 221,
-  "precision": "100%",
-  "recall": "100%"
+  "behavioral_agents": 221
 }

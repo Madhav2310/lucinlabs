@@ -1,0 +1,7188 @@
+{
+  "scanned": 337,
+  "skillspector_errors": 0,
+  "both_flag": [
+    {
+      "repo": "anthropics/skills",
+      "skill": "xlsx",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TM3",
+          "category": "Tool Misuse",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "skill-creator",
+      "lucin": [
+        {
+          "id": "AG-001",
+          "severity": "critical",
+          "title": "Unrestricted Shell/Exec Access"
+        },
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS1",
+          "category": "Agent Snooping",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "pptx",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TM3",
+          "category": "Tool Misuse",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "YR1",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "docx",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TM3",
+          "category": "Tool Misuse",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "web-artifacts-builder",
+      "lucin": [
+        {
+          "id": "AG-015",
+          "severity": "medium",
+          "title": "Binary Payload in Skill Directory: shadcn-components.tar.gz"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "video-downloader",
+      "lucin": [
+        {
+          "id": "AG-001",
+          "severity": "critical",
+          "title": "Unrestricted Shell/Exec Access"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "skill-creator",
+      "lucin": [
+        {
+          "id": "AG-SKILL-EXTERNAL-INSTRUCTIONS",
+          "severity": "high",
+          "title": "Untrusted External Instructions Fetch"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "RA1",
+          "category": "Rogue Agent",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "artifacts-builder",
+      "lucin": [
+        {
+          "id": "AG-015",
+          "severity": "medium",
+          "title": "Binary Payload in Skill Directory: shadcn-components.tar.gz"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "pptx",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "skill-creator",
+      "lucin": [
+        {
+          "id": "AG-SKILL-EXTERNAL-INSTRUCTIONS",
+          "severity": "high",
+          "title": "Untrusted External Instructions Fetch"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "RA1",
+          "category": "Rogue Agent",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "artifacts-builder",
+      "lucin": [
+        {
+          "id": "AG-015",
+          "severity": "medium",
+          "title": "Binary Payload in Skill Directory: shadcn-components.tar.gz"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "pptx",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "humanize-ppt",
+      "lucin": [
+        {
+          "id": "AG-001",
+          "severity": "medium",
+          "title": "Possible Shell/Exec Capability (name-inferred)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "git-workflow-and-versioning",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "skill-creator",
+      "lucin": [
+        {
+          "id": "AG-001",
+          "severity": "critical",
+          "title": "Unrestricted Shell/Exec Access"
+        },
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS1",
+          "category": "Agent Snooping",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "apify-market-research",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "azd-deployment",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "vulnerability-scanner",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AR3",
+          "category": "Anti-Refusal",
+          "severity": "HIGH"
+        },
+        {
+          "id": "AR3",
+          "category": "Anti-Refusal",
+          "severity": "HIGH"
+        },
+        {
+          "id": "EA4",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM3",
+          "category": "Tool Misuse",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TM3",
+          "category": "Tool Misuse",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "cloud-penetration-testing",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "E5",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E5",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SSRF1",
+          "category": "Server-Side Request Forgery",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SSRF1",
+          "category": "Server-Side Request Forgery",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SSRF1",
+          "category": "Server-Side Request Forgery",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SSRF1",
+          "category": "Server-Side Request Forgery",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SSRF1",
+          "category": "Server-Side Request Forgery",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SSRF1",
+          "category": "Server-Side Request Forgery",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SSRF1",
+          "category": "Server-Side Request Forgery",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SSRF1",
+          "category": "Server-Side Request Forgery",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM2",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR4",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "git-advanced-workflows",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "mini-context-graph",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "TT2",
+          "category": "Data Flow",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TT2",
+          "category": "Data Flow",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TT2",
+          "category": "Data Flow",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TT2",
+          "category": "Data Flow",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TT2",
+          "category": "Data Flow",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "azure-architecture-autopilot",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "MP3",
+          "category": "Memory Poisoning",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "acquire-codebase-knowledge",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "github-actions-hardening",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "P6",
+          "category": "System Prompt Leakage",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "pathogen-variant-surveillance",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "critical",
+          "title": "Proven Data Flow to a Dangerous Sink"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "pi-agent",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "benchling-integration",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "paperclip",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA1",
+          "category": "Rogue Agent",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR1",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR1",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "research-lookup",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "critical",
+          "title": "Proven Data Flow to a Dangerous Sink"
+        },
+        {
+          "id": "AG-SKILL-EXTERNAL-INSTRUCTIONS",
+          "severity": "high",
+          "title": "Untrusted External Instructions Fetch"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TT2",
+          "category": "Data Flow",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TT3",
+          "category": "Data Flow",
+          "severity": "CRITICAL"
+        },
+        {
+          "id": "TT3",
+          "category": "Data Flow",
+          "severity": "CRITICAL"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "get-available-resources",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "esm",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "MP3",
+          "category": "Memory Poisoning",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "scientific-schematics",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "critical",
+          "title": "Proven Data Flow to a Dangerous Sink"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "bids",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "critical",
+          "title": "Proven Data Flow to a Dangerous Sink"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "YR4",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "database-lookup",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "deeptools",
+      "lucin": [
+        {
+          "id": "AG-001",
+          "severity": "medium",
+          "title": "Possible Shell/Exec Capability (name-inferred)"
+        },
+        {
+          "id": "AG-001",
+          "severity": "medium",
+          "title": "Possible Shell/Exec Capability (name-inferred)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "protocolsio-integration",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "fluidsim",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": [
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        }
+      ]
+    }
+  ],
+  "lucin_only": [
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "cherry-electron-dev",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "polars-bio",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "dask",
+      "lucin": [
+        {
+          "id": "AG-SKILL-CHAIN",
+          "severity": "info",
+          "title": "Co-occurring High-Risk Capabilities (No Proven Flow)"
+        }
+      ],
+      "skillspector": []
+    }
+  ],
+  "skillspector_only": [
+    {
+      "repo": "anthropics/skills",
+      "skill": "theme-factory",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "claude-api",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E4",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E4",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA4",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA1",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "MP2",
+          "category": "Memory Poisoning",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "MP2",
+          "category": "Memory Poisoning",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TM2",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "pdf",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "algorithmic-art",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "internal-comms",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "canvas-design",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "slack-gif-creator",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "webapp-testing",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "frontend-design",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AR2",
+          "category": "Anti-Refusal",
+          "severity": "HIGH"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "mcp-builder",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA1",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA1",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "brand-guidelines",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "langsmith-fetch",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "YR1",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "theme-factory",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "skill-share",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "developer-growth-analysis",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "internal-comms",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "canvas-design",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "slack-gif-creator",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "webapp-testing",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "connect",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "mcp-builder",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA1",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "brand-guidelines",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "xlsx",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "pdf",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "docx",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "theme-factory",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "algorithmic-art",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "internal-comms",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "canvas-design",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "slack-gif-creator",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "webapp-testing",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "mcp-builder",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA1",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC1",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        },
+        {
+          "id": "SC4",
+          "category": "Supply Chain",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "brand-guidelines",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "xlsx",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "pdf",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "docx",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST4",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "gmh5225/awesome-skills",
+      "skill": "claude-code",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "gmh5225/awesome-skills",
+      "skill": "platforms",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "hallmark",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P6",
+          "category": "System Prompt Leakage",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P6",
+          "category": "System Prompt Leakage",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "clone-audit-mrlv3nl4",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AS2",
+          "category": "Agent Snooping",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-swiss-grid",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-play-mode",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "using-agent-skills",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "test-driven-development",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "planning-and-task-breakdown",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "incremental-implementation",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "api-and-interface-design",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "ci-cd-and-automation",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "context-engineering",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "shipping-and-launch",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AR2",
+          "category": "Anti-Refusal",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "spec-driven-development",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "security-and-hardening",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR4",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "deprecation-and-migration",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "code-simplification",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "RA1",
+          "category": "Rogue Agent",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "performance-optimization",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "browser-testing-with-devtools",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "YR4",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR1",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "skills-manager",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "cherry-assistant-guide",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "YR4",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR4",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "claude-automation-recommender",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P6",
+          "category": "System Prompt Leakage",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "find-skills",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "cherry-tool-guide",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "gh-pr-review",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "P6",
+          "category": "System Prompt Leakage",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P6",
+          "category": "System Prompt Leakage",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "vercel-react-best-practices",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "OH1",
+          "category": "Output Handling",
+          "severity": "HIGH"
+        },
+        {
+          "id": "OH1",
+          "category": "Output Handling",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-fundamentals",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "content-creator",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "i18n-localization",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-fundamentals",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "hubspot-integration",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "stripe-integration",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "plaid-fintech",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "paypal-integration",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "monetization",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "startup-metrics-framework",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA1",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "linux-privilege-escalation",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM2",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR4",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR4",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR1",
+          "category": "YARA Match",
+          "severity": "CRITICAL"
+        },
+        {
+          "id": "YR1",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "top-web-vulnerabilities",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "paypal-integration",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "design-system-patterns",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "OH1",
+          "category": "Output Handling",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "recsys-pipeline-architect",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "temporal-python-testing",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "E1",
+          "category": "Data Exfiltration",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "on-call-handoff-patterns",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "incident-runbook-templates",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "auth-implementation-patterns",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "monorepo-management",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM2",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "error-handling-patterns",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "OH3",
+          "category": "Output Handling",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "turborepo-caching",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM2",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "nx-workspace-patterns",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "e2e-testing-patterns",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "ai-debt-detector",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "agentic-workflows",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AS3",
+          "category": "Agent Snooping",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "plantuml-ascii",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "gdpr-compliant",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "git-commit",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "code-tour",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "batch-files",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P6",
+          "category": "System Prompt Leakage",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "markdown-to-html",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "autoresearch",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "MP2",
+          "category": "Memory Poisoning",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        },
+        {
+          "id": "TM1",
+          "category": "Tool Misuse",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "typescript-mcp-server-generator",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "mkdocs-translations",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "threat-model-analyst",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "P2",
+          "category": "Prompt Injection",
+          "severity": "HIGH"
+        },
+        {
+          "id": "RA1",
+          "category": "Rogue Agent",
+          "severity": "HIGH"
+        },
+        {
+          "id": "YR4",
+          "category": "YARA Match",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "acreadiness-policy",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "image-manipulation-image-magick",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE2",
+          "category": "Privilege Escalation",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "blader/humanizer",
+      "skill": "blader__humanizer",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "RP1",
+          "category": "MCP Rug Pull",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AR2",
+          "category": "Anti-Refusal",
+          "severity": "HIGH"
+        },
+        {
+          "id": "AR2",
+          "category": "Anti-Refusal",
+          "severity": "HIGH"
+        },
+        {
+          "id": "EA3",
+          "category": "Excessive Agency",
+          "severity": "LOW"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "iso-standards-readiness",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "TT2",
+          "category": "Data Flow",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "scikit-survival",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST3",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "qiskit",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "scientific-brainstorming",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP3",
+          "category": "MCP Least Privilege",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "pkpd-modeling",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "shap",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "imaging-data-commons",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "EA1",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "vaex",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        },
+        {
+          "id": "PE3",
+          "category": "Privilege Escalation",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "onekgpd",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "exploratory-data-analysis",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "geniml",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "RA2",
+          "category": "Rogue Agent",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "geopandas",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST7",
+          "category": "Dangerous Code Execution",
+          "severity": "LOW"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "pyzotero",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        },
+        {
+          "id": "E2",
+          "category": "Data Exfiltration",
+          "severity": "HIGH"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "analytical-method-validation",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "AST3",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST3",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST3",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST3",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST3",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "AST3",
+          "category": "Dangerous Code Execution",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        },
+        {
+          "id": "EA2",
+          "category": "Excessive Agency",
+          "severity": "MEDIUM"
+        }
+      ]
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "medchem",
+      "lucin": [],
+      "skillspector": [
+        {
+          "id": "LP1",
+          "category": "MCP Least Privilege",
+          "severity": "HIGH"
+        }
+      ]
+    }
+  ],
+  "neither_flags": [
+    {
+      "repo": "anthropics/skills",
+      "skill": "template",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "anthropics/skills",
+      "skill": "doc-coauthoring",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "content-research-writer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "tailored-resume-generator",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "template-skill",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "raffle-winner-picker",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "domain-name-brainstormer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "image-enhancer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "connect-apps",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "invoice-organizer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "twitter-algorithm-optimizer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "changelog-generator",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "competitive-ads-extractor",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "file-organizer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "meeting-insights-analyzer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "lead-research-assistant",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "seismic-automation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "lemon_squeezy-automation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "big-data-cloud-automation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "campaign-cleaner-automation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "corrently-automation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "mails-so-automation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "better-stack-automation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "skill": "survey_monkey-automation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "agentregistry-dev/skills",
+      "skill": "template-skill",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "gmh5225/awesome-skills",
+      "skill": "dev-tools-skills",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "gmh5225/awesome-skills",
+      "skill": "skill-creation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "gmh5225/awesome-skills",
+      "skill": "marketing-skills",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "gmh5225/awesome-skills",
+      "skill": "security-skills",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "gmh5225/awesome-skills",
+      "skill": "ai-llm-skills",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "gmh5225/awesome-skills",
+      "skill": "overview",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-audit",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-help",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-review",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-gain",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-debt",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-audit",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-help",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-review",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-gain",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "DietrichGebert/ponytail",
+      "skill": "ponytail-debt",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "create-prototype-dashboard",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "export-nextjs-handoff",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "create-image-campaign",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "create-slides-pitch",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "create-live-artifact-ops",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "deploy-vercel-static",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "import-screenshot-to-prototype",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "create-video-storyboard",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "share-github-pr",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "extend-plugin-author",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "create-hyperframes-launch",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "refine-critique-loop",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "g2-design-system-ui-kit-mqgbmh2w",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "registry-starter",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "design-system-source-context-mr0bb87z",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "atelier-zero-image-generation-prompt-pack-mrrxpegw",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "agent-skill-principal-ui-ux-architect-motion-choreographer-awwwards-tier-mqu4mbbj",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "deep-think-maximum-cognitive-effort-protocol-mq8kvw92",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "import-smoke-test",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-data-rollup",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-takram-organic",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-data-chart-nyt",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "vfx-text-cursor",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-logo-outro",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-glitch-title",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-nyt-graph",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-pentagram-stat",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-product-promo-30s",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-electric-studio",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-liquid-bg-hero",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-bold-signal",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-kinetic-type",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-bold-poster",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-warm-grain",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "nexu-io/open-design",
+      "skill": "frame-vignelli",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "idea-refine",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "debugging-and-error-recovery",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "frontend-ui-engineering",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "code-review-and-quality",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "observability-and-instrumentation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "interview-me",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "doubt-driven-development",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "source-driven-development",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "skill": "documentation-and-adrs",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "issue-reporter",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "faq-collector",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "cherry-studio-feedback",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "cherry-skill-marketplace",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "gh-create-issue",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "create-skill",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "cherry-pr-test",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "prepare-release",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "gh-create-pr",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "skill": "demand-first-review",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "copywriting",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-hreflang",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "analytics-tracking",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-content-writer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-content-planner",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "schema-markup",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "azure-monitor-opentelemetry-ts",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "azure-identity-py",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "azure-ai-openai-dotnet",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "azure-functions",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "azure-search-documents-py",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-content-auditor",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-content-writer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-content-planner",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-cannibalization-detector",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "seo-structure-architect",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "schema-markup",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "algolia-search",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "startup-financial-modeling",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "business-analyst",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "market-sizing-analysis",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "kpi-dashboard-design",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "web-security-testing",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "sickn33/agentic-awesome-skills",
+      "skill": "api-security-testing",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "stripe-integration",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "billing-automation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "pci-compliance",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "responsive-design",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "mobile-ios-design",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "web-component-design",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "react-native-design",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "accessibility-compliance",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "interaction-design",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "visual-design-foundations",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "mobile-android-design",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "ml-pipeline-workflow",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "api-design-principles",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "architecture-patterns",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "event-store-design",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "microservices-patterns",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "workflow-orchestration-patterns",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "saga-orchestration",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "projection-patterns",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "cqrs-implementation",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "postmortem-writing",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "bazel-build-optimization",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "debugging-strategies",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "code-review-excellence",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "sql-optimization-patterns",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "wshobson/agents",
+      "skill": "visual-edit-precision",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "openapi-to-application-code",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "aws-cost-optimize",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "mcp-copilot-studio-server-generator",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "go-mcp-server-generator",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "update-specification",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "codebase-memory-mcp",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "reviewing-oracle-to-postgres-migration",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "gtm-positioning-strategy",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "slang-shader-engineer",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "semantic-kernel",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "winui3-migration-guide",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "arize-trace",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "react-container-presentation-component",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "python-mcp-server-generator",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "aspnet-minimal-api-openapi",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "unit-test-vue-pinia",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "dataverse-python-advanced-patterns",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "react-audit-grep-patterns",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "gtm-partnership-architecture",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "breakdown-plan",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "incident-postmortem",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "agentic-eval",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "skill": "rust-mcp-server-generator",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "networkx",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "anndata",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "pymc",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "umap-learn",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "geomaster",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "sympy",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "parallel-web",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "experimental-design",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "arboreto",
+      "lucin": [],
+      "skillspector": []
+    },
+    {
+      "repo": "K-Dense-AI/scientific-agent-skills",
+      "skill": "seaborn",
+      "lucin": [],
+      "skillspector": []
+    }
+  ]
+}

@@ -11,6 +11,7 @@ from lucin.parsers.langchain_parser import parse_langchain
 from lucin.parsers.llamaindex_parser import parse_llamaindex
 from lucin.parsers.mcp_parser import parse_mcp_config
 from lucin.parsers.pydantic_ai_parser import parse_pydantic_ai
+from lucin.parsers.skill_parser import parse_skill
 from lucin.parsers.swarm_parser import parse_swarm
 
 _PARSERS_BY_FRAMEWORK = {
@@ -20,13 +21,14 @@ _PARSERS_BY_FRAMEWORK = {
     "autogen": [parse_autogen],
     "swarm": [parse_swarm],
     "generic": [parse_generic],
+    "skill": [parse_skill],
 }
 
 # Order matters — most specific first, generic last (as fallback).
 _AUTO_PARSERS = [
     parse_crewai, parse_autogen, parse_langchain, parse_swarm,
     parse_pydantic_ai, parse_google_adk, parse_llamaindex,
-    parse_mcp_config, parse_generic,
+    parse_mcp_config, parse_skill, parse_generic,
 ]
 
 
@@ -47,11 +49,28 @@ def detect_and_parse(target: Path, framework: str = "auto",
     `diagnostics` (if provided) rather than propagating.
     """
     agents: list[Agent] = []
+    claimed_files: set[str] = set()
 
     parsers = _AUTO_PARSERS if framework == "auto" else _PARSERS_BY_FRAMEWORK.get(framework, [])
     for parser in parsers:
         try:
-            agents.extend(parser(target))
+            new_agents = parser(target)
+
+            # If this is the generic parser, drop agents that belong to already-claimed files
+            if getattr(parser, "__name__", "") == "parse_generic":
+                new_agents = [a for a in new_agents if a.source_file not in claimed_files]
+
+            agents.extend(new_agents)
+
+            # Track claimed files from specific parsers
+            if getattr(parser, "__name__", "") != "parse_generic":
+                for a in new_agents:
+                    if a.source_file:
+                        claimed_files.add(a.source_file)
+                    for t in a.tools:
+                        if t.source_file:
+                            claimed_files.add(t.source_file)
+
         except Exception as exc:  # noqa: BLE001 — crash-isolation is deliberate
             if diagnostics is not None:
                 name = getattr(parser, "__name__", repr(parser))

@@ -111,6 +111,14 @@ _COMMON_PATHS = {
 _COMMON_GLOBS = {
     "Claude Code skills": ["~/.claude/skills/*/SKILL.md"],
     "Cursor rules": ["~/.cursor/rules/*.mdc"],
+    # "node_modules/*/SKILL.md" and "venv/.../site-packages/*/SKILL.md" were removed
+    # here (PHASE_6_PLAN.md §2.13.5/§5.1.10): they directly contradict `_fs.py`'s
+    # vendored-directory exclusion, which CLAUDE.md names as "why `lucin scan .`
+    # doesn't flag a project's own dependencies." They were also relative globs with
+    # no anchor, unlike every other entry here, which is `~/`-anchored. Scanning
+    # installed dependencies for skills needs its own opt-in flag and its own FP
+    # measurement, not a silent addition to default discovery.
+    "Local Skills": ["~/.skills/*/SKILL.md"],
 }
 
 # Project-level config files (relative to cwd or project root)

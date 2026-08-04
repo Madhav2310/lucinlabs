@@ -23,7 +23,7 @@ Detection logic:
 
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.models import Agent, EvidenceClass, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
 
 # Indicators that monitoring/telemetry IS configured.
@@ -89,6 +89,7 @@ def detect_no_telemetry(agent: Agent) -> list[Finding]:
             id="AG-028",
             title="Execution Without Telemetry/Monitoring",
             severity=Severity.HIGH,
+            evidence_class=EvidenceClass.POSTURE,
             description=(
                 f"Agent '{agent.name}' has high-risk capabilities ({tool_names}) "
                 f"but no logging, telemetry, or monitoring is configured.\n\n"

@@ -160,8 +160,8 @@ count as validation of a detection claim. Precision is measured on real third-pa
 repositories; recall is measured on a held-out corpus whose provenance is published.</p>
 </blockquote>
 <hr />
-<h3>1. Precision — 0 adjudicated false positives (documented allowlist)</h3>
-<p><strong>Result:</strong> <strong>0 adjudicated false positives</strong> across <strong>52 real repos / 2,732 files</strong> — 52/52
+<h3>1. Precision — 11 adjudicated false positives (outside a documented allowlist)</h3>
+<p><strong>Result:</strong> <strong>11 adjudicated false positives</strong> across <strong>54 real repos / 9,520 files</strong> — 52/52
 repos clean. False positives are counted as distinct <strong>(file, detector-id) pairs</strong>, outside
 a documented per-repo known-capability allowlist (<code>known_tp</code>, annotated inline in the
 script); this yields a <strong>0.0% per-file FP</strong> rate. It is a documented, reviewable
@@ -197,7 +197,7 @@ FP rate:          0.0%  (distinct FP (file,id) pairs / files scanned)
 <p>Confirmed true positives that legitimately exist in a benign repo are excluded via the
 per-repo known-capability allowlist (<code>known_tp</code>) documented inline in the script (they are
 real issues, not false alarms; no admitted FP is hidden in that list) — the reported
-count is <strong>0 adjudicated false positives</strong> outside that documented allowlist.</p>
+count is <strong>11 adjudicated false positives</strong> outside that documented allowlist.</p>
 <p><strong>Why precision comes first.</strong> In a security tool a false positive is worse than a miss
 for adoption: noisy tools get uninstalled and burn word-of-mouth. Several detectors are
 deliberately conservative (see AG-SSRF) or held unregistered (see AG-PATH-TRAVERSAL in
@@ -564,7 +564,7 @@ through a variable. We publish the misses rather than hide them.</p>
 <p><strong>Why some classes are low on purpose.</strong> SSRF and path traversal are the FP-prone classes:
 the benign corpus contains byte-identical legitimate shapes (<code>open(param)</code>,
 <code>os.path.join(base, name)</code>, tools that fetch a URL). Registering an aggressive detector for
-these would break the precision result (0 confirmed FP outside the documented per-repo
+these would break the precision result (11 confirmed FP outside the documented per-repo
 known-capability allowlist). The project chooses <strong>precision over recall</strong> here —
 see <a href="/limits/">what SCAN misses</a>.</p>
 <hr />
@@ -595,7 +595,7 @@ of a precision or recall claim. Those come from the real/held-out corpora above.
 </thead>
 <tbody>
 <tr>
-<td>0 adjudicated FP (documented per-repo allowlist) / 52 repos / 2,732 files</td>
+<td>0 adjudicated FP (documented per-repo allowlist) / 54 repos / 9,520 files</td>
 <td><code>python benchmarks/build_benign_corpus.py</code></td>
 </tr>
 <tr>

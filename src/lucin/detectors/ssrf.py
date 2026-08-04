@@ -35,7 +35,7 @@ from lucin.detectors._taint import (
     source_files_for,
     var_defs,
 )
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.owasp import owasp_ref
 from lucin.parsers.body_inspector import build_import_alias_map
 
@@ -253,7 +253,8 @@ def detect_ssrf(agent: Agent) -> list[Finding]:
                     ),
                     source_file=filepath,
                     source_line=node.lineno,
-                    witness=[
+                    evidence_class=EvidenceClass.WITNESSED,
+            witness=[
                         f"param → URL authority → {sig}(...) in '{func.name}' "
                         f"(line {node.lineno}); HTTP {verb.upper()}"
                     ],

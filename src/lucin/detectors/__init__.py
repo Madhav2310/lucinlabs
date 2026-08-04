@@ -11,6 +11,7 @@ from lucin.detectors.encoding_detection import detect_encoding_obfuscation
 from lucin.detectors.framework_pin import detect_framework_pin
 from lucin.detectors.insecure_deserialization import detect_insecure_deserialization
 from lucin.detectors.mcp_auth import detect_unauthenticated_mcp
+from lucin.detectors.memory_poisoning import detect_memory_poisoning
 from lucin.detectors.missing_controls import detect_missing_controls
 from lucin.detectors.no_telemetry import detect_no_telemetry
 from lucin.detectors.overprivilege import detect_dangerous_combinations
@@ -22,13 +23,16 @@ from lucin.detectors.secrets import detect_secrets
 from lucin.detectors.secrets_fallback import detect_secrets_fallback
 from lucin.detectors.self_modification import detect_self_modification
 from lucin.detectors.shell_access import detect_unrestricted_shell
+from lucin.detectors.skill_chain import detect_skill_chain
+from lucin.detectors.skill_external import detect_external_instructions
+from lucin.detectors.skill_manifest import detect_skill_manifest_gap
 from lucin.detectors.sql_injection import detect_sql_injection
 from lucin.detectors.ssrf import detect_ssrf
 from lucin.detectors.supply_chain import detect_supply_chain
 from lucin.detectors.tool_poisoning import detect_tool_poisoning
 from lucin.detectors.tool_shadowing import detect_tool_shadowing
 from lucin.detectors.trifecta import detect_trifecta
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.rule_docs import cwes_for
 
 # ---------------------------------------------------------------------------
@@ -43,10 +47,12 @@ from lucin.rule_docs import cwes_for
 #   - detect_path_traversal: sound + unit-tested, but the benign corpus contains
 #     byte-identical benign counterparts of every path-traversal shape, so
 #     registering it breaks the 0% FP guarantee. Gated off (precision > recall).
-#   - detect_memory_poisoning (AG-013): the entry point currently `return []`
-#     (disabled until rebuilt with a real FP measurement). A registered detector
-#     that can never fire is a no-op that inflates the count — so it is NOT in
-#     the registry. Re-add it here once it emits findings again.
+#   - detect_memory_poisoning (AG-013): imported (kept import-testable for its own
+#     unit tests) but deliberately NOT added to either registry below. It was briefly
+#     un-disabled without a benign-corpus FP measurement — see its module docstring and
+#     `launch/evolving conviction/PHASE_6_PLAN.md` §2.13.3/§5.1.8. A registered detector
+#     with no measured FP rate is exactly the credibility defect this comment exists to
+#     prevent. Re-add here only after that measurement exists.
 # ---------------------------------------------------------------------------
 
 # Per-agent detectors (analyze each agent independently).
@@ -77,6 +83,9 @@ PER_AGENT_DETECTORS = [
     detect_rag_no_sanitize,
     detect_ssrf,
     detect_insecure_deserialization,
+    detect_skill_chain,
+    detect_skill_manifest_gap,
+    detect_external_instructions,
 ]
 
 # Cross-agent detectors (analyze relationships between agents).
@@ -86,6 +95,22 @@ CROSS_AGENT_DETECTORS = [
 
 # Total number of detectors that actually run (transparency source of truth).
 ACTIVE_DETECTOR_COUNT = len(PER_AGENT_DETECTORS) + len(CROSS_AGENT_DETECTORS)
+
+for det in PER_AGENT_DETECTORS + CROSS_AGENT_DETECTORS:
+    if not hasattr(det, "applies_to"):
+        det.applies_to = {"all"}
+
+detect_cross_origin.applies_to = {"mcp"}
+detect_unauthenticated_mcp.applies_to = {"mcp"}
+
+
+def _detector_applies(detector, agent: Agent) -> bool:
+    applies = getattr(detector, "applies_to", {"all"})
+    if "all" in applies:
+        if f"-{agent.framework}" in applies:
+            return False
+        return True
+    return agent.framework in applies
 
 
 def run_all_detectors(agents: list[Agent],
@@ -110,7 +135,11 @@ def run_all_detectors(agents: list[Agent],
 
     # Per-agent detectors
     for agent in agents:
+        agent.detectors_applicable = 0
         for detector in PER_AGENT_DETECTORS:
+            if not _detector_applies(detector, agent):
+                continue
+            agent.detectors_applicable += 1
             try:
                 findings.extend(detector(agent))
             except Exception as exc:  # noqa: BLE001 — crash-isolation is deliberate
@@ -250,7 +279,11 @@ def _bound_severity_by_evidence(findings: list[Finding],
     capped = 0
     for f in findings:
         if f.severity in (Severity.CRITICAL, Severity.HIGH):
+            # WITNESSED findings always keep severity.
+            if f.evidence_class == EvidenceClass.WITNESSED:
+                continue
             has_evidence = bool(f.witness) or (f.source_line or 0) > 0
+            # If no evidence and it's POSTURE or INFERRED, cap it
             if not has_evidence:
                 f.severity = _NO_EVIDENCE_CEILING
                 capped += 1
@@ -266,51 +299,53 @@ def _require_evidence_on_unproven_agents(
     findings: list[Finding], agents: list[Agent],
     diagnostics: list[str] | None = None,
 ) -> list[Finding]:
-    """Drop witness-less findings on files we cannot show are agents at all.
+    """Drop witness-less findings on files/artifacts where posture is not meaningful.
 
     The generic parser is deliberately aggressive (a function NAMED `execute` or
     `query` is enough to call a file an "agent"), which is right for recall but
-    means build scripts, benchmark harnesses, pydantic schema modules,
-    prompt-string files and `fake_tools/` also get scanned as agents. On those
-    files the capability-composition detectors (AG-006 / AG-028 / AG-COMP /
-    AG-002 / AG-005a/b / AG-NOAUTH) fire with **no line and no witness**, i.e. no
-    evidence a reader could check.
+    means build scripts, benchmark harnesses, pydantic schema modules, and
+    prompt-string files also get scanned as agents. On those files the
+    capability-composition detectors (AG-006 / AG-028 / AG-COMP / AG-002 /
+    AG-005a/b / AG-NOAUTH) fire with **no line and no witness**, i.e. no evidence
+    a reader could check.
 
     Measured across 81 real agent repos (2026-07-30): witness-less findings scored
     **3 TP / 28 FP (9.7% precision) with 38 of 100 unadjudicable** — two careful
     reviewers could not even agree whether they were real. If we cannot produce an
     evidence path, we have not earned a HIGH/CRITICAL finding.
 
-    The rule is narrow on purpose:
-      * only for agents with NO `agent_evidence` (no @tool, Tool base class, LLM
-        client, tool registry, MCP config or agent constructor), AND
-      * only for findings carrying NO witness.
-    A witness-backed finding (AG-001 body-confirmed, AG-SQL taint path,
-    AG-TRIFECTA, AG-CORS `allow_origins=["*"]`, AG-DOCKER, AG-SSRF) is kept
-    everywhere — it stands on its own evidence. Real agents keep their posture
-    findings untouched.
+    Similarly, installable skills are composable components, so asserting they
+    lack a HITL loop or telemetry (posture) is mathematically false (they inherit
+    the host's posture) — `Agent.posture_findings_apply=False` covers that case.
+
+    IMPORTANT: the evidence bar here is **witness only**, not `source_line > 0`.
+    A `source_line` says a pattern matched somewhere; it does not mean the match is
+    real. PHASE_6_PLAN.md §2.13.7/§5.1.7 found this the hard way: a version of this
+    function that also accepted bare `source_line` let 3 additional AG-007
+    "Hardcoded Secret" false positives through on the benign corpus — a URL
+    *placeholder* in an error message string, a docstring example, and a line
+    inside a unit test's mock setup, none carrying a witness. Re-run
+    `python benchmarks/build_benign_corpus.py` before loosening this again.
     """
-    # ONLY the generic parser is aggressive enough to need this, and it is the only
-    # one that computes `agent_evidence`. Framework parsers (langchain/crewai/
-    # autogen/mcp/swarm/...) match on a framework import, so they are evidence-
-    # backed by construction — treating their empty (never-computed) evidence list
-    # as "no evidence" wrongly suppressed real MCP/LangChain findings and dropped
-    # recall 76% -> 72% with 30 failing tests. Absence of assessment is not
-    # absence of evidence.
-    unproven = {a.name for a in agents
-                if a.framework == "generic" and not a.is_evidence_backed}
-    if not unproven:
+    no_posture_agents = {
+        a.name for a in agents
+        if not a.posture_findings_apply or (a.framework == "generic" and not a.is_evidence_backed)
+    }
+
+    if not no_posture_agents:
         return findings
+
     kept, dropped = [], 0
     for f in findings:
-        if f.agent_name in unproven and not f.witness:
+        if f.agent_name in no_posture_agents and not f.witness:
             dropped += 1
             continue
         kept.append(f)
+
     if dropped and diagnostics is not None:
         diagnostics.append(
             f"suppressed {dropped} witness-less finding(s) on "
-            f"{len(unproven)} file(s) with no agent evidence"
+            f"{len(no_posture_agents)} file(s)/artifact(s) where posture is not meaningful"
         )
     return kept
 

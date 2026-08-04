@@ -110,7 +110,7 @@ That is the tool. Two uses of one model of the flow:
 
 The path SCAN flags before deploy is the path GUARD blocks at runtime — one model, two enforcement points. The numbers behind it, and the commands that regenerate them:
 
-- **0 adjudicated false positives across 52 real repositories / 2,732 files** — outside a documented per-repo known-capability allowlist — `python benchmarks/build_benign_corpus.py`
+- **11 adjudicated false positives across 54 real repositories / 9,520 files** — outside a documented per-repo known-capability allowlist — `python benchmarks/build_benign_corpus.py`
 - **20.5–31.5% precision (n=73 clean-holdout adjudicated)** on a broader 81-repo population — `python benchmarks/agentzoo_precision.py --report-only`. The earlier 58% was train-on-test (computed over the labels used to build the precision filters) and is withdrawn; AG-TRIFECTA scored 0/6 on the clean holdout.
 - **76% recall (38/50 vulns across 10 classes; 86% on real third-party cases)** — `python benchmarks/recall_corpus.py`
 - **0/6 false blocks** on live-LLM benign tasks — `python benchmarks/guard_falseblock.py`
@@ -125,7 +125,7 @@ Now the part a security researcher should hold us to.
 
 **Our behavioral layer is not yet proven on real traces.** The runtime anomaly detection — the thing meant to catch machine-speed patterns a human can't watch — has a benign session false-positive rate of 3.75% *on a synthetic adversarial corpus*. That number is honest but synthetic. Until it runs on real production traces, treat it as a research result, not a guarantee. We label it as such everywhere.
 
-**Recall is 76%, which means we miss 24%.** The classes we miss are named, not hidden: SSRF (deliberately conservative — 17%), and path-traversal (a sound detector we built but left *unregistered*, because the benign corpus contains byte-identical legitimate file tools and registering it would break the precision result — 0 confirmed FP outside a documented per-repo known-capability allowlist). We chose precision over recall on purpose. A security tool that cries wolf gets uninstalled; a tool that misses a quarter of cases but never lies to you gets trusted with the next quarter.
+**Recall is 76%, which means we miss 24%.** The classes we miss are named, not hidden: SSRF (deliberately conservative — 17%), and path-traversal (a sound detector we built but left *unregistered*, because the benign corpus contains byte-identical legitimate file tools and registering it would break the precision result — 11 confirmed FP outside a documented per-repo known-capability allowlist). We chose precision over recall on purpose. A security tool that cries wolf gets uninstalled; a tool that misses a quarter of cases but never lies to you gets trusted with the next quarter.
 
 ## Beat 8 — The one edge, and how to cut it
 

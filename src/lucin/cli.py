@@ -75,18 +75,27 @@ def _print_rules_and_exit(value: bool):
 
 
 def _print_adapters_and_exit(value: bool):
-    """--list-adapters: print every framework parser actually wired into the scan path."""
+    """--list-adapters: print every framework parser actually wired into the scan path.
+
+    "skill" is deliberately excluded from the framework count: it parses an artifact
+    *type* (an Agent Skills bundle, per agentskills.io), not an agent orchestration
+    framework, and counting it as one would be exactly the kind of inflated
+    transparency number this project's own conventions exist to prevent
+    (PHASE_6_PLAN.md §2.11/§5.1.4, §7 Q6 of the build plan). It is still listed
+    separately below so `--list-adapters` stays a complete picture of what's wired.
+    """
     if not value:
         return
     from lucin.parsers import _AUTO_PARSERS
 
     names = sorted({
         fn.__name__.replace("parse_", "").replace("_config", "")
-        for fn in _AUTO_PARSERS if fn.__name__ != "parse_generic"
+        for fn in _AUTO_PARSERS if fn.__name__ not in ("parse_generic", "parse_skill")
     })
     console.print(f"[bold]{len(names)} framework adapters[/bold] (plus a generic fallback for unmatched code)\n")
     for name in names:
         console.print(f"  {name}")
+    console.print("\n[dim]Plus non-framework artifact types:[/dim] skill (Agent Skills / SKILL.md bundles)")
     raise typer.Exit(0)
 
 
@@ -333,7 +342,24 @@ def scan(
 
     # Exit code for CI — only findings absent from the baseline (if any) can fail the run.
     if fail_on:
-        severity_order = ["critical", "high", "medium", "low"]
+        # A target we could not read must never be reported to CI as passing. Silence
+        # from an unanalysable target is absence of evidence, not evidence of absence:
+        # before this, `lucin scan ./rust-agent --ci --fail-on high` exited 0 on an
+        # agent that shelled out to attacker-controlled input, because zero files were
+        # parsed and therefore zero findings were produced. Exit 2 (distinct from 1 =
+        # "findings at/above threshold") so a pipeline can tell "unable to analyse"
+        # apart from "analysed and failed".
+        if result.metadata.analysed_nothing:
+            raise typer.Exit(code=2)
+        # Must list EVERY Severity member. Omitting "info" made this line raise
+        # `ValueError: 'info' is not in list` and crash the whole command on any
+        # scan that produced an INFO finding — so `--ci --fail-on high` died with a
+        # traceback instead of gating. `verify` already had the complete list.
+        severity_order = ["critical", "high", "medium", "low", "info"]
+        if fail_on.lower() not in severity_order:
+            console.print(f"[red]Invalid --fail-on '{fail_on}'. "
+                          f"Choose from: {', '.join(severity_order)}[/red]")
+            raise typer.Exit(code=2)
         threshold = severity_order.index(fail_on.lower())
         for finding in gating:
             if severity_order.index(finding.severity.value) <= threshold:
@@ -793,6 +819,52 @@ def telemetry(
 
 
 @app.command()
+def verify(
+    target: str = typer.Argument(..., help="Path to agent code or project directory to verify."),
+    threshold: str = typer.Option("high", "--threshold", help="Severity threshold that triggers a failure (critical, high, medium, low, info)."),
+    no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
+):
+    """Pre-install verdict gate: fails if findings exceed threshold.
+
+    Fast scan designed for CI/CD gates. Exits with 1 if the target
+    has any findings at or above the threshold.
+    """
+    from lucin import telemetry
+    if no_telemetry:
+        import os as _os
+        _os.environ["LUCIN_TELEMETRY"] = "0"
+
+    target_path = Path(target)
+    if not target_path.exists():
+        console.print(f"[red]Error:[/red] Target not found: {target}")
+        raise typer.Exit(code=1)
+
+    result = scan_target(target_path)
+    telemetry.send_event(telemetry.build_command_event("verify"))
+
+    severity_order = ["critical", "high", "medium", "low", "info"]
+    if threshold.lower() not in severity_order:
+        console.print(f"[red]Error:[/red] Invalid threshold '{threshold}'.")
+        raise typer.Exit(code=1)
+
+    idx = severity_order.index(threshold.lower())
+
+    failed = []
+    for f in result.findings:
+        if severity_order.index(f.severity.value) <= idx:
+            failed.append(f)
+
+    if failed:
+        console.print(f"[red]VERDICT: FAIL[/red] - Found {len(failed)} violation(s) at or above {threshold.upper()}.")
+        for f in failed:
+            console.print(f"  - [{f.severity.value.upper()}] {f.id}: {f.title}")
+        raise typer.Exit(code=1)
+    else:
+        console.print(f"[green]VERDICT: PASS[/green] - No violations found at or above {threshold.upper()}.")
+        raise typer.Exit(code=0)
+
+
+@app.command()
 def explain(
     finding_id: str = typer.Argument(..., help="Finding ID (e.g. AG-001, AG-TRIFECTA)."),
     no_telemetry: bool = typer.Option(False, "--no-telemetry", help="Disable anonymous usage telemetry for this run."),
@@ -864,6 +936,6 @@ def explain(
         console.print(f"[dim]{doc['false_positive_note']}[/dim]")
         console.print()
 
-
 if __name__ == "__main__":
     app()
+
