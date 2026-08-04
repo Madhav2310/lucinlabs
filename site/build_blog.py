@@ -158,7 +158,14 @@ def _read_post(src: str) -> tuple[str, str]:
     """Returns (title, rendered_body_html)."""
     text = (ROOT / src).read_text()
     m = re.match(r"\A\s*#\s+(.*?)\n", text)
-    title = m.group(1).strip() if m else src
+    if not m:
+        # Falling back to the source path silently published "site/content/x.md" as a
+        # post title. A build that cannot read a title must stop, not guess.
+        raise SystemExit(
+            f"{src}: no H1 on the first line. A post must open with '# Title' "
+            f"(found: {text[:60]!r}). Remove any draft note above the heading."
+        )
+    title = m.group(1).strip()
     text = re.sub(r"\A\s*#\s+.*?\n", "", text, count=1)
     blocks = _split_blocks(text)
     return title, _render_blocks(blocks)

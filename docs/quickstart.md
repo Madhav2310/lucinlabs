@@ -4,7 +4,7 @@ Get from zero to a real finding in under a minute. No API keys, no config file, 
 
 ## Install
 
-From PyPI (once published):
+From PyPI:
 
 ```bash
 pip install lucin

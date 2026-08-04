@@ -1,6 +1,3 @@
-*~2,400 words. Flagship post.*
----
-
 # The attack chain started by compromising a security scanner
 
 *What the LiteLLM supply-chain compromise means for tools like this one*

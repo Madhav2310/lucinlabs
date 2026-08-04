@@ -196,6 +196,30 @@ with the commands that regenerate them, are on the
     return dest
 
 
+def _active_rule_ids() -> set[str]:
+    """Rule IDs that actually run, derived the same way `lucin scan --list-rules` does.
+
+    Mirrors `cli._print_rules_and_exit`: scan the source of every module contributing a
+    registered detector. Deriving it here rather than hand-maintaining a list is what
+    stops /rules from claiming coverage the scanner does not ship.
+    """
+    import inspect
+    import re as _re
+
+    from lucin.detectors import CROSS_AGENT_DETECTORS, PER_AGENT_DETECTORS
+
+    pat = _re.compile(r'"id"\s*:\s*"(AG-[A-Za-z0-9-]+)"|id\s*=\s*f?"(AG-[A-Za-z0-9-]+)"')
+    ids: set[str] = set()
+    for fn in PER_AGENT_DETECTORS + CROSS_AGENT_DETECTORS:
+        module = inspect.getmodule(fn)
+        try:
+            src = inspect.getsource(module) if module else ""
+        except OSError:
+            src = ""
+        ids |= {g1 or g2 for g1, g2 in pat.findall(src)}
+    return ids
+
+
 def build_index(pub: list[str], m: dict[str, dict]) -> Path:
     rows = "".join(
         f'<a href="/rules/{r}/"><span class="id">{r}</span>'
@@ -207,6 +231,39 @@ def build_index(pub: list[str], m: dict[str, dict]) -> Path:
             f"matters, and how to fix it. {len(pub)} documented rules with severity "
             f"and OWASP Agentic mapping.")
     url = f"{BASE}/rules/"
+
+    # Coverage prose is derived, never asserted. The page used to claim "the scanner
+    # ships more detectors than that", which had become the exact opposite of the truth:
+    # more rules are documented than are registered.
+    active = _active_rule_ids()
+    doc_only = sorted(set(pub) - active)
+    undocumented = sorted(active - set(pub))
+    parts = [
+        f"<p>{len(pub)} rules are documented here. That is not the same as {len(pub)} "
+        f"rules running &mdash; <code>lucin scan --list-rules</code> prints the set that "
+        f"actually fires, and this page is generated from that same registry, so the two "
+        f"cannot drift."
+    ]
+    if doc_only:
+        parts.append(
+            " Documented but deliberately <em>not</em> registered: "
+            + ", ".join(f"<code>{_html.escape(r)}</code>" for r in doc_only)
+            + ". A detector is registered only once its false-positive behaviour against "
+            "the benign corpus is understood. Precision is chosen over recall, and what "
+            'that costs is published on <a href="/limits/">limits</a> rather than hidden.'
+        )
+    if undocumented:
+        parts.append(
+            f" {len(undocumented)} registered rule(s) have no written guidance yet and are "
+            "deliberately not given placeholder pages, because a page that restates its "
+            "own title helps nobody."
+        )
+    parts.append(
+        " What the rule set as a whole does and does not catch is measured on "
+        '<a href="/benchmarks/">benchmarks</a> and <a href="/limits/">limits</a>.</p>'
+    )
+    coverage_html = "".join(parts)
+
     body = f"""{tab_header("rules", "Detection rules", desc)}
 <p style="margin-top:40px">Each rule below has a stable ID that appears in every output format, so a finding
 in CI is the same object as a finding in your terminal. Severity is bounded by
@@ -214,11 +271,7 @@ evidence: a finding with no witness and no source line is capped below HIGH, bec
 a reader cannot verify it.</p>
 <div class="rule-grid">{rows}</div>
 <h2>Coverage, honestly</h2>
-<p>{len(pub)} rules are documented here. The scanner ships more detectors than that;
-rules without written guidance are deliberately <em>not</em> given placeholder pages,
-because a page that restates its own title helps nobody. What the rule set as a whole
-does and does not catch is measured on <a href="/benchmarks/">benchmarks</a> and
-<a href="/limits/">limits</a>.</p>
+{coverage_html}
 <pre><code>pip install lucin
 lucin scan .</code></pre>"""
     dest = SITE / "rules" / "index.html"
