@@ -48,6 +48,8 @@ Every figure here ships with the command that regenerates it. Run them instead o
 | **30** | active detectors, every one mapped to OWASP Agentic. | `lucin scan --list-rules` |
 | **8** | frameworks, plus a generic parser and Agent Skills bundles. | `lucin scan --list-adapters` |
 
+Test suite: **553 passing (15 skipped, 1 xfailed)**, via `python -m pytest tests/ -q` with the `behavioral` extra installed (`pip install -e ".[dev,behavioral]"`).
+
 ### Read the third row again
 
 Eleven false positives on a curated benign corpus is a good number. Twenty to thirty percent precision on a population I did not choose is not. Both are true, they answer different questions, and publishing only the first would be a lie of omission.
