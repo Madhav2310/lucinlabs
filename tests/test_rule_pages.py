@@ -9,7 +9,7 @@ DOCUMENTED = set(RULE_CATALOG) | set(_EXPLAIN_DOCS)
 
 def _emitted_ids() -> set[str]:
     ids = set()
-    for p in glob.glob("src/lucin/detectors/*.py"):
+    for p in glob.glob("src/lucin/detectors/*.py") + glob.glob("src/lucin/temporal/*.py"):
         text = open(p).read()
         ids |= set(re.findall(r'id="(AG-[A-Za-z0-9-]+)"', text))
         ids |= set(re.findall(r'"id"\s*:\s*"(AG-[A-Za-z0-9-]+)"', text))

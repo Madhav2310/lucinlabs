@@ -22,7 +22,7 @@ progressively subsume AG-002. Until then they are complementary.
 """
 
 from lucin.aifg import TrifectaFinding, build_aifg, min_tool_cut, query_trifecta
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.owasp import owasp_ref
 
 
@@ -100,7 +100,8 @@ def _make_finding(agent: Agent, tf: TrifectaFinding, cut_str: str) -> Finding:
             f"  3. Route egress through an allowlist of known-safe destinations."
         ),
         source_file=agent.source_file,
-        witness=[
+        evidence_class=EvidenceClass.WITNESSED,
+            witness=[
             f"control: {' → '.join(tf.control_path)}",
             f"data:    {' → '.join(tf.data_path)}",
         ],

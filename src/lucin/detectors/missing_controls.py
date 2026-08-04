@@ -3,7 +3,7 @@
 import re
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.models import Agent, EvidenceClass, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
 
 # Framework-level HITL patterns recognized from the corpus.
@@ -67,6 +67,7 @@ def detect_missing_controls(agent: Agent) -> list[Finding]:
             id="AG-006",
             title="No Human Approval for Destructive Actions",
             severity=Severity.HIGH,
+            evidence_class=EvidenceClass.POSTURE,
             description=(
                 f"Agent '{agent.name}' has {len(destructive_tools)} tool(s) capable of "
                 f"destructive actions ({tool_names}) but no human-in-the-loop approval configured.\n"
@@ -98,6 +99,7 @@ def detect_missing_controls(agent: Agent) -> list[Finding]:
             id="AG-009",
             title="Unlimited Sub-Agent Spawning",
             severity=Severity.MEDIUM,
+            evidence_class=EvidenceClass.POSTURE,
             description=(
                 f"Agent '{agent.name}' can create or delegate to sub-agents "
                 f"with no apparent recursion limit or spawn control."
@@ -131,6 +133,7 @@ def detect_missing_controls(agent: Agent) -> list[Finding]:
                 id="AG-010",
                 title="No Rate Limiting on High-Risk Tools",
                 severity=Severity.MEDIUM,
+            evidence_class=EvidenceClass.POSTURE,
                 description=(
                     f"Agent '{agent.name}' has {len(high_risk_tools)} high-risk tool(s) "
                     f"with no rate limiting configured. A runaway agent could invoke these "
@@ -192,6 +195,7 @@ def _detect_ambient_authority(agent: Agent) -> list[Finding]:
                 id="AG-026",
                 title="Ambient Authority: Code Execution Without Container Isolation",
                 severity=Severity.CRITICAL,
+            evidence_class=EvidenceClass.POSTURE,
                 description=(
                     f"Agent '{agent.name}' has code execution configured with "
                     f"`use_docker: False`. This means generated code runs DIRECTLY "
@@ -221,6 +225,7 @@ def _detect_ambient_authority(agent: Agent) -> list[Finding]:
             id="AG-026",
             title="Ambient Authority: Docker Privileged Mode",
             severity=Severity.HIGH,
+            evidence_class=EvidenceClass.POSTURE,
             description=(
                 f"Agent '{agent.name}' configuration uses Docker `--privileged` flag. "
                 f"This gives the container FULL access to the host kernel — "
@@ -249,6 +254,7 @@ def _detect_ambient_authority(agent: Agent) -> list[Finding]:
                     id="AG-026",
                     title="Ambient Authority: Fully Autonomous Code Execution",
                     severity=Severity.HIGH,
+            evidence_class=EvidenceClass.POSTURE,
                     description=(
                         f"Agent '{agent.name}' has `human_input_mode='NEVER'` AND "
                         f"code execution capability. This means the agent can generate "

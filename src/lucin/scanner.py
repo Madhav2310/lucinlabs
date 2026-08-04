@@ -14,6 +14,96 @@ def _active_detector_count() -> int:
     return ACTIVE_DETECTOR_COUNT
 
 
+def _applicable_detector_count(agents: list) -> int:
+    """Number of detectors applicable to the scanned agents."""
+    from lucin.detectors import CROSS_AGENT_DETECTORS, PER_AGENT_DETECTORS, _detector_applies
+    if not agents:
+        return 0
+    count = len(CROSS_AGENT_DETECTORS)
+    for det in PER_AGENT_DETECTORS:
+        if any(_detector_applies(det, a) for a in agents):
+            count += 1
+    return count
+
+
+# Extensions a parser can actually read. Kept here rather than inferred from the
+# parsers so that adding a language REQUIRES updating this set — otherwise coverage
+# would silently over-report the moment someone adds a parser and forgets, which is
+# the exact class of drift this whole mechanism exists to stop.
+#
+# `generic_parser.py` enumerates `*.py` and `*.json`; `skill_parser.py` reads
+# SKILL.md + YAML frontmatter; `shell_inspector.py` reads shell. Nothing enumerates
+# `.ts`/`.js`/`.java`/`.cs`/`.go`/`.rs` — see docs/limits.md.
+# Coverage compares SOURCE CODE WE CAN READ against SOURCE CODE WE CANNOT.
+# Config and documentation belong to neither bucket: counting `Cargo.toml` or
+# `README.md` as "analysed" would let a single manifest defeat the whole gate, and
+# a Rust project would report itself analysed on the strength of its Cargo.toml.
+_ANALYSABLE_SUFFIXES = frozenset({
+    ".py", ".pyi",           # generic + all framework parsers (deep AST)
+    ".json",                 # MCP / agent configs — these DO define agents
+    ".sh", ".bash", ".zsh",  # shell_inspector
+})
+
+# Languages agents are actually written in that we cannot read. An explicit list,
+# not "everything unrecognised", so a stray `.pem` or `.xyz` cannot inflate the
+# unsupported count and scare a user about a file that carries no agent logic.
+_UNSUPPORTED_SOURCE_SUFFIXES = frozenset({
+    ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs",   # Tier-1 gap (MCP Tier-1 SDK)
+    ".java", ".kt", ".kts",                          # official MCP SDKs
+    ".cs", ".fs",                                    # Semantic Kernel / .NET
+    ".go",                                           # ADK Go, community MCP SDK
+    ".rs",                                           # community MCP SDK
+    ".rb", ".php", ".swift", ".scala", ".ex", ".exs",
+    ".c", ".h", ".cpp", ".cc", ".hpp",
+})
+
+
+def _coverage(target: Path) -> tuple[int, int, dict[str, int]]:
+    """(source_files_total, source_files_analysed, {unsupported_ext: count}).
+
+    Answers "what did we NOT look at?" — the question a security tool must never
+    leave implicit. Only source files count on either side; see the suffix sets
+    above. `SKILL.md` is counted as analysable because it carries agent
+    instructions; ordinary Markdown is ignored as documentation.
+    """
+    from lucin._fs import iter_files
+
+    def _classify(path: Path) -> str:
+        if path.name == "SKILL.md":
+            return "analysed"
+        suffix = path.suffix.lower()
+        if suffix in _ANALYSABLE_SUFFIXES:
+            return "analysed"
+        if suffix in _UNSUPPORTED_SOURCE_SUFFIXES:
+            return "unsupported"
+        return "ignore"          # config, docs, assets, lockfiles, binaries
+
+    if not target.is_dir():
+        kind = _classify(target)
+        if kind == "ignore":
+            return 0, 0, {}
+        if kind == "analysed":
+            return 1, 1, {}
+        return 1, 0, {target.suffix.lower(): 1}
+
+    total = 0
+    analysed = 0
+    unsupported: dict[str, int] = {}
+    for path in iter_files(target, "*"):
+        if not path.is_file():
+            continue
+        kind = _classify(path)
+        if kind == "ignore":
+            continue
+        total += 1
+        if kind == "analysed":
+            analysed += 1
+        else:
+            unsupported[path.suffix.lower()] = (
+                unsupported.get(path.suffix.lower(), 0) + 1)
+    return total, analysed, unsupported
+
+
 def _active_secret_pattern_count() -> int:
     """Number of live secret-detection patterns (H4: derived from the catalog)."""
     from lucin.detectors.secrets import SECRET_PATTERNS
@@ -64,12 +154,17 @@ def scan_target(target: Path, framework: str = "auto", detections: bool = True) 
     # Step 3: Build metadata (transparency counts derived from the LIVE registry,
     # H4 — never a hardcoded number that silently drifts from what actually runs).
     frameworks_detected = list(set(a.framework for a in agents))
+    files_total, files_analysed, unsupported = _coverage(target)
     metadata = ScanMetadata(
         frameworks_detected=frameworks_detected,
         parsers_used=len(frameworks_detected),
         detection_rules_active=_active_detector_count(),
+        detectors_applicable=_applicable_detector_count(agents),
         secret_patterns_active=_active_secret_pattern_count(),
         injection_patterns_active=_active_injection_pattern_count(),
+        files_total=files_total,
+        files_analysed=files_analysed,
+        unsupported_extensions=unsupported,
         diagnostics=diagnostics,
     )
 
@@ -109,47 +204,56 @@ def _detect_binary_payloads(directory: Path) -> list:
     # (.sh/.bat/.cmd/.ps1) are TEXT — they are not "binary payloads a text
     # scanner cannot inspect" and flagging them here was a false-positive class.
     SUSPICIOUS_EXTENSIONS = {
-        ".zip", ".tar", ".gz", ".bz2", ".xz", ".7z",  # Archives
         ".exe", ".dll", ".so", ".dylib",  # Executables
-        ".whl", ".egg",  # Python packages (could contain compiled code)
+        ".whl", ".egg",  # Python packages
         ".bin", ".dat",  # Generic binary
     }
+
+    # Archives (.zip, .tar.gz) were previously flagged as HIGH (ClawHavoc AMOS stealer),
+    # but the Anthropic skills corpus uses them benignly for static assets (e.g., shadcn-components.tar.gz).
+    # We flag them but at a lower severity to prevent noise on benign skills.
+    ARCHIVE_EXTENSIONS = {".zip", ".tar", ".gz", ".bz2", ".xz", ".7z"}
 
     findings = []
     # iter_files() prunes vendored/build dirs (venv, node_modules, site-packages,
     # *.dist-info, dist, build, __pycache__ ...) so a project's own dependencies
     # are never mistaken for a malicious skill payload.
     for file in iter_files(directory, "*"):
-        if file.is_file() and file.suffix.lower() in SUSPICIOUS_EXTENSIONS:
-            findings.append(Finding(
-                id="AG-015",
-                title=f"Binary Payload in Skill Directory: {file.name}",
-                severity=Severity.HIGH,
-                description=(
-                    f"Found binary/archive file '{file.name}' in agent directory. "
-                    f"Skill directories should only contain text files (Python, YAML, JSON). "
-                    f"Binary files may contain malicious executables or obfuscated payloads "
-                    f"that text-based scanners cannot inspect.\n\n"
-                    f"The ClawHavoc campaign delivered AMOS stealer via password-protected "
-                    f"ZIP files hidden in skill directories."
-                ),
-                agent_name="",
-                attack_scenario=(
-                    "1. Attacker publishes a skill with a binary payload (.zip, .exe, .sh)\n"
-                    "2. Skill's install script extracts and runs the binary\n"
-                    "3. Binary contains malware (credential stealer, backdoor, etc.)\n"
-                    "4. Text-based scanners miss it because they can't parse binary content"
-                ),
-                blast_radius="Full system compromise if binary is executed.",
-                owasp_ref="A08 - Supply Chain Attacks",
-                fix_suggestion=(
-                    "1. Remove binary files from skill directories\n"
-                    "2. If the binary is needed, verify its checksum against a known-good hash\n"
-                    "3. Scan binary content with antivirus/VirusTotal before allowing\n"
-                    "4. Never auto-execute binaries from untrusted skill packages"
-                ),
-                source_file=str(file),
-            ))
+        if file.is_file():
+            is_suspicious = file.suffix.lower() in SUSPICIOUS_EXTENSIONS
+            is_archive = file.suffix.lower() in ARCHIVE_EXTENSIONS or any(ext in file.name.lower() for ext in [".tar.gz", ".tar.bz2"])
+
+            if is_suspicious or is_archive:
+                severity = Severity.MEDIUM if is_archive else Severity.HIGH
+                findings.append(Finding(
+                    id="AG-015",
+                    title=f"Binary Payload in Skill Directory: {file.name}",
+                    severity=severity,
+                    description=(
+                        f"Found binary/archive file '{file.name}' in agent directory. "
+                        f"Skill directories should only contain text files (Python, YAML, JSON). "
+                        f"Binary files may contain malicious executables or obfuscated payloads "
+                        f"that text-based scanners cannot inspect.\n\n"
+                        f"The ClawHavoc campaign delivered AMOS stealer via password-protected "
+                        f"ZIP files hidden in skill directories."
+                    ),
+                    agent_name="",
+                    attack_scenario=(
+                        "1. Attacker publishes a skill with a binary payload (.zip, .exe, .sh)\n"
+                        "2. Skill's install script extracts and runs the binary\n"
+                        "3. Binary contains malware (credential stealer, backdoor, etc.)\n"
+                        "4. Text-based scanners miss it because they can't parse binary content"
+                    ),
+                    blast_radius="Full system compromise if binary is executed.",
+                    owasp_ref="A08 - Supply Chain Attacks",
+                    fix_suggestion=(
+                        "1. Remove binary files from skill directories\n"
+                        "2. If the binary is needed, verify its checksum against a known-good hash\n"
+                        "3. Scan binary content with antivirus/VirusTotal before allowing\n"
+                        "4. Never auto-execute binaries from untrusted skill packages"
+                    ),
+                    source_file=str(file),
+                ))
 
     return findings
 
@@ -168,6 +272,9 @@ def scan_multiple_targets(targets: list[Path], framework: str = "auto") -> ScanR
     all_agents = []
     all_findings = []
     all_frameworks = set()
+    files_total = 0
+    files_analysed = 0
+    unsupported: dict[str, int] = {}
 
     for target in targets:
         if not target.exists():
@@ -176,6 +283,13 @@ def scan_multiple_targets(targets: list[Path], framework: str = "auto") -> ScanR
         all_agents.extend(result.agents)
         all_findings.extend(result.findings)
         all_frameworks.update(result.metadata.frameworks_detected)
+        # Coverage must aggregate too, or a multi-target scan silently reports
+        # files_total=0 and `analysed_nothing` can never fire — the unsupported
+        # language gate would be dead on this path.
+        files_total += result.metadata.files_total
+        files_analysed += result.metadata.files_analysed
+        for ext, n in result.metadata.unsupported_extensions.items():
+            unsupported[ext] = unsupported.get(ext, 0) + n
 
     elapsed = (_time.time() - start) * 1000
 
@@ -188,8 +302,12 @@ def scan_multiple_targets(targets: list[Path], framework: str = "auto") -> ScanR
             frameworks_detected=sorted(all_frameworks),
             parsers_used=len(all_frameworks),
             detection_rules_active=_active_detector_count(),
+            detectors_applicable=_applicable_detector_count(all_agents),
             secret_patterns_active=_active_secret_pattern_count(),
             injection_patterns_active=_active_injection_pattern_count(),
+            files_total=files_total,
+            files_analysed=files_analysed,
+            unsupported_extensions=unsupported,
         ),
     )
 

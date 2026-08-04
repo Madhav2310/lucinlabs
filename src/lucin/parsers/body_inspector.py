@@ -755,3 +755,223 @@ def intraproc_taint(func_node: ast.FunctionDef,
             seen.add(key)
             unique.append(f)
     return unique
+
+
+# ---------------------------------------------------------------------------
+# Source-to-sink taint for standalone scripts (skill bundles).
+#
+# `intraproc_taint` above seeds taint from a TOOL FUNCTION's own parameters —
+# the right model when the LLM calls a function with LLM-controlled arguments.
+# A bundled skill script is typically a standalone program instead: its
+# dangerous inputs are SOURCE CALLS (a remote fetch, an env var read, a file
+# read, stdin), not parameters. This walks the whole module using the same
+# fixpoint-worklist propagation, seeded from source calls instead of params.
+#
+# Source/sink categorization is modeled on NVIDIA/SkillSpector's taint
+# analyzer (github.com/NVIDIA/SkillSpector, Apache-2.0,
+# nodes/analyzers/behavioral_taint_tracking.py) but reuses this module's own
+# DANGEROUS_* sink tables above rather than a separate ontology, so a finding
+# here and a finding from the main scanner's own detectors always agree on
+# what counts as a dangerous call.
+# ---------------------------------------------------------------------------
+
+DESERIALIZE_SINKS = {
+    "pickle.loads", "pickle.load", "_pickle.loads", "_pickle.load",
+    "marshal.loads", "marshal.load", "dill.loads", "dill.load",
+    "yaml.load", "yaml.unsafe_load", "yaml.full_load", "joblib.load",
+}
+
+CREDENTIAL_SOURCES = {"os.environ.get", "os.environ", "os.getenv"}
+FILE_READ_SOURCES = {"open", "Path.read_text", "Path.read_bytes"}
+USER_INPUT_SOURCES = {"input", "sys.stdin.read", "sys.stdin.readline"}
+# Network reads are a source when their RESPONSE is untrusted external data —
+# the same calls are also sinks when tainted data is passed as their payload.
+NETWORK_READ_SOURCES = set(DANGEROUS_NETWORK_CALLS)
+
+_ALL_SKILL_SOURCES = (
+    CREDENTIAL_SOURCES | FILE_READ_SOURCES | USER_INPUT_SOURCES | NETWORK_READ_SOURCES
+)
+_ALL_SKILL_SINKS = (
+    DANGEROUS_EXEC_CALLS | DANGEROUS_NETWORK_CALLS | DANGEROUS_FILE_WRITE_CALLS | DESERIALIZE_SINKS
+)
+
+
+@dataclass
+class SourceSinkFlow:
+    """One confirmed flow: an untrusted/external source reached a dangerous sink."""
+    source_call: str    # e.g. "requests.get", "os.environ"
+    sink_call: str      # e.g. "pickle.loads", "subprocess.run"
+    sink_type: str      # "exec" | "network" | "file_write" | "deserialize"
+    var_name: str       # tainted variable name, empty for a direct (inline) flow
+    lineno: int
+
+
+def _sink_type_for(sig: str) -> str | None:
+    if sig in DANGEROUS_EXEC_CALLS:
+        return "exec"
+    if sig in DESERIALIZE_SINKS:
+        return "deserialize"
+    if sig in DANGEROUS_NETWORK_CALLS:
+        return "network"
+    if sig in DANGEROUS_FILE_WRITE_CALLS:
+        return "file_write"
+    return None
+
+
+def _is_os_environ(node: ast.expr) -> bool:
+    return isinstance(node, ast.Attribute) and node.attr == "environ" and \
+        isinstance(node.value, ast.Name) and node.value.id == "os"
+
+
+def source_sink_taint(tree: ast.Module,
+                       import_aliases: dict[str, str] | None = None) -> list[SourceSinkFlow]:
+    """Module-level source-to-sink taint analysis for standalone scripts.
+
+    Returns every confirmed flow where a source call's result (directly, or via
+    a chain of assignments) reaches a dangerous sink call. This is what makes
+    `AG-SKILL-CHAIN` a genuine flow-composition detector instead of "N dangerous
+    imports co-occur in the same file" — see
+    `launch/evolving conviction/PHASE_6_PLAN.md` §5.3 option (b) / §5.2.4 (the
+    differential run against SkillSpector found 0 differentiated findings for
+    the import-presence version this replaces).
+
+    Performance note: an earlier version re-walked the ENTIRE tree, and
+    re-walked each assignment's value subtree, on every round of the fixpoint
+    loop — quadratic-or-worse on large real files (17 of 3,229 `.py` files in
+    the 337-skill corpus took >3s each, some effectively hanging). Assignments
+    are now collected once; each fixpoint round is O(#assignments), not
+    O(tree size), with the one-time per-assignment subtree walk paid exactly
+    once regardless of how many rounds the fixpoint takes.
+    """
+    aliases = import_aliases or {}
+    tainted: dict[str, str] = {}  # var name -> originating source signature
+    flows: list[SourceSinkFlow] = []
+
+    def _resolve(node: ast.expr) -> str | None:
+        sig = _resolve_call_name(node) if isinstance(node, ast.Call) else None
+        if sig and sig in aliases:
+            return aliases[sig]
+        if sig:
+            parts = sig.split(".", 1)
+            if parts[0] in aliases:
+                return aliases[parts[0]] + ("." + parts[1] if len(parts) > 1 else "")
+        return sig
+
+    def _names_in(node: ast.expr) -> set[str]:
+        return {n.id for n in ast.walk(node) if isinstance(n, ast.Name)}
+
+    def _direct_source_in_expr(node: ast.expr) -> str | None:
+        """A source-call signature *literally present* in this expression —
+        does not depend on the current `tainted` set, so it is safe to compute
+        exactly once per assignment rather than once per fixpoint round."""
+        for sub in ast.walk(node):
+            if isinstance(sub, ast.Call):
+                sig = _resolve(sub)
+                if sig and sig in _ALL_SKILL_SOURCES:
+                    if sig == "open" and _open_is_write(sub):
+                        continue  # writing, not reading — not a source
+                    return sig
+            # os.environ["KEY"] (Subscript) and os.environ.items()/.keys() —
+            # `_resolve_call_name` only resolves Call nodes, so a bare env-var
+            # reference via subscript or a non-`.get(`/`.getenv(` attribute
+            # access needs its own check.
+            elif isinstance(sub, ast.Subscript) and _is_os_environ(sub.value):
+                return "os.environ"
+            elif isinstance(sub, ast.Attribute) and _is_os_environ(sub.value):
+                return "os.environ"
+        return None
+
+    # One-time collect: every assignment's target names, its literal (tainted-
+    # independent) source if any, and the names it references — each subtree
+    # walked exactly once, regardless of how many fixpoint rounds follow.
+    assignments: list[tuple[set, str | None, set]] = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign):
+            target_names: set = set()
+            for target in node.targets:
+                target_names |= _names_in(target)
+            assignments.append((target_names, _direct_source_in_expr(node.value), _names_in(node.value)))
+        elif isinstance(node, ast.AnnAssign) and node.value and isinstance(node.target, ast.Name):
+            assignments.append(({node.target.id}, _direct_source_in_expr(node.value), _names_in(node.value)))
+
+    # Phase 1: propagate taint to fixpoint. `tainted` is monotonic — a name is
+    # set AT MOST ONCE and never overwritten — which is what actually
+    # guarantees termination. An earlier version overwrote on every
+    # difference; when two separate assignments give the same target
+    # different fixed sources (e.g. an if/else: `x = os.environ.get(...)` in
+    # one branch, `x = input(...)` in the other), each round's pass would
+    # flip `x` back and forth between the two forever (found by timing out
+    # on 17 of 3,229 real corpus files — `.keys()` was called 24M+ times on
+    # one 697-line file). Once a name is known tainted, which upstream source
+    # produced it first is not worth re-litigating every round; each round is
+    # now O(#assignments) and can add at most one new tainted name, so the
+    # whole loop is bounded by `len(assignments)` rounds, guaranteed.
+    changed = True
+    while changed:
+        changed = False
+        for target_names, direct_src, value_names in assignments:
+            src = direct_src
+            if src is None:
+                hit = value_names & tainted.keys()
+                if hit:
+                    src = tainted[min(hit)]
+            if src:
+                for name in target_names:
+                    if name not in tainted:
+                        tainted[name] = src
+                        changed = True
+
+    # Phase 2: check every call site's arguments for a source reaching a sink.
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        sig = _resolve(node)
+        if not sig or sig not in _ALL_SKILL_SINKS:
+            continue
+        st = _sink_type_for(sig)
+        if not st:
+            continue
+        if sig == "open" and not _open_is_write(node):
+            continue  # reading, not writing — not this sink class
+
+        lineno = getattr(node, "lineno", 1)
+        # `env=` on an exec sink (subprocess.*, Popen, ...) passes the CHILD
+        # PROCESS's environment — copying/filtering `os.environ` into it is
+        # the standard, benign way to inherit or scrub env vars for a
+        # subprocess. That is a categorically different thing from tainted
+        # data flowing into the COMMAND itself. Corpus-confirmed FP: two of
+        # Anthropic's own official reference skills (`skill-creator`,
+        # ground-truth-benign) do exactly `env = {k: v for k, v in
+        # os.environ.items() if k != "X"}; subprocess.run(cmd, env=env)`.
+        skip_kw = {"env"} if st == "exec" else set()
+        all_args = list(node.args) + [kw.value for kw in node.keywords if kw.arg not in skip_kw]
+        for arg in all_args:
+            direct_src = None
+            for sub in ast.walk(arg):
+                if isinstance(sub, ast.Call):
+                    s2 = _resolve(sub)
+                    if s2 and s2 in _ALL_SKILL_SOURCES:
+                        direct_src = s2
+                        break
+            if direct_src:
+                flows.append(SourceSinkFlow(
+                    source_call=direct_src, sink_call=sig, sink_type=st,
+                    var_name="", lineno=lineno,
+                ))
+                continue
+            names = _names_in(arg) & set(tainted)
+            if names:
+                name = sorted(names)[0]
+                flows.append(SourceSinkFlow(
+                    source_call=tainted[name], sink_call=sig, sink_type=st,
+                    var_name=name, lineno=lineno,
+                ))
+
+    seen: set[tuple] = set()
+    unique = []
+    for f in flows:
+        key = (f.source_call, f.sink_call)
+        if key not in seen:
+            seen.add(key)
+            unique.append(f)
+    return unique

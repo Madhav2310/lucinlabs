@@ -1,6 +1,6 @@
 """AG-001: Detect unrestricted shell/exec access."""
 
-from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.models import Agent, EvidenceClass, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
 
 
@@ -79,7 +79,8 @@ def detect_unrestricted_shell(agent: Agent) -> list[Finding]:
                     ),
                     source_file=tool.source_file,
                     source_line=tool.source_line,
-                    witness=[
+                    evidence_class=EvidenceClass.WITNESSED,
+            witness=[
                         # Say HOW we concluded it. The old text always claimed
                         # "detected via body inspection" even when the capability
                         # was inferred from the name — an untrue witness.

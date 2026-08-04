@@ -7,7 +7,7 @@ Enhanced with body-inspection intelligence:
 - Consider whether tools are sandboxed
 """
 
-from lucin.models import Agent, Finding, Severity, ToolCapability
+from lucin.models import Agent, EvidenceClass, Finding, Severity, ToolCapability
 from lucin.owasp import owasp_ref
 
 

@@ -25,7 +25,7 @@ package manager.
 import re
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.owasp import owasp_ref
 
 # Major agent frameworks whose version should be pinned in production
@@ -166,6 +166,7 @@ def detect_framework_pin(agent: Agent) -> list[Finding]:
                 "Or: `uv lock` / `poetry lock` generates a reproducible lock file."
             ),
             source_file=str(req_path),
+            evidence_class=EvidenceClass.WITNESSED,
             witness=[f"unpinned: {', '.join(p for p, _ in unpinned[:5])} in {req_path.name}"],
         ))
 

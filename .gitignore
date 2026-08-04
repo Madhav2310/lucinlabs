@@ -73,3 +73,13 @@ launch/
 user_inputs.txt
 ruff_errors*.json
 fix_ruff.py
+
+# Agent Skills validation corpus — 2.2 GB of vendored third-party repos.
+# NOT committed: it is fully regenerable, and now genuinely reproducible, via
+#   python benchmarks/build_skill_corpus.py --from-manifest
+# The pinned definition lives in benchmarks/skill_corpus_manifest.json, which IS
+# committed — that manifest is the corpus's identity (repo + exact SHA per entry).
+benchmarks/skill_corpus/
+
+# Internal working plan — not part of the published repo.
+PHASE_6_PLAN.md

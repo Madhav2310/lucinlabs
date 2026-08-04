@@ -32,7 +32,7 @@ Patterns:
 import ast
 from pathlib import Path
 
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.owasp import owasp_ref
 
 # Names that suggest retrieved/fetched content from a vector store or retriever
@@ -239,7 +239,8 @@ def detect_rag_no_sanitize(agent: Agent) -> list[Finding]:
                 ),
                 source_file=filepath,
                 source_line=func_node.lineno,
-                witness=[
+                evidence_class=EvidenceClass.WITNESSED,
+            witness=[
                     f"retrieval → LLM call in '{func_node.name}' (line {func_node.lineno}) "
                     f"without sanitization"
                 ],

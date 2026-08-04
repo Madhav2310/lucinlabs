@@ -25,7 +25,7 @@ ORM query builders (session.query, Model.filter_by).
 
 import ast
 
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.owasp import owasp_ref
 from lucin.parsers.body_inspector import _resolve_call_name
 
@@ -208,16 +208,25 @@ def _parameter_reaches_sql_sink(func_node) -> list[str]:
         if not is_sink:
             continue
 
-        # Check if any argument is tainted
-        all_args = list(node.args) + [kw.value for kw in node.keywords]
-        for arg in all_args:
-            arg_names = {n.id for n in ast.walk(arg) if isinstance(n, ast.Name)}
-            if arg_names & tainted:
-                # Confirm it's not wrapped in a parameterized call
-                # (e.g. execute("SELECT ... WHERE id = ?", params))
-                if _is_parameterized(node):
-                    continue
-                violations.extend(arg_names & tainted)
+        # Only the QUERY argument is injectable. Taint in a bind-parameter
+        # position is safe by construction — see `_query_expr`.
+        query = _query_expr(node)
+        if query is None:
+            continue
+        query_names = {n.id for n in ast.walk(query) if isinstance(n, ast.Name)}
+        if query_names & tainted:
+            # Only an ORM builder chain in the QUERY position is safe —
+            # execute(select(T).where(T.id == arg)) binds its own parameters.
+            #
+            # Deliberately NOT `_is_parameterized(node)`: that also returns True
+            # whenever a params tuple/dict is present anywhere in the call, which
+            # would whitelist a TAINTED query string just because binds exist:
+            #     execute(f"DELETE FROM {table} WHERE id = ?", (uid,))
+            # Binding `uid` does nothing about an attacker-controlled table name.
+            # Parameterisation exempts the parameter positions, never the query text.
+            if _is_orm_parameterized(query):
+                continue
+            violations.extend(query_names & tainted)
 
     return list(set(violations))
 
@@ -248,6 +257,49 @@ def _is_orm_builder_chain(node: ast.expr) -> bool:
         # Recurse into the receiver: delete(T).where(...) → check delete(T)
         return _is_orm_builder_chain(func.value)
     return False
+
+
+def _query_expr(call_node: ast.Call) -> ast.expr | None:
+    """The argument that becomes the SQL TEXT — the only injectable position.
+
+    WHY ONLY THIS ARGUMENT
+    ----------------------
+    A value passed as a BIND PARAMETER cannot change the structure of the query;
+    that is the entire point of parameterisation, and it is the remediation this
+    detector itself recommends. Checking every argument for taint meant we flagged
+    the fix as if it were the bug:
+
+        cursor.execute("DELETE FROM t WHERE id = :id", id=vector_id)   # was FLAGGED
+        cursor.execute(f"DELETE FROM t WHERE id = {vector_id}")        # correctly flagged
+
+    Both fired identically. The first is not injectable by any input to `vector_id`.
+
+    This matches how the industry draws the line. Bandit's B608 inspects strings
+    "involved in some form of string building operation" (`+`, `%`, `.format`,
+    f-string) — the query text, not the parameter values. CodeQL's py/sql-injection
+    treats query parameters / prepared statements as the recommended safe way to
+    embed untrusted data. No mainstream SAST flags a bind parameter.
+
+    Measured: this was the root cause of all 5 AG-SQL false positives on the benign
+    corpus (composio, mem0, txtai) — every one a database-driver or vector-store
+    method whose parameter is the query by contract.
+
+    Fail-closed: `execute(*args)` yields a `Starred` node, which is returned as the
+    query position so an unresolvable call is still analysed rather than skipped.
+    """
+    if call_node.args:
+        return call_node.args[0]
+    # Named-first-argument APIs, e.g. execute(sql=..., parameters=...).
+    for kw in call_node.keywords:
+        if kw.arg in ("sql", "query", "statement"):
+            return kw.value
+    # `execute(**payload)` — the query text comes from a mapping we cannot resolve
+    # statically, so the query position is attacker-reachable. Fail closed and treat
+    # the splat as the query, rather than returning None and skipping the call.
+    for kw in call_node.keywords:
+        if kw.arg is None:
+            return kw.value
+    return None
 
 
 def _is_parameterized(call_node: ast.Call) -> bool:
@@ -355,7 +407,8 @@ def detect_sql_injection(agent: Agent) -> list[Finding]:
                 ),
                 source_file=filepath,
                 source_line=node.lineno,
-                witness=[f"param(s) {violated_params} → SQL sink in '{node.name}' (line {node.lineno})"],
+                evidence_class=EvidenceClass.WITNESSED,
+            witness=[f"param(s) {violated_params} → SQL sink in '{node.name}' (line {node.lineno})"],
             ))
 
     # de-duplicate

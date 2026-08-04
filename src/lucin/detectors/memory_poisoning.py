@@ -33,16 +33,11 @@ from lucin.owasp import owasp_ref
 # Patterns indicating persistent memory/state
 MEMORY_INDICATORS = {
     "code_patterns": [
-        # LangChain/LangGraph memory
-        r"ConversationBufferMemory",
-        r"ConversationSummaryMemory",
-        r"VectorStoreRetrieverMemory",
-        r"ChatMessageHistory",
+        # LangChain/LangGraph memory (ONLY PERSISTENT ONES)
         r"RedisChatMessageHistory",
         r"PostgresChatMessageHistory",
         r"FileChatMessageHistory",
         r"MongoDBChatMessageHistory",
-        r"MemorySaver",
         r"SqliteSaver",
         r"PostgresSaver",
         # Vector stores (RAG)
@@ -60,21 +55,13 @@ MEMORY_INDICATORS = {
         r"add_texts",
         r"upsert",
         r"persist",
-        r"save_context",
-        r"add_memory",
-        r"store_memory",
-        r"update_memory",
-        # CrewAI memory
-        r"memory\s*=\s*True",
+        # CrewAI memory (if explicitly configured)
         r"long_term_memory",
-        r"short_term_memory",
         r"entity_memory",
     ],
     "config_patterns": [
-        r"\"memory\"",
         r"\"vector_store\"",
         r"\"rag\"",
-        r"\"retrieval\"",
         r"\"persistent\"",
         r"\"knowledge_base\"",
     ],
@@ -86,7 +73,6 @@ UNSAFE_MEMORY_WRITE_PATTERNS = [
     r"add_documents\([^)]*user",
     r"add_texts\([^)]*input",
     r"upsert\([^)]*message",
-    r"save_context\(",  # Usually saves raw user input + AI output
     # Loading external data into RAG without sanitization
     r"DirectoryLoader\(",
     r"WebBaseLoader\(",
@@ -148,18 +134,22 @@ MEMORY_PROTECTION_PATTERNS = [
 def detect_memory_poisoning(agent: Agent) -> list[Finding]:
     """Detect memory/RAG poisoning risk factors.
 
-    DISABLED in Phase 0. The detection logic has a coin-flip FP problem:
-    - `save_context` is both a "memory match" AND an "unsafe write" for any
-      LangChain ConversationBufferMemory — a completely benign, common pattern.
-    - `_is_shared_memory` fires when memory exists but there is no `user_id`,
-      flagging all local single-user scripts as "shared memory."
-    Verified: a clean single-user ConversationBufferMemory script triggers HIGH.
-    This detector needs a real benign corpus to tune against before it ships.
-    Re-enable in Phase 5 (multi-agent & memory integrity — THE_BLUEPRINT §6.4).
-    """
-    return []  # disabled until rebuilt with real FP measurement
+    NOT registered in `detectors/__init__.py::PER_AGENT_DETECTORS` — see the comment
+    there and `launch/evolving conviction/PHASE_6_PLAN.md` §2.13.3/§5.1.8. This function
+    is reachable directly for its own unit tests only.
 
-    findings = []  # noqa: unreachable — kept as scaffold for Phase 5
+    History: originally shipped as `return []` because `save_context` is both a "memory
+    match" AND an "unsafe write" for any LangChain `ConversationBufferMemory` — a
+    completely benign, common pattern — and `_is_shared_memory` flagged any memory
+    lacking a `user_id` as "shared," i.e. every local single-user script. The patterns
+    below were later narrowed to only fire on explicitly *persistent* stores (Redis,
+    Postgres, vector stores) rather than RAM-only buffers, which is a plausible direction,
+    but **no benign-corpus false-positive measurement was taken after the narrowing** —
+    the same gap that got it disabled the first time. Do not register until that
+    measurement exists (`benchmarks/build_benign_corpus.py` or the skill corpus in
+    PHASE_6_PLAN.md §5.2).
+    """
+    findings = []
 
     # Collect all source files
     source_files = _get_source_files(agent)

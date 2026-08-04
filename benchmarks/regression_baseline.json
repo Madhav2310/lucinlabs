@@ -1,0 +1,7676 @@
+{
+ "entries": [
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-026",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "agentops-examples"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "agentscope"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-CORS",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SSRF",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "agno"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    }
+   ],
+   "target": "anthropic-quickstarts"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "anthropic-sdk-python"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-CORS",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    }
+   ],
+   "target": "autogen-examples"
+  },
+  {
+   "corpus": "benign",
+   "findings": [],
+   "target": "botpress"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "browser-use"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-003",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-024",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SSRF",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "camel-ai"
+  },
+  {
+   "corpus": "benign",
+   "findings": [],
+   "target": "chainlit"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-026",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "composio"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    }
+   ],
+   "target": "controlflow"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    }
+   ],
+   "target": "crewai-examples"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-RAG-NO-SANITIZE",
+     "severity": "high"
+    }
+   ],
+   "target": "deepeval"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "dify"
+  },
+  {
+   "corpus": "benign",
+   "findings": [],
+   "target": "distilabel"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    }
+   ],
+   "target": "dspy"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    }
+   ],
+   "target": "ell"
+  },
+  {
+   "corpus": "benign",
+   "findings": [],
+   "target": "flowise"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-003",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "gpt-researcher"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DESERIALIZE",
+     "severity": "critical"
+    }
+   ],
+   "target": "gptcache"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "griptape"
+  },
+  {
+   "corpus": "benign",
+   "findings": [],
+   "target": "guidance"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    }
+   ],
+   "target": "haystack"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    }
+   ],
+   "target": "instructor"
+  },
+  {
+   "corpus": "benign",
+   "findings": [],
+   "target": "langchain-handbook"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    }
+   ],
+   "target": "langchain-templates"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "langflow"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    }
+   ],
+   "target": "langgraph"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DESERIALIZE",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "letta"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-CORS",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "litellm"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DESERIALIZE",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "llamaindex"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SSRF",
+     "severity": "high"
+    }
+   ],
+   "target": "marvin"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    }
+   ],
+   "target": "mcp-python-sdk"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-003",
+     "severity": "medium"
+    }
+   ],
+   "target": "mcp-servers-official"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "mem0"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    }
+   ],
+   "target": "metagpt"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    }
+   ],
+   "target": "mirascope"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    }
+   ],
+   "target": "nemo-guardrails"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DOCKER-EXEC",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "openai-agents-python"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "openai-python"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "openai-swarm"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    }
+   ],
+   "target": "outlines"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "pandas-ai"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-CORS",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SSRF",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "phidata-cookbook"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "promptflow"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "pydantic-ai-examples"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "ragas"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-RAG-NO-SANITIZE",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "semantic-kernel"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "semantic-router"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-FRAMEWORK-PIN",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "smolagents"
+  },
+  {
+   "corpus": "benign",
+   "findings": [],
+   "target": "superagent"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "low"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-025",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-027",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "swarms"
+  },
+  {
+   "corpus": "benign",
+   "findings": [],
+   "target": "taskweaver"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "txtai"
+  },
+  {
+   "corpus": "benign",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-007",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "vanna"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    }
+   ],
+   "target": "command_injection/constructed__os_system"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    }
+   ],
+   "target": "command_injection/constructed__subprocess_shell"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005a",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    }
+   ],
+   "target": "command_injection/real__agno_coding"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-002",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-005b",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-COMP",
+     "severity": "medium"
+    }
+   ],
+   "target": "command_injection/real__camel_terminal_toolkit"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    }
+   ],
+   "target": "command_injection/real__camel_terminal_utils"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DOCKER-EXEC",
+     "severity": "critical"
+    }
+   ],
+   "target": "container_escape/constructed__docker_fstring_popen"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DOCKER-EXEC",
+     "severity": "critical"
+    }
+   ],
+   "target": "container_escape/constructed__docker_privileged_shell"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DOCKER-EXEC",
+     "severity": "critical"
+    }
+   ],
+   "target": "container_escape/constructed__docker_volume_mount"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    }
+   ],
+   "target": "container_escape/real__camel_docker_interpreter"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DOCKER-EXEC",
+     "severity": "critical"
+    }
+   ],
+   "target": "container_escape/real__openai_agents_dapr"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-CORS",
+     "severity": "critical"
+    }
+   ],
+   "target": "cors_unauth_server/constructed__cors_wildcard_fastapi"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    }
+   ],
+   "target": "cors_unauth_server/constructed__flask_noauth"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-028",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-NOAUTH",
+     "severity": "medium"
+    }
+   ],
+   "target": "cors_unauth_server/constructed__noauth_fastapi"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-023",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-CORS",
+     "severity": "critical"
+    }
+   ],
+   "target": "cors_unauth_server/real__autogen_app_agent"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-009",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-014",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-CORS",
+     "severity": "critical"
+    }
+   ],
+   "target": "cors_unauth_server/real__autogen_app_team"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "cql_injection/real__camel_nebula_graph"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "cql_injection/real__llamaindex_cassandra"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DESERIALIZE",
+     "severity": "critical"
+    }
+   ],
+   "target": "insecure_deserialization/constructed__base64_pickle"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DESERIALIZE",
+     "severity": "critical"
+    }
+   ],
+   "target": "insecure_deserialization/constructed__joblib_load"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DESERIALIZE",
+     "severity": "critical"
+    }
+   ],
+   "target": "insecure_deserialization/constructed__marshal_loads"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DESERIALIZE",
+     "severity": "critical"
+    }
+   ],
+   "target": "insecure_deserialization/constructed__pickle_loads"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DESERIALIZE",
+     "severity": "critical"
+    }
+   ],
+   "target": "insecure_deserialization/constructed__yaml_load"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-DESERIALIZE",
+     "severity": "critical"
+    }
+   ],
+   "target": "insecure_deserialization/real__gptcache_data_manager"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "path_traversal/constructed__delete_file"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "path_traversal/constructed__load_template"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "path_traversal/constructed__read_document"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "path_traversal/constructed__serve_static_file"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "path_traversal/constructed__write_report"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "path_traversal/real__agno_python_tools"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    }
+   ],
+   "target": "rce_eval_exec/constructed__eval_calculator"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-006",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    }
+   ],
+   "target": "rce_eval_exec/real__camel_code_execution"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    }
+   ],
+   "target": "rce_eval_exec/real__camel_internal_python"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "critical"
+    }
+   ],
+   "target": "rce_eval_exec/real__camel_subprocess_interp"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-001",
+     "severity": "medium"
+    }
+   ],
+   "target": "rce_eval_exec/real__promptflow_python_repl"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SSRF",
+     "severity": "high"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "secret_exfil_trifecta/constructed__file_secret_upload"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "secret_exfil_trifecta/constructed__rag_db_http"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "secret_exfil_trifecta/constructed__web_read_email"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-TRIFECTA",
+     "severity": "critical"
+    }
+   ],
+   "target": "secret_exfil_trifecta/real__camel_web_read_post"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "sql_injection/constructed__fstring_sqlite"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-019",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "sql_injection/real__camel_sql_toolkit"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "sql_injection/real__mem0_oracledb"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "sql_injection/real__smolagents_text_to_sql"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-027",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "sql_injection/real__swarms_smart_database"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SQL",
+     "severity": "critical"
+    }
+   ],
+   "target": "sql_injection/real__txtai_database_client"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SSRF",
+     "severity": "high"
+    }
+   ],
+   "target": "ssrf/constructed__healthcheck_scanner"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "ssrf/constructed__image_downloader"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "ssrf/constructed__url_fetcher"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "ssrf/constructed__urllib_proxy"
+  },
+  {
+   "corpus": "recall",
+   "findings": [],
+   "target": "ssrf/constructed__webhook_poster"
+  },
+  {
+   "corpus": "recall",
+   "findings": [
+    {
+     "evidence_class": "posture",
+     "has_witness": false,
+     "id": "AG-010",
+     "severity": "medium"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-011",
+     "severity": "critical"
+    }
+   ],
+   "target": "ssrf/real__llamaindex_openapi_tool"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "CherryHQ/cherry-studio:.agents/skills/cherry-electron-dev"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:.agents/skills/cherry-pr-test"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:.agents/skills/create-skill"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:.agents/skills/demand-first-review"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:.agents/skills/gh-create-issue"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:.agents/skills/gh-create-pr"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:.agents/skills/gh-pr-review"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:.agents/skills/prepare-release"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:.agents/skills/vercel-react-best-practices"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:resources/builtin-agents/cherry-assistant/.claude/skills/cherry-assistant-guide"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:resources/builtin-agents/cherry-assistant/.claude/skills/cherry-skill-marketplace"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:resources/builtin-agents/cherry-assistant/.claude/skills/cherry-studio-feedback"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:resources/builtin-agents/cherry-assistant/.claude/skills/claude-automation-recommender"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:resources/builtin-agents/cherry-assistant/.claude/skills/faq-collector"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:resources/builtin-agents/cherry-assistant/.claude/skills/issue-reporter"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:resources/builtin-agents/cherry-assistant/.claude/skills/skills-manager"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:resources/skills/cherry-tool-guide"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "CherryHQ/cherry-studio:resources/skills/find-skills"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "CherryHQ/cherry-studio:resources/skills/skill-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "medium"
+    }
+   ],
+   "target": "ComposioHQ/awesome-claude-skills:artifacts-builder"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:brand-guidelines"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:canvas-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:changelog-generator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:competitive-ads-extractor"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:composio-skills/better-stack-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:composio-skills/big-data-cloud-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:composio-skills/campaign-cleaner-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:composio-skills/corrently-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:composio-skills/lemon_squeezy-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:composio-skills/mails-so-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:composio-skills/seismic-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:composio-skills/survey_monkey-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:connect"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:connect-apps"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:content-research-writer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:developer-growth-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:document-skills/docx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:document-skills/pdf"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "ComposioHQ/awesome-claude-skills:document-skills/pptx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:document-skills/xlsx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:domain-name-brainstormer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:file-organizer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:image-enhancer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:internal-comms"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:invoice-organizer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:langsmith-fetch"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:lead-research-assistant"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:mcp-builder"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:meeting-insights-analyzer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:raffle-winner-picker"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-EXTERNAL-INSTRUCTIONS",
+     "severity": "high"
+    }
+   ],
+   "target": "ComposioHQ/awesome-claude-skills:skill-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:skill-share"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:slack-gif-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:tailored-resume-generator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:template-skill"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:theme-factory"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:twitter-algorithm-optimizer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:video-downloader"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "ComposioHQ/awesome-claude-skills:webapp-testing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:.openclaw/skills/ponytail"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:.openclaw/skills/ponytail-audit"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:.openclaw/skills/ponytail-debt"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:.openclaw/skills/ponytail-gain"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:.openclaw/skills/ponytail-help"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:.openclaw/skills/ponytail-review"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:skills/ponytail"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:skills/ponytail-audit"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:skills/ponytail-debt"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:skills/ponytail-gain"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:skills/ponytail-help"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "DietrichGebert/ponytail:skills/ponytail-review"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:.claude/skills/release-skills"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-article-illustrator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-comic"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-compress-image"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-cover-image"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-danger-gemini-web"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-danger-x-to-markdown"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-diagram"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-electron-extract"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-format-markdown"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-image-gen"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-infographic"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-markdown-to-html"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-post-to-wechat"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-post-to-weibo"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-post-to-x"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-slide-deck"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-translate"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-url-to-markdown"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-wechat-summary"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-xhs-images"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "JimLiu/baoyu-skills:skills/baoyu-youtube-transcript"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/analytical-method-validation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/anndata"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/arboreto"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/benchling-integration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "critical"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/bids"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/dask"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/database-lookup"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/deeptools"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/esm"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/experimental-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/exploratory-data-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/fluidsim"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/geniml"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/geomaster"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/geopandas"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/get-available-resources"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/imaging-data-commons"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/iso-standards-readiness"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/medchem"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/networkx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/onekgpd"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/paperclip"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/parallel-web"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "critical"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/pathogen-variant-surveillance"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/pi-agent"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/pkpd-modeling"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/polars-bio"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/protocolsio-integration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/pymc"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/pyzotero"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/qiskit"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "critical"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-EXTERNAL-INSTRUCTIONS",
+     "severity": "high"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/research-lookup"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/scientific-brainstorming"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "critical"
+    }
+   ],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/scientific-schematics"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/scikit-survival"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/seaborn"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/shap"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/sympy"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/umap-learn"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "K-Dense-AI/scientific-agent-skills:skills/vaex"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "KKKKhazix/khazix-skills:aihot"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "KKKKhazix/khazix-skills:hv-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "KKKKhazix/khazix-skills:khazix-writer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "KKKKhazix/khazix-skills:leader"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "KKKKhazix/khazix-skills:neat-freak"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "KKKKhazix/khazix-skills:storage-analyzer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.agents/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.codebuddy/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.codex/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.continue/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.cursor/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.factory/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.gemini/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.hermes/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "OthmanAdi/planning-with-files:.kiro/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "OthmanAdi/planning-with-files:.mastracode/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.opencode/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:.pi/skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "OthmanAdi/planning-with-files:skills/planning-with-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "OthmanAdi/planning-with-files:skills/planning-with-files-ar"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "OthmanAdi/planning-with-files:skills/planning-with-files-de"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "OthmanAdi/planning-with-files:skills/planning-with-files-es"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "OthmanAdi/planning-with-files:skills/planning-with-files-zh"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "OthmanAdi/planning-with-files:skills/planning-with-files-zht"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/api-and-interface-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/browser-testing-with-devtools"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/ci-cd-and-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/code-review-and-quality"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/code-simplification"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/context-engineering"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/debugging-and-error-recovery"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/deprecation-and-migration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/documentation-and-adrs"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/doubt-driven-development"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/frontend-ui-engineering"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "addyosmani/agent-skills:skills/git-workflow-and-versioning"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/idea-refine"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/incremental-implementation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/interview-me"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/observability-and-instrumentation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/performance-optimization"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/planning-and-task-breakdown"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/security-and-hardening"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/shipping-and-launch"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/source-driven-development"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/spec-driven-development"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/test-driven-development"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "addyosmani/agent-skills:skills/using-agent-skills"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:algorithmic-art"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "medium"
+    }
+   ],
+   "target": "agentregistry-dev/skills:artifacts-builder"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:brand-guidelines"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:canvas-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:document-skills/docx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:document-skills/pdf"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "agentregistry-dev/skills:document-skills/pptx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:document-skills/xlsx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:internal-comms"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:mcp-builder"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-EXTERNAL-INSTRUCTIONS",
+     "severity": "high"
+    }
+   ],
+   "target": "agentregistry-dev/skills:skill-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:slack-gif-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:template-skill"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:theme-factory"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "agentregistry-dev/skills:webapp-testing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alibaba/open-code-review:plugins/open-code-review/skills/open-code-review"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alibaba/open-code-review:plugins/open-code-review/skills/open-code-review-delegate"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alibaba/open-code-review:skills/open-code-review"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alibaba/open-code-review:skills/open-code-review-delegate"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/agent-harness"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/aims-audit"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/azure-cloud-architect"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/cdo-review"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/change-management"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/ciso-review"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/code-tour"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/commercial-skills"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/cs-content-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/cs-financial-analyst"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/cs-wiki-ingestor"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/finance-skills"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/focused-fix"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/full-page-screenshot"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/init"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/knowledge-ops"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/llm-cost-optimizer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/marketing-psychology"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/pipeline"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/programmatic-seo"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/prompt-governance"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/revenue-operations"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/senior-security"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/skills-arquiteto-de-empresa"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/skills-chief-customer-officer-advisor"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/skills-eu-ai-act-specialist"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/skills-iso42001-specialist"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/skills-slo-architect"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/universal-scraping-architect"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:.gemini/skills/wiki-log"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:loop-library"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:research/deep-research/skills/deep-research"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "alirezarezvani/claude-skills:research/dossier/skills/dossier"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "alirezarezvani/claude-skills:research/grants/skills/grants"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "critical"
+    }
+   ],
+   "target": "alirezarezvani/claude-skills:research/litreview/skills/litreview"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:research/notebooklm/skills/notebooklm"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:research/patent/skills/patent"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "alirezarezvani/claude-skills:research/pulse/skills/pulse"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "alirezarezvani/claude-skills:research/research/skills/research"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "alirezarezvani/claude-skills:research/syllabus/skills/syllabus"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/algorithmic-art"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/brand-guidelines"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/canvas-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/claude-api"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/doc-coauthoring"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "anthropics/skills:skills/docx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/frontend-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/internal-comms"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/mcp-builder"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/pdf"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "anthropics/skills:skills/pptx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "anthropics/skills:skills/skill-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/slack-gif-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/theme-factory"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": false,
+     "id": "AG-015",
+     "severity": "medium"
+    }
+   ],
+   "target": "anthropics/skills:skills/web-artifacts-builder"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:skills/webapp-testing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "anthropics/skills:skills/xlsx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "anthropics/skills:template"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "blader/humanizer:."
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "eigent-ai/eigent:resources/example-skills/docx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "eigent-ai/eigent:resources/example-skills/pdf"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "eigent-ai/eigent:resources/example-skills/pptx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    },
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-EXTERNAL-INSTRUCTIONS",
+     "severity": "high"
+    }
+   ],
+   "target": "eigent-ai/eigent:resources/example-skills/skill-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "eigent-ai/eigent:resources/example-skills/skill-security-auditor"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "eigent-ai/eigent:resources/example-skills/xlsx"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:.github/skills/agentic-workflows"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "github/awesome-copilot:skills/acquire-codebase-knowledge"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/acreadiness-policy"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/agentic-eval"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/arize-trace"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/aspnet-minimal-api-openapi"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/autoresearch"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/aws-cost-optimize"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "github/awesome-copilot:skills/azure-architecture-autopilot"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/batch-files"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/breakdown-plan"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/code-tour"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/codebase-memory-mcp"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/dataverse-python-advanced-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/gdpr-compliant"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/git-commit"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "github/awesome-copilot:skills/github-actions-hardening"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/go-mcp-server-generator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/gtm-partnership-architecture"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/gtm-positioning-strategy"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/image-manipulation-image-magick"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/incident-postmortem"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/markdown-to-html"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/mcp-copilot-studio-server-generator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "github/awesome-copilot:skills/mini-context-graph"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/mkdocs-translations"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/openapi-to-application-code"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/plantuml-ascii"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/python-mcp-server-generator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/react-audit-grep-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/react-container-presentation-component"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/reviewing-oracle-to-postgres-migration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/rust-mcp-server-generator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/semantic-kernel"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/slang-shader-engineer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/threat-model-analyst"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/typescript-mcp-server-generator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/unit-test-vue-pinia"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/update-specification"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "github/awesome-copilot:skills/winui3-migration-guide"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "gmh5225/awesome-skills:.claude/skills/ai-llm-skills"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "gmh5225/awesome-skills:.claude/skills/claude-code"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "gmh5225/awesome-skills:.claude/skills/dev-tools-skills"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "gmh5225/awesome-skills:.claude/skills/marketing-skills"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "gmh5225/awesome-skills:.claude/skills/overview"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "gmh5225/awesome-skills:.claude/skills/platforms"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "gmh5225/awesome-skills:.claude/skills/security-skills"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "gmh5225/awesome-skills:.claude/skills/skill-creation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-admin-reports"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-calendar-insert"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-chat"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-docs"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-drive-upload"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-gmail"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-gmail-reply"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-gmail-reply-all"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-gmail-send"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-gmail-triage"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-gmail-watch"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-meet"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-modelarmor"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-people"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-sheets-read"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-workflow"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-workflow-email-to-task"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/gws-workflow-weekly-digest"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/persona-event-coordinator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/persona-exec-assistant"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/persona-researcher"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/persona-sales-ops"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-backup-sheet-as-csv"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-bulk-download-folder"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-collect-form-responses"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-create-doc-from-template"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-create-gmail-filter"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-create-meet-space"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-create-presentation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-find-free-time"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-forward-labeled-emails"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-label-and-archive-emails"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-post-mortem-setup"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-reschedule-meeting"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-save-email-attachments"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-schedule-recurring-event"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-send-team-announcement"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-share-doc-and-notify"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-share-event-materials"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "googleworkspace/cli:skills/recipe-sync-contacts-to-sheet"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/frontend-forge-fe-operations"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/frontend-forge-fi-operations"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/frontend-integration-yaml"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubeeye"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/kubesphere-cluster-management"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "critical"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubesphere-core"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubesphere-devops-argocd"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/kubesphere-devops-credentials"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubesphere-devops-jenkins"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/kubesphere-devops-overview"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubesphere-devops-pipeline"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubesphere-devops-tenant"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/kubesphere-extension-management"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubesphere-fluid"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/kubesphere-gateway"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/kubesphere-gateway-api"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "critical"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubesphere-multi-tenant-management"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/kubesphere-network-extension-operations"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubesphere-openkruise"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/kubesphere-servicemesh"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/kubesphere-volcano"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "witnessed",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "critical"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/nodegroup"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "kubesphere/kubesphere:skills/openpitrix"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/opensearch"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/vector"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/whizard-auditing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/whizard-events"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/whizard-logging"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/whizard-notification"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/whizard-telemetry"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/whizard-telemetry-ruler"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "kubesphere/kubesphere:skills/wiztelemetry-tracing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "microsoft/SkillOpt:plugins/claude-code/skills/skillopt-sleep"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "microsoft/SkillOpt:plugins/codex/skills/skillopt-sleep"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "microsoft/SkillOpt:plugins/cursor/skills/skillopt-sleep"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "microsoft/SkillOpt:plugins/openclaw"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-bold-poster"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-bold-signal"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-data-chart-nyt"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-data-rollup"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-electric-studio"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-glitch-title"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-kinetic-type"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-liquid-bg-hero"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-logo-outro"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-nyt-graph"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-pentagram-stat"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-play-mode"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-product-promo-30s"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-swiss-grid"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-takram-organic"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-vignelli"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/frame-warm-grain"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/_official/video-templates/vfx-text-cursor"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/agent-skill-principal-ui-ux-architect-motion-choreographer-awwwards-tier-mqu4mbbj"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/atelier-zero-image-generation-prompt-pack-mrrxpegw"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/clone-audit-mrlv3nl4"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/deep-think-maximum-cognitive-effort-protocol-mq8kvw92"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/design-system-source-context-mr0bb87z"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/g2-design-system-ui-kit-mqgbmh2w"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/hallmark"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/humanize-ppt"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/import-smoke-test"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/community/registry-starter"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/create-hyperframes-launch"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/create-image-campaign"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/create-live-artifact-ops"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/create-prototype-dashboard"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/create-slides-pitch"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/create-video-storyboard"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/deploy-vercel-static"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/export-nextjs-handoff"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/extend-plugin-author"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/import-screenshot-to-prototype"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/refine-critique-loop"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "nexu-io/open-design:plugins/spec/examples/share-github-pr"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-data-analytics/skills/ab-test-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-data-analytics/skills/cohort-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-data-analytics/skills/sql-queries"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-market-research/skills/competitor-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-market-research/skills/customer-journey-map"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-market-research/skills/market-segments"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-market-research/skills/market-sizing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-market-research/skills/sentiment-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-market-research/skills/user-personas"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-market-research/skills/user-segmentation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-marketing-growth/skills/positioning-ideas"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/analyze-feature-requests"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/brainstorm-experiments-existing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/brainstorm-experiments-new"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/brainstorm-ideas-existing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/brainstorm-ideas-new"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/identify-assumptions-existing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/identify-assumptions-new"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/interview-script"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/metrics-dashboard"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/opportunity-solution-tree"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/prioritize-assumptions"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/prioritize-features"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-discovery/skills/summarize-interview"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/ansoff-matrix"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/business-model"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/lean-canvas"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/monetization-strategy"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/pestle-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/porters-five-forces"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/pricing-strategy"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/product-strategy"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/product-vision"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/startup-canvas"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/swot-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-product-strategy/skills/value-proposition"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-toolkit/skills/draft-nda"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-toolkit/skills/grammar-check"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-toolkit/skills/privacy-policy"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "phuryn/pm-skills:pm-toolkit/skills/review-resume"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/analytics-tracking"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/apify-market-research"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/content-creator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/copywriting"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/i18n-localization"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/schema-markup"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/seo-content-planner"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/seo-content-writer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/seo-fundamentals"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-localization-international-growth/skills/seo-hreflang"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-security-engineer/skills/api-security-testing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-security-engineer/skills/cloud-penetration-testing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-security-engineer/skills/linux-privilege-escalation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-security-engineer/skills/top-web-vulnerabilities"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-security-engineer/skills/vulnerability-scanner"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-aas-security-engineer/skills/web-security-testing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-azure-ai-cloud/skills/azd-deployment"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-azure-ai-cloud/skills/azure-ai-openai-dotnet"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-azure-ai-cloud/skills/azure-functions"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-azure-ai-cloud/skills/azure-identity-py"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-azure-ai-cloud/skills/azure-monitor-opentelemetry-ts"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-azure-ai-cloud/skills/azure-search-documents-py"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-business-analyst/skills/business-analyst"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-business-analyst/skills/kpi-dashboard-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-business-analyst/skills/market-sizing-analysis"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-business-analyst/skills/startup-financial-modeling"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-business-analyst/skills/startup-metrics-framework"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-commerce-payments/skills/algolia-search"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-commerce-payments/skills/hubspot-integration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-commerce-payments/skills/monetization"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-commerce-payments/skills/paypal-integration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-commerce-payments/skills/plaid-fintech"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-commerce-payments/skills/stripe-integration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-seo-specialist/skills/schema-markup"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-seo-specialist/skills/seo-cannibalization-detector"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-seo-specialist/skills/seo-content-auditor"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-seo-specialist/skills/seo-content-planner"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-seo-specialist/skills/seo-content-writer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-seo-specialist/skills/seo-fundamentals"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "sickn33/agentic-awesome-skills:plugins/agentic-bundle-seo-specialist/skills/seo-structure-architect"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "topoteretes/cognee:examples/demos/skill_feedback_loop/skills/diff-risk-explainer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "topoteretes/cognee:examples/demos/skill_feedback_loop/skills/pr-comment-evaluator"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "topoteretes/cognee:examples/demos/skill_feedback_loop/skills/skill-feedback-writer"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/backend-development/skills/api-design-principles"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/backend-development/skills/architecture-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/backend-development/skills/cqrs-implementation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/backend-development/skills/event-store-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/backend-development/skills/microservices-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/backend-development/skills/projection-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/backend-development/skills/saga-orchestration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/backend-development/skills/temporal-python-testing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/backend-development/skills/workflow-orchestration-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/auth-implementation-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/bazel-build-optimization"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/code-review-excellence"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/debugging-strategies"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/e2e-testing-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/error-handling-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [
+    {
+     "evidence_class": "inferred",
+     "has_witness": true,
+     "id": "AG-SKILL-CHAIN",
+     "severity": "info"
+    }
+   ],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/git-advanced-workflows"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/monorepo-management"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/nx-workspace-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/sql-optimization-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/developer-essentials/skills/turborepo-caching"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/incident-response/skills/incident-runbook-templates"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/incident-response/skills/on-call-handoff-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/incident-response/skills/postmortem-writing"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/machine-learning-ops/skills/ml-pipeline-workflow"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/machine-learning-ops/skills/recsys-pipeline-architect"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/payment-processing/skills/billing-automation"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/payment-processing/skills/paypal-integration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/payment-processing/skills/pci-compliance"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/payment-processing/skills/stripe-integration"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/skill-forge-essentials/skills/ai-debt-detector"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/skill-forge-essentials/skills/visual-edit-precision"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/ui-design/skills/accessibility-compliance"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/ui-design/skills/design-system-patterns"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/ui-design/skills/interaction-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/ui-design/skills/mobile-android-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/ui-design/skills/mobile-ios-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/ui-design/skills/react-native-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/ui-design/skills/responsive-design"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/ui-design/skills/visual-design-foundations"
+  },
+  {
+   "corpus": "skill",
+   "findings": [],
+   "target": "wshobson/agents:plugins/ui-design/skills/web-component-design"
+  }
+ ],
+ "schema_version": 1,
+ "target_counts": {
+  "benign": 56,
+  "recall": 50,
+  "skill": 552
+ }
+}

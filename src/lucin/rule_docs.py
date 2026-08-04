@@ -67,6 +67,9 @@ RULE_CWE: dict[str, list[str]] = {
     "AG-SQL": ["CWE-89"],                 # SQL injection
     "AG-SSRF": ["CWE-918"],               # server-side request forgery
     "AG-TRIFECTA": ["CWE-200", "CWE-1427"],     # exfiltration steered by injection
+    "AG-SKILL-CHAIN": ["CWE-250"],
+    "AG-SKILL-MANIFEST-GAP": ["CWE-1357"],
+    "AG-SKILL-EXTERNAL-INSTRUCTIONS": ["CWE-829"],
 }
 
 
@@ -153,6 +156,14 @@ RULE_CATALOG = {
         "real_world": "CORDON-MAS research: 92.4% of RAG poison attacks succeed without retrieval filtering.",
         "owasp_asi": ["ASI07", "ASI06"],
         "fix_summary": "Add retrieval-stage filtering, use hybrid retrieval, validate memory writes.",
+    },
+    "AG-013-T3": {
+        "title": "Cryptographic Chain Compromise (T3)",
+        "severity": "CRITICAL",
+        "description": "The Merkle-chain of the temporal ledger is invalid, indicating cross-session memory tampering or a sleeper agent attack.",
+        "real_world": "T3 threats involve multi-session poisoning where adversarial state sits dormant until triggered.",
+        "owasp_asi": ["ASI07"],
+        "fix_summary": "Investigate the ledger for adversarial writes. Re-initialize the ledger and rotate keys.",
     },
     "AG-015": {
         "title": "Supply Chain Risk",
@@ -378,6 +389,30 @@ RULE_CATALOG = {
         "real_world": "The canonical SSRF target in cloud environments is the instance metadata endpoint (`169.254.169.254`), which hands over IAM credentials to anything that can reach it — the reason this class of bug is treated as credential theft, not just an info leak.",
         "owasp_asi": ["ASI02"],
         "fix_summary": "Validate the destination against an explicit allowlist of hosts/schemes before fetching; block link-local and internal address ranges by default.",
+    },
+    "AG-SKILL-CHAIN": {
+        "title": "Undeclared High-Risk Capability Chain",
+        "severity": "CRITICAL",
+        "description": "A skill composes multiple high-risk primitives (e.g. remote fetch + exec) across prose and scripts, and fails to declare at least one in its manifest.",
+        "real_world": "The Tencent Zhuque ClawHavoc backdoor (2026) disguised a remote-code-execution chain as a 'state recovery' tool. The whole point of the disguise is that the manifest does not admit to the chain.",
+        "owasp_asi": ["ASI02", "ASI05"],
+        "fix_summary": "Explicitly declare all capabilities in the SKILL.md frontmatter using `allowed-tools` or `compatibility`.",
+    },
+    "AG-SKILL-MANIFEST-GAP": {
+        "title": "Undeclared Capabilities (Capability Disclosure Report)",
+        "severity": "INFO",
+        "description": "A skill uses capabilities in its bundled scripts that are not declared in the `allowed-tools` or `compatibility` frontmatter.",
+        "real_world": "Skills claiming to only 'read local files' that actually open network sockets are hiding their behavior from security teams.",
+        "owasp_asi": ["ASI04"],
+        "fix_summary": "Ensure the SKILL.md frontmatter lists all required capabilities.",
+    },
+    "AG-SKILL-EXTERNAL-INSTRUCTIONS": {
+        "title": "Untrusted External Instructions Fetch",
+        "severity": "HIGH",
+        "description": "A skill fetches its actual instructions or configuration dynamically at runtime from an external server, evading static analysis.",
+        "real_world": "OWASP AST05: Fetching instructions externally means the skill's behavior can change completely after security review.",
+        "owasp_asi": ["ASI05"],
+        "fix_summary": "Bundle all instructions and configurations within the skill directory. Do not load them dynamically.",
     },
 }
 

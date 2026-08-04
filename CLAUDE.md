@@ -79,8 +79,20 @@ mirror). Layers, from what's actually wired into production scans:
 3. Limited cross-function/intra-class taint (`analysis/cross_function_taint.py`, via `detectors/_taint.py`)
    is wired into SSRF, insecure-deserialization, and path-traversal detectors — same-file method-to-method
    flows only, no cross-file or dynamic-dispatch resolution.
-4. `analysis/file_scope_taint.py` is a separate summary-based analyzer that is unit-tested but NOT wired
-   into the production scan path — experimental only.
+4. `analysis/sanitizers.py` is the kind-scoped sanitizer/barrier model (`SinkKind.COMMAND/SQL/PATH/
+   HTML/URL`), modelled on Pysa's `Sanitize[TaintSink[SQL]]`. It is fail-closed — an unrecognised call
+   is treated as NOT sanitizing, so it can only ever *withdraw* a finding it can prove is guarded.
+   Wired into 8 detectors plus `fix.py`/`auto_pr.py`/`generic_parser.py`/`rule_docs.py`.
+   NOTE: it is applied at the *detector* level; `body_inspector.py`'s taint engines
+   (`intraproc_taint`, `source_sink_taint`) do not consult it, so there is no barrier semantics
+   inside the dataflow fixpoint itself.
+5. `analysis/cfg.py` builds a real intraprocedural CFG but is **imported by nothing** — it was written
+   to enable flow-sensitive taint and was never wired in. Dead code today; the enabling layer if
+   guard-pattern taint clearing is ever added.
+
+(Historical note: `analysis/file_scope_taint.py` was documented here for a long time but was
+deliberately deleted — see `tests/test_architecture.py` "File-scope taint tests removed ... H4". Do not
+plan against it; it does not exist.)
 
 **`GUARD` (runtime) vs `SCAN` (static)**: `src/lucin/guard/` is the runtime interception/admission layer
 (`interceptor.py`, `admission.py`, `injection_detector.py`, `ifc_runtime.py`, `taint_registry.py`,

@@ -22,7 +22,7 @@ import re
 from pathlib import Path
 
 from lucin.detectors.secrets import SECRET_PATTERNS, _is_false_positive, _mask_secret
-from lucin.models import Agent, Finding, Severity
+from lucin.models import Agent, EvidenceClass, Finding, Severity
 from lucin.owasp import owasp_ref
 
 
@@ -112,6 +112,7 @@ def _scan_file_for_env_fallbacks(filepath: str, agent_name: str) -> list[Finding
             ),
             source_file=filepath,
             source_line=node.lineno,
+            evidence_class=EvidenceClass.WITNESSED,
             witness=[f"os.getenv() fallback matches {matched_pattern['name']} at line {node.lineno}"],
         ))
 

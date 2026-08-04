@@ -15,6 +15,13 @@ class Severity(str, Enum):
     INFO = "info"
 
 
+class EvidenceClass(str, Enum):
+    WITNESSED = "witnessed"   # a line/witness the reader can open
+    INFERRED = "inferred"     # capability-composition, no single line
+    POSTURE = "posture"       # asserts an absence (no HITL, no telemetry)
+
+
+
 class ToolCapability(str, Enum):
     """What a tool can do."""
 
@@ -25,6 +32,43 @@ class ToolCapability(str, Enum):
     FILE_SYSTEM = "file_system"
     SPAWN_PROCESS = "spawn_process"
     MODIFY_AGENT = "modify_agent"
+
+
+class SkillCapability(str, Enum):
+    """Specific capabilities tracked for skills."""
+
+    REMOTE_FETCH = "remote_fetch"
+    DECODE = "decode"
+    DESERIALIZE = "deserialize"
+    EXEC = "exec"
+    EGRESS = "egress"
+    CREDENTIAL_READ = "credential_read"
+    FILESYSTEM_WRITE = "filesystem_write"
+
+
+class InstructionBlock(BaseModel):
+    """A block of natural language instructions from a skill."""
+
+    text: str
+    source_file: str
+    line_start: int
+    line_end: int
+
+
+class Skill(BaseModel):
+    """Metadata for an installable skill."""
+
+    name: str
+    declared_capabilities: list[str] = []
+    instructions: list[InstructionBlock] = []
+    scripts: list["Tool"] = []
+    observed_capabilities: list[SkillCapability] = []
+    frontmatter: dict = {}
+    dependencies: list[str] = []
+    source_file: str = ""
+    # Paths rejected (root-escape via symlink/`../`, or over size cap) during
+    # parsing. Populated instead of silently dropped — see skill_parser.py.
+    diagnostics: list[str] = []
 
 
 class Tool(BaseModel):
@@ -98,6 +142,10 @@ class Agent(BaseModel):
     # benchmark caught on 13 of 22 pure web apps.
     server_surface: bool = False
     source_file: str = ""
+    skill: Skill | None = None
+    # See also: `detectors_applicable` is set per agent during scanning.
+    detectors_applicable: int = 0
+    posture_findings_apply: bool = True
 
     @property
     def is_evidence_backed(self) -> bool:
@@ -129,6 +177,7 @@ class Finding(BaseModel):
     fix_suggestion: str = ""
     source_file: str = ""
     source_line: int = 0
+    evidence_class: EvidenceClass = EvidenceClass.INFERRED
     # Proof-witness: the evidence chain that produced this finding.
     # Format depends on the finding type:
     #   - AG-TRIFECTA: ["control: src → ... → sink", "data: src → ... → sink"]
@@ -239,11 +288,34 @@ class ScanMetadata(BaseModel):
     # construction and are intentionally 0 so a stale hardcoded number can never
     # be mistaken for a measured one.
     detection_rules_active: int = 0
+    detectors_applicable: int = 0
     secret_patterns_active: int = 0
     injection_patterns_active: int = 0
     body_inspection_enabled: bool = True
     import_alias_resolution: bool = True
     one_hop_call_following: bool = True
+
+    # --- Language coverage (H5) -------------------------------------------------
+    # Lucin enumerates ONLY `*.py` and `*.json` (plus skill Markdown/YAML and shell).
+    # A Rust, Go, Java, C# or TypeScript agent therefore yields zero candidate files —
+    # and used to render as "100/100 — Excellent / Clean Scan", with a badge
+    # invitation and `--ci` exit 0. Measured 2026-08-04 on a Rust agent containing
+    # `Command::new("sh").arg("-c").arg(user_cmd)` and a hardcoded `sk-proj-` key.
+    #
+    # That is the scan-level counterpart of the finding-level evidence gate: a
+    # finding nobody can check must not be CRITICAL, and *a scan that examined
+    # nothing must not score 100*. These fields let the reporter tell the two apart.
+    files_total: int = 0          # files seen under the target (vendored dirs pruned)
+    files_analysed: int = 0       # files a parser actually read
+    unsupported_extensions: dict[str, int] = {}   # ".rs" -> 200
+
+    @property
+    def analysed_nothing(self) -> bool:
+        """True when a directory scan read no files at all — verdict is UNKNOWN,
+        not clean. Deliberately False when `files_total` is 0 (a single-file scan
+        or an empty dir) so this cannot fire on targets where it means nothing."""
+        return self.files_total > 0 and self.files_analysed == 0
+
     # Non-fatal errors collected during crash-isolated parsing/detection (E1).
     diagnostics: list[str] = []
 
