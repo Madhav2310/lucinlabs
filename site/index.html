@@ -767,13 +767,18 @@ Process completed with exit code 1.</span>
     }
   });
 
-  /* ---- github star count (best-effort) ---- */
+  /* ---- github star count (best-effort, threshold-gated) ----
+     A star count is a trust signal above a threshold and a liability below one:
+     "★ 1" tells a visitor the project is unused, which is worse than telling
+     them nothing. Hidden until it clears MIN_STARS, then it appears on its own
+     with no code change. Threshold matches the launch gate's floor. */
+  var MIN_STARS = 25;
   var ghStars = document.getElementById("ghStars");
   if (ghStars) {
     fetch("https://api.github.com/repos/Madhav2310/lucinlabs")
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
-        if (d && typeof d.stargazers_count === "number" && d.stargazers_count > 0) {
+        if (d && typeof d.stargazers_count === "number" && d.stargazers_count >= MIN_STARS) {
           ghStars.textContent = "★ " + d.stargazers_count;
         }
       })
