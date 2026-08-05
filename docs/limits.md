@@ -31,7 +31,7 @@ agent is safe under all inputs.
 | **Java, Kotlin, C#, Go, Rust, Ruby, PHP, Swift, C/C++** | **Not supported.** Not enumerated |
 
 **A target with no supported files is reported as `NOT ANALYSED`, not as a clean scan.**
-No score is shown, no badge is offered, and `--ci` exits **2** (distinct from 1 =
+No score is shown, no badge is offered, and `--ci` exits **3** (distinct from 1 =
 "findings at or above threshold") so a pipeline can tell *unable to analyse* from
 *analysed and failed*. Every scan also prints a coverage line — `Analysed 1 of 201
 source files; 200 unsupported (.rs 200)` — whether coverage is complete or negligible.
@@ -167,5 +167,5 @@ Every number on this page regenerates:
 ```bash
 python benchmarks/recall_corpus.py        # 38/50 = 76%, per-class + false-negative list
 python benchmarks/build_benign_corpus.py  # 11 confirmed FP (outside a documented per-repo allowlist) / 54 repos / 9,520 files
-python -m pytest tests/ -q                # 553 passing
+python -m pytest tests/ -q                # 572 passing
 ```

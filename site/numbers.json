@@ -9,8 +9,8 @@
   "recall_classes": 10,
   "detectors_active": 30,
   "frameworks": 8,
-  "tests_passing": 553,
-  "unit_tests": "553 passing (15 skipped, 1 xfailed)",
+  "tests_passing": 572,
+  "unit_tests": "572 passing (15 skipped, 1 xfailed)",
   "behavioral_repos": 52,
   "behavioral_frameworks": 14,
   "behavioral_agents": 221

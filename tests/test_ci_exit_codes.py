@@ -17,7 +17,8 @@ Two production bugs lived on this path at once, both found 2026-08-04:
 THE CONTRACT
     exit 0  scanned successfully, nothing at or above the threshold
     exit 1  scanned successfully, findings at or above the threshold
-    exit 2  could not analyse the target, or the --fail-on value is invalid
+    exit 2  usage error (Typer/Click default) — e.g. an invalid --fail-on value
+    exit 3  could not analyse the target
 
 Exit 2 is deliberately distinct from 1 so a pipeline can tell "unable to analyse"
 apart from "analysed and failed" — they demand different responses.
@@ -60,8 +61,8 @@ def test_unanalysable_target_never_passes_ci(tmp_path):
     """A language we cannot read must not be reported to CI as passing."""
     (tmp_path / "main.rs").write_text(RUST_AGENT)
     result = runner.invoke(app, ["scan", str(tmp_path), "--ci", "--fail-on", "high"])
-    assert result.exit_code == 2, (
-        f"expected exit 2 (unable to analyse), got {result.exit_code}. "
+    assert result.exit_code == 3, (
+        f"expected exit 3 (unable to analyse), got {result.exit_code}. "
         "A Rust agent with a live command injection must not pass CI."
     )
 
