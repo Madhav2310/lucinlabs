@@ -30,6 +30,18 @@ const CHALLENGE = {
   },
 };
 
+// A wrong guess costs a second of wall clock. That is invisible when you
+// mistype once, and it turns an online brute force from thousands of attempts
+// per second into roughly one, which matters because the password is short and
+// this URL is public. It is a speed bump, not a lockout — put a Cloudflare rate
+// limiting rule on /dashboard/* if you want a real one.
+const FAIL_DELAY_MS = 1000;
+
+async function reject() {
+  await new Promise((r) => setTimeout(r, FAIL_DELAY_MS));
+  return new Response("auth required", CHALLENGE);
+}
+
 export async function onRequest({ request, env, next }) {
   if (!env.DASHBOARD_PASSWORD) {
     return new Response("dashboard not configured", { status: 503 });
@@ -42,11 +54,14 @@ export async function onRequest({ request, env, next }) {
   try {
     decoded = atob(header.slice(6));
   } catch {
-    return new Response("auth required", CHALLENGE);
+    return reject();
   }
-  const pass = decoded.slice(decoded.indexOf(":") + 1);   // username is ignored
-  if (!safeEqual(pass, env.DASHBOARD_PASSWORD)) {
-    return new Response("auth required", CHALLENGE);
+  // Compare the whole "user:pass" pair in one pass, so neither half leaks
+  // through response timing. DASHBOARD_USER is optional: unset means any
+  // username is accepted and only the password matters.
+  const expected = `${env.DASHBOARD_USER || decoded.slice(0, decoded.indexOf(":"))}:${env.DASHBOARD_PASSWORD}`;
+  if (!safeEqual(decoded, expected)) {
+    return reject();
   }
 
   const res = await next();
