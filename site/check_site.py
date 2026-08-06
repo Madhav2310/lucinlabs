@@ -55,7 +55,11 @@ BLOCKING_THIRD_PARTY = [
 
 def _html_files() -> list[Path]:
     # 404.html is a special error page: noindex, no canonical/OG/JSON-LD by design.
-    return sorted(p for p in SITE.rglob("*.html") if ".git" not in p.parts and p.name != "404.html")
+    # dashboard/ is private (Basic Auth + noindex + robots disallow), so SEO
+    # metadata would be meaningless there and a canonical would be wrong.
+    return sorted(p for p in SITE.rglob("*.html")
+                  if ".git" not in p.parts and p.name != "404.html"
+                  and "dashboard" not in p.parts)
 
 
 def check_page(path: Path) -> list[str]:

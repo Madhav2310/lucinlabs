@@ -13,12 +13,11 @@
 #   1. The table (already applied, kept here so it is reproducible):
 #        wrangler d1 execute lucin_telemetry --file=site/schema_telemetry.sql --remote
 #
-#   2. CLOUDFLARE_API_TOKEN needs **D1:Edit** in addition to Pages:Edit.
-#      deploy-site.yml only ever needed Pages:Edit, so the existing token fails
-#      here with "Authentication error [code: 10000]" against /d1/database.
-#      Cloudflare dashboard -> My Profile -> API Tokens -> edit the token ->
-#      add permission: Account | D1 | Edit.
-#      Until that is done the fetch succeeds and only the write step fails.
+#   2. A shared ingest secret, set in BOTH places under the same value:
+#        wrangler pages secret put PYPI_INGEST_TOKEN --project-name lucin
+#        gh secret set PYPI_INGEST_TOKEN
+#      No Cloudflare API token is needed: the job POSTs to /api/pypi, and that
+#      Worker already holds the D1 binding.
 #
 # pypistats.org publishes yesterday's numbers, so this runs after midnight UTC
 # and always asks for a window rather than a single day — a re-run overwrites
@@ -77,23 +76,24 @@ jobs:
               if d.get("date") and d.get("category"):
                   rows[(d["date"], f"py{d['category']}")] = d["downloads"]
 
-          def q(s):
-              return "'" + str(s).replace("'", "''") + "'"
-
-          stmts = [
-              "INSERT INTO pypi_downloads (day, category, downloads) VALUES "
-              f"({q(day)}, {q(cat)}, {int(n)}) "
-              "ON CONFLICT(day, category) DO UPDATE SET downloads=excluded.downloads;"
+          payload = {"rows": [
+              {"day": day, "category": cat, "downloads": int(n)}
               for (day, cat), n in sorted(rows.items())
-          ]
-          pathlib.Path("upsert.sql").write_text("\n".join(stmts) + "\n")
-          print(f"{len(stmts)} row(s) across {len({d for d, _ in rows})} day(s)")
+          ]}
+          pathlib.Path("payload.json").write_text(json.dumps(payload))
+          print(f"{len(payload['rows'])} row(s) across {len({d for d, _ in rows})} day(s)")
           EOF
 
-      - name: Write to D1
+      - name: Write to D1 via the site's ingest endpoint
         if: steps.fetch.outputs.skipped != '1'
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: d1 execute lucin_telemetry --file=upsert.sql --remote
+        env:
+          TOKEN: ${{ secrets.PYPI_INGEST_TOKEN }}
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o resp.json -w '%{http_code}' \
+            -X POST https://lucin.pages.dev/api/pypi \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" \
+            --data @payload.json)
+          echo "HTTP $code — $(cat resp.json)"
+          [ "$code" = "200" ]

@@ -41,3 +41,6 @@ User-agent: CCBot
 Allow: /
 
 Sitemap: https://lucin.pages.dev/sitemap.xml
+
+# Private stats page — Basic Auth protected, nothing to index here.
+Disallow: /dashboard/
