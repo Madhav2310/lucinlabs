@@ -39,6 +39,10 @@ And nobody audits it, because auditing the security tool feels like the thing th
 
 A scanner is a privileged process that reads everything and that no one questions. If you sat down to design a target, you would design that.
 
+```figure
+litellm-timeline
+```
+
 ## Which brings me to the uncomfortable part
 
 I build a security scanner.
@@ -65,6 +69,10 @@ My release pipeline is a GitHub Actions workflow holding a PyPI token. Which is 
 
 Being local does not fix that. Being open source does not fix that. What fixes it is pinning, provenance attestation, and you declining to extend trust you have not checked, including to me.
 
+```figure
+litellm-pth
+```
+
 ## What your dependency graph looks like from here
 
 If you build agents, LiteLLM is probably in your tree, and probably not because you chose it.
@@ -74,6 +82,10 @@ It is the routing layer underneath a large number of higher-level tools. You ins
 That is what makes the forty-minute window less reassuring than it sounds. Forty minutes is short for a human deciding to upgrade a library. It is not short for CI. An unpinned dependency, in a build that runs on every push, on a repository with any traffic at all, resolves to whatever is newest the moment it runs. A forty-minute window catches whoever happened to be building, and "whoever happened to be building" is not a small set when the ecosystem is this large and pipelines fire this often.
 
 Then PyPI quarantined the whole package, which broke installs for people who had done nothing wrong. That was the correct call, and it shows the second-order cost: the remediation for a compromised popular package is an outage for everybody who depends on it.
+
+```figure
+litellm-depgraph
+```
 
 ## The rule that fires on this
 
@@ -98,6 +110,10 @@ $ lucin scan .
   Location: requirements.txt:4
   Proof:    litellm (no version constraint)
   Fix:      litellm==1.82.6
+```
+
+```figure
+litellm-pinned
 ```
 
 ## If you were running anything in that window

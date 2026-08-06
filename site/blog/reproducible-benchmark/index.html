@@ -25,7 +25,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"TechArticle",
  "headline":"I published my false-positive rate and the command that regenerates it. Here is why almost nobody does.","description":"Every scanner publishes what it catches. Almost none publish a command you can run to check. Here is my false-positive count, the number that argues against it, and both commands.","url":"https://lucin.pages.dev/blog/reproducible-benchmark/",
- "datePublished":"2026-07-29",
+ "datePublished":"2026-07-31",
  "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
  "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/"}}
 </script>
@@ -169,6 +169,19 @@ p.post-sources em{font-style:normal}
 .post-cta .pill .prompt{color:#F0917F}
 .back-link{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
 .back-link:hover{color:var(--sev-crit)}
+</style><style>
+.fig{margin:40px 0;border-top:1px solid #E4E1DC;border-bottom:1px solid #E4E1DC;padding:26px 0}
+.fig svg{width:100%;height:auto;display:block;overflow:visible}
+.fig figcaption{font-size:13px;color:#6C7076;margin-top:18px;line-height:1.55;font-family:var(--mono)}
+.fig figcaption b{color:#141414;font-weight:600}
+.fig figcaption code{font-family:var(--mono);font-size:.94em;color:#141414}
+.fig .lbl{font-family:var(--mono);font-size:11px;fill:#6C7076}
+.fig .lbl-ink{font-family:var(--mono);font-size:11px;fill:#141414}
+.fig .lbl-sig{font-family:var(--mono);font-size:11px;fill:#D6321F}
+.fig .lbl-safe{font-family:var(--mono);font-size:11px;fill:#2E7D53}
+.fig .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.14em;fill:#6C7076}
+.fig .num{font-family:var(--mono);font-size:12px;fill:#141414}
+@media (max-width:620px){.fig svg{min-width:0}.fig figcaption{font-size:12px}}
 </style>
 
 <script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -179,7 +192,7 @@ p.post-sources em{font-style:normal}
   <div class="right"><button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){t.innerText='$ pip install lucin'},1600)" aria-label="Copy install command" style="cursor:pointer">$ pip install lucin</button></div>
 </div></nav><article style="max-width:760px;margin:0 auto;padding:40px 24px 0">
   <a class="back-link" href="/blog/">← All field notes</a>
-  <div class="post-meta-row"><span class="kicker">PROOF</span><span>29 JUL 2026</span><span>7 min read</span></div>
+  <div class="post-meta-row"><span class="kicker">PROOF</span><span>31 JUL 2026</span><span>7 min read</span></div>
   <h1 class="post-h1">I published my false-positive rate and the command that regenerates it. Here is why almost nobody does.</h1>
   <p class="post-dek">Every scanner publishes what it catches. Almost none publish a command you can run to check. Here is my false-positive count, the number that argues against it, and both commands.</p>
   <div class="post-rule"></div>
@@ -203,6 +216,14 @@ p.post-sources em{font-style:normal}
 
 <p class="post-p">The corpus is 54 real open-source repositories, not fixtures I wrote to be found: smolagents, CAMEL, LlamaIndex, mem0, txtai, autogen, agno, promptflow and others. The script clones them, runs every detector, and counts what survives adjudication. 380 confirmed true positives are excluded under the documented methodology, so they cannot quietly flatter the result.</p>
 <p class="post-p">Eleven was not free, and I did not get there by making the detectors timid. I got there by opening every false positive and fixing what produced it. An <code>execute</code> keyword that over-matched. A bare substring that fired on any FastAPI or Flask server. A database verb matching inside a docstring. Each of those was a rule that was technically correct and practically noise, and cutting them is the only reason a clean scan means anything.</p>
+<figure class="fig" id="fig-benchmark-two-questions">
+  <svg viewBox="0 0 664 206" role="img" aria-labelledby="benchmark-two-questions-t benchmark-two-questions-d">
+    <title id="benchmark-two-questions-t">Precision and recall answer different questions with different denominators</title>
+    <desc id="benchmark-two-questions-d">Precision divides by the findings the tool produced; recall divides by the vulnerabilities known to exist. Because the denominators differ, no single accuracy figure can stand in for both.</desc>
+    <text x="170" y="16" class="eyebrow" text-anchor="middle">PRECISION ASKS</text><text x="500" y="16" class="eyebrow" text-anchor="middle">RECALL ASKS</text><rect x="24" y="34" width="292" height="108" rx="3" fill="#FFFFFF" stroke="#141414" stroke-width="1.5"/><rect x="348" y="34" width="292" height="108" rx="3" fill="#FFFFFF" stroke="#141414" stroke-width="1.5"/><text x="170" y="66" class="lbl-ink" text-anchor="middle">of the things we flagged,</text><text x="170" y="86" class="lbl-ink" text-anchor="middle">how many were real?</text><text x="170" y="116" class="lbl" text-anchor="middle">denominator: our findings</text><text x="500" y="66" class="lbl-ink" text-anchor="middle">of the things that were real,</text><text x="500" y="86" class="lbl-ink" text-anchor="middle">how many did we flag?</text><text x="500" y="116" class="lbl" text-anchor="middle">denominator: known vulns</text><line x1="24" y1="166" x2="640" y2="166" stroke="#E4E1DC" stroke-width="1"/><text x="332" y="190" class="lbl-sig" text-anchor="middle">different denominators — a single accuracy number hides both</text>
+  </svg>
+  <figcaption><b>Figure 1 — Two questions, two denominators.</b> A vendor quoting one number is choosing which question you are allowed to ask.</figcaption>
+</figure>
 <h2 class="post-h">Now the number that cuts the other way</h2>
 <p class="post-p">Eleven false positives across 54 repositories sounds excellent. Print it alone and it is misleading, so here is what that corpus cannot tell you.</p>
 <p class="post-p">On a deliberately broader 81-repo population, precision is <strong>20.5 to 31.5%</strong> (n=73 clean-holdout adjudicated, 95% CI 12.9 to 42.9%).</p>
@@ -273,6 +294,14 @@ p.post-sources em{font-style:normal}
 </tbody>
 </table>
 </div>
+<figure class="fig" id="fig-benchmark-fp-corpus">
+  <svg viewBox="0 0 664 246" role="img" aria-labelledby="benchmark-fp-corpus-t benchmark-fp-corpus-d">
+    <title id="benchmark-fp-corpus-t">False positives across the 54-repository benign corpus</title>
+    <desc id="benchmark-fp-corpus-d">Each square is one repository. Forty-five produce no findings at all. Nine produce a total of eleven adjudicated false positives. The corpus was curated to be clean, which bounds what the result can be used to claim.</desc>
+    <text x="20" y="16" class="eyebrow" text-anchor="start">BENIGN CORPUS — 54 REAL REPOSITORIES, 9,520 FILES</text><rect x="24" y="44" width="24" height="24" rx="2" fill="#D6321F" stroke="#D6321F" stroke-width="1"/><rect x="58" y="44" width="24" height="24" rx="2" fill="#D6321F" stroke="#D6321F" stroke-width="1"/><rect x="92" y="44" width="24" height="24" rx="2" fill="#D6321F" stroke="#D6321F" stroke-width="1"/><rect x="126" y="44" width="24" height="24" rx="2" fill="#D6321F" stroke="#D6321F" stroke-width="1"/><rect x="160" y="44" width="24" height="24" rx="2" fill="#D6321F" stroke="#D6321F" stroke-width="1"/><rect x="194" y="44" width="24" height="24" rx="2" fill="#D6321F" stroke="#D6321F" stroke-width="1"/><rect x="228" y="44" width="24" height="24" rx="2" fill="#D6321F" stroke="#D6321F" stroke-width="1"/><rect x="262" y="44" width="24" height="24" rx="2" fill="#D6321F" stroke="#D6321F" stroke-width="1"/><rect x="296" y="44" width="24" height="24" rx="2" fill="#D6321F" stroke="#D6321F" stroke-width="1"/><rect x="330" y="44" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="364" y="44" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="398" y="44" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="432" y="44" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="466" y="44" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="500" y="44" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="534" y="44" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="568" y="44" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="602" y="44" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="24" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="58" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="92" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="126" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="160" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="194" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="228" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="262" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="296" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="330" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="364" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="398" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="432" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="466" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="500" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="534" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="568" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="602" y="78" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="24" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="58" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="92" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="126" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="160" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="194" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="228" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="262" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="296" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="330" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="364" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="398" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="432" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="466" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="500" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="534" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="568" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><rect x="602" y="112" width="24" height="24" rx="2" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><text x="24" y="168" class="lbl-ink" text-anchor="start">45 of 54 scan completely clean</text><text x="24" y="190" class="lbl-sig" text-anchor="start">9 repos produced 11 adjudicated false positives</text><line x1="24" y1="208" x2="640" y2="208" stroke="#E4E1DC" stroke-width="1"/><text x="24" y="230" class="lbl" text-anchor="start">This answers one question — how noisy is Lucin on code chosen to be clean — and no others.</text>
+  </svg>
+  <figcaption><b>Figure 2 — A good number, on a corpus chosen to be clean.</b> Regenerate: <code>python benchmarks/build_benign_corpus.py</code></figcaption>
+</figure>
 <h2 class="post-h">The zero I am proudest of</h2>
 <p class="post-p">Look at the last row again. Zero percent. Not because I could not build it.</p>
 <p class="post-p">I did build it. It works. It has unit tests. It catches real bugs.</p>

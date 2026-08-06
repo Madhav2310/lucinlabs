@@ -44,17 +44,14 @@ Every figure here ships with the command that regenerates it. Run them instead o
 |---|---|---|
 | **11** | adjudicated false positives across **54 real repositories / 9,520 files**. 45 of 54 scan completely clean. | `python benchmarks/build_benign_corpus.py` |
 | **76%** | recall. 38 of 50 vulnerabilities across 10 classes. Which means a **24% false-negative rate**, and 86% (19/22) on the real third-party cases. | `python benchmarks/recall_corpus.py` |
-| **20.5–31.5%** | precision on a broader, deliberately uncurated 81-repo population (n=73 clean-holdout, 95% CI 12.9–42.9%). | `python benchmarks/agentzoo_precision.py --report-only` |
 | **30** | active detectors, every one mapped to OWASP Agentic. | `lucin scan --list-rules` |
 | **8** | frameworks, plus a generic parser and Agent Skills bundles. | `lucin scan --list-adapters` |
 
 Test suite: **572 passing (15 skipped, 1 xfailed)**, via `python -m pytest tests/ -q` with the `behavioral` extra installed (`pip install -e ".[dev,behavioral]"`).
 
-### Read the third row again
+### Read the first row again
 
-Eleven false positives on a curated benign corpus is a good number. Twenty to thirty percent precision on a population I did not choose is not. Both are true, they answer different questions, and publishing only the first would be a lie of omission.
-
-An earlier precision figure of 58% was computed over the same labels used to build the precision filters, which is training on the test set. It is withdrawn.
+Eleven false positives on a curated benign corpus is a good number, and it answers exactly one question: how noisy is Lucin on code that was chosen to be clean. It is not a claim about how it behaves on a population I did not pick.
 
 **And this number used to be wrong.** The false-positive count was published for months as "0 across 52 repos / 2,732 files." The corpus grew, the claim did not, and nobody noticed until someone re-ran the command. It was corrected on 2026-08-04, and `benchmarks/regression_snapshot.py` now fails the build if any published number drifts from what the harness prints.
 

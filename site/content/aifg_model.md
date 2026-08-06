@@ -49,6 +49,10 @@ Minimum on integrity, maximum on confidentiality. One tainted input taints the r
 
 That choice is not stylistic. The join is monotone in both components, so the labelling of a graph is a monotone function on a finite lattice, and by Knaster-Tarski a least fixed point exists and iteration reaches it. In practice: label propagation terminates, and it terminates at the same answer regardless of the order you visit nodes in. A model whose result depends on traversal order is not a model, it is a heuristic with extra steps.
 
+```figure
+aifg-lattice
+```
+
 ## 3. The trifecta, as labelled reachability
 
 Simon Willison's lethal trifecta names the condition informally: an agent is exposed to exfiltration by injection when it has access to private data, exposure to untrusted content, and the ability to communicate externally.
@@ -96,6 +100,10 @@ Split every node into `v_in → v_out`. Give that internal edge capacity 1 if th
 The output is a sentence a person can act on: *restrict these two tools and every exfiltration path in this agent is severed.* Not a ranked list of forty findings. A cut.
 
 **A caveat I would rather state than have found.** The cut is computed only over trifecta paths. Measured on the current baseline, `AG-TRIFECTA` accounts for **21 of 701 findings across 21 of 658 targets**, roughly 3%. So this is the minimal provable fix for the exfiltration class, and it is not "the minimum set of changes that eliminates your findings." The three highest-volume rules are not covered by it at all. The graph layer appears to be uncontested (a grep for `min_cut|max_flow|lattice|IFC` across the two nearest open-source scanners I cloned and read, `agent-audit` and `SkillSpector`, returns zero hits in either), but its blast radius is narrow and a claim that does not say so is dishonest.
+
+```figure
+aifg-mincut
+```
 
 ## 5. What the model provably cannot decide
 

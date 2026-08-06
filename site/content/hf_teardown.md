@@ -18,6 +18,10 @@ Then the part that makes this worth writing about. The attacker was not a person
 
 Detection came last and came backwards. Hugging Face's own anomaly-detection pipeline surfaced the intrusion by reconstructing, afterwards, what 17,600 actions had already done.
 
+```figure
+hf-flow
+```
+
 ## Now take the interesting parts away
 
 Both parties were AI labs. One of the largest model repositories on the internet, and a frontier lab's evaluation harness. Delete all of that and read what is left.
@@ -82,6 +86,10 @@ And it does not matter how the agent was talked into walking the path, which is 
 So stop counting the breach as 17,600 events. Draw it as a graph instead. Tools are nodes. Dataflow is edges. Somewhere in that graph is exactly one edge that should never have been permitted to complete: the one carrying untrusted-controlled data into an external sink.
 
 I call it the Agent Information-Flow Graph, and the name does not matter. The reframe does. Hugging Face did not have 17,600 problems. It had one edge, walked 17,600 times, because nothing was watching the flow.
+
+```figure
+hf-mincut
+```
 
 ## Why the usual defences never saw it
 

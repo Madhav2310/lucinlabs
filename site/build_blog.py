@@ -30,6 +30,7 @@ import re
 import sys
 from pathlib import Path
 
+import figures
 from markdown_it import MarkdownIt
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -44,21 +45,24 @@ from build import _CSS, _LOGO_SVG, NAV  # noqa: E402  (reuse the one template's 
 #  meta description. date_modified is None unless the post was substantively
 #  corrected after publication — see dateModified in the JSON-LD.)
 POSTS: list[tuple[str, str, str, str, str, str, str | None]] = [
-    ("hugging-face-agent-breach", "site/content/hf_teardown.md", "TEARDOWN", "29 JUL 2026", "9 min read",
-     "A malicious dataset, a tool that runs code, a credential read, an outbound call. Four ordinary tools, none of them a mistake on its own. Drawn as a graph, they are one edge, walked 17,600 times.",
-     "03 AUG 2026"),  # corrected: action count, timeframe, attacker description, detection framing
-    ("litellm-supply-chain-compromise", "site/content/litellm_teardown.md", "TEARDOWN", "25 JUL 2026", "9 min read",
-     "A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.",
-     None),
+    ("scanner-benchmark-proposal", "site/content/scanner-benchmark-proposal.md", "POSITION", "06 AUG 2026", "9 min read",
+     "Every agent security tool grades its own homework. A proposal for an open benchmark, and our own scores on it", None),
     ("agent-information-flow-graph", "site/content/aifg_model.md", "METHOD", "05 AUG 2026", "11 min read",
-     "The lattice, the reachability query, and the min vertex cut, in 985 lines. Plus the one question the static model provably cannot answer, which is where the runtime half has to begin.",
-     None),
-    ("lethal-trifecta", "site/content/blog_lethal_trifecta.md", "METHOD", "29 JUL 2026", "7 min read",
-     "Private data, untrusted content, external reach. Any one is fine, all three is an incident. Open your tool file: this is the ten-minute pass that tells you which edges to cut and which to gate.",
-     None),
-    ("reproducible-benchmark", "site/content/blog_reproducible_benchmark.md", "PROOF", "29 JUL 2026", "7 min read",
-     "Every scanner publishes what it catches. Almost none publish a command you can run to check. Here is my false-positive count, the number that argues against it, and both commands.",
-     None),
+     "The lattice, the reachability query, and the min vertex cut, in 985 lines. Plus the one question the static model provably cannot answer, which is where the runtime half has to begin.", None),
+    ("langchain-cve-teardown", "site/content/langchain-cve-teardown.md", "TEARDOWN", "04 AUG 2026", "8 min read",
+     "Three LangChain and LangGraph CVEs, what each one actually does, and why the kill chain you have read about does not exist", None),
+    ("prose-is-executable", "site/content/prose-is-executable.md", "ESSAY", "03 AUG 2026", "7 min read",
+     "The payload in CVE-2026-25724 was a comment in a README, which makes natural language an execution path", None),
+    ("twelve-misses", "site/content/twelve-misses.md", "PROOF", "01 AUG 2026", "9 min read",
+     "76% recall, the twelve cases that get past us, and the detector we switched off on purpose", None),
+    ("reproducible-benchmark", "site/content/blog_reproducible_benchmark.md", "PROOF", "31 JUL 2026", "7 min read",
+     "Every scanner publishes what it catches. Almost none publish a command you can run to check. Here is my false-positive count, the number that argues against it, and both commands.", None),
+    ("hugging-face-agent-breach", "site/content/hf_teardown.md", "TEARDOWN", "29 JUL 2026", "9 min read",
+     "A malicious dataset, a tool that runs code, a credential read, an outbound call. Four ordinary tools, none of them a mistake on its own. Drawn as a graph, they are one edge, walked 17,600 times.", '03 AUG 2026'),
+    ("lethal-trifecta", "site/content/blog_lethal_trifecta.md", "METHOD", "27 JUL 2026", "7 min read",
+     "Private data, untrusted content, external reach. Any one is fine, all three is an incident. Open your tool file: this is the ten-minute pass that tells you which edges to cut and which to gate.", None),
+    ("litellm-supply-chain-compromise", "site/content/litellm_teardown.md", "TEARDOWN", "25 JUL 2026", "9 min read",
+     "A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.", None),
 ]
 
 
@@ -104,6 +108,12 @@ def _split_blocks(text: str) -> list[tuple[str, str]]:
             group = tokens[i:j + 1]
             blocks.append((tag, _md.renderer.render(group, _md.options, {})))
             i = j + 1
+        elif t.type == "fence" and t.info.strip() == "figure":
+            # A ```figure fence names a figure id; figures.py owns the geometry.
+            # Raw <figure> HTML in the source cannot work here: markdown-it runs
+            # with html=False and _render_blocks drops unknown tags silently.
+            blocks.append(("figure", figures.render(t.content)))
+            i += 1
         elif t.type in _ATOMIC:
             blocks.append((_ATOMIC[t.type], _md.renderer.render([t], _md.options, {})))
             i += 1
@@ -150,6 +160,8 @@ def _render_blocks(blocks: list[tuple[str, str]]) -> str:
             out.append(outer.replace(f"<{tag}>", f'<{tag} class="post-list">', 1))
         elif tag == "pre":
             out.append(outer.replace("<pre>", '<pre class="post-code">', 1))
+        elif tag == "figure":
+            out.append(outer)
         elif tag == "table":
             out.append(f'<div class="post-table-wrap">{outer}</div>')
     if sources_html:
@@ -214,7 +226,7 @@ p.post-sources em{font-style:normal}
 .post-cta .pill .prompt{color:#F0917F}
 .back-link{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
 .back-link:hover{color:var(--sev-crit)}
-</style>"""
+</style>""" + figures.CSS
 
 
 def _head(title: str, desc: str, url: str, date_published: str = "", date_modified: str = "", css: str = "") -> str:
