@@ -168,6 +168,19 @@ p.post-sources em{font-style:normal}
 .post-cta .pill .prompt{color:#F0917F}
 .back-link{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
 .back-link:hover{color:var(--sev-crit)}
+</style><style>
+.fig{margin:40px 0;border-top:1px solid #E4E1DC;border-bottom:1px solid #E4E1DC;padding:26px 0}
+.fig svg{width:100%;height:auto;display:block;overflow:visible}
+.fig figcaption{font-size:13px;color:#6C7076;margin-top:18px;line-height:1.55;font-family:var(--mono)}
+.fig figcaption b{color:#141414;font-weight:600}
+.fig figcaption code{font-family:var(--mono);font-size:.94em;color:#141414}
+.fig .lbl{font-family:var(--mono);font-size:11px;fill:#6C7076}
+.fig .lbl-ink{font-family:var(--mono);font-size:11px;fill:#141414}
+.fig .lbl-sig{font-family:var(--mono);font-size:11px;fill:#D6321F}
+.fig .lbl-safe{font-family:var(--mono);font-size:11px;fill:#2E7D53}
+.fig .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.14em;fill:#6C7076}
+.fig .num{font-family:var(--mono);font-size:12px;fill:#141414}
+@media (max-width:620px){.fig svg{min-width:0}.fig figcaption{font-size:12px}}
 </style>
 <style>
 .blog-hero{max-width:1000px;margin:0 auto;padding:56px 24px 0}
@@ -197,19 +210,12 @@ p.post-sources em{font-style:normal}
   <p>Teardowns of real incidents, the graph theory behind the detectors, and the benchmark numbers with the commands that produce them.</p>
 </div>
 <div class="blog-list">
-<a href="/blog/hugging-face-agent-breach/" class="blog-row">
-  <div class="blog-row-meta"><div class="k">TEARDOWN</div><div>29 JUL 2026</div><div>9 min read</div></div>
+<a href="/blog/scanner-benchmark-proposal/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">POSITION</div><div>06 AUG 2026</div><div>9 min read</div></div>
   <div>
-    <div class="blog-row-title">17,600 actions, 2.5 days, nobody watching: anatomy of the Hugging Face agent breach</div>
-    <p class="blog-row-dek">A malicious dataset, a tool that runs code, a credential read, an outbound call. Four ordinary tools, none of them a mistake on its own. Drawn as a graph, they are one edge, walked 17,600 times.</p>
-    <div class="blog-row-cta">Read the teardown →</div>
-  </div>
-</a><a href="/blog/litellm-supply-chain-compromise/" class="blog-row">
-  <div class="blog-row-meta"><div class="k">TEARDOWN</div><div>25 JUL 2026</div><div>9 min read</div></div>
-  <div>
-    <div class="blog-row-title">The attack chain started by compromising a security scanner</div>
-    <p class="blog-row-dek">A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.</p>
-    <div class="blog-row-cta">Read the teardown →</div>
+    <div class="blog-row-title">Every agent security tool grades its own homework</div>
+    <p class="blog-row-dek">Every agent security tool grades its own homework. A proposal for an open benchmark, and our own scores on it</p>
+    <div class="blog-row-cta">Read the write-up →</div>
   </div>
 </a><a href="/blog/agent-information-flow-graph/" class="blog-row">
   <div class="blog-row-meta"><div class="k">METHOD</div><div>05 AUG 2026</div><div>11 min read</div></div>
@@ -218,19 +224,54 @@ p.post-sources em{font-style:normal}
     <p class="blog-row-dek">The lattice, the reachability query, and the min vertex cut, in 985 lines. Plus the one question the static model provably cannot answer, which is where the runtime half has to begin.</p>
     <div class="blog-row-cta">Read the explainer →</div>
   </div>
+</a><a href="/blog/langchain-cve-teardown/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">TEARDOWN</div><div>04 AUG 2026</div><div>8 min read</div></div>
+  <div>
+    <div class="blog-row-title">Your agent framework has three CVEs. Here is what each one actually does.</div>
+    <p class="blog-row-dek">Three LangChain and LangGraph CVEs, what each one actually does, and why the kill chain you have read about does not exist</p>
+    <div class="blog-row-cta">Read the teardown →</div>
+  </div>
+</a><a href="/blog/prose-is-executable/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">ESSAY</div><div>03 AUG 2026</div><div>7 min read</div></div>
+  <div>
+    <div class="blog-row-title">Prose is executable</div>
+    <p class="blog-row-dek">The payload in CVE-2026-25724 was a comment in a README, which makes natural language an execution path</p>
+    <div class="blog-row-cta">Read the write-up →</div>
+  </div>
+</a><a href="/blog/twelve-misses/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">PROOF</div><div>01 AUG 2026</div><div>9 min read</div></div>
+  <div>
+    <div class="blog-row-title">We publish our misses. Here are all twelve.</div>
+    <p class="blog-row-dek">76% recall, the twelve cases that get past us, and the detector we switched off on purpose</p>
+    <div class="blog-row-cta">Read the write-up →</div>
+  </div>
+</a><a href="/blog/reproducible-benchmark/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">PROOF</div><div>31 JUL 2026</div><div>7 min read</div></div>
+  <div>
+    <div class="blog-row-title">I published my false-positive rate and the command that regenerates it. Here is why almost nobody does.</div>
+    <p class="blog-row-dek">Every scanner publishes what it catches. Almost none publish a command you can run to check. Here is my false-positive count, the number that argues against it, and both commands.</p>
+    <div class="blog-row-cta">Read the write-up →</div>
+  </div>
+</a><a href="/blog/hugging-face-agent-breach/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">TEARDOWN</div><div>29 JUL 2026</div><div>9 min read</div></div>
+  <div>
+    <div class="blog-row-title">17,600 actions, 2.5 days, nobody watching: anatomy of the Hugging Face agent breach</div>
+    <p class="blog-row-dek">A malicious dataset, a tool that runs code, a credential read, an outbound call. Four ordinary tools, none of them a mistake on its own. Drawn as a graph, they are one edge, walked 17,600 times.</p>
+    <div class="blog-row-cta">Read the teardown →</div>
+  </div>
 </a><a href="/blog/lethal-trifecta/" class="blog-row">
-  <div class="blog-row-meta"><div class="k">METHOD</div><div>29 JUL 2026</div><div>7 min read</div></div>
+  <div class="blog-row-meta"><div class="k">METHOD</div><div>27 JUL 2026</div><div>7 min read</div></div>
   <div>
     <div class="blog-row-title">The lethal trifecta for AI agents, and how to actually cut it</div>
     <p class="blog-row-dek">Private data, untrusted content, external reach. Any one is fine, all three is an incident. Open your tool file: this is the ten-minute pass that tells you which edges to cut and which to gate.</p>
     <div class="blog-row-cta">Read the explainer →</div>
   </div>
-</a><a href="/blog/reproducible-benchmark/" class="blog-row">
-  <div class="blog-row-meta"><div class="k">PROOF</div><div>29 JUL 2026</div><div>7 min read</div></div>
+</a><a href="/blog/litellm-supply-chain-compromise/" class="blog-row">
+  <div class="blog-row-meta"><div class="k">TEARDOWN</div><div>25 JUL 2026</div><div>9 min read</div></div>
   <div>
-    <div class="blog-row-title">I published my false-positive rate and the command that regenerates it. Here is why almost nobody does.</div>
-    <p class="blog-row-dek">Every scanner publishes what it catches. Almost none publish a command you can run to check. Here is my false-positive count, the number that argues against it, and both commands.</p>
-    <div class="blog-row-cta">Read the write-up →</div>
+    <div class="blog-row-title">The attack chain started by compromising a security scanner</div>
+    <p class="blog-row-dek">A credential harvester in a library with 95 million monthly downloads. The way in was a security scanner, which is the reason this post spends a section on why you should not trust mine.</p>
+    <div class="blog-row-cta">Read the teardown →</div>
   </div>
 </a>
 </div>

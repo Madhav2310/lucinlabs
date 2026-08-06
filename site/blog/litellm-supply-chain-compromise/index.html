@@ -169,6 +169,19 @@ p.post-sources em{font-style:normal}
 .post-cta .pill .prompt{color:#F0917F}
 .back-link{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
 .back-link:hover{color:var(--sev-crit)}
+</style><style>
+.fig{margin:40px 0;border-top:1px solid #E4E1DC;border-bottom:1px solid #E4E1DC;padding:26px 0}
+.fig svg{width:100%;height:auto;display:block;overflow:visible}
+.fig figcaption{font-size:13px;color:#6C7076;margin-top:18px;line-height:1.55;font-family:var(--mono)}
+.fig figcaption b{color:#141414;font-weight:600}
+.fig figcaption code{font-family:var(--mono);font-size:.94em;color:#141414}
+.fig .lbl{font-family:var(--mono);font-size:11px;fill:#6C7076}
+.fig .lbl-ink{font-family:var(--mono);font-size:11px;fill:#141414}
+.fig .lbl-sig{font-family:var(--mono);font-size:11px;fill:#D6321F}
+.fig .lbl-safe{font-family:var(--mono);font-size:11px;fill:#2E7D53}
+.fig .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.14em;fill:#6C7076}
+.fig .num{font-family:var(--mono);font-size:12px;fill:#141414}
+@media (max-width:620px){.fig svg{min-width:0}.fig figcaption{font-size:12px}}
 </style>
 
 <script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -208,6 +221,14 @@ p.post-sources em{font-style:normal}
 <p class="post-p">That works for a structural reason rather than an accidental one, and it is worth spelling out. Think about what a scanner needs in order to do its job in your pipeline. It runs on every commit, so it runs with your CI's privileges. It reads your entire source tree, including files your application never touches. It frequently needs registry credentials to resolve dependencies. It often needs a token to write results back to your pull requests.</p>
 <p class="post-p">And nobody audits it, because auditing the security tool feels like the thing the security tool was supposed to do for you.</p>
 <p class="post-p">A scanner is a privileged process that reads everything and that no one questions. If you sat down to design a target, you would design that.</p>
+<figure class="fig" id="fig-litellm-timeline">
+  <svg viewBox="0 0 620 164" role="img" aria-labelledby="litellm-timeline-t litellm-timeline-d">
+    <title id="litellm-timeline-t">TeamPCP campaign timeline, 19 to 27 March 2026</title>
+    <desc id="litellm-timeline-d">Four compromises in nine days: Trivy on 19 March, Checkmarx AST GitHub Actions on 21 March, LiteLLM on 24 March, telnyx on 27 March. The entry point into LiteLLM was Trivy, the security scanner running in its pipeline.</desc>
+    <text x="300" y="16" class="eyebrow" text-anchor="middle">TEAMPCP — FOUR COMPROMISES IN NINE DAYS</text><line x1="44" y1="66" x2="580" y2="66" stroke="#E4E1DC" stroke-width="1.5"/><circle cx="64" cy="66" r="7" fill="#141414" stroke="#141414" stroke-width="0"/><text x="64" y="46" class="eyebrow" text-anchor="middle">19 MAR</text><text x="64" y="92" class="lbl-ink" text-anchor="middle">Trivy</text><text x="64" y="110" class="lbl" text-anchor="middle">the scanner in</text><text x="64" y="123" class="lbl" text-anchor="middle">LiteLLM&#x27;s own CI</text><line x1="73" y1="66" x2="213" y2="66" stroke="#141414" stroke-width="1.5"/><circle cx="222" cy="66" r="7" fill="#141414" stroke="#141414" stroke-width="0"/><text x="222" y="46" class="eyebrow" text-anchor="middle">21 MAR</text><text x="222" y="92" class="lbl-ink" text-anchor="middle">Checkmarx AST</text><text x="222" y="110" class="lbl" text-anchor="middle">GitHub Actions</text><line x1="231" y1="66" x2="371" y2="66" stroke="#141414" stroke-width="1.5"/><circle cx="380" cy="66" r="7" fill="#D6321F" stroke="#D6321F" stroke-width="0"/><text x="380" y="46" class="eyebrow" text-anchor="middle">24 MAR</text><text x="380" y="92" class="lbl-sig" text-anchor="middle">LiteLLM</text><text x="380" y="110" class="lbl" text-anchor="middle">95M downloads/mo</text><line x1="389" y1="66" x2="529" y2="66" stroke="#D6321F" stroke-width="1.5"/><circle cx="538" cy="66" r="7" fill="#141414" stroke="#141414" stroke-width="0"/><text x="538" y="46" class="eyebrow" text-anchor="middle">27 MAR</text><text x="538" y="92" class="lbl-ink" text-anchor="middle">telnyx</text><text x="538" y="110" class="lbl" text-anchor="middle">downstream</text><line x1="64" y1="136" x2="380" y2="136" stroke="#D6321F" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/><text x="222" y="152" class="lbl-sig" text-anchor="middle">the scanner was the way in</text>
+  </svg>
+  <figcaption><b>Figure 1 — The way into LiteLLM was a security scanner.</b> That is the uncomfortable part, and it is the strongest available argument for a local, auditable, MIT-licensed scanner over a SaaS agent holding CI credentials.</figcaption>
+</figure>
 <h2 class="post-h">Which brings me to the uncomfortable part</h2>
 <p class="post-p">I build a security scanner.</p>
 <p class="post-p">It is called Lucin. It reads the code inside AI agents' tools and traces paths from untrusted input to dangerous actions. Install it in your CI and it will run on every commit, with your CI's privileges, across your whole source tree.</p>
@@ -221,11 +242,27 @@ p.post-sources em{font-style:normal}
 <p class="post-p">So here is what the argument does not cover. None of those four properties would have saved you from the LiteLLM compromise, because that attack did not come through the scanner's <em>design</em>. It came through the scanner's <em>release pipeline</em>.</p>
 <p class="post-p">My release pipeline is a GitHub Actions workflow holding a PyPI token. Which is a smaller version of precisely the thing that failed.</p>
 <p class="post-p">Being local does not fix that. Being open source does not fix that. What fixes it is pinning, provenance attestation, and you declining to extend trust you have not checked, including to me.</p>
+<figure class="fig" id="fig-litellm-pth">
+  <svg viewBox="0 0 620 252" role="img" aria-labelledby="litellm-pth-t litellm-pth-d">
+    <title id="litellm-pth-t">The .pth autorun mechanism</title>
+    <desc id="litellm-pth-d">An unpinned install resolves to the malicious version. Its sdist writes a .pth file into site-packages. Python&#x27;s site module executes any .pth line starting with import, at interpreter startup, before user code runs.</desc>
+    <text x="300" y="16" class="eyebrow" text-anchor="middle">WHY A .PTH FILE RUNS BEFORE YOUR FIRST IMPORT</text><rect x="40" y="46" width="14" height="14" rx="0" fill="#141414"/><text x="70" y="58" class="lbl-ink" text-anchor="start">pip install litellm</text><text x="330" y="58" class="lbl" text-anchor="start">unpinned resolve picks 1.82.7</text><line x1="47" y1="64" x2="47" y2="79.2" stroke="#E4E1DC" stroke-width="1.5"/><polygon points="47,86 43,79.2 51,79.2" fill="#E4E1DC"/><rect x="40" y="90" width="14" height="14" rx="0" fill="#141414"/><text x="70" y="102" class="lbl-ink" text-anchor="start">sdist ships a .pth file</text><text x="330" y="102" class="lbl" text-anchor="start">written into site-packages/</text><line x1="47" y1="108" x2="47" y2="123.2" stroke="#E4E1DC" stroke-width="1.5"/><polygon points="47,130 43,123.2 51,123.2" fill="#E4E1DC"/><rect x="40" y="134" width="14" height="14" rx="0" fill="#D69A1F"/><text x="70" y="146" class="lbl-ink" text-anchor="start">python starts</text><text x="330" y="146" class="lbl" text-anchor="start">site.py executes every .pth line</text><line x1="47" y1="152" x2="47" y2="167.2" stroke="#E4E1DC" stroke-width="1.5"/><polygon points="47,174 43,167.2 51,167.2" fill="#E4E1DC"/><rect x="40" y="178" width="14" height="14" rx="0" fill="#D6321F"/><text x="70" y="190" class="lbl-ink" text-anchor="start">harvester runs</text><text x="330" y="190" class="lbl" text-anchor="start">before any import in your code</text><line x1="28" y1="218" x2="580" y2="218" stroke="#E4E1DC" stroke-width="1"/><text x="40" y="238" class="lbl" text-anchor="start">A .pth line beginning with &#x27;import&#x27; is executed by the interpreter at startup.</text>
+  </svg>
+  <figcaption><b>Figure 2 — The payload never needed you to import it.</b> A <code>.pth</code> line runs at interpreter startup, which is why 'we don't call that library directly' is not a mitigation.</figcaption>
+</figure>
 <h2 class="post-h">What your dependency graph looks like from here</h2>
 <p class="post-p">If you build agents, LiteLLM is probably in your tree, and probably not because you chose it.</p>
 <p class="post-p">It is the routing layer underneath a large number of higher-level tools. You install a framework, the framework wants a provider-agnostic gateway, and <code>litellm</code> arrives transitively. Ninety-five million downloads a month is not ninety-five million decisions. It is a small number of decisions multiplied by everything downstream of them.</p>
 <p class="post-p">That is what makes the forty-minute window less reassuring than it sounds. Forty minutes is short for a human deciding to upgrade a library. It is not short for CI. An unpinned dependency, in a build that runs on every push, on a repository with any traffic at all, resolves to whatever is newest the moment it runs. A forty-minute window catches whoever happened to be building, and &quot;whoever happened to be building&quot; is not a small set when the ecosystem is this large and pipelines fire this often.</p>
 <p class="post-p">Then PyPI quarantined the whole package, which broke installs for people who had done nothing wrong. That was the correct call, and it shows the second-order cost: the remediation for a compromised popular package is an outage for everybody who depends on it.</p>
+<figure class="fig" id="fig-litellm-depgraph">
+  <svg viewBox="0 0 620 224" role="img" aria-labelledby="litellm-depgraph-t litellm-depgraph-d">
+    <title id="litellm-depgraph-t">LiteLLM&#x27;s position beneath the agent ecosystem</title>
+    <desc id="litellm-depgraph-d">Four kinds of downstream consumer — an agent app, an MCP server, an orchestrator and a notebook — all resolve litellm transitively. With no version pin, each of them selects the newest release available.</desc>
+    <text x="300" y="16" class="eyebrow" text-anchor="middle">UNPINNED — RESOLVES TO WHATEVER IS NEWEST</text><rect x="81.0" y="50.0" width="30" height="24" rx="0" fill="#141414"/><text x="96" y="42" class="lbl" text-anchor="middle">agent app</text><line x1="96" y1="76" x2="300" y2="132" stroke="#D6321F" stroke-width="1.2"/><rect x="217.0" y="50.0" width="30" height="24" rx="0" fill="#141414"/><text x="232" y="42" class="lbl" text-anchor="middle">MCP server</text><line x1="232" y1="76" x2="300" y2="132" stroke="#D6321F" stroke-width="1.2"/><rect x="353.0" y="50.0" width="30" height="24" rx="0" fill="#141414"/><text x="368" y="42" class="lbl" text-anchor="middle">orchestrator</text><line x1="368" y1="76" x2="300" y2="132" stroke="#D6321F" stroke-width="1.2"/><rect x="489.0" y="50.0" width="30" height="24" rx="0" fill="#141414"/><text x="504" y="42" class="lbl" text-anchor="middle">notebook</text><line x1="504" y1="76" x2="300" y2="132" stroke="#D6321F" stroke-width="1.2"/><rect x="238" y="132" width="124" height="34" rx="2" fill="#D6321F"/><text x="300" y="154" class="lbl" fill="#fff" text-anchor="middle" font-size="12">litellm</text><text x="300" y="188" class="lbl-sig" text-anchor="middle">litellm  (any)</text><text x="300" y="208" class="lbl" text-anchor="middle">1.82.7 is selected for 40 minutes</text>
+  </svg>
+  <figcaption><b>Figure 3 — One unpinned edge, four blast radii.</b> None of these projects depends on <code>litellm</code> deliberately; they depend on something that does.</figcaption>
+</figure>
 <h2 class="post-h">The rule that fires on this</h2>
 <p class="post-p">Lucin has a detector called <code>AG-FRAMEWORK-PIN</code>. It is small and unglamorous. It looks at how your agent's framework dependencies are specified and flags the ones that are not pinned. Severity medium. The kind of finding people close without reading.</p>
 <p class="post-p">In March 2026 that exact configuration was the delivery mechanism for a credential harvester in a library with 95 million monthly downloads.</p>
@@ -242,6 +279,14 @@ p.post-sources em{font-style:normal}
   Fix:      litellm==1.82.6
 </code></pre>
 
+<figure class="fig" id="fig-litellm-pinned">
+  <svg viewBox="0 0 620 224" role="img" aria-labelledby="litellm-pinned-t litellm-pinned-d">
+    <title id="litellm-pinned-t">The same dependency graph with a version pin applied</title>
+    <desc id="litellm-pinned-d">With litellm pinned to 1.82.6, the malicious 1.82.7 release cannot be selected by any of the four downstream consumers. The graph is unchanged; only the resolution rule differs.</desc>
+    <text x="300" y="16" class="eyebrow" text-anchor="middle">PINNED — RESOLVES TO A KNOWN VERSION</text><rect x="81.0" y="50.0" width="30" height="24" rx="0" fill="#141414"/><text x="96" y="42" class="lbl" text-anchor="middle">agent app</text><line x1="96" y1="76" x2="300" y2="132" stroke="#E4E1DC" stroke-width="1.2"/><rect x="217.0" y="50.0" width="30" height="24" rx="0" fill="#141414"/><text x="232" y="42" class="lbl" text-anchor="middle">MCP server</text><line x1="232" y1="76" x2="300" y2="132" stroke="#E4E1DC" stroke-width="1.2"/><rect x="353.0" y="50.0" width="30" height="24" rx="0" fill="#141414"/><text x="368" y="42" class="lbl" text-anchor="middle">orchestrator</text><line x1="368" y1="76" x2="300" y2="132" stroke="#E4E1DC" stroke-width="1.2"/><rect x="489.0" y="50.0" width="30" height="24" rx="0" fill="#141414"/><text x="504" y="42" class="lbl" text-anchor="middle">notebook</text><line x1="504" y1="76" x2="300" y2="132" stroke="#E4E1DC" stroke-width="1.2"/><rect x="238" y="132" width="124" height="34" rx="2" fill="#2E7D53"/><text x="300" y="154" class="lbl" fill="#fff" text-anchor="middle" font-size="12">litellm</text><text x="300" y="188" class="lbl-safe" text-anchor="middle">litellm==1.82.6</text><text x="300" y="208" class="lbl" text-anchor="middle">1.82.7 cannot be selected</text>
+  </svg>
+  <figcaption><b>Figure 4 — The same graph, pinned.</b> The fix is not new architecture. It is a constraint, which is exactly the kind of thing a scanner can check mechanically — <code>AG-FRAMEWORK-PIN</code>.</figcaption>
+</figure>
 <h2 class="post-h">If you were running anything in that window</h2>
 <ol class="post-list">
 <li><strong>Check whether 1.82.7 or 1.82.8 ever resolved in any environment,</strong> including ephemeral CI runners. Lockfiles, CI logs, container image layers. The last clean release is 1.82.6.</li>

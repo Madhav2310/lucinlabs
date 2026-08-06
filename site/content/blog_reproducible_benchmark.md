@@ -36,6 +36,10 @@ The corpus is 54 real open-source repositories, not fixtures I wrote to be found
 
 Eleven was not free, and I did not get there by making the detectors timid. I got there by opening every false positive and fixing what produced it. An `execute` keyword that over-matched. A bare substring that fired on any FastAPI or Flask server. A database verb matching inside a docstring. Each of those was a rule that was technically correct and practically noise, and cutting them is the only reason a clean scan means anything.
 
+```figure
+benchmark-two-questions
+```
+
 ## Now the number that cuts the other way
 
 Eleven false positives across 54 repositories sounds excellent. Print it alone and it is misleading, so here is what that corpus cannot tell you.
@@ -71,6 +75,10 @@ The recall corpus is 50 distinct vulnerable agents: 22 real cases with provenanc
 | Container escape | ~80% | resolves docker commands built through a variable |
 | SSRF | 17% | deliberately conservative: fires only when tainted data forms the URL host |
 | Path traversal | 0% | detector built, sound, unit-tested, switched off on purpose |
+
+```figure
+benchmark-fp-corpus
+```
 
 ## The zero I am proudest of
 

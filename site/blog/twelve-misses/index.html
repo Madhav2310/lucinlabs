@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>We publish our misses. Here are all twelve. — Lucin</title>
+<meta name="description" content="76% recall, the twelve cases that get past us, and the detector we switched off on purpose">
+<link rel="icon" href="data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3.5' cy='10' r='2.6' fill='%23141414'/%3E%3Cline x1='6.1' y1='10' x2='13.9' y2='10' stroke='%23141414' stroke-width='1.6'/%3E%3Ccircle cx='16.5' cy='10' r='2.6' fill='%23D6321F'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://lucin.pages.dev/blog/twelve-misses/">
+<link rel="stylesheet" href="/fonts.css">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Lucin">
+<meta property="og:url" content="https://lucin.pages.dev/blog/twelve-misses/">
+<meta property="og:title" content="We publish our misses. Here are all twelve.">
+<meta property="og:description" content="76% recall, the twelve cases that get past us, and the detector we switched off on purpose">
+<meta property="og:image" content="https://lucin.pages.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lucin — static analysis for AI agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="We publish our misses. Here are all twelve.">
+<meta name="twitter:description" content="76% recall, the twelve cases that get past us, and the detector we switched off on purpose">
+<meta name="twitter:image" content="https://lucin.pages.dev/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle",
+ "headline":"We publish our misses. Here are all twelve.","description":"76% recall, the twelve cases that get past us, and the detector we switched off on purpose","url":"https://lucin.pages.dev/blog/twelve-misses/",
+ "datePublished":"2026-08-01",
+ "isPartOf":{"@type":"WebSite","name":"Lucin","url":"https://lucin.pages.dev/"},
+ "publisher":{"@type":"Organization","name":"Lucin Labs","url":"https://lucin.pages.dev/"}}
+</script>
+<style>
+:root{
+  --canvas:#FAFAF8; --surface:#F3F2EE; --surface-muted:#F1F0EC; --sunken:#141414;
+  --ink:#141414; --ink-soft:#3D4147; --ink-muted:#484C51;
+  --line:#D7D9DC; --line-strong:#141414;
+  --sev-crit:#D6321F; --sev-high:#B85C1F; --sev-med:#B8860B; --sev-low:#6C7076;
+  --ff:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --ff-heading:'Space Grotesk',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --radius:4px; --radius-chip:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--ff);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--canvas)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:4px}
+.post-cta :focus-visible, .sunken :focus-visible, .dark-card :focus-visible, .install-pill :focus-visible { outline-color: var(--canvas) !important; }
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+  background:rgba(250,250,248,.92);border-bottom:2px solid var(--ink)}
+.nav-in{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;
+  gap:26px;height:58px;font-size:14px}
+.nav-in .mark{display:inline-flex;align-items:center;gap:9px;font-family:var(--ff-heading);
+  font-weight:700;font-size:16px;letter-spacing:-.01em}
+.nav-in a{color:var(--ink-soft);text-decoration:none;font-weight:500}
+.nav-in a:hover{color:var(--sev-crit)}
+.nav-in .right{margin-left:auto;display:flex;gap:16px;align-items:center}
+.install{font-family:var(--mono);font-size:13px;background:var(--sunken);
+  border:1px solid var(--sunken);border-radius:var(--radius);padding:7px 12px;
+  color:#C7CAD1}
+main{max-width:760px;margin:0 auto;padding:56px 24px 96px}
+h1{font-family:var(--ff-heading);font-size:clamp(30px,4.5vw,42px);line-height:1.12;
+  letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+h2{font-family:var(--ff-heading);font-size:24px;line-height:1.25;letter-spacing:-.02em;
+  font-weight:700;margin:44px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-family:var(--ff-heading);font-size:18px;font-weight:600;margin:28px 0 10px}
+p,ul,ol,blockquote,table{margin:0 0 16px}
+ul,ol{padding-left:22px}
+li{margin:5px 0}
+strong{color:var(--ink);font-weight:600}
+p,li{color:var(--ink-soft)}
+a[href]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);
+  text-underline-offset:3px}
+a[href]:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+blockquote{border-left:3px solid var(--sev-crit);padding:2px 0 2px 16px;
+  color:var(--ink-muted)}
+/* code: inline is a light chip with a border; blocks are the one deliberate dark
+   inversion (matches the report/hero convention) — pre code resets the chip so
+   nested code is not double-boxed. */
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em;
+  font-variant-ligatures:none}
+pre{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--sunken);
+  color:#C7CAD1;border-radius:var(--radius);padding:14px 16px;
+  margin:0 0 18px;overflow:auto;-webkit-font-smoothing:auto}
+pre code{background:0 0;border:0;padding:0;font-size:1em;color:inherit}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface);color:var(--ink);font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+footer{border-top:1px solid var(--line);margin-top:64px;padding:28px 24px 56px;
+  color:var(--ink-muted);font-size:13px}
+footer .in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+footer .mark-sm{font-family:var(--ff-heading);font-weight:700;color:var(--ink)}
+footer a{text-decoration:none;color:var(--ink-muted)}
+footer a:hover{color:var(--sev-crit)}
+
+@media(max-width:640px){
+  .nav-in .links,.install{display:none}
+  main{padding-top:36px}
+  .mobile-nav{display:block;position:relative}
+  .mobile-nav summary{list-style:none;cursor:pointer;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .mobile-nav summary::-webkit-details-marker{display:none}
+  .mobile-nav-panel{position:absolute;right:0;top:40px;background:var(--canvas);border:1px solid var(--line);padding:8px 0;min-width:180px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.08);border-radius:4px}
+  .mobile-nav-panel a{display:block;padding:10px 16px;font-size:14px;color:var(--ink);text-decoration:none;font-weight:500}
+  .mobile-nav-panel a:hover{background:var(--surface);color:var(--sev-crit)}
+}
+@media(min-width:641px){
+  .mobile-nav{display:none}
+}
+
+/* ---- docs/benchmarks/limits/rules/changelog "tab family" header ----
+   Each is its own real page/route (not a client-side view switch) — the tabs
+   are plain links, and the current page's tab gets the active fill. */
+.back-home{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-home:hover{color:var(--sev-crit)}
+.eyebrow2{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--sev-crit);
+  font-weight:600;margin-top:30px}
+h1.page-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(34px,3.8vw,46px);
+  letter-spacing:-.025em;line-height:1.06;margin:16px 0 0}
+p.page-dek{max-width:62ch;margin-top:18px;font-size:17.5px;line-height:1.6;color:var(--ink-soft)}
+.tab-row{display:flex;gap:0;margin-top:34px;border:1.5px solid var(--ink);border-radius:2px;
+  width:fit-content;overflow:hidden}
+.tab-pill{padding:10px 18px;font-family:var(--mono);font-size:12.5px;text-decoration:none;
+  color:var(--ink);border-right:1px solid var(--ink);transition:background .18s,color .18s}
+.tab-pill:last-child{border-right:0}
+.tab-pill:hover{background:var(--surface);color:var(--ink)}
+.tab-pill.active{background:var(--ink);color:var(--canvas)}
+.tab-pill.active:hover{background:var(--ink);color:var(--canvas)}
+</style>
+<style>
+.post-meta-row{display:flex;gap:16px;margin-top:32px;font-family:var(--mono);font-size:11.5px;color:var(--ink-muted)}
+.post-meta-row .kicker{color:var(--sev-crit);font-weight:600}
+.post-h1{font-family:var(--ff-heading);font-weight:700;font-size:clamp(32px,3.6vw,44px);
+  letter-spacing:-.025em;line-height:1.1;margin:16px 0 0}
+.post-dek{margin-top:20px;font-size:19px;line-height:1.55;color:var(--ink-soft)}
+.post-rule{height:2px;background:var(--ink);margin:36px 0 0}
+.post-body{margin-top:32px;font-size:17px;line-height:1.7;color:#242628}
+.post-body>*{margin-bottom:22px}
+h2.post-h{font-family:var(--ff-heading);font-weight:700;font-size:22px;letter-spacing:-.015em;margin:38px 0 -6px}
+h3.post-h{font-family:var(--ff-heading);font-weight:700;font-size:18px;letter-spacing:-.01em;margin:30px 0 -6px}
+p.post-p{margin:0}
+p.post-p code{font-family:var(--mono);font-size:.88em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em}
+p.post-p a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:2px}
+p.post-p a:hover{text-decoration-color:var(--sev-crit);color:var(--sev-crit)}
+ul.post-list,ol.post-list{padding-left:22px;color:#242628}
+ul.post-list li,ol.post-list li{margin:8px 0}
+ul.post-list code,ol.post-list code{font-family:var(--mono);font-size:.88em;background:var(--surface-muted);
+  border:1px solid var(--line);border-radius:var(--radius-chip);padding:.1em .35em}
+pre.post-code{margin:0;background:var(--sunken);color:#C7CAD1;padding:18px 20px;border-radius:6px;
+  font-family:var(--mono);font-size:13px;line-height:1.7;overflow-x:auto}
+pre.post-code code{background:0 0;border:0;padding:0;color:inherit}
+.post-table-wrap{overflow-x:auto}
+.post-table-wrap table{width:100%;border-collapse:collapse;font-size:14.5px}
+.post-table-wrap th,.post-table-wrap td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.post-table-wrap th{background:var(--surface);font-weight:600;font-family:var(--ff-heading)}
+p.post-sources{margin:0;padding:16px 20px;background:var(--surface-muted);border-left:3px solid var(--sev-crit);
+  font-size:13.5px;line-height:1.6;color:var(--ink-muted)}
+p.post-sources em{font-style:normal}
+.post-cta{margin:44px 0 96px;background:var(--sunken);color:#FAFAF8;border-radius:6px;padding:36px 40px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.post-cta .t{font-family:var(--ff-heading);font-weight:700;font-size:20px}
+.post-cta .s{color:#B7BAC0;font-size:13.5px;margin-top:6px}
+.post-cta .pill{display:inline-flex;align-items:center;gap:14px;height:48px;padding:0 6px 0 20px;
+  background:#08090A;border:1px solid #2B2B2B;border-radius:2px;font-family:var(--mono);font-size:13.5px;
+  white-space:nowrap;color:#fff}
+.post-cta .pill .prompt{color:#F0917F}
+.back-link{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
+.back-link:hover{color:var(--sev-crit)}
+</style><style>
+.fig{margin:40px 0;border-top:1px solid #E4E1DC;border-bottom:1px solid #E4E1DC;padding:26px 0}
+.fig svg{width:100%;height:auto;display:block;overflow:visible}
+.fig figcaption{font-size:13px;color:#6C7076;margin-top:18px;line-height:1.55;font-family:var(--mono)}
+.fig figcaption b{color:#141414;font-weight:600}
+.fig figcaption code{font-family:var(--mono);font-size:.94em;color:#141414}
+.fig .lbl{font-family:var(--mono);font-size:11px;fill:#6C7076}
+.fig .lbl-ink{font-family:var(--mono);font-size:11px;fill:#141414}
+.fig .lbl-sig{font-family:var(--mono);font-size:11px;fill:#D6321F}
+.fig .lbl-safe{font-family:var(--mono);font-size:11px;fill:#2E7D53}
+.fig .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.14em;fill:#6C7076}
+.fig .num{font-family:var(--mono);font-size:12px;fill:#141414}
+@media (max-width:620px){.fig svg{min-width:0}.fig figcaption{font-size:12px}}
+</style>
+
+<script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head><body>
+<nav><div class="nav-in">
+  <a class="mark" href="/" aria-label="Lucin home"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="3.5" cy="10" r="2.6" fill="#141414"></circle><line x1="6.1" y1="10" x2="13.9" y2="10" stroke="#141414" stroke-width="1.6"></line><circle cx="16.5" cy="10" r="2.6" fill="#D6321F"></circle></svg>LUCIN</a>
+  <div class="links" style="display:flex;gap:22px"><a href="/blog/">Blog</a><a href="/docs/">Docs</a></div>
+  <div class="right"><button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){t.innerText='$ pip install lucin'},1600)" aria-label="Copy install command" style="cursor:pointer">$ pip install lucin</button></div>
+</div></nav><article style="max-width:760px;margin:0 auto;padding:40px 24px 0">
+  <a class="back-link" href="/blog/">← All field notes</a>
+  <div class="post-meta-row"><span class="kicker">PROOF</span><span>01 AUG 2026</span><span>9 min read</span></div>
+  <h1 class="post-h1">We publish our misses. Here are all twelve.</h1>
+  <p class="post-dek">76% recall, the twelve cases that get past us, and the detector we switched off on purpose</p>
+  <div class="post-rule"></div>
+  <div class="post-body">
+<p class="post-p"><em>76% recall, the twelve cases that get past us, and the detector we switched off on purpose</em></p>
+<p class="post-p">Every security scanner publishes a detection number. None of them publish the list of things they failed to detect, and the reason is not modesty. It is that a recall number is a claim about a set nobody can enumerate — the things you did not find — which makes it the one number in security marketing that can never be checked.</p>
+<p class="post-p">So here is ours, with the part that can be checked.</p>
+<p class="post-p">Lucin's recall is <strong>76%</strong>. On a held-out corpus of 50 distinct vulnerable agents across 10 vulnerability classes, it finds 38 and misses 12. Below is every miss, by name, with the reason.</p>
+<pre class="post-code"><code>$ python benchmarks/recall_corpus.py
+</code></pre>
+
+<p class="post-p">That command regenerates this entire post. It prints the table, and it prints the false negatives, because a benchmark that only reports its wins is a slide, not a measurement.</p>
+<h2 class="post-h">The number, by class</h2>
+<div class="post-table-wrap"><table>
+<thead>
+<tr>
+<th>Vulnerability class</th>
+<th>Detected</th>
+<th>Recall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>path traversal</td>
+<td>0 / 6</td>
+<td><strong>0%</strong></td>
+</tr>
+<tr>
+<td>SSRF</td>
+<td>1 / 6</td>
+<td><strong>17%</strong></td>
+</tr>
+<tr>
+<td>container escape</td>
+<td>4 / 5</td>
+<td>80%</td>
+</tr>
+<tr>
+<td>CQL injection</td>
+<td>2 / 2</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>command injection</td>
+<td>5 / 5</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>CORS / unauthenticated server</td>
+<td>5 / 5</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>insecure deserialization</td>
+<td>6 / 6</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>RCE via eval/exec</td>
+<td>5 / 5</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>secret exfiltration (lethal trifecta)</td>
+<td>4 / 4</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>SQL injection</td>
+<td>6 / 6</td>
+<td>100%</td>
+</tr>
+<tr>
+<td><strong>Overall</strong></td>
+<td><strong>38 / 50</strong></td>
+<td><strong>76%</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="post-p">The corpus is 22 real third-party cases and 28 constructed ones, labelled as such in <code>benchmarks/recall_corpus/manifest.json</code>. On the real cases alone, recall is <strong>19 / 22 = 86%</strong>. I report the combined number as the headline because the constructed cases are the ones I control, and quoting the more flattering figure would be exactly the behaviour this post exists to argue against.</p>
+<p class="post-p">Notice the shape. It is not a uniform 76%. It is six classes at 100%, one at 80%, and two that are essentially broken. An aggregate recall number hides that completely, which is a good argument for never trusting one — including mine.</p>
+<figure class="fig" id="fig-recall-bars">
+  <svg viewBox="0 0 700 344" role="img" aria-labelledby="recall-bars-t recall-bars-d">
+    <title id="recall-bars-t">Lucin&#x27;s recall by vulnerability class, sorted worst first</title>
+    <desc id="recall-bars-d">Two classes fail: path traversal at 0 percent because the detector is deliberately unregistered, and SSRF at 17 percent because it only fires when taint forms the URL host. Six classes are at 100 percent and container escape at 80. Overall recall is 38 of 50, or 76 percent.</desc>
+    <text x="182" y="16" class="eyebrow" text-anchor="start">RECALL BY CLASS — SORTED WORST FIRST</text><text x="168" y="43" class="lbl-ink" text-anchor="end">path traversal</text><rect x="182" y="32" width="276" height="13" rx="0" fill="#E4E1DC"/><text x="472" y="43" class="num" text-anchor="start">0%</text><text x="500" y="43" class="lbl" text-anchor="start">detector built, unregistered</text><text x="168" y="71" class="lbl-ink" text-anchor="end">SSRF</text><rect x="182" y="60" width="276" height="13" rx="0" fill="#E4E1DC"/><rect x="182" y="60" width="46.92" height="13" rx="0" fill="#D6321F"/><text x="472" y="71" class="num" text-anchor="start">17%</text><text x="500" y="71" class="lbl" text-anchor="start">fires only on the URL host</text><text x="168" y="99" class="lbl-ink" text-anchor="end">container escape</text><rect x="182" y="88" width="276" height="13" rx="0" fill="#E4E1DC"/><rect x="182" y="88" width="220.8" height="13" rx="0" fill="#D69A1F"/><text x="472" y="99" class="num" text-anchor="start">80%</text><text x="500" y="99" class="lbl" text-anchor="start">1 miss: fired AG-001 instead</text><text x="168" y="127" class="lbl-ink" text-anchor="end">CQL injection</text><rect x="182" y="116" width="276" height="13" rx="0" fill="#E4E1DC"/><rect x="182" y="116" width="276.0" height="13" rx="0" fill="#141414"/><text x="472" y="127" class="num" text-anchor="start">100%</text><text x="168" y="155" class="lbl-ink" text-anchor="end">command injection</text><rect x="182" y="144" width="276" height="13" rx="0" fill="#E4E1DC"/><rect x="182" y="144" width="276.0" height="13" rx="0" fill="#141414"/><text x="472" y="155" class="num" text-anchor="start">100%</text><text x="168" y="183" class="lbl-ink" text-anchor="end">CORS / unauth server</text><rect x="182" y="172" width="276" height="13" rx="0" fill="#E4E1DC"/><rect x="182" y="172" width="276.0" height="13" rx="0" fill="#141414"/><text x="472" y="183" class="num" text-anchor="start">100%</text><text x="168" y="211" class="lbl-ink" text-anchor="end">insecure deserialization</text><rect x="182" y="200" width="276" height="13" rx="0" fill="#E4E1DC"/><rect x="182" y="200" width="276.0" height="13" rx="0" fill="#141414"/><text x="472" y="211" class="num" text-anchor="start">100%</text><text x="168" y="239" class="lbl-ink" text-anchor="end">RCE via eval/exec</text><rect x="182" y="228" width="276" height="13" rx="0" fill="#E4E1DC"/><rect x="182" y="228" width="276.0" height="13" rx="0" fill="#141414"/><text x="472" y="239" class="num" text-anchor="start">100%</text><text x="168" y="267" class="lbl-ink" text-anchor="end">secret exfiltration</text><rect x="182" y="256" width="276" height="13" rx="0" fill="#E4E1DC"/><rect x="182" y="256" width="276.0" height="13" rx="0" fill="#141414"/><text x="472" y="267" class="num" text-anchor="start">100%</text><text x="168" y="295" class="lbl-ink" text-anchor="end">SQL injection</text><rect x="182" y="284" width="276" height="13" rx="0" fill="#E4E1DC"/><rect x="182" y="284" width="276.0" height="13" rx="0" fill="#141414"/><text x="472" y="295" class="num" text-anchor="start">100%</text><line x1="182" y1="318" x2="458" y2="318" stroke="#E4E1DC" stroke-width="1"/><text x="174" y="334" class="lbl-ink" text-anchor="end" font-weight="600">OVERALL</text><text x="182" y="334" class="lbl" text-anchor="start">38 / 50 = 76%   ·   12 misses, all named below</text>
+  </svg>
+  <figcaption><b>Figure 1 — Sorted worst-first, because that is the order that tells you something.</b> An aggregate of 76% hides the shape completely. Regenerate: <code>python benchmarks/recall_corpus.py</code></figcaption>
+</figure>
+<h2 class="post-h">All twelve misses</h2>
+<pre class="post-code"><code>container_escape/real__camel_docker_interpreter   [real]         fired AG-001, expected AG-DOCKER-EXEC
+path_traversal/real__agno_python_tools            [real]         no registered detector
+path_traversal/constructed__read_document         [constructed]  no registered detector
+path_traversal/constructed__write_report          [constructed]  no registered detector
+path_traversal/constructed__load_template         [constructed]  no registered detector
+path_traversal/constructed__delete_file           [constructed]  no registered detector
+path_traversal/constructed__serve_static_file     [constructed]  no registered detector
+ssrf/real__llamaindex_openapi_tool                [real]         detector too conservative
+ssrf/constructed__url_fetcher                     [constructed]  detector too conservative
+ssrf/constructed__webhook_poster                  [constructed]  detector too conservative
+ssrf/constructed__image_downloader                [constructed]  detector too conservative
+ssrf/constructed__urllib_proxy                    [constructed]  detector too conservative
+</code></pre>
+
+<p class="post-p">Three distinct failures, and they fail for three different reasons. The interesting one is the first.</p>
+<h2 class="post-h">Failure 1 — path traversal: the detector works and I switched it off</h2>
+<p class="post-p">Six of the twelve misses are path traversal, and the recall is not 0% because the analysis is hard. It is 0% because there is a working, unit-tested path-traversal detector in the codebase that is <strong>deliberately not registered.</strong></p>
+<p class="post-p">Here is why.</p>
+<p class="post-p">A path-traversal detector for agent tools has to flag this:</p>
+<pre class="post-code"><code class="language-python">@tool
+def read_document(name: str) -&gt; str:
+    &quot;&quot;&quot;Read a document from the library.&quot;&quot;&quot;
+    return open(name).read()          # tool-controlled path, no containment
+</code></pre>
+
+<p class="post-p">And it has to not flag this:</p>
+<pre class="post-code"><code class="language-python">@tool
+def read_template(name: str) -&gt; str:
+    &quot;&quot;&quot;Load a prompt template.&quot;&quot;&quot;
+    return open(os.path.join(TEMPLATE_DIR, name)).read()
+</code></pre>
+
+<p class="post-p">The second one is what a large amount of entirely reasonable code looks like. It is also exploitable if <code>name</code> is <code>../../../etc/passwd</code>, and it is not exploitable if the caller happens to validate upstream, or if <code>TEMPLATE_DIR</code> is inside a container with nothing else in it, or if the tool is only reachable by an authenticated operator.</p>
+<p class="post-p">When I ran the detector against the benign corpus — 54 real repositories, 9,520 files — it fired on patterns that were <strong>byte-identical</strong> to legitimate file tools. Not similar. Identical: <code>open(param)</code> and <code>os.path.join(base, name)</code>, in code where the surrounding system made them fine.</p>
+<p class="post-p">Static analysis cannot distinguish those two cases, because the distinguishing information is not in the file. It is in the deployment.</p>
+<p class="post-p">So I had a choice. Register the detector, gain roughly 12 percentage points of headline recall, and start producing findings that developers would correctly identify as noise. Or leave it out, publish 0% on a class that clearly matters, and explain why.</p>
+<p class="post-p">I chose the second, and I want to be direct about the reasoning, because &quot;precision over recall&quot; is the kind of phrase that sounds like a principle and is usually a rationalisation.</p>
+<p class="post-p">The reason is not that false positives are aesthetically worse. It is that a scanner's real failure mode is being switched off. The first time a tool flags a line that is obviously fine, a developer's confidence drops. By the fifth time it is piped to <code>/dev/null</code> in CI, and now there is a green check that means nothing and nobody is looking. A muted scanner is worse than no scanner, because it produces the belief that something is being checked.</p>
+<p class="post-p">A miss costs you one vulnerability. A false positive costs you the tool, and therefore every vulnerability after it.</p>
+<p class="post-p">That trade is defensible and I might still be wrong about it. The detector is in the repository if you want to read it and disagree — and if you think the right answer is to ship it behind a flag for people who would rather triage noise than miss a class entirely, say so, because that is a genuinely reasonable position and it is the change I am most likely to make.</p>
+<figure class="fig" id="fig-path-traversal-ambiguity">
+  <svg viewBox="0 0 664 264" role="img" aria-labelledby="path-traversal-ambiguity-t path-traversal-ambiguity-d">
+    <title id="path-traversal-ambiguity-t">A benign file tool and a vulnerable one, with identical structure</title>
+    <desc id="path-traversal-ambiguity-d">Both functions join a caller-supplied name onto a base directory and open the result. Their abstract syntax trees are the same sequence of nodes. A detector that fires on one necessarily fires on the other.</desc>
+    <rect x="24" y="40" width="292" height="107" rx="3" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><text x="38" y="62" class="eyebrow" text-anchor="start">LEGITIMATE — IN THE BENIGN CORPUS</text><text x="38" y="87" class="lbl" text-anchor="start">def read_template(name):</text><rect x="25" y="94" width="3" height="19" rx="0" fill="#2E7D53"/><text x="38" y="106" class="lbl-ink" text-anchor="start">    p = os.path.join(BASE, name)</text><text x="38" y="125" class="lbl" text-anchor="start">    return open(p).read()</text><rect x="348" y="40" width="292" height="107" rx="3" fill="#FFFFFF" stroke="#E4E1DC" stroke-width="1"/><text x="362" y="62" class="eyebrow" text-anchor="start">VULNERABLE — IN THE RECALL CORPUS</text><text x="362" y="87" class="lbl" text-anchor="start">def read_document(name):</text><rect x="349" y="94" width="3" height="19" rx="0" fill="#D6321F"/><text x="362" y="106" class="lbl-ink" text-anchor="start">    p = os.path.join(BASE, name)</text><text x="362" y="125" class="lbl" text-anchor="start">    return open(p).read()</text><text x="170" y="173" class="eyebrow" text-anchor="middle">AST</text><text x="494" y="173" class="eyebrow" text-anchor="middle">AST</text><text x="170" y="193" class="lbl" text-anchor="middle" font-size="9">Call(join) → Name(BASE) → Name(name)</text><text x="170" y="208" class="lbl" text-anchor="middle" font-size="9">→ Call(open) → Attribute(read)</text><text x="494" y="193" class="lbl" text-anchor="middle" font-size="9">Call(join) → Name(BASE) → Name(name)</text><text x="494" y="208" class="lbl" text-anchor="middle" font-size="9">→ Call(open) → Attribute(read)</text><line x1="24" y1="226" x2="640" y2="226" stroke="#E4E1DC" stroke-width="1"/><text x="332" y="248" class="lbl-sig" text-anchor="middle">structurally identical — no static rule separates them</text>
+  </svg>
+  <figcaption><b>Figure 2 — The detector is off because these are the same program.</b> Registering it would have caught the case on the right and every case on the left. That trade costs 6 of 50 cases — 12% of headline recall. Regenerate: <code>python benchmarks/recall_corpus.py</code></figcaption>
+</figure>
+<h2 class="post-h">Failure 2 — SSRF: 17%, and conservative by construction</h2>
+<p class="post-p">Five more misses are SSRF. The detector exists and is registered, and it fires on one case out of six, because it only fires when tainted input forms the <strong>host</strong> portion of a URL.</p>
+<p class="post-p">Caught:</p>
+<pre class="post-code"><code class="language-python">requests.get(f&quot;https://{user_supplied}/api/data&quot;)     # taint controls the host
+</code></pre>
+
+<p class="post-p">Not caught:</p>
+<pre class="post-code"><code class="language-python">requests.get(user_supplied)                          # taint is the whole URL
+requests.get(f&quot;https://api.internal/{user_supplied}&quot;) # taint controls the path
+urllib.request.urlopen(url_from_tool_arg)            # taint via a local
+</code></pre>
+
+<p class="post-p">The second group contains real vulnerabilities. <code>requests.get(user_supplied)</code> in an agent tool is an SSRF, full stop, and Lucin misses it.</p>
+<p class="post-p">The reason is the same as before, one step further along. Widening the rule to &quot;tainted value reaches a request sink&quot; fires on an enormous amount of legitimate code, because <em>fetching a URL the caller provided</em> is the entire purpose of a large class of tools. An agent tool named <code>fetch_page(url)</code> is supposed to fetch the URL it is given. Flagging it says nothing.</p>
+<p class="post-p">What makes SSRF exploitable in an agent is not that the URL is parameterised. It is that the URL is parameterised <strong>and</strong> the agent can be talked into supplying an internal one <strong>and</strong> the response comes back into the model's context. That is three facts, and only the first is visible in the function body.</p>
+<p class="post-p">Host-position taint is a proxy for the dangerous subset. It is a bad proxy — 17% recall says so — and it is the best one I have found that does not produce noise. The honest summary is that Lucin's SSRF coverage is close to a placeholder, and if you are relying on it, do not.</p>
+<h2 class="post-h">Failure 3 — the interesting one: right answer, wrong rule</h2>
+<p class="post-p">One miss is not a miss in the way the other eleven are.</p>
+<pre class="post-code"><code>container_escape/real__camel_docker_interpreter   fired AG-001, expected AG-DOCKER-EXEC
+</code></pre>
+
+<p class="post-p">This is a real third-party case — a Docker-based code interpreter with a container-escape configuration. Lucin flagged it. It reported <code>AG-001, Unrestricted Shell/Exec Access</code>, critical severity, with the correct file and line.</p>
+<p class="post-p">The benchmark counts it as a false negative, because the expected finding was <code>AG-DOCKER-EXEC</code>, which describes the specific container-escape mechanism rather than the general shell-access problem. A user running Lucin on this code would have been warned. The benchmark still scores it as a failure.</p>
+<p class="post-p">I could have written the grader to accept any finding on the right line. That would have raised recall to 78% and made the number less meaningful, because &quot;we flagged something here&quot; and &quot;we correctly identified the vulnerability class&quot; are different claims, and only the second one tells you whether the remediation advice will be right. <code>AG-001</code> suggests sandboxing the shell. <code>AG-DOCKER-EXEC</code> suggests fixing the container configuration. Same line, different fix.</p>
+<p class="post-p">So it counts as a miss. Grading yourself strictly is cheap when the alternative is a number that means less.</p>
+<h2 class="post-h">What each of these would take to fix</h2>
+<p class="post-p">Not a roadmap with dates. An honest statement of what is actually required, since &quot;we're working on it&quot; is what everyone says.</p>
+<p class="post-p"><strong>Path traversal</strong> needs containment analysis: proving that a joined path cannot escape a base directory, which means modelling <code>os.path.realpath</code>, symlink resolution, and normalisation. That is tractable and it is real work. The shortcut — a flag that enables the detector for people who want the class covered and accept the noise — is a day, and is probably the right first move.</p>
+<p class="post-p"><strong>SSRF</strong> needs the thing Lucin does not have: whether the response flows back into model context. That is an information-flow question across function boundaries, and it runs into the same wall described below.</p>
+<p class="post-p"><strong>The container-escape case</strong> needs detector precedence — when both <code>AG-001</code> and <code>AG-DOCKER-EXEC</code> match, prefer the specific one. That is a small change and it is worth doing for the remediation advice, not for the number.</p>
+<h2 class="post-h">The structural limit underneath all of this</h2>
+<p class="post-p">The three failures share a cause, and it is worth naming because it bounds everything above.</p>
+<p class="post-p">Lucin's taint analysis is <strong>intraprocedural</strong> — it reasons within a single function body — plus a limited same-file, cross-function pass that resolves method-to-method flows within a class. It is not a whole-program call graph. It cannot follow a value from a function in one file into a sink in another.</p>
+<p class="post-p">That is not a design preference. The standard tool for building a Python call graph, PyCG, was not available in the environment where this was built, so the cross-function approximation is capability-based instead: classify each tool by the capabilities its code exhibits, then flag dangerous <em>combinations</em>. That catches the incident-class patterns — the lethal trifecta, the read-to-egress chains — without proving a literal path.</p>
+<p class="post-p">It works better than it sounds for the classes at 100%, because those vulnerabilities tend to be local: the injection and the sink are in the same function. It works badly for SSRF, where the dangerous fact is somewhere else entirely.</p>
+<p class="post-p">If you write agent code with heavy <code>getattr</code>, reflection, or generated tools, recall will be worse than 76% and I cannot tell you how much worse, because I have not measured it on code like that. If you have a codebase like that and are willing to let me measure, that is the single most useful thing anyone could send me right now.</p>
+<h2 class="post-h">Why publish this</h2>
+<p class="post-p">Two reasons, and one of them is self-interested.</p>
+<p class="post-p">The honest one: you cannot evaluate a scanner from its detection claims, because every scanner claims detection. You can evaluate one from its failures, because failures are specific and checkable. Publishing them is the only way to give you something to actually assess.</p>
+<p class="post-p">The self-interested one: the twelve cases above are the strongest argument I have. A tool that tells you it covers everything is telling you nothing. A tool that tells you SSRF coverage is 17% and close to a placeholder has told you something you can plan around — you know to add a rule to your own review, or run something else alongside it, or ignore Lucin's SSRF findings entirely.</p>
+<p class="post-p">That is worth more to you than 76% is, and it is the reason the number is on the page next to the misses instead of on its own.</p>
+<p class="post-p">If you find a thirteenth, open an issue. It goes in the corpus, and it goes in the next version of this table.</p>
+<p class="post-p"><strong>Reproduce anything in this post</strong></p>
+<pre class="post-code"><code>The whole table and the miss list:  python benchmarks/recall_corpus.py
+Case provenance:                    benchmarks/recall_corpus/manifest.json
+The unregistered detector:          src/lucin/detectors/path_traversal.py
+The registry gate:                  src/lucin/detectors/__init__.py
+Scan your own agent:                pip install lucin &amp;&amp; lucin scan .
+</code></pre>
+
+  </div>
+  <div class="post-cta">
+  <div><div class="t">Check your own agent for this shape.</div><div class="s">Free, MIT, 30 seconds.</div></div>
+  <div class="pill"><button class="install" onclick="navigator.clipboard.writeText('pip install lucin');var t=this;t.innerText='Copied!';setTimeout(function(){t.innerText='$ pip install lucin'},1600)" aria-label="Copy install command" style="cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;font-size:inherit;padding:0">$ pip install lucin</button></div>
+</div>
+</article>
+</body>
+</html>

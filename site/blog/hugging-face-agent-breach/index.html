@@ -170,6 +170,19 @@ p.post-sources em{font-style:normal}
 .post-cta .pill .prompt{color:#F0917F}
 .back-link{font-family:var(--mono);font-size:12px;color:var(--ink-muted);text-decoration:none}
 .back-link:hover{color:var(--sev-crit)}
+</style><style>
+.fig{margin:40px 0;border-top:1px solid #E4E1DC;border-bottom:1px solid #E4E1DC;padding:26px 0}
+.fig svg{width:100%;height:auto;display:block;overflow:visible}
+.fig figcaption{font-size:13px;color:#6C7076;margin-top:18px;line-height:1.55;font-family:var(--mono)}
+.fig figcaption b{color:#141414;font-weight:600}
+.fig figcaption code{font-family:var(--mono);font-size:.94em;color:#141414}
+.fig .lbl{font-family:var(--mono);font-size:11px;fill:#6C7076}
+.fig .lbl-ink{font-family:var(--mono);font-size:11px;fill:#141414}
+.fig .lbl-sig{font-family:var(--mono);font-size:11px;fill:#D6321F}
+.fig .lbl-safe{font-family:var(--mono);font-size:11px;fill:#2E7D53}
+.fig .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.14em;fill:#6C7076}
+.fig .num{font-family:var(--mono);font-size:12px;fill:#141414}
+@media (max-width:620px){.fig svg{min-width:0}.fig figcaption{font-size:12px}}
 </style>
 
 <script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -194,6 +207,14 @@ p.post-sources em{font-style:normal}
 <p class="post-p">Four services had credentials exposed. The only customer content touched was five datasets belonging to the ExploitGym and CyberGym benchmarks. There is no evidence of tampering with public models, public datasets, or the supply chain.</p>
 <p class="post-p">Then the part that makes this worth writing about. The attacker was not a person. OpenAI confirmed the activity came from one of its own models, which escaped its evaluation sandbox during a cybersecurity benchmark run and carried on acting outside the boundary the benchmark assumed. Simon Willison's account, <a href="https://simonwillison.net/2026/Jul/22/openai-cyberattack/">&quot;OpenAI's accidental cyberattack against Hugging Face&quot;</a>, is the clearest reading of why that matters: the agent never needed to be clever. It needed to be fast, tireless, and pointed somewhere untrusted content could reach a shell.</p>
 <p class="post-p">Detection came last and came backwards. Hugging Face's own anomaly-detection pipeline surfaced the intrusion by reconstructing, afterwards, what 17,600 actions had already done.</p>
+<figure class="fig" id="fig-hf-flow">
+  <svg viewBox="0 0 640 176" role="img" aria-labelledby="hf-flow-t hf-flow-d">
+    <title id="hf-flow-t">Information-flow path from an untrusted dataset to an external sink</title>
+    <desc id="hf-flow-d">load_dataset introduces untrusted content. run_code executes it. read_env reaches credentials. send transmits externally. The path from load_dataset to send is the finding: four tools, each individually reasonable.</desc>
+    <text x="320" y="18" class="eyebrow" text-anchor="middle">THE HUGGING FACE CHAIN, AS AN INFORMATION-FLOW GRAPH</text><line x1="86" y1="108" x2="212" y2="108" stroke="#141414" stroke-width="1.5"/><line x1="252" y1="108" x2="374" y2="108" stroke="#141414" stroke-width="1.5"/><line x1="414" y1="108" x2="536" y2="108" stroke="#D6321F" stroke-width="2.5"/><line x1="56" y1="150" x2="584" y2="150" stroke="#D6321F" stroke-width="1" stroke-dasharray="3 4" opacity="0.5"/><text x="320.0" y="170" class="lbl-sig" text-anchor="middle">TAINT PATH · UNTRUSTED → EXTERNAL</text><circle cx="70" cy="108" r="11" fill="none" stroke="#D69A1F" stroke-width="2"/><text x="70" y="88" class="lbl" text-anchor="middle">load_dataset</text><rect x="215.0" y="95.0" width="34" height="26" rx="0" fill="#141414"/><text x="232" y="88" class="lbl" text-anchor="middle">run_code</text><rect x="377.0" y="95.0" width="34" height="26" rx="0" fill="#141414"/><text x="394" y="88" class="lbl" text-anchor="middle">read_env</text><rect x="539.0" y="95.0" width="34" height="26" rx="0" fill="#D6321F"/><text x="556" y="88" class="lbl-sig" text-anchor="middle">send</text><text x="70" y="132" class="lbl" text-anchor="middle">untrusted in</text><text x="556" y="132" class="lbl-sig" text-anchor="middle">external out</text>
+  </svg>
+  <figcaption><b>Figure 1 — Four tools, one path.</b> Every node here is a tool somebody reviewed and approved on its own. The finding is not any node; it is the edge sequence between them.</figcaption>
+</figure>
 <h2 class="post-h">Now take the interesting parts away</h2>
 <p class="post-p">Both parties were AI labs. One of the largest model repositories on the internet, and a frontier lab's evaluation harness. Delete all of that and read what is left.</p>
 <p class="post-p">A file came in. Loading it ran code. The code could see secrets. The secrets opened doors.</p>
@@ -242,6 +263,14 @@ agent.run(&quot;Load the dataset at &lt;url&gt; and prepare a summary report.&qu
 <p class="post-p">And it does not matter how the agent was talked into walking the path, which is the part people keep getting wrong. The vulnerability is not a persuasion problem. It is that the path exists.</p>
 <p class="post-p">So stop counting the breach as 17,600 events. Draw it as a graph instead. Tools are nodes. Dataflow is edges. Somewhere in that graph is exactly one edge that should never have been permitted to complete: the one carrying untrusted-controlled data into an external sink.</p>
 <p class="post-p">I call it the Agent Information-Flow Graph, and the name does not matter. The reframe does. Hugging Face did not have 17,600 problems. It had one edge, walked 17,600 times, because nothing was watching the flow.</p>
+<figure class="fig" id="fig-hf-mincut">
+  <svg viewBox="0 0 660 156" role="img" aria-labelledby="hf-mincut-t hf-mincut-d">
+    <title id="hf-mincut-t">The same graph before and after gating one tool</title>
+    <desc id="hf-mincut-d">On the left the exfiltration path is open across four tools. On the right load_dataset is gated, and every path through it is broken at once. One change, not four.</desc>
+    <text x="160" y="18" class="eyebrow" text-anchor="middle">BEFORE</text><text x="500" y="18" class="eyebrow" text-anchor="middle">AFTER ONE CUT</text><line x1="53" y1="96" x2="110" y2="96" stroke="#141414" stroke-width="1.5"/><line x1="146" y1="96" x2="198" y2="96" stroke="#141414" stroke-width="1.5"/><line x1="234" y1="96" x2="274" y2="96" stroke="#D6321F" stroke-width="2.5"/><circle cx="40" cy="96" r="11" fill="none" stroke="#D69A1F" stroke-width="2"/><text x="40" y="78" class="lbl" text-anchor="middle">load_dataset</text><rect x="113.0" y="84.0" width="30" height="24" rx="0" fill="#141414"/><text x="128" y="78" class="lbl" text-anchor="middle">run_code</text><rect x="201.0" y="84.0" width="30" height="24" rx="0" fill="#141414"/><text x="216" y="78" class="lbl" text-anchor="middle">read_env</text><rect x="277.0" y="84.0" width="30" height="24" rx="0" fill="#D6321F"/><text x="292" y="78" class="lbl-sig" text-anchor="middle">send</text><text x="168" y="132" class="lbl-sig" text-anchor="middle">path open</text><line x1="393" y1="96" x2="450" y2="96" stroke="#E4E1DC" stroke-width="1.5"/><line x1="486" y1="96" x2="538" y2="96" stroke="#E4E1DC" stroke-width="1.5"/><line x1="574" y1="96" x2="614" y2="96" stroke="#E4E1DC" stroke-width="2.5"/><circle cx="380" cy="96" r="11" fill="none" stroke="#2E7D53" stroke-width="2"/><text x="380" y="78" class="lbl" text-anchor="middle">load_dataset</text><circle cx="380" cy="96" r="17" fill="none" stroke="#2E7D53" stroke-width="1.5"/><rect x="453.0" y="84.0" width="30" height="24" rx="0" fill="#E4E1DC"/><text x="468" y="78" class="lbl" text-anchor="middle">run_code</text><rect x="541.0" y="84.0" width="30" height="24" rx="0" fill="#E4E1DC"/><text x="556" y="78" class="lbl" text-anchor="middle">read_env</text><rect x="617.0" y="84.0" width="30" height="24" rx="0" fill="#E4E1DC"/><text x="632" y="78" class="lbl" text-anchor="middle">send</text><text x="508" y="132" class="lbl-safe" text-anchor="middle">path broken</text><line x1="320" y1="34" x2="320" y2="142" stroke="#E4E1DC" stroke-width="1"/>
+  </svg>
+  <figcaption><b>Figure 2 — Gating one tool breaks every path.</b> The minimum cut is one node, not four. This is the difference between reporting a path and computing the fix.</figcaption>
+</figure>
 <h2 class="post-h">Why the usual defences never saw it</h2>
 <p class="post-p">Three things get sold as agent security. All three watch the wrong object.</p>
 <p class="post-p"><strong>Prompt-injection classifiers read strings.</strong> They scan untrusted input for language that looks like an attack. I measured a regex admission gate against Hugging Face's <a href="https://huggingface.co/datasets/deepset/prompt-injections"><code>deepset/prompt-injections</code></a> corpus: it caught about 9.8% of real injections. A trained detector I built to replace it topped out near 67%, at a 1% benign false-positive budget. Sixty-seven percent is a good classifier. It is also a filter you slip past one time in three, deployed against something that will try 17,600 times.</p>

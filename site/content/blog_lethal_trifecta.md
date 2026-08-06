@@ -24,6 +24,10 @@ Go down your tool list. Give each one a label, and be harsh, because the failure
 
 Most tools get one label. Some get none. The ones to look at twice are the ones that get two, because a single tool holding two conditions means you are one edge away rather than two.
 
+```figure
+trifecta-three
+```
+
 ## Step 2: find the edges
 
 You have a trifecta whenever the output of an untrusted-input tool can influence a call to an egress tool, with a sensitive-data tool's output in scope somewhere along that path.
@@ -67,6 +71,10 @@ A prompt-injection classifier reads the untrusted input looking for language tha
 The numbers are worse than the argument. I measured a regex admission layer against a real injection corpus ([`deepset/prompt-injections`](https://huggingface.co/datasets/deepset/prompt-injections)): about 9.8% of real injections caught. A small trained detector I built to replace it reached about 67% at a 1% benign false-positive budget, on a single English corpus. Sixty-seven percent is respectable classification and a terrible security control, because a filter you evade one time in three is not a gate on a machine that will try thousands of times without getting bored.
 
 A gate that works is deterministic and reads the flow, not the string. Track whether the data arriving at an egress tool is both sensitive and derived from untrusted input, then refuse that edge, whatever story the agent was told to get there. Done properly, the model can be fully compromised and still fail to exfiltrate, because the decision was made in code rather than in the model's good intentions.
+
+```figure
+trifecta-shaped-wired
+```
 
 ## If someone is asking you for OWASP coverage
 
