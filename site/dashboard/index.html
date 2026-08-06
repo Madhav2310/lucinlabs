@@ -182,7 +182,12 @@ svg{width:100%;height:auto;display:block;overflow:visible}
     }).join("");
   }
 
-  fetch("/dashboard/data?days=" + days, { credentials: "same-origin" })
+  /* The response already sends Cache-Control: no-store, but a stale copy was
+     served from the edge anyway after a deploy — the page showed the previous
+     build's field names while the Worker was returning the new ones. A unique
+     query value makes a fresh fetch unambiguous instead of trusting the header. */
+  fetch("/dashboard/data?days=" + days + "&_=" + Date.now(),
+        { credentials: "same-origin", cache: "no-store" })
     .then(function (r) { return r.json(); })
     .then(function (d) {
       if (d.error) throw new Error(d.error);
