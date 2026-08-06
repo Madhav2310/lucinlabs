@@ -39,12 +39,31 @@ export async function onRequestGet({ request, env }) {
     ] = await Promise.all([
       one(db, `SELECT
           (SELECT COUNT(*) FROM events WHERE event_type='scan')            AS scans_all,
-          (SELECT COUNT(DISTINCT anon_id) FROM events)                     AS installs_seen,
+          (SELECT COUNT(*) FROM events WHERE event_type='scan'
+             AND anon_id != ?1 AND NOT ${CI_SHAPED})                       AS scans_external,
+          (SELECT COUNT(DISTINCT anon_id) FROM events)                     AS machines_all,
+          (SELECT COUNT(DISTINCT anon_id) FROM events
+             WHERE anon_id != ?1 AND NOT ${CI_SHAPED})                     AS machines_external,
+          -- Not all-time: pypistats' overall endpoint only returns a recent
+          -- window, so this is the sum of every day we have recorded. It grows
+          -- as the daily job runs. pypi_days says how many days that covers.
           (SELECT COALESCE(SUM(downloads),0) FROM pypi_downloads
-             WHERE category='total')                                       AS pypi_all,
+             WHERE category='total')                                       AS pypi_recorded,
+          (SELECT COUNT(DISTINCT day) FROM pypi_downloads
+             WHERE category='total')                                       AS pypi_days,
+          (SELECT MIN(day) FROM pypi_downloads WHERE category='total')     AS pypi_first,
+          (SELECT MAX(day) FROM pypi_downloads WHERE category='total')     AS pypi_last,
+          (SELECT COALESCE(SUM(downloads),0) FROM pypi_downloads
+             WHERE category='ci_runs')                                     AS ci_runs_recorded,
           (SELECT COUNT(DISTINCT session_id) FROM web_events)              AS sessions_all,
+          -- Median, not mean: one 47-second scan drags the average somewhere no
+          -- actual scan lives. SQLite has no median(), hence the offset trick.
+          (SELECT scan_duration_ms FROM events WHERE scan_duration_ms IS NOT NULL
+             ORDER BY scan_duration_ms
+             LIMIT 1 OFFSET (SELECT COUNT(*)/2 FROM events
+                             WHERE scan_duration_ms IS NOT NULL))          AS median_scan_ms,
           (SELECT ROUND(AVG(scan_duration_ms)) FROM events
-             WHERE scan_duration_ms IS NOT NULL)                           AS avg_scan_ms`),
+             WHERE scan_duration_ms IS NOT NULL)                           AS avg_scan_ms`, self),
 
       many(db, `SELECT day AS d, downloads AS n FROM pypi_downloads
                 WHERE category='total' AND day >= date('now', ?) ORDER BY d`, since),

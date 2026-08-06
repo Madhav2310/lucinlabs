@@ -23,11 +23,12 @@ h1{font-family:var(--ffh);font-size:19px;letter-spacing:-.01em;margin:0}
   border:1px solid var(--line);border-radius:2px;padding:5px 10px}
 .range a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 main{max-width:1180px;margin:0 auto;padding:26px 28px 80px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:14px}
 .kpi{border:1px solid var(--ink);border-radius:3px;padding:16px 18px;background:var(--surface)}
 .kpi .v{font-family:var(--ffh);font-weight:700;font-size:30px;letter-spacing:-.02em}
 .kpi .k{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:4px;
   letter-spacing:.06em;text-transform:uppercase}
+.kpi .sub2{font-family:var(--mono);font-size:10px;color:#8A8E94;margin-top:6px;line-height:1.5}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
 .card{border:1px solid var(--line);border-radius:3px;background:var(--surface);padding:18px 20px}
 .card h2{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted);
@@ -188,14 +189,21 @@ svg{width:100%;height:auto;display:block;overflow:visible}
       var t = d.totals || {};
       document.getElementById("stamp").textContent =
         "last " + d.days + " days · generated " + new Date(d.generated_at).toUTCString();
+      /* Every KPI says what it actually counts. The earlier row read
+         "418 PyPI installs" for a 5-day window and "293 CLI scans" when 260 of
+         them were this machine — both true numbers, both read as something
+         bigger than they were. */
       document.getElementById("kpis").innerHTML = [
-        [fmt(t.pypi_all), "PyPI installs"],
-        [fmt(t.scans_all), "CLI scans"],
-        [fmt(t.installs_seen), "distinct machines"],
-        [fmt(t.sessions_all), "web sessions"],
-        [fmt(t.avg_scan_ms) + " ms", "avg scan"],
+        [fmt(t.pypi_recorded), "PyPI installs",
+         (t.pypi_days || 0) + " days recorded · " + (t.pypi_first || "?") + " → " + (t.pypi_last || "?")],
+        [fmt(t.scans_external), "CLI scans, external", "of " + fmt(t.scans_all) + " total incl. you + CI"],
+        [fmt(t.machines_external), "machines, external", "of " + fmt(t.machines_all) + " total"],
+        [fmt(t.sessions_all), "web sessions", "since analytics went live"],
+        [fmt(Math.round(t.median_scan_ms || 0)) + " ms", "median scan",
+         "mean " + fmt(t.avg_scan_ms) + " ms, skewed by outliers"],
       ].map(function (k) {
-        return '<div class="kpi"><div class="v">' + k[0] + '</div><div class="k">' + k[1] + "</div></div>";
+        return '<div class="kpi"><div class="v">' + k[0] + '</div><div class="k">' + k[1] +
+               '</div><div class="sub2">' + esc(k[2]) + "</div></div>";
       }).join("");
 
       chart([
