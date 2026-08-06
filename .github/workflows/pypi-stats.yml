@@ -9,7 +9,7 @@
 # needs.
 #
 # One-time setup beyond those two secrets:
-#   wrangler d1 execute lucin-telemetry --file=site/schema.sql --remote
+#   wrangler d1 execute lucin_telemetry --file=site/schema_telemetry.sql --remote
 # (creates pypi_downloads; every statement in that file is IF NOT EXISTS)
 #
 # pypistats.org publishes yesterday's numbers, so this runs after midnight UTC
@@ -74,4 +74,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: d1 execute lucin-telemetry --file=upsert.sql --remote
+          command: d1 execute lucin_telemetry --file=upsert.sql --remote
