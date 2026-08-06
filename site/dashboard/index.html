@@ -51,6 +51,12 @@ svg{width:100%;height:auto;display:block;overflow:visible}
 .funnel .pc{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:78px;
   text-align:right;flex:0 0 auto}
 .empty{font-family:var(--mono);font-size:12px;color:var(--muted);padding:10px 0}
+.note{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.55;margin:12px 0 0}
+.seg{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.seg .lab{font-family:var(--mono);font-size:12px;width:110px;flex:0 0 auto}
+.seg .track{flex:1;height:20px;background:#F0EFEC;border-radius:2px;overflow:hidden}
+.seg .fill{height:100%}
+.seg .pc{font-family:var(--mono);font-size:11.5px;color:var(--muted);width:150px;text-align:right;flex:0 0 auto}
 #err{display:none;border:1px solid var(--red);border-left:3px solid var(--red);
   border-radius:2px;padding:12px 16px;font-family:var(--mono);font-size:12.5px;
   color:var(--red);margin-bottom:18px}
@@ -67,16 +73,23 @@ svg{width:100%;height:auto;display:block;overflow:visible}
   <div id="err"></div>
   <div class="kpis" id="kpis"></div>
   <div class="grid">
-    <div class="card wide"><h2>Installs · scans · sessions</h2><div id="chart"></div>
+    <div class="card wide"><h2>Installs · scans · sessions · your CI runs</h2><div id="chart"></div>
       <div class="legend">
         <span><i style="background:#D6321F"></i>PyPI installs</span>
         <span><i style="background:#141414"></i>CLI scans</span>
         <span><i style="background:#2E7D53"></i>web sessions</span>
+        <span><i style="background:#D69A1F"></i>your CI runs</span>
       </div>
+      <p class="note">PyPI counts your own CI installs and cannot separate them.
+        Where the amber line moves with the red one, the downloads were you.</p>
+    </div>
+    <div class="card wide"><h2>Who the telemetry is from</h2><div id="segments"></div>
+      <p class="note" id="segnote"></p>
     </div>
     <div class="card"><h2>Funnel — share of sessions</h2><div class="funnel" id="funnel"></div></div>
     <div class="card"><h2>Top pages</h2><div id="pages"></div></div>
-    <div class="card"><h2>Rules fired (all time)</h2><div id="rules"></div></div>
+    <div class="card"><h2>Rules fired — everyone</h2><div id="rules"></div></div>
+    <div class="card"><h2>Rules fired — excluding you and CI</h2><div id="rulesExternal"></div></div>
     <div class="card"><h2>Frameworks scanned (all time)</h2><div id="frameworks"></div></div>
     <div class="card"><h2>Interactions</h2><div id="interactions"></div></div>
     <div class="card"><h2>Countries</h2><div id="countries"></div></div>
@@ -189,7 +202,27 @@ svg{width:100%;height:auto;display:block;overflow:visible}
         { c: "#D6321F", data: d.installsDaily || [] },
         { c: "#141414", data: d.scansDaily || [] },
         { c: "#2E7D53", data: d.webDaily || [] },
+        { c: "#D69A1F", data: d.ciRuns || [] },
       ]);
+
+      var segs = d.segments || [];
+      var segTot = segs.reduce(function (a, r) { return a + r.n; }, 0) || 1;
+      var COL = { you: "#D6321F", "this repo CI": "#D69A1F", external: "#2E7D53" };
+      document.getElementById("segments").innerHTML = segs.length
+        ? segs.map(function (r) {
+            var pc = Math.round(r.n / segTot * 100);
+            return '<div class="seg"><span class="lab">' + esc(r.k) + '</span>' +
+              '<span class="track"><span class="fill" style="width:' + pc + "%;background:" +
+              (COL[r.k] || "#141414") + '"></span></span>' +
+              '<span class="pc">' + fmt(r.n) + " events · " + fmt(r.machines) +
+              " machines · " + pc + "%</span></div>";
+          }).join("")
+        : '<div class="empty">no data yet</div>';
+      document.getElementById("segnote").textContent = d.self_known
+        ? "Your workflows now set LUCIN_TELEMETRY=0, so new CI runs no longer report. " +
+          "The CI slice is historical and stops growing."
+        : "DASHBOARD_SELF_ANON is not set, so your own machine is not being separated.";
+      rows("rulesExternal", d.rulesExternal, true);
       funnel(d.funnel || {});
       rows("pages", d.topPages);
       rows("rules", d.rules, true);

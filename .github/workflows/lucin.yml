@@ -17,6 +17,16 @@
 
 name: Lucin Security Scan
 
+# This repo's own CI is not a user. Every push here installs lucin and
+# scans, and without this each ephemeral runner reported itself as a new
+# machine — 21 of the 24 non-laptop machines in telemetry were this file.
+# Workflow-level so it also covers the jobs that exercise action.yml.
+#
+# Deliberately NOT set in action.yml: an adopter's CI running the published
+# Action is real usage and should keep reporting.
+env:
+  LUCIN_TELEMETRY: '0'
+
 on:
   pull_request:
     paths:

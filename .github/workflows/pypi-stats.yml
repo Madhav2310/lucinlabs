@@ -84,6 +84,33 @@ jobs:
           print(f"{len(payload['rows'])} row(s) across {len({d for d, _ in rows})} day(s)")
           EOF
 
+      # PyPI counts this repo's own CI installs and there is no way to exclude
+      # them at the source. Recording our run count per day as its own category
+      # puts the confound on the same chart, so a rise in downloads can be read
+      # against whether we were simply pushing a lot that day.
+      - name: Count this repo's own CI runs per day
+        if: steps.fetch.outputs.skipped != '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for wf in lucin.yml self-scan.yml publish-pypi.yml; do
+            gh run list --workflow "$wf" --limit 200 \
+              --json createdAt -q '.[].createdAt[0:10]' 2>/dev/null || true
+          done | sort | uniq -c \
+            | awk '{printf "%s %s\n", $2, $1}' > ci_runs.txt
+          python3 - <<'PY2'
+          import json, pathlib
+          p = json.loads(pathlib.Path("payload.json").read_text())
+          for line in pathlib.Path("ci_runs.txt").read_text().splitlines():
+              if not line.strip():
+                  continue
+              day, n = line.split()
+              p["rows"].append({"day": day, "category": "ci_runs", "downloads": int(n)})
+          pathlib.Path("payload.json").write_text(json.dumps(p))
+          print(f"added CI run counts; {len(p['rows'])} rows total")
+          PY2
+
       - name: Write to D1 via the site's ingest endpoint
         if: steps.fetch.outputs.skipped != '1'
         env:

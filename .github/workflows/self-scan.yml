@@ -19,6 +19,12 @@
 
 name: Self-scan (Action)
 
+# Same reasoning as lucin.yml: this repo testing its own Action is not usage.
+# Both jobs here run action.yml, so without this every push added two more
+# ephemeral 'machines' to telemetry.
+env:
+  LUCIN_TELEMETRY: '0'
+
 on:
   pull_request:
   push:

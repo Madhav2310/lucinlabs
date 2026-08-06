@@ -20,10 +20,22 @@ export async function onRequestGet({ request, env }) {
   const days = Math.min(365, Math.max(1, parseInt(url.searchParams.get("days"), 10) || 30));
   const since = `-${days} days`;
 
+  // Your own machine, so its activity can be shown separately instead of
+  // swamping every total. Unset means nothing is excluded.
+  const self = env.DASHBOARD_SELF_ANON || "";
+
+  // Historical CI runs reported before LUCIN_TELEMETRY=0 was set in this repo's
+  // workflows: ephemeral Linux runners, one or two events each. Rough by design
+  // — it only has to separate a runner from a laptop, and new CI no longer
+  // reports at all.
+  const CI_SHAPED = `(os = 'linux' AND anon_id IN
+      (SELECT anon_id FROM events GROUP BY anon_id HAVING COUNT(*) <= 3))`;
+
   try {
     const [
       totals, installsDaily, scansDaily, webDaily, topPages, funnel,
       frameworks, rules, countries, devices, versions, recentErrors, interactions,
+      segments, rulesExternal, ciRuns,
     ] = await Promise.all([
       one(db, `SELECT
           (SELECT COUNT(*) FROM events WHERE event_type='scan')            AS scans_all,
@@ -88,12 +100,33 @@ export async function onRequestGet({ request, env }) {
       many(db, `SELECT name AS k, COUNT(*) AS n FROM web_events
                 WHERE received_at >= datetime('now', ?)
                 GROUP BY k ORDER BY n DESC LIMIT 16`, since),
+
+      // Who the telemetry is actually from.
+      many(db, `SELECT
+          CASE WHEN anon_id = ?1 THEN 'you'
+               WHEN ${CI_SHAPED}  THEN 'this repo CI'
+               ELSE 'external' END AS k,
+          COUNT(DISTINCT anon_id) AS machines,
+          COUNT(*) AS n
+        FROM events GROUP BY k ORDER BY n DESC`, self),
+
+      // Rules, with your own machine taken out — the ranking differs.
+      many(db, `SELECT key AS k, SUM(CAST(value AS INTEGER)) AS n
+                FROM events, json_each(events.finding_counts_json)
+                WHERE finding_counts_json NOT IN ('', '{}')
+                  AND anon_id != ?1 AND NOT ${CI_SHAPED}
+                GROUP BY k ORDER BY n DESC LIMIT 12`, self),
+
+      // This repo's own CI runs per day, to read the install curve against.
+      many(db, `SELECT day AS d, downloads AS n FROM pypi_downloads
+                WHERE category='ci_runs' AND day >= date('now', ?) ORDER BY d`, since),
     ]);
 
     return Response.json({
       days, generated_at: new Date().toISOString(),
       totals, installsDaily, scansDaily, webDaily, topPages, funnel,
       frameworks, rules, countries, devices, versions, recentErrors, interactions,
+      segments, rulesExternal, ciRuns, self_known: Boolean(self),
     }, { headers: { "Cache-Control": "no-store" } });
   } catch (e) {
     return Response.json({ error: String(e && e.message || e) }, { status: 500 });
