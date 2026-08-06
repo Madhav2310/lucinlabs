@@ -179,7 +179,7 @@ section.sec{margin-top:96px}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:32px}
 .two-col p{font-size:16px;color:var(--body);margin:0;line-height:1.6}
 .metric-box{margin-top:40px;border:1px solid var(--ink);border-radius:3px;padding:20px 24px}
-.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:16px}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:16px}
 .metric-v{font-family:var(--ffh);font-weight:700;font-size:24px}
 .metric-k{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:3px}
 .link-row{display:flex;gap:28px;margin-top:20px;flex-wrap:wrap}
@@ -549,11 +549,12 @@ footer{margin-top:96px;border-top:1px solid var(--line);padding:28px 44px 48px}
     </div>
 
     <div class="metric-box">
-      <div class="why-label">SEPARATE QUESTION — HOW MUCH LUCIN FINDS · DENOMINATOR: VULNERABILITY CASES, NOT REPOS</div>
+      <div class="why-label">SEPARATE QUESTION — HOW MUCH LUCIN FINDS · DENOMINATOR: PATHS, NOT REPOS</div>
       <div class="metric-grid">
-        <div><div class="metric-v">76%</div><div class="metric-k">of known vulnerabilities found (38/50)</div></div>
+        <div><div class="metric-v">76%</div><div class="metric-k">of paths found (recall)</div></div>
+        <div><div class="metric-v">98%</div><div class="metric-k">of flagged paths are real</div></div>
         <div><div class="metric-v"><span data-count="30">30</span></div><div class="metric-k">detectors, OWASP-mapped</div></div>
-        <div><div class="metric-v"><span data-count="8">8</span></div><div class="metric-k">frameworks, plus a generic parser</div></div>
+        <div><div class="metric-v">0.2s</div><div class="metric-k">median scan</div></div>
       </div>
     </div>
     <div class="link-row">
