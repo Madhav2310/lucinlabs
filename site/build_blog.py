@@ -270,6 +270,7 @@ def _head(title: str, desc: str, url: str, date_published: str = "", date_modifi
 {_POST_CSS}
 {css}
 <script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="/analytics.js" defer></script>
 </head>"""
 
 

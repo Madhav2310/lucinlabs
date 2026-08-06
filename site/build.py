@@ -118,6 +118,7 @@ def _head(title: str, desc: str, url: str, schema: str, og_type: str = "website"
 </script>
 {_CSS}{css}
 <script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="/analytics.js" defer></script>
 </head>"""
 
 

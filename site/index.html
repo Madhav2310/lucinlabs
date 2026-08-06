@@ -948,6 +948,9 @@ footer{margin-top:96px;border-top:1px solid var(--line);padding:28px 44px 48px}
   var SVGNS = "http://www.w3.org/2000/svg";
   var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var $ = function (id) { return document.getElementById(id); };
+  /* Named analytics events. No-ops when analytics.js is absent or the visitor
+     sends Do Not Track, so nothing here can break the page. */
+  var ev = function (n, s, x) { if (window.lucinTrack) window.lucinTrack(n, s, x); };
 
   /* ---------------- scroll progress hairline (rAF-batched) ---------------- */
   var hairline = $("scrollHairline"), hairPending = false;
@@ -983,6 +986,7 @@ footer{margin-top:96px;border-top:1px solid var(--line);padding:28px 44px 48px}
   var copyBtn = $("copyInstall");
   var COPY_TEXT = "pip install lucin && lucin scan .";
   copyBtn.addEventListener("click", function () {
+    ev("copy_install");
     function done(label) {
       copyBtn.textContent = label;
       setTimeout(function () { copyBtn.textContent = "copy"; }, 1600);
@@ -1025,8 +1029,9 @@ footer{margin-top:96px;border-top:1px solid var(--line);padding:28px 44px 48px}
   /* ---------------- generic roving-tabindex tablist ----------------
      Section 03 (horizontal) and section 05 (vertical) are the same widget with a
      different axis, so they share one implementation rather than two that drift. */
-  function wireTabs(tabs, panelFor, horizontal) {
+  function wireTabs(tabs, panelFor, horizontal, evName) {
     function select(btn, focus) {
+      if (evName) ev(evName, btn.dataset.tab || btn.dataset.step);
       tabs.forEach(function (b) {
         var on = b === btn;
         b.setAttribute("aria-selected", on ? "true" : "false");
@@ -1059,12 +1064,12 @@ footer{margin-top:96px;border-top:1px solid var(--line);padding:28px 44px 48px}
   wireTabs(
     Array.prototype.slice.call(document.querySelectorAll('.tabs [role="tab"]')),
     function (b) { return document.querySelector('[data-panel="' + b.dataset.tab + '"]'); },
-    true
+    true, "tab_switch"
   );
   wireTabs(
     Array.prototype.slice.call(document.querySelectorAll('.steps [role="tab"]')),
     function (b) { return document.querySelector('[data-steppanel="' + b.dataset.step + '"]'); },
-    false
+    false, "step_switch"
   );
 
   /* ---------------- scroll reveal + count-up ---------------- */
@@ -1427,11 +1432,15 @@ footer{margin-top:96px;border-top:1px solid var(--line);padding:28px 44px 48px}
     drawGraph();
   }
 
-  function toggle(id) { off[id] = !off[id]; render(); }
+  function toggle(id) {
+    off[id] = !off[id];
+    ev("board_tool_toggle", id + (off[id] ? ":restricted" : ":restored"));
+    render();
+  }
   function setHover(id) { if (hover === id) return; hover = id; drawGraph(); }
 
-  ctaEl.addEventListener("click", function () { toggle("post_webhook"); });
-  resetEl.addEventListener("click", function () { off = {}; render(); });
+  ctaEl.addEventListener("click", function () { ev("board_mincut"); toggle("post_webhook"); });
+  resetEl.addEventListener("click", function () { ev("board_reset"); off = {}; render(); });
   buildList();
   render();
 
@@ -1446,6 +1455,7 @@ footer{margin-top:96px;border-top:1px solid var(--line);padding:28px 44px 48px}
   });
 
   function showError(msg) {
+    ev("form_error", msg);
     errEl.textContent = msg;
     errEl.classList.remove("hidden");
   }
@@ -1475,6 +1485,7 @@ footer{margin-top:96px;border-top:1px solid var(--line);padding:28px 44px 48px}
       .then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
       .then(function (d) {
         if (!d.ok) throw new Error(d.error || "failed");
+        ev("form_success");
         form.classList.add("hidden");
         sent.classList.remove("hidden");
         sent.focus();
@@ -1490,5 +1501,11 @@ footer{margin-top:96px;border-top:1px solid var(--line);padding:28px 44px 48px}
   });
 })();
 </script>
+<!-- Pageview counts (GoatCounter) plus first-party interaction capture.
+     index.html is hand-authored, so it never inherited the analytics tag that
+     build.py/build_blog.py inject into every other page — it was the only page
+     on the site with no analytics at all. -->
+<script data-goatcounter="https://lucin.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script src="/analytics.js" defer></script>
 </body>
 </html>

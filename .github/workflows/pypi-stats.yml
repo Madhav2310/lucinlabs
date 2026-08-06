@@ -1,0 +1,77 @@
+# Pulls PyPI download counts into the same D1 database as CLI telemetry and web
+# analytics, so installs can be read next to the behaviour that produced them
+# rather than in a separate tab on pypistats.org.
+#
+# Runs as a GitHub Action rather than a Cloudflare Cron Worker because it needs
+# no new Cloudflare resource, no extra binding, and the schedule is visible in
+# the repo. It writes through `wrangler d1 execute`, so it reuses the same
+# CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets deploy-site.yml already
+# needs.
+#
+# One-time setup beyond those two secrets:
+#   wrangler d1 execute lucin-telemetry --file=site/schema.sql --remote
+# (creates pypi_downloads; every statement in that file is IF NOT EXISTS)
+#
+# pypistats.org publishes yesterday's numbers, so this runs after midnight UTC
+# and always asks for a window rather than a single day — a re-run overwrites
+# rather than double-counts, because of UNIQUE(day, category).
+
+name: PyPI download stats
+
+on:
+  schedule:
+    - cron: "17 4 * * *"      # 04:17 UTC daily, off the hour to avoid the stampede
+  workflow_dispatch: {}
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch from pypistats and build the upsert
+        run: |
+          set -euo pipefail
+          curl -sSf --retry 3 --retry-delay 5 \
+            "https://pypistats.org/api/packages/lucin/overall?mirrors=false" \
+            -o overall.json
+          curl -sSf --retry 3 --retry-delay 5 \
+            "https://pypistats.org/api/packages/lucin/python_minor" \
+            -o minor.json || echo '{"data":[]}' > minor.json
+          python3 - <<'EOF'
+          import json, pathlib
+
+          rows = {}   # (day, category) -> downloads, so a duplicate cannot double-count
+
+          for day, cat, n in (
+              (d["date"], "total", d["downloads"])
+              for d in json.load(open("overall.json")).get("data", [])
+              if d.get("category") == "without_mirrors" and d.get("date")
+          ):
+              rows[(day, cat)] = rows.get((day, cat), 0) + n
+
+          for d in json.load(open("minor.json")).get("data", []):
+              if d.get("date") and d.get("category"):
+                  rows[(d["date"], f"py{d['category']}")] = d["downloads"]
+
+          def q(s):
+              return "'" + str(s).replace("'", "''") + "'"
+
+          stmts = [
+              "INSERT INTO pypi_downloads (day, category, downloads) VALUES "
+              f"({q(day)}, {q(cat)}, {int(n)}) "
+              "ON CONFLICT(day, category) DO UPDATE SET downloads=excluded.downloads;"
+              for (day, cat), n in sorted(rows.items())
+          ]
+          pathlib.Path("upsert.sql").write_text("\n".join(stmts) + "\n")
+          print(f"{len(stmts)} row(s) across {len({d for d, _ in rows})} day(s)")
+          EOF
+
+      - name: Write to D1
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: d1 execute lucin-telemetry --file=upsert.sql --remote

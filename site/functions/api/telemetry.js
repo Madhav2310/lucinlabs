@@ -70,5 +70,26 @@ export async function onRequestPost({ request, env }) {
     return new Response("db error", { status: 500 });
   }
 
+  forward(env, clean);
   return new Response(null, { status: 204 });
+}
+
+// Mirror CLI events into the same vendor as site/functions/api/events.js, so
+// scans and site behaviour are queryable side by side rather than in two tools.
+// Only the already-sanitised `clean` object is forwarded — the allowlist above
+// is still the only thing that decides what may leave this Worker.
+// Fire-and-forget: a vendor outage must not fail a write that already succeeded.
+function forward(env, clean) {
+  if (!env.POSTHOG_KEY) return;
+  const host = env.POSTHOG_HOST || "https://eu.i.posthog.com";
+  fetch(`${host}/capture/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      api_key: env.POSTHOG_KEY,
+      event: `cli_${clean.event_type || "unknown"}`,
+      distinct_id: clean.anon_id || "anon",
+      properties: { ...clean, source: "cli" },
+    }),
+  }).catch(() => {});
 }
